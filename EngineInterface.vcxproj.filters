@@ -282,6 +282,9 @@
     <ClInclude Include="Code\Utilities\Rect.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Utilities\ActiveTypesFwd.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">

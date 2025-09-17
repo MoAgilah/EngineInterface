@@ -1,11 +1,6 @@
 #pragma once
 
-#include "../Engine/Core/Constants.h"
-#include "../Engine/Interface/Resources/IFont.h"
-#include "../Engine/Interface/Resources/IShader.h"
-#include "../Engine/Interface/Resources/IMusic.h"
-#include "../Engine/Interface/Resources/ITexture.h"
-#include "../Engine/Interface/Resources/ISound.h"
+#include "ActiveTypesFwd.h"
 #include <algorithm>
 #include <iostream>
 #include <filesystem>
@@ -41,14 +36,15 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 {
 }
 
-#if USE_SFML
 // Specialisation for IFont
 template<>
 inline void ResourceLoader<IFont>::LoadResources(const fs::path& path)
 {
 	for (const auto& entry : fs::directory_iterator(path))
 	{
-		auto font = ActiveFontTrait::Create();
+		auto font = MakeActiveFont();
+		if (!font)
+			continue;
 
 		if (!font->LoadFromFile(entry.path().string()))
 		{
@@ -68,7 +64,9 @@ inline void ResourceLoader<IMusic>::LoadResources(const fs::path& path)
 
 	for (const auto& entry : fs::directory_iterator(path))
 	{
-		auto music = ActiveMusicTrait::Create();
+		auto music = MakeActiveMusic();
+		if (!music)
+			continue;
 
 		if (!music->LoadFromFile(entry.path().string()))
 		{
@@ -86,7 +84,9 @@ inline void ResourceLoader<ISound>::LoadResources(const fs::path& path)
 
 	for (const auto& entry : fs::directory_iterator(path))
 	{
-		auto sound = ActiveSoundTrait::Create();
+		auto sound = MakeActiveSound();
+		if (!sound)
+			continue;
 
 		if (!sound->LoadFromFile(entry.path().string()))
 		{
@@ -106,7 +106,10 @@ inline void ResourceLoader<IShader>::LoadResources(const fs::path& path)
 
 	for (const auto& entry : fs::directory_iterator(path))
 	{
-		auto shader = ActiveShaderTrait::Create();
+		auto shader = MakeActiveShader();
+		if (!shader)
+			continue;
+
 		if (!shader->LoadFromFile(entry.path().string()))
 		{
 			std::cerr << "Failed to load shader: " << entry.path() << "\n";
@@ -125,7 +128,10 @@ inline void ResourceLoader<ITexture>::LoadResources(const fs::path& path)
 
 	for (const auto& entry : fs::directory_iterator(path))
 	{
-		auto texture = ActiveTextureTrait::Create();
+		auto texture = MakeActiveTexture();
+		if (!texture)
+			continue;
+
 		if (!texture->LoadFromFile(entry.path().string()))
 		{
 			std::cerr << "Failed to load texture: " << entry.path() << "\n";
@@ -134,7 +140,6 @@ inline void ResourceLoader<ITexture>::LoadResources(const fs::path& path)
 		m_resources.emplace(entry.path().filename().replace_extension().string(), std::move(texture));
 	}
 }
-#endif
 
 template<typename T>
 T* ResourceLoader<T>::GetResource(const std::string& name)

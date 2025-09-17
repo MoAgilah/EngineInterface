@@ -30,12 +30,6 @@ struct Line
 		: start(start), end(end)
 	{}
 
-#if USE_SFML
-	Line(const sf::ConvexShape& tri, int bgn, int end)
-		: Line(tri.getPoint(bgn), tri.getPoint(end))
-	{}
-#endif
-
 	Vector<T> GetMidPoint() const
 	{
 		T x = (start.x + end.x) / 2.f;

@@ -6,7 +6,7 @@
 #include <stdexcept>
 
 #if USE_SFML
-#include <SFML/Graphics.hpp>
+namespace sf { template<typename T> class Vector2; }
 #endif
 
 template<typename T>
@@ -20,12 +20,6 @@ public:
 	Vector(T x, T y)
 		: x(x), y(y)
 	{}
-
-#if USE_SFML
-	Vector(const sf::Vector<T>& vec)
-		: x(vec.x), y(vec.y)
-	{}
-#endif
 
 	~Vector() = default;
 
@@ -66,10 +60,19 @@ public:
 	bool operator!=(const Vector& rhs) const { return !(*this == rhs); }
 
 #if USE_SFML
+
+	// Construct from sf::Vector2<T>
+	Vector(const sf::Vector2<T>& vec)
+		: x(vec.x), y(vec.y)
+	{
+	}
+
+	// Convert to sf::Vector2<T>
 	operator sf::Vector2<T>() const
 	{
 		return sf::Vector2<T>(x, y);
 	}
+
 #endif
 
 	Vector Clamp(const Vector& p1, const Vector& p2) const

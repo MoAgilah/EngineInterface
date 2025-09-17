@@ -4,7 +4,7 @@
 #include <cstdint>
 
 #if USE_SFML
-#include <SFML/Graphics/Color.hpp>
+namespace sf { class Color; }
 #endif
 
 struct Colour
@@ -17,9 +17,12 @@ struct Colour
     }
 
 #if USE_SFML
-    operator sf::Color() const { return sf::Color(r, g, b, a); }
-    Colour(const sf::Color& c) : r(c.r), g(c.g), b(c.b), a(c.a) {}
-    sf::Color ToSFML() const { return sf::Color(r, g, b, a); }
+
+    // Conversions to/from SFML
+    operator sf::Color() const;
+    Colour(const sf::Color& c);
+    sf::Color ToSFML() const;
+
 #endif
 
     static const Colour Black;

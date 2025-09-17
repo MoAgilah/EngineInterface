@@ -157,18 +157,18 @@ public:
     virtual ~IBoundingCircle() = default;
 
     virtual float GetRadius() const = 0;
-};
-
-class IBoundingCapsule : public virtual IBoundingVolume {
-public:
-    IBoundingCapsule() : IBoundingVolume(VolumeType::Capsule) {}
-    virtual ~IBoundingCapsule() = default;
 
     virtual bool IntersectsMoving(const Linef& line,
         const Vector2f& va,
         const Vector2f& vb,
         float& tfirst,
         float& tlast) const = 0;
+};
+
+class IBoundingCapsule : public virtual IBoundingVolume {
+public:
+    IBoundingCapsule() : IBoundingVolume(VolumeType::Capsule) {}
+    virtual ~IBoundingCapsule() = default;
 
     virtual float GetRadius() const = 0;
     virtual float GetLength() const = 0;

@@ -16,7 +16,7 @@ public:
 
 	virtual void SetTexture(const std::string& texId) = 0;
 
-	virtual Vector2i GetTextureSize() const = 0;
+	virtual Vector2u GetTextureSize() const = 0;
 	virtual void SetTextureRect(const IntRect& rect) = 0;
 
 protected:

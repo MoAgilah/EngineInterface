@@ -66,6 +66,7 @@
     <ClInclude Include="Code\GameObjects\Collectables.h" />
     <ClInclude Include="Code\GameObjects\Enemy.h" />
     <ClInclude Include="Code\GameObjects\GameObject.h" />
+    <ClInclude Include="Code\Utilities\ActiveTypesFwd.h" />
     <ClInclude Include="Code\Utilities\Colour.h" />
     <ClInclude Include="Code\Utilities\Defines.h" />
     <ClInclude Include="Code\Utilities\Rect.h" />
@@ -203,6 +204,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>
@@ -222,6 +224,7 @@
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeaderOutputFile />
     </ClCompile>
     <Link>
       <SubSystem>

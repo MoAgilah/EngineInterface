@@ -3,6 +3,11 @@
 #include "Defines.h"
 #include "Vector.h"
 
+#if USE_SFML
+// Forward declaration so we don't include SFML headers here
+namespace sf { template<typename T> class Rect; }
+#endif
+
 template<typename T>
 struct Rect
 {
@@ -22,15 +27,18 @@ struct Rect
 
 #if USE_SFML
 
+	// Construct from sf::Rect<T>
 	Rect(const sf::Rect<T>& r)
 		: Rect(r.left, r.top, r.width, r.height)
 	{
 	}
 
+	// Convert to sf::Rect<T>
 	operator sf::Rect<T>() const
 	{
-		return sf::Rect<T>(m_left, m_top, m_width, m_height);
+		return sf::Rect<T>({ m_left, m_top }, { m_width, m_height });
 	}
+
 #endif
 
 	Vector<T> Min() const { return m_min; }
