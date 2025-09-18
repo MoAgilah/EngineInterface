@@ -33,9 +33,6 @@ std::unique_ptr<ISound>   MakeActiveSound();
 
 #else
 
-// Non-SFML (stubs or other backend’s forward decls + aliases)
-class NullFont; class NullShader; class NullTexture; class NullMusic; class NullSound;
-
 using ActiveFont = IFont;
 using ActiveShader = IShader;
 using ActiveTexture = ITexture;
