@@ -19,7 +19,9 @@ struct TextConfig
 {
 	TextConfig();
 
-	TextConfig(const std::string fontName, unsigned int charSize, const Vector2f& position, TextAnimType textAnimType, Colour colour = Colour::Black, TextAlignment alignment = TextAlignment::Center);
+	TextConfig(const std::string& fontName);
+
+	TextConfig(const std::string& fontName, unsigned int charSize, const Vector2f& position, TextAnimType textAnimType, Colour colour = Colour::Black, TextAlignment alignment = TextAlignment::Center);
 
 	TextConfig(const TextConfig& config);
 
