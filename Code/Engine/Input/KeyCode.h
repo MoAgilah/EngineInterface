@@ -1,6 +1,8 @@
 #pragma once
 
-enum class KeyCode
+#include <cstdint>
+
+enum class KeyCode : int16_t
 {
     // Unknown
     Unknown = -1,

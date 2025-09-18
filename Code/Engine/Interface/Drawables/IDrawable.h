@@ -42,12 +42,31 @@ public:
     }
 
     template <typename T>
-    T* GetPrimaryDrawableAs() {
-        return m_drawables.empty() ? nullptr : dynamic_cast<T*>(m_drawables[0].get());
+    T* GetPrimaryDrawableAs()
+    {
+        if (m_drawables.empty())
+            return nullptr;
+
+        using Stored = TDrawable;
+
+        if constexpr (std::is_same_v<T, Stored>)
+            return static_cast<T*>(m_drawables[0].get());
+        else
+            return dynamic_cast<T*>(m_drawables[0].get());
     }
+
     template <typename T>
-    const T* GetPrimaryDrawableAs() const {
-        return m_drawables.empty() ? nullptr : dynamic_cast<const T*>(m_drawables[0].get());
+    const T* GetPrimaryDrawableAs() const
+    {
+        if (m_drawables.empty())
+            return nullptr;
+
+        using Stored = TDrawable;
+
+        if constexpr (std::is_same_v<T, Stored>)
+            return static_cast<const T*>(m_drawables[0].get());
+        else
+            return dynamic_cast<const T*>(m_drawables[0].get());
     }
 
     // --- MULTIPLE DRAWABLE SUPPORT ---

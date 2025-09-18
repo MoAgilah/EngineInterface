@@ -2,20 +2,21 @@
 
 #include <algorithm>
 
-InputManager::InputManager(const INativeKeyConverter* keyConverter)
+InputManager::InputManager(const IKeyConverter* keyConverter)
     : m_converter(keyConverter)
 {
     m_keyStates.fill(false);
     m_keyPressTimestamps.fill(std::chrono::steady_clock::time_point::min());
 }
 
-void InputManager::ProcessPlatformKeyPress(void* platformKey) {
-    KeyCode key = m_converter->ConvertRaw(platformKey);
+void InputManager::ProcessPlatformKeyPress(int platformKey)
+{
+    KeyCode key = m_converter->ConvertFromPlatform(platformKey);
     SetKeyPressed(key);
 }
 
-void InputManager::ProcessPlatformKeyRelease(void* platformKey) {
-    KeyCode key = m_converter->ConvertRaw(platformKey);
+void InputManager::ProcessPlatformKeyRelease(int platformKey) {
+    KeyCode key = m_converter->ConvertFromPlatform(platformKey);
     SetKeyReleased(key);
 }
 

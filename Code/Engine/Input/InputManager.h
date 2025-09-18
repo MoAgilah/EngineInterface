@@ -6,10 +6,10 @@
 
 class InputManager {
 public:
-    explicit InputManager(const INativeKeyConverter* keyConverter);
+    explicit InputManager(const IKeyConverter* keyConverter);
 
-    void ProcessPlatformKeyPress(void* platformKey);
-    void ProcessPlatformKeyRelease(void* platformKey);
+    void ProcessPlatformKeyPress(int platformKey);
+    void ProcessPlatformKeyRelease(int platformKey);
 
     bool GetKeyState(int key) { return m_keyStates[key]; }
 
@@ -26,7 +26,7 @@ private:
     void SetKeyPressed(KeyCode key);
     void SetKeyReleased(KeyCode key);
 
-    const INativeKeyConverter* m_converter;
+    const IKeyConverter* m_converter;
 
     std::array<bool, KeyCount> m_keyStates{};
     std::array<std::chrono::steady_clock::time_point, KeyCount> m_keyPressTimestamps{};

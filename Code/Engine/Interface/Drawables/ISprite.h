@@ -1,7 +1,7 @@
 #pragma once
 
+class IRenderer;
 #include "../Scene/ITransforms.h"
-#include "../Renderer/IRenderer.h"
 #include "../../../Utilities/Rect.h"
 
 class ISprite : public IMoveable
