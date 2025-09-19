@@ -1,4 +1,5 @@
 #pragma once
+
 #include "KeyCode.h"
 #include "../Interface/Input/IKeyConverter.h"
 #include <array>

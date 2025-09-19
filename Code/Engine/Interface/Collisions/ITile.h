@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Drawables/IShape.h"
-#include "../UI/IText.h"
 #include "../Collisions/IBoundingVolume.h"
+#include "../Drawables/IShape.h"
 #include "../Scene/IGameObject.h"
+#include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
 #include <memory>
 #include <string>

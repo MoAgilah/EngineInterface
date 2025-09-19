@@ -2,8 +2,8 @@
 
 #include "IMenuCursor.h"
 #include "IMenuItem.h"
-#include "../Drawables/ISprite.h"
 #include "../Drawables/IShape.h"
+#include "../Drawables/ISprite.h"
 #include "../../UI/MenuNavigation.h"
 #include "../../../Utilities/Vector.h"
 #include <memory>

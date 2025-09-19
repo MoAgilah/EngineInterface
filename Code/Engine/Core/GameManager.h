@@ -1,8 +1,9 @@
 #pragma once
 
+#include "GameStateMgr.h"
 #include "Timer.h"
-#include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Renderer/ICamera.h"
+#include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Renderer/IRenderer.h"
 #include "../Interface/Scene/IScene.h"
 #include "../Input/InputManager.h"
@@ -10,7 +11,6 @@
 #include "../Resources/ShaderManager.h"
 #include "../Resources/SoundManager.h"
 #include "../Resources/TextureManager.h"
-#include "GameStateMgr.h"
 #include <array>
 #include <memory>
 

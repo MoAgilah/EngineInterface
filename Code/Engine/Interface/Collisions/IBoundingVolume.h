@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Drawables/IDrawable.h"
-#include "../../../Utilities/Vector.h"
 #include "../../../Utilities/Line.h"
+#include "../../../Utilities/Vector.h"
 #include <memory>
 
 enum class VolumeType { None, Box, Circle, Capsule };

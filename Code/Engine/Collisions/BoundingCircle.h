@@ -1,11 +1,10 @@
 #pragma once
 
+#include "BoundingBox.h"
+#include "../Interface/Collisions/IBoundingVolume.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
-#include "../Interface/Collisions/IBoundingVolume.h"
 #include "../../Utilities/Traits.h"
-
-#include "BoundingBox.h"
 
 template <typename PlatformCircle>
 class BoundingCircle : public IBoundingCircle, public BoundingVolume<PlatformCircle>

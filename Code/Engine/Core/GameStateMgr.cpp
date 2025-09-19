@@ -1,8 +1,8 @@
 #include "GameStateMgr.h"
 
 #include "../Core/Constants.h"
-#include <iostream>
 #include <format>
+#include <iostream>
 
 GameStateMgr::~GameStateMgr()
 {

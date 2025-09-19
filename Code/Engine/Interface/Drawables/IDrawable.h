@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../Renderer/IRenderable.h"
-#include "../Scene/IUpdatable.h"
 #include "../Scene/ITransforms.h"
+#include "../Scene/IUpdatable.h"
 #include <vector>
 
 class IDrawableNoUpdate : public IRenderable, public ITransforms

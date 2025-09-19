@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../UI/IText.h"
-#include "../Drawables/ISprite.h"
 #include "../Drawables/IShape.h"
+#include "../Drawables/ISprite.h"
+#include "../UI/IText.h"
 #include "../../../Utilities/Vector.h"
 #include <memory>
 
@@ -12,6 +12,7 @@ public:
 	IMenuItem()
 		: m_menuSlotNumber(-1), m_textElement(nullptr), m_spriteElement(nullptr)
 	{}
+
 	virtual ~IMenuItem() = default;
 
 	virtual void Update(float deltaTime)

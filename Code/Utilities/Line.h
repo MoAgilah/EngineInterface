@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Vector.h"
-#include <concepts>
-#include <vector>
-#include <numbers>
 #include <algorithm>
 #include <cmath>
+#include <concepts>
+#include <numbers>
+#include <vector>
 
 namespace
 {

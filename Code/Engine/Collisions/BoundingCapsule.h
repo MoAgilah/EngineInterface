@@ -2,12 +2,12 @@
 
 #include "BoundingBox.h"
 #include "BoundingCircle.h"
+#include "../Interface/Collisions/IBoundingVolume.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
-#include "../Interface/Collisions/IBoundingVolume.h"
 #include "../../Utilities/Traits.h"
-#include <numbers>
 #include <algorithm>
+#include <numbers>
 
 template <typename PlatformCapsule>
 class BoundingCapsule : public IBoundingCapsule, public BoundingVolume<PlatformCapsule>

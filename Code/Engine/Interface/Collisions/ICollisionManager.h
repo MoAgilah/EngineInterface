@@ -1,15 +1,15 @@
 #pragma once
 
-#include <memory>
-#include <vector>
-#include <string>
 #include <limits>
+#include <memory>
+#include <string>
+#include <vector>
 
+class IDynamicGameObject;
+class IGameObject;
 class IGrid;
 class ITile;
 class IRenderer;
-class IGameObject;
-class IDynamicGameObject;
 
 class ICollisionManager
 {

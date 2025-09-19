@@ -1,16 +1,15 @@
 #pragma once
 
+#include "../Collisions/IBoundingVolume.h"
 #include "../Drawables/ISprite.h"
 #include "../UI/IText.h"
 #include "../Renderer/IRenderer.h"
-#include "../Collisions/IBoundingVolume.h"
-#include "../../../GameObjects/GameObject.h"
 #include "../../../GameObjects/Enemy.h"
-
-#include <vector>
+#include "../../../GameObjects/GameObject.h"
 #include <array>
 #include <map>
 #include <memory>
+#include <vector>
 
 class IScene
 {

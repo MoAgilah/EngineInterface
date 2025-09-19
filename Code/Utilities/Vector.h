@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Defines.h"
-#include <cstddef>
 #include <cmath>
+#include <cstddef>
 #include <stdexcept>
 
 #if USE_SFML

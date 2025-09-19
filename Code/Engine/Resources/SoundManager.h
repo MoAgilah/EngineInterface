@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Interface/Resources/ISound.h"
 #include "../Interface/Resources/IMusic.h"
+#include "../Interface/Resources/ISound.h"
 #include "../../Utilities/ResourceLoader.h"
 
 class SoundManager

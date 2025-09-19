@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "../Drawables/IDrawable.h"
 #include "../Collisions/IBoundingVolume.h"
+#include "../Drawables/IDrawable.h"
 
 struct SpawnData
 {

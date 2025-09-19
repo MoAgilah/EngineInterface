@@ -1,11 +1,11 @@
 #pragma once
 
-class IRenderer;
-
 #include "../../../Utilities/Colour.h"
-#include "../../../Utilities/Vector.h"
 #include "../../../Utilities/Line.h"
+#include "../../../Utilities/Vector.h"
 #include <array>
+
+class IRenderer;
 
 class IShape
 {

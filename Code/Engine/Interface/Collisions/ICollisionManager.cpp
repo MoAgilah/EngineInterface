@@ -4,7 +4,6 @@
 #include "ITile.h"
 #include "../Scene/IGameObject.h"
 #include "../Renderer/IRenderable.h"
-
 #include <algorithm>
 #include <ranges>
 #include <utility>
