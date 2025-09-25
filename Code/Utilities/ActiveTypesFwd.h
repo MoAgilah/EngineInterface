@@ -39,10 +39,10 @@ using ActiveShader = IShader;
 using ActiveSound = ISound;
 using ActiveTexture = ITexture;
 
-std::unique_ptr<IFont>    MakeActiveFont() { return nullptr; }
-std::unique_ptr<IMusic>   MakeActiveMusic() { return nullptr; }
-std::unique_ptr<ISound>   MakeActiveSound() { return nullptr; }
-std::unique_ptr<IShader>  MakeActiveShader() { return nullptr; }
-std::unique_ptr<ITexture> MakeActiveTexture() { return nullptr; }
+std::unique_ptr<IFont>    MakeActiveFont();
+std::unique_ptr<IMusic>   MakeActiveMusic();
+std::unique_ptr<ISound>   MakeActiveSound();
+std::unique_ptr<IShader>  MakeActiveShader();
+std::unique_ptr<ITexture> MakeActiveTexture();
 
 #endif

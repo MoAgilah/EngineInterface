@@ -96,6 +96,7 @@
     <ClCompile Include="Code\GameObjects\Collectables.cpp" />
     <ClCompile Include="Code\GameObjects\Enemy.cpp" />
     <ClCompile Include="Code\GameObjects\GameObject.cpp" />
+    <ClCompile Include="Code\Utilities\ActiveTypesFwd.cpp" />
     <ClCompile Include="Code\Utilities\Colour.cpp" />
   </ItemGroup>
   <ItemGroup>
