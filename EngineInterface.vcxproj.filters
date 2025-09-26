@@ -288,6 +288,9 @@
     <ClInclude Include="Code\Engine\Interface\Scene\IStateMachine.h">
       <Filter>Header Files\Engine\Interface\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Utilities\MovementController.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">
@@ -354,6 +357,9 @@
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="Code\Utilities\ActiveTypesFwd.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\MovementController.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>

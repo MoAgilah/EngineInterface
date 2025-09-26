@@ -70,6 +70,7 @@
     <ClInclude Include="Code\Utilities\ActiveTypesFwd.h" />
     <ClInclude Include="Code\Utilities\Colour.h" />
     <ClInclude Include="Code\Utilities\Defines.h" />
+    <ClInclude Include="Code\Utilities\MovementController.h" />
     <ClInclude Include="Code\Utilities\Rect.h" />
     <ClInclude Include="Code\Utilities\Vector.h" />
     <ClInclude Include="Code\Utilities\ResourceLoader.h" />
@@ -99,6 +100,7 @@
     <ClCompile Include="Code\GameObjects\GameObject.cpp" />
     <ClCompile Include="Code\Utilities\ActiveTypesFwd.cpp" />
     <ClCompile Include="Code\Utilities\Colour.cpp" />
+    <ClCompile Include="Code\Utilities\MovementController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\Arial.ttf" />
