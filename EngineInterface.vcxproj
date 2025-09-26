@@ -50,6 +50,7 @@
     <ClInclude Include="Code\Engine\Interface\Scene\IGameObject.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IGameState.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IScene.h" />
+    <ClInclude Include="Code\Engine\Interface\Scene\IStateMachine.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\ITransforms.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IUpdatable.h" />
     <ClInclude Include="Code\Engine\Interface\UI\IMenu.h" />
