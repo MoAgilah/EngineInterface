@@ -5,6 +5,7 @@
 #include "../Interface/Renderer/ICamera.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Renderer/IRenderer.h"
+#include "../Interface/Scene/IGameState.h"
 #include "../Interface/Scene/IScene.h"
 #include "../Input/InputManager.h"
 #include "../Resources/FontManager.h"
@@ -36,7 +37,7 @@ public:
 	[[nodiscard]] SoundManager& GetSoundMgr() noexcept { return m_soundManager; }
 	[[nodiscard]] TextureManager& GetTextureMgr() noexcept { return m_texureManager; }
 	[[nodiscard]] ICollisionManager* GetCollisionMgr() noexcept { return m_collisionManager.get(); }
-	[[nodiscard]] GameStateMgr* GetGameStateMgr() noexcept { return &m_stateManager; }
+	[[nodiscard]] GameStateMgr<IGameState>* GetGameStateMgr() noexcept { return &m_stateManager; }
 	[[nodiscard]] IRenderer* GetRenderer() noexcept { return m_renderer.get(); }
 	[[nodiscard]] IScene* GetScene() { return m_scene.get(); }
 
@@ -56,7 +57,7 @@ private:
 	ShaderManager						m_shaderManager;
 	SoundManager						m_soundManager;
 	TextureManager						m_texureManager;
-	GameStateMgr						m_stateManager;
+	GameStateMgr<IGameState>			m_stateManager;
 
 	std::shared_ptr<ICamera>			m_camera;
 	std::shared_ptr<InputManager>		m_inputManager;

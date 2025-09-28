@@ -285,7 +285,7 @@
     <ClInclude Include="Code\Utilities\ActiveTypesFwd.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Interface\Scene\IStateMachine.h">
+    <ClInclude Include="Code\Engine\Interface\Scene\IObjectState.h">
       <Filter>Header Files\Engine\Interface\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Code\Utilities\MovementController.h">

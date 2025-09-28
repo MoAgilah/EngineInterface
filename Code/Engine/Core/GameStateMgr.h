@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../Interface/Scene/IGameState.h"
 #include <string>
 #include <vector>
 
+template <typename T>
 class GameStateMgr
 {
 public:
@@ -11,8 +11,8 @@ public:
 
 	std::string_view GetStateName();
 
-	void ChangeState(IGameState* state);
-	void PushState(IGameState* state);
+	void ChangeState(T* state);
+	void PushState(T* state);
 	void PopState();
 	void ClearStates();
 
@@ -25,5 +25,5 @@ public:
 
 private:
 
-	std::vector<IGameState*> m_vGameStates;
+	std::vector<T*> m_vGameStates;
 };

@@ -1,15 +1,19 @@
 #include "GameStateMgr.h"
 
+#include "../Interface/Scene/IGameState.h"
+#include "../Interface/Scene/IObjectState.h"
 #include "../Core/Constants.h"
 #include <format>
 #include <iostream>
 
-GameStateMgr::~GameStateMgr()
+template<typename T>
+GameStateMgr<T>::~GameStateMgr()
 {
 	ClearStates();
 }
 
-std::string_view GameStateMgr::GetStateName()
+template<typename T>
+std::string_view GameStateMgr<T>::GetStateName()
 {
 	if (!m_vGameStates.empty())
 		return m_vGameStates.back()->GetStateName();
@@ -17,7 +21,8 @@ std::string_view GameStateMgr::GetStateName()
 	return std::string_view();
 }
 
-void GameStateMgr::ChangeState(IGameState* state)
+template<typename T>
+void GameStateMgr<T>::ChangeState(T* state)
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.pop_back();
@@ -29,7 +34,8 @@ void GameStateMgr::ChangeState(IGameState* state)
 		std::cout << std::format("Changed too {} state\n", m_vGameStates.back()->GetStateName());
 }
 
-void GameStateMgr::PushState(IGameState* state)
+template<typename T>
+void GameStateMgr<T>::PushState(T* state)
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->Pause();
@@ -41,7 +47,8 @@ void GameStateMgr::PushState(IGameState* state)
 		std::cout << std::format("Pushed {} state\n", m_vGameStates.back()->GetStateName());
 }
 
-void GameStateMgr::PopState()
+template<typename T>
+void GameStateMgr<T>::PopState()
 {
 	if (!m_vGameStates.empty())
 	{
@@ -54,38 +61,51 @@ void GameStateMgr::PopState()
 		m_vGameStates.back()->Resume();
 }
 
-void GameStateMgr::ClearStates()
+template<typename T>
+void GameStateMgr<T>::ClearStates()
 {
 	while (!m_vGameStates.empty())
 		m_vGameStates.pop_back();
 }
 
-void GameStateMgr::Pause()
+template<typename T>
+void GameStateMgr<T>::Pause()
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->Pause();
 }
 
-void GameStateMgr::Resume()
+template<typename T>
+void GameStateMgr<T>::Resume()
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->Resume();
 }
 
-void GameStateMgr::ProcessInputs()
+template<typename T>
+void GameStateMgr<T>::ProcessInputs()
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->ProcessInputs();
 }
 
-void GameStateMgr::Update(float deltaTime)
+template<typename T>
+void GameStateMgr<T>::Update(float deltaTime)
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->Update(deltaTime);
 }
 
-void GameStateMgr::Render()
+template<typename T>
+void GameStateMgr<T>::Render()
 {
 	if (!m_vGameStates.empty())
 		m_vGameStates.back()->Render();
 }
+
+void GameStateMgr<IObjectState>::Render()
+{
+}
+
+template class GameStateMgr<IGameState>;
+template class GameStateMgr<IObjectState>;
