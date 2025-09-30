@@ -10,11 +10,11 @@ Vector2f GameConstants::ScreenDim = Vector2f(600.f, 600.f);
 Vector2f GameConstants::Scale = Vector2f(1.f, 1.f);
 std::string GameConstants::WindowTitle = "SFML Game Engine";
 std::string GameConstants::TileFilePaths = "../Resources/TileTypes.txt";
-std::string GameConstants::FontFilePaths = "../SFMLGameEngine/SFMLGameEngine/Resources/Fonts/";
-std::string GameConstants::ShaderFilePaths = "../SFMLGameEngine/SFMLGameEngine/Resources/Shaders/";
-std::string GameConstants::SoundFilePaths = "../SFMLGameEngine/SFMLGameEngine/Resources/Sounds/";
-std::string GameConstants::MusicFilePaths = "../SFMLGameEngine/SFMLGameEngine/Resources/Music/";
-std::string GameConstants::TextureFilePaths = "../SFMLGameEngine/SFMLGameEngine/Resources/Textures/";
+std::string GameConstants::FontFilePaths = "../SFMLEngine/EngineInterface/Resources/Fonts/";
+std::string GameConstants::ShaderFilePaths = "../SFMLEngine/EngineInterface/Resources/Shaders/";
+std::string GameConstants::SoundFilePaths = "../SFMLEngine/EngineInterface/Resources/Sounds/";
+std::string GameConstants::MusicFilePaths = "../SFMLEngine/EngineInterface/Resources/Music/";
+std::string GameConstants::TextureFilePaths = "../SFMLEngine/EngineInterface/Resources/Textures/";
 
 void GameConstants::Init()
 {

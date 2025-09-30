@@ -14,7 +14,7 @@ GameObject::GameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBou
 
 GameObject::~GameObject()
 {
-	GameManager::Get()->GetCollisionMgr()->RemoveCollidable(this);
+	//GameManager::Get()->GetCollisionMgr()->RemoveCollidable(this);
 }
 
 void GameObject::Render(IRenderer* renderer)
