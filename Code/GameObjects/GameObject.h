@@ -36,7 +36,6 @@ public:
 
 protected:
 
-
 	float m_restitution = 1;
 	SpawnData m_spawnData;
 	std::shared_ptr<IDrawable> m_drawable;
@@ -60,6 +59,9 @@ public:
 	IBoundingVolume* GetVolume() override { return GameObject::GetVolume(); }
 
 	bool IsDynamicObject() override { return IDynamicGameObject::IsDynamicObject(); }
+
+	void Move(float x, float y) override;
+	void Move(const Vector2f& mov) override;
 
 	void SetPrevPosition(Vector2f pos) { m_previousPos = pos; }
 	void SetPrevPosition(float x, float y) { m_previousPos = Vector2f(x, y); }

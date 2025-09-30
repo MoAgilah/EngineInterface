@@ -10,6 +10,11 @@ public:
 	virtual void SetPosition(const Vector2f& pos) = 0;
 	virtual Vector2f GetPosition() = 0;
 
+	virtual void OffsetPosition(const Vector2f& delta)
+	{
+		SetPosition(GetPosition() + delta);
+	}
+
 	virtual void SetScale(const Vector2f& scl) = 0;
 	virtual Vector2f GetScale() = 0;
 

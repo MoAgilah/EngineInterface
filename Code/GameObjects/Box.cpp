@@ -8,6 +8,25 @@ Box::Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> v
 	Init(initPos);
 }
 
+void Box::OnCollisionEnter(IGameObject* obj)
+{
+}
+
+void  Box::OnCollisionStay(IGameObject* obj)
+{
+
+}
+
+void  Box::OnCollisionExit(IGameObject* obj)
+{
+
+}
+
+void  Box::ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition)
+{
+
+}
+
 void Box::Reset()
 {
 	m_canHit = true;

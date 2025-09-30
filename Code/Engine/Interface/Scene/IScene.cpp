@@ -50,6 +50,11 @@ void IScene::Render(IRenderer* renderer)
 
 void IScene::ResetScene()
 {
+	for (const auto& key : m_spawnedObjKeys)
+		m_objects.erase(key);
+
+	m_spawnedObjKeys.clear();
+
 	for (auto& [_, enemy] : m_enemies)
 		enemy->Reset();
 
@@ -86,4 +91,23 @@ Enemy* IScene::GetEnemyByName(const std::string& name)
 		return it->second.get();
 
 	return nullptr;
+}
+
+void IScene::RenderGUI(IRenderer* renderer)
+{
+	for (auto spr : m_sprites)
+	{
+		if (!spr)
+			continue;
+
+		spr->Render(renderer);
+	}
+
+	for (auto text : m_texts)
+	{
+		if (!text)
+			continue;
+
+		text->Render(renderer);
+	}
 }

@@ -9,6 +9,11 @@ public:
 	StaticCollectable(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos);
 	~StaticCollectable() override = default;
 
+	void OnCollisionEnter(IGameObject* obj);
+	void OnCollisionStay(IGameObject* obj);
+	void OnCollisionExit(IGameObject* obj);
+	void ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition);
+
 	bool GetActive() const final { return !GetCollected() && GameObject::GetActive(); }
 
 	void SetCollected() { m_collected = true; }
@@ -28,6 +33,11 @@ class DynamicCollectable : public DynamicGameObject
 public:
 	DynamicCollectable(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos);
 	~DynamicCollectable() override = default;
+
+	void OnCollisionEnter(IGameObject* obj);
+	void OnCollisionStay(IGameObject* obj);
+	void OnCollisionExit(IGameObject* obj);
+	void ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition);
 
 	bool GetActive() const final { return !GetCollected() && DynamicGameObject::GetActive(); }
 

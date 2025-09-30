@@ -47,6 +47,8 @@ public:
 	virtual void Update(float deltaTime) = 0;
 	virtual void Render(IRenderer* renderer) = 0;
 
+	virtual void SetText(const std::string& text) = 0;
+
 	virtual unsigned int GetCharSize() = 0;
 	virtual void SetCharSize(unsigned int charSize) = 0;
 

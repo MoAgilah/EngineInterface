@@ -5,7 +5,7 @@
 
 class IRenderer;
 
-class ISprite : public IMoveable
+class ISprite
 {
 public:
 	virtual ~ISprite() = default;

@@ -17,6 +17,25 @@ void StaticCollectable::Init(const Vector2f& initPos)
 	GetVolume()->Update(GetPosition());
 }
 
+void StaticCollectable::OnCollisionEnter(IGameObject* obj)
+{
+}
+
+void StaticCollectable::OnCollisionStay(IGameObject* obj)
+{
+
+}
+
+void StaticCollectable::OnCollisionExit(IGameObject* obj)
+{
+
+}
+
+void StaticCollectable::ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition)
+{
+
+}
+
 DynamicCollectable::DynamicCollectable(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos)
 	: DynamicGameObject(std::move(drawable), std::move(volume))
 {
@@ -30,4 +49,23 @@ void DynamicCollectable::Init(const Vector2f& initPos)
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
 	GetVolume()->Update(GetPosition());
+}
+
+void DynamicCollectable::OnCollisionEnter(IGameObject* obj)
+{
+}
+
+void DynamicCollectable::OnCollisionStay(IGameObject* obj)
+{
+
+}
+
+void DynamicCollectable::OnCollisionExit(IGameObject* obj)
+{
+
+}
+
+void DynamicCollectable::ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition)
+{
+
 }

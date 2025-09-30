@@ -72,3 +72,17 @@ void DynamicGameObject::Reset()
 	this->SetVelocity(Vector2f());
 	m_onGround = false;
 }
+
+void DynamicGameObject::Move(float x, float y)
+{
+	Move(Vector2f(x, y));
+}
+
+void DynamicGameObject::Move(const Vector2f& mov)
+{
+	SetPrevPosition(GetPosition());
+
+	GetDrawable()->OffsetPosition(mov);
+
+	m_volume->Update(GetPosition());
+}

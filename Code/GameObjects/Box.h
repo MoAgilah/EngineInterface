@@ -9,6 +9,11 @@ public:
 	Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos);
 	~Box() override = default;
 
+	void OnCollisionEnter(IGameObject* obj);
+	void OnCollisionStay(IGameObject* obj);
+	void OnCollisionExit(IGameObject* obj);
+	void ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition);
+
 	void Reset() override;
 
 	void SetCanHit(bool canHit) { m_canHit = canHit; }

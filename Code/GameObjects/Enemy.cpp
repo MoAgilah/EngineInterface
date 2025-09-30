@@ -42,6 +42,25 @@ void Enemy::Update(float deltaTime)
     }
 }
 
+void Enemy::OnCollisionEnter(IGameObject* obj)
+{
+}
+
+void  Enemy::OnCollisionStay(IGameObject* obj)
+{
+
+}
+
+void  Enemy::OnCollisionExit(IGameObject* obj)
+{
+
+}
+
+void  Enemy::ResolveCollisions(float time, const Vector2f& separationVector, float relativeHitPosition)
+{
+
+}
+
 void Enemy::Reset()
 {
     DynamicGameObject::Reset();
