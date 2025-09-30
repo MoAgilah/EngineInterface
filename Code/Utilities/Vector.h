@@ -80,7 +80,7 @@ public:
 		return { std::max(p1.x, std::min(p2.x, x)), std::max(p1.y, std::min(p2.y, y)) };
 	}
 
-	T LengthSquared()
+	T LengthSquared() const
 	{
 		return x * x + y * y;
 	}
@@ -95,12 +95,12 @@ public:
 		return std::sqrtf(std::powf((op.x - x), 2) + std::powf((op.y - y), 2));
 	}
 
-	T Length()
+	T Length() const
 	{
 		return std::sqrtf(Dot(*this));
 	}
 
-	Vector Normalize()
+	Vector Normalize() const
 	{
 		auto len = Length();
 		return Vector(x / len, y / len);
