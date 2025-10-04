@@ -18,6 +18,15 @@ public:
         this->m_shape = std::make_shared<PlatformCircle>();
     }
 
+    BoundingCircle(float radius)
+        : IBoundingVolume(VolumeType::Circle)
+        , IBoundingCircle()
+        , BoundingVolume<PlatformCircle>(VolumeType::Circle)
+    {
+        this->m_shape = std::make_shared<PlatformCircle>();
+        Reset(radius);
+    }
+
     BoundingCircle(float radius, const Vector2f& pos)
         : IBoundingVolume(VolumeType::Circle)
         , IBoundingCircle()

@@ -74,6 +74,19 @@ void Enemy::Reset()
     m_activationTimer.RestartTimer();
 }
 
+void Enemy::SetDirection(bool dir)
+{
+    IGameObject::SetDirection(dir);
+    if (dir)
+    {
+        SetXVelocity(GetSpeedX());
+    }
+    else
+    {
+        SetXVelocity(-GetSpeedX());
+    }
+}
+
 void Enemy::DecrementLife()
 {
     if (--m_numLives == 0)

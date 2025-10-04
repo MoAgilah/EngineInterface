@@ -1,4 +1,4 @@
 #pragma once
 
-template <typename PlatformShape>
+template <typename T>
 struct CapsuleTraits;

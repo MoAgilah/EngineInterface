@@ -23,6 +23,7 @@
     <ClInclude Include="Code\Engine\Collisions\BoundingBox.h" />
     <ClInclude Include="Code\Engine\Collisions\BoundingCapsule.h" />
     <ClInclude Include="Code\Engine\Collisions\BoundingCircle.h" />
+    <ClInclude Include="Code\Engine\Collisions\BoundingHalfCapsule.h" />
     <ClInclude Include="Code\Engine\Core\Constants.h" />
     <ClInclude Include="Code\Engine\Core\GameManager.h" />
     <ClInclude Include="Code\Engine\Core\GameStateMgr.h" />
@@ -72,6 +73,7 @@
     <ClInclude Include="Code\Utilities\Defines.h" />
     <ClInclude Include="Code\Utilities\MovementController.h" />
     <ClInclude Include="Code\Utilities\Rect.h" />
+    <ClInclude Include="Code\Utilities\Utils.h" />
     <ClInclude Include="Code\Utilities\Vector.h" />
     <ClInclude Include="Code\Utilities\ResourceLoader.h" />
     <ClInclude Include="Code\Utilities\Traits.h" />
@@ -101,6 +103,7 @@
     <ClCompile Include="Code\Utilities\ActiveTypesFwd.cpp" />
     <ClCompile Include="Code\Utilities\Colour.cpp" />
     <ClCompile Include="Code\Utilities\MovementController.cpp" />
+    <ClCompile Include="Code\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\Arial.ttf" />

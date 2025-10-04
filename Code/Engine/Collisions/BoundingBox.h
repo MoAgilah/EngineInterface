@@ -18,6 +18,15 @@ public:
         this->m_shape = std::make_shared<PlatformBox>();
     }
 
+    BoundingBox(const Vector2f& size)
+        : IBoundingVolume(VolumeType::Box)
+        , IBoundingBox()
+        , BoundingVolume<PlatformBox>(VolumeType::Box)
+    {
+        this->m_shape = std::make_shared<PlatformBox>();
+        Reset(size);
+    }
+
     // Only call the virtual base constructor here, not in any parent!
     BoundingBox(const Vector2f& size, const Vector2f& pos)
         : IBoundingVolume(VolumeType::Box)

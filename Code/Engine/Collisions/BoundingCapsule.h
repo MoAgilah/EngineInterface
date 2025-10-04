@@ -16,6 +16,15 @@ public:
 	using PlatformCircle = typename CapsuleTraits<PlatformCapsule>::CircleType;
 	using PlatformBox = typename CapsuleTraits<PlatformCapsule>::BoxType;
 
+	BoundingCapsule(float radius, float length, float angle)
+		: IBoundingVolume(VolumeType::Capsule)
+		, IBoundingCapsule()
+		, BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+	{
+		this->m_shape = std::make_shared<PlatformCapsule>();
+		Reset(radius, length, angle);
+	}
+
 	BoundingCapsule(float radius, float length, float angle, const Vector2f& pos)
 		: IBoundingVolume(VolumeType::Capsule)
 		, IBoundingCapsule()

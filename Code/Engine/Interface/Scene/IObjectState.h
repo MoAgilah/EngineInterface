@@ -7,7 +7,7 @@ class IObjectState
 {
 public:
     explicit IObjectState(DynamicGameObject* gameObj)
-        : m_gameObj(gameObj)
+        : m_gameObj(gameObj), m_drawable(nullptr)
     {
         if (m_gameObj)
         {

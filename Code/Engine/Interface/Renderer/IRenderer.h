@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IWindow.h"
+#include "../Resources/IShader.h"
 #include "../../../Utilities/Vector.h"
 #include <memory>
 
@@ -15,6 +16,7 @@ public:
 	virtual void PollWindowEvents() = 0;
 	virtual void Clear() = 0;
 	virtual void Draw(IRenderable* object) =  0;
+	virtual void Draw(IRenderable* object, IShader* shader) = 0;
 	virtual void Present() = 0;
 
 	INativeWindow* GetWindow() { return m_window.get(); }

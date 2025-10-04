@@ -3,23 +3,34 @@
 #include <string>
 #include <map>
 
-class Physics
+class MovementState
 {
 public:
-	void AddVelocity(const std::string& name, float value);
-	float GetVelocity(const std::string& name);
+	void AddVelocity(int ID, float value);
+	void AddAcceleration(int ID, float value);
+	void AddDeceleration(int ID, float value);
 
-	void AddAcceleration(const std::string& name, float value);
-	float GetAcceleration(const std::string& name);
+	float GetVelocity(int ID);
+	void SetCurrentVelLimit(int ID);
+	float GetCurrentVelLimit() { return m_currVelLimit; }
 
-	void AddDeceleration(const std::string& name, float value);
-	float GetDeceleration(const std::string& name);
+	float GetAcceleration(int ID);
+	void SetCurrentAccel(int ID);
+	float GetCurrentAccel() { return m_currAccel; }
+
+	float GetDeceleration(int ID);
+	void SetCurrentDecel(int ID);
+	float GetCurrentDecel() { return m_currDecel; }
 
 private:
 
-	std::map<std::string, float> m_velocities;
-	std::map<std::string, float> m_accelerations;
-	std::map<std::string, float> m_decelartions;
+	float m_currVelLimit = 0;
+	float m_currAccel = 0;
+	float m_currDecel = 0;
+
+	std::map<int, float> m_velocities;
+	std::map<int, float> m_accelerations;
+	std::map<int, float> m_decelartions;
 };
 
 class MovementController
@@ -27,14 +38,19 @@ class MovementController
 public:
 	~MovementController() = default;
 
-	void AddPhysicsState(const std::string& name, const Physics& physics);
+	void AddMovementXState(int ID, const MovementState& physics);
+	void AddMovementYState(int ID, const MovementState& physics);
 
-	void ChangePhysicsState(const std::string& name);
+	void ChangeMovementXState(int ID);
+	void ChangeMovementYState(int ID);
 
-	std::pair<std::string, Physics>& GetCurrentState() { return m_currentState; }
+	MovementState& GetCurrentXState() { return m_currentXState; }
+	MovementState& GetCurrentYState() { return m_currentYState; }
 
 private:
 
-	std::pair<std::string, Physics> m_currentState;
-	std::map<std::string, Physics> m_physicsState;
+	MovementState m_currentXState;
+	MovementState m_currentYState;
+	std::map<int, MovementState> m_movementXState;
+	std::map<int, MovementState> m_movementYState;
 };
