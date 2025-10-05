@@ -4,6 +4,7 @@
 #include "ITile.h"
 #include "../Scene/IGameObject.h"
 #include "../Renderer/IRenderable.h"
+#include "../../../Utilities/Utils.h"
 #include <algorithm>
 #include <ranges>
 #include <utility>
@@ -13,24 +14,22 @@ std::vector<std::string> ICollisionManager::s_canCollideWithTile = {};
 ICollisionManager::ICollisionManager(std::shared_ptr<IGrid> grid)
 	: m_grid(std::move(grid))
 {
-	if (m_grid)
+	ENSURE_VALID(m_grid);
+
+	for (auto& tile : m_grid->GetGrid())
 	{
-		for (auto& tile : m_grid->GetGrid())
-		{
-			if (tile->GetType() != Types::EMPTY)
-				m_tiles.push_back(tile.get());
-		}
+		if (tile->GetType() != Types::EMPTY)
+			m_tiles.push_back(tile.get());
 	}
 }
 
-void ICollisionManager::ProcessCollisions(IGameObject* gobj)
+void ICollisionManager::ProcessCollisions(IGameObject* obj)
 {
-	if (!gobj)
-		return;
+	ENSURE_VALID(obj);
 
-	if (CanCollideWithTile(gobj->GetID()))
+	if (CanCollideWithTile(obj->GetID()))
 	{
-		if (auto* dynObj = dynamic_cast<IDynamicGameObject*>(gobj))
+		if (auto* dynObj = dynamic_cast<IDynamicGameObject*>(obj))
 			DynamicObjectToTileCollisions(dynObj);
 	}
 
@@ -39,25 +38,29 @@ void ICollisionManager::ProcessCollisions(IGameObject* gobj)
 		if (!collidable || !collidable->GetActive())
 			continue;
 
-		if (gobj->GetObjectNum() == collidable->GetObjectNum())
+		if (obj->GetObjectNum() == collidable->GetObjectNum())
 			continue;
 
-		ObjectToObjectCollisions(gobj, collidable);
+		ObjectToObjectCollisions(obj, collidable);
 	}
 }
 
 void ICollisionManager::Render(IRenderer* renderer)
 {
+	ENSURE_VALID(renderer);
+
 	if (m_grid)
 		m_grid->Render(renderer);
 }
 
-void ICollisionManager::RemoveCollidable(IGameObject* ngo)
+void ICollisionManager::RemoveCollidable(IGameObject* obj)
 {
+	ENSURE_VALID(obj);
+
 	m_collidables.erase(
 		std::remove_if(m_collidables.begin(), m_collidables.end(),
-			[ngo](IGameObject* ptr) {
-				return ptr == ngo;
+			[obj](IGameObject* ptr) {
+				return ptr == obj;
 			}),
 		m_collidables.end());
 }
@@ -119,8 +122,7 @@ void ICollisionManager::SortCollidedTiles(std::vector<ITile*> collidedWith)
 
 void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 {
-	if (!obj)
-		return;
+	ENSURE_VALID(obj);
 
 	std::vector<ITile*> collidedWith;
 	for (const auto& tile : m_tiles)
@@ -147,8 +149,8 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 
 void ICollisionManager::ObjectToObjectCollisions(IGameObject* obj1, IGameObject* obj2)
 {
-	if (!obj1 || !obj2)
-		return;
+	ENSURE_VALID(obj1);
+	ENSURE_VALID(obj2);
 
 	const bool isDyn1 = obj1->IsDynamicObject();
 	const bool isDyn2 = obj2->IsDynamicObject();
@@ -176,8 +178,8 @@ void ICollisionManager::ObjectToObjectCollisions(IGameObject* obj1, IGameObject*
 
 void ICollisionManager::DynamicObjectToObjectCollisions(IDynamicGameObject* obj1, IGameObject* obj2)
 {
-	if (!obj1 || !obj2)
-		return;
+	ENSURE_VALID(obj1);
+	ENSURE_VALID(obj2);
 
 	float tFirst, tLast;
 	if (obj2->Intersects(obj1, tFirst, tLast))
@@ -186,8 +188,8 @@ void ICollisionManager::DynamicObjectToObjectCollisions(IDynamicGameObject* obj1
 
 void ICollisionManager::DynamicObjectToDynamicObjectCollisions(IDynamicGameObject* obj1, IDynamicGameObject* obj2)
 {
-	if (!obj1 || !obj2)
-		return;
+	ENSURE_VALID(obj1);
+	ENSURE_VALID(obj2);
 
 	float tFirst, tLast;
 	if (obj1->Intersects(obj2, tFirst, tLast))

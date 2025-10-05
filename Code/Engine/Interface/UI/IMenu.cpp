@@ -1,5 +1,7 @@
 #include "IMenu.h"
 
+#include "../../../Utilities/Utils.h"
+
 IMenu::IMenu(float outlineThickness, const Vector2f& dimensions, const MenuPositionData& menuPositionData)
 	: m_outlineThickness(outlineThickness), m_dimensions(dimensions), m_menuPositionData(menuPositionData), m_menuNavigation(KeyCode::Up, KeyCode::Down)
 {
@@ -14,16 +16,17 @@ void IMenu::Update(float dt)
 		for (auto& cursor : m_cursors)
 		{
 			auto menuNav = cursor->GetMenuNav();
+			CONTINUE_IF_INVALID(menuNav);
 
 			if (menuNav->HasMoved())
 			{
 				int cellNo = menuNav->GetCurrCursorPos();
 				auto cell = GetCellByCellNumber(cellNo);
-				if (cell)
-				{
-					cursor->SetPosition(cell->GetPosition());
-					menuNav->SetPrevCursorPos(cellNo);
-				}
+
+				CONTINUE_IF_INVALID(cell);
+
+				cursor->SetPosition(cell->GetPosition());
+				menuNav->SetPrevCursorPos(cellNo);
 			}
 		}
 	}
@@ -38,30 +41,42 @@ void IMenu::Update(float dt)
 	for (const auto& cellNo : m_activeCells)
 	{
 		auto cell = GetCell(cellNo);
-		if (cell)
-			cell->Update(dt);
+
+		CONTINUE_IF_INVALID(cell);
+
+		cell->Update(dt);
 	}
 }
 
 void IMenu::Render(IRenderer* renderer)
 {
 #if defined _DEBUG
+	ENSURE_VALID(m_menuSpace);
 	m_menuSpace->Render(renderer);
 
 	for (auto& col : m_columns)
+	{
+		CONTINUE_IF_INVALID(col);
 		col->Render(renderer);
+	}
 #endif
 
 	for (auto& row : m_rows)
 	{
 		for (auto& cell : row)
+		{
+			CONTINUE_IF_INVALID(cell);
 			cell->Render(renderer);
+		}
 	}
 
 	if (!m_cursors.empty())
 	{
 		for (auto& cursor : m_cursors)
+		{
+			CONTINUE_IF_INVALID(cursor);
 			cursor->Render(renderer);
+		}
 	}
 }
 
@@ -71,6 +86,7 @@ void IMenu::SetActiveCells()
 	{
 		for (size_t j = 0; j < m_rows[i].size(); j++)
 		{
+			CONTINUE_IF_INVALID(m_rows[i][j]);
 			if (m_rows[i][j]->GetMenuSlotNumber() >= 0)
 			{
 				m_activeCells.emplace_back(static_cast<int>(i), static_cast<int>(j));
@@ -111,14 +127,14 @@ void IMenu::ProcessInput()
 	if (!m_cursors.empty())
 	{
 		for (auto& cursor : m_cursors)
-			cursor->GetMenuNav()->HandleNavigation();
+		{
+			CONTINUE_IF_INVALID(cursor);
+			GET_OR_CONTINUE(menuNav, cursor->GetMenuNav());
+			menuNav->HandleNavigation();
+		}
 	}
 	else
 	{
 		m_menuNavigation.HandleNavigation();
 	}
-}
-
-void IMenu::SetActiveTextElement()
-{
 }

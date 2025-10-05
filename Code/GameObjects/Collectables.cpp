@@ -1,6 +1,7 @@
 #include "Collectables.h"
 
 #include "../Engine/Core/GameManager.h"
+#include "../Utilities/Utils.h"
 
 StaticCollectable::StaticCollectable(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos)
 	: GameObject(std::move(drawable), std::move(volume))
@@ -14,7 +15,8 @@ void StaticCollectable::Init(const Vector2f& initPos)
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
-	GetVolume()->Update(GetPosition());
+	GET_OR_RETURN(volume, GetVolume());
+	volume->Update(GetPosition());
 }
 
 void StaticCollectable::OnCollisionEnter(IGameObject* obj)
@@ -48,7 +50,8 @@ void DynamicCollectable::Init(const Vector2f& initPos)
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
-	GetVolume()->Update(GetPosition());
+	GET_OR_RETURN(volume, GetVolume());
+	volume->Update(GetPosition());
 }
 
 void DynamicCollectable::OnCollisionEnter(IGameObject* obj)

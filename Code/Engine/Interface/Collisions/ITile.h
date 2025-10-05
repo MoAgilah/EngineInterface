@@ -5,6 +5,7 @@
 #include "../Scene/IGameObject.h"
 #include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
+#include "../../../Utilities/Utils.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,12 +21,18 @@ public:
 	ITile() = default;
 	ITile(std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
 		: m_text(std::move(text)), m_slope(std::move(slope)), m_aabb(std::move(aabb))
-	{}
+	{
+		ENSURE_VALID(m_aabb);
+	}
 	virtual ~ITile() {};
 
 	virtual void Render(IRenderer* renderer) = 0;
 
-	bool Intersects(IDynamicGameObject* obj) { return m_aabb->Intersects(obj->GetVolume()); }
+	bool Intersects(IDynamicGameObject* obj)
+	{
+		ENSURE_VALID_RET(m_aabb, false);
+		return m_aabb->Intersects(obj->GetVolume());
+	}
 	virtual void ResolveCollision(IDynamicGameObject* obj) = 0;
 
 	std::string_view GetID() const { return m_id; }
@@ -40,23 +47,49 @@ public:
 	void SetActive(bool vis) { m_visible = vis; }
 
 	virtual void SetPosition(const Vector2f& pos) = 0;
-	Vector2f GetPosition() { return m_aabb->GetPosition(); }
+	Vector2f GetPosition()
+	{
+		ENSURE_VALID_RET(m_aabb, Vector2f());
+		return m_aabb->GetPosition();
+	}
 
-	void SetOrigin(const Vector2f& origin) { m_aabb->SetOrigin(origin); }
-	Vector2f GetOrigin() { return m_aabb->GetOrigin(); }
+	void SetOrigin(const Vector2f& origin)
+	{
+		if (m_aabb)
+			m_aabb->SetOrigin(origin);
+	}
 
-	IBoundingBox* GetBoundingBox() { return m_aabb.get(); }
+	Vector2f GetOrigin()
+	{
+		ENSURE_VALID_RET(m_aabb, Vector2f());
+		return m_aabb->GetOrigin();
+	}
+
+	IBoundingBox* GetBoundingBox()
+	{
+		ENSURE_VALID_RET(m_aabb, nullptr);
+		return m_aabb.get();
+	}
 
 	virtual void SetSlope(std::shared_ptr<ITriangleShape> slope)
 	{
+		ENSURE_VALID(slope);
 		m_slope = std::move(slope);
 	}
 
-	virtual Linef GetSlope(int bgn, int end) { return m_slope->GetLine(bgn, end); }
+	virtual Linef GetSlope(int bgn, int end)
+	{
+		ENSURE_VALID_RET(m_slope, Linef());
+		return m_slope->GetLine(bgn, end);
+	}
 
 	Linef GetEdge() const { return m_edge; }
 
-	float GetTileHeight() { return m_aabb->GetExtents().y * 2; }
+	float GetTileHeight()
+	{
+		ENSURE_VALID_RET(m_aabb, float());
+		return m_aabb->GetExtents().y * 2;
+	}
 	virtual void SetFillColour(Colour col) = 0;
 	virtual void SetOutlineColour(Colour col) = 0;
 

@@ -3,6 +3,7 @@
 #include "../Renderer/ICamera.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
+#include "../../../Utilities/Utils.h"
 
 void IScene::Update(float deltaTime)
 {
@@ -10,6 +11,8 @@ void IScene::Update(float deltaTime)
 
 	for (const auto& [_, enemy] : m_enemies)
 	{
+		CONTINUE_IF_INVALID(enemy);
+
 		if (!enemy->GetActive())
 			continue;
 
@@ -18,6 +21,8 @@ void IScene::Update(float deltaTime)
 
 	for (const auto& [_, object] : m_objects)
 	{
+		CONTINUE_IF_INVALID(object);
+
 		if (!object->GetActive())
 			continue;
 
@@ -27,10 +32,13 @@ void IScene::Update(float deltaTime)
 
 void IScene::Render(IRenderer* renderer)
 {
+	ENSURE_VALID(m_backgroundSpr);
 	m_backgroundSpr->Render(renderer);
 
 	for (const auto& [_, enemy] : m_enemies)
 	{
+		CONTINUE_IF_INVALID(enemy);
+
 		if (!enemy->GetActive())
 			continue;
 
@@ -39,6 +47,8 @@ void IScene::Render(IRenderer* renderer)
 
 	for (const auto& [_, object] : m_objects)
 	{
+		CONTINUE_IF_INVALID(object);
+
 		if (!object->GetActive())
 			continue;
 
@@ -56,21 +66,34 @@ void IScene::ResetScene()
 	m_spawnedObjKeys.clear();
 
 	for (auto& [_, enemy] : m_enemies)
+	{
+		CONTINUE_IF_INVALID(enemy);
 		enemy->Reset();
+	}
 
 	for (auto& [_, object] : m_objects)
+	{
+		CONTINUE_IF_INVALID(object);
 		object->Reset();
+	}
 }
 
 void IScene::CheckIsInView()
 {
-	auto camera = GameManager::Get()->GetCamera();
+	GET_OR_RETURN(engine, GameManager::Get());
+	GET_OR_RETURN(camera, engine->GetCamera());
 
 	for (auto& [_, enemy] : m_enemies)
+	{
+		CONTINUE_IF_INVALID(enemy);
 		enemy->SetActive(camera->IsInView(enemy->GetVolume()));
+	}
 
 	for (auto& [_, object] : m_objects)
+	{
+		CONTINUE_IF_INVALID(object);
 		object->SetActive(camera->IsInView(object->GetVolume()));
+	}
 }
 
 GameObject* IScene::GetObjectByName(const std::string& name)
@@ -97,16 +120,14 @@ void IScene::RenderGUI(IRenderer* renderer)
 {
 	for (auto spr : m_sprites)
 	{
-		if (!spr)
-			continue;
+		CONTINUE_IF_INVALID(spr);
 
 		spr->Render(renderer);
 	}
 
 	for (auto text : m_texts)
 	{
-		if (!text)
-			continue;
+		CONTINUE_IF_INVALID(text);
 
 		text->Render(renderer);
 	}

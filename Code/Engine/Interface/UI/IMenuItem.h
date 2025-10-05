@@ -4,6 +4,7 @@
 #include "../Drawables/ISprite.h"
 #include "../UI/IText.h"
 #include "../../../Utilities/Vector.h"
+#include "../../../Utilities/Utils.h"
 #include <memory>
 
 class IMenuItem
@@ -26,8 +27,11 @@ public:
 
 	virtual void Render(IRenderer* renderer)
 	{
+		ENSURE_VALID(renderer);
+
 #if defined _DEBUG
-		m_cellSpace->Render(renderer);
+		if (m_cellSpace)
+			m_cellSpace->Render(renderer);
 #endif
 
 		if (m_textElement)

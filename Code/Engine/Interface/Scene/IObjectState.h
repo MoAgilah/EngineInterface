@@ -10,9 +10,7 @@ public:
         : m_gameObj(gameObj), m_drawable(nullptr)
     {
         if (m_gameObj)
-        {
             m_drawable = m_gameObj->GetDrawable();
-        }
     }
 
     virtual ~IObjectState() = default;

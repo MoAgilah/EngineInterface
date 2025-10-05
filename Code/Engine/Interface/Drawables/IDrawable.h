@@ -34,10 +34,13 @@ public:
     }
 
     // Access first/primary drawable (for single-shape logic)
-    TDrawable* GetPrimaryDrawable() {
+    TDrawable* GetPrimaryDrawable()
+    {
         return m_drawables.empty() ? nullptr : m_drawables[0].get();
     }
-    const TDrawable* GetPrimaryDrawable() const {
+
+    const TDrawable* GetPrimaryDrawable() const
+    {
         return m_drawables.empty() ? nullptr : m_drawables[0].get();
     }
 

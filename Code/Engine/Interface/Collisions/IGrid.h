@@ -4,6 +4,7 @@
 #include "../Renderer/IRenderer.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
+#include "../../../Utilities/Utils.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -13,21 +14,23 @@ class IGrid
 public:
 	IGrid(int rows, int columns)
 		: m_rows(rows), m_columns(columns)
-	{
-
-	}
+	{}
 
 	virtual ~IGrid() = default;
 
 	virtual void Render(IRenderer* renderer)
 	{
+		if (!GameConstants::DRender)
+			return;
+
 		for (const auto& tile : m_grid)
 		{
+			CONTINUE_IF_INVALID(tile);
+
 			if (tile->GetActive())
-			{
-				if (GameConstants::DRender)
-					tile->Render(renderer);
-			}
+				continue;
+
+			tile->Render(renderer);
 		}
 	}
 

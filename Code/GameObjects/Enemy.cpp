@@ -1,6 +1,7 @@
 #include "Enemy.h"
 
 #include "../Engine/Core/GameManager.h"
+#include "../Utilities/Utils.h"
 
 Enemy::Enemy(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, int maxLives)
     : DynamicGameObject(drawable, volume), m_numLives(maxLives), m_maxLives(maxLives),
@@ -34,9 +35,10 @@ void Enemy::Update(float deltaTime)
             m_resetTimer.Update(deltaTime);
             if (m_resetTimer.CheckEnd())
             {
-                // need to make generic
-                /*if (GameManager::Get()->GetCamera()->CheckVerticalBounds(GetBoundingBox()))
-                    Reset();*/
+                GET_OR_RETURN(gameMgr, GameManager::Get());
+                GET_OR_RETURN(camera, gameMgr->GetCamera());
+                if (camera->CheckVerticalBounds(GetVolume()))
+                    Reset();
             }
         }
     }

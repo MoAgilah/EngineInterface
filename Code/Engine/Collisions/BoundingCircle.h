@@ -5,6 +5,7 @@
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
 #include "../../Utilities/Traits.h"
+#include "../../Utilities/Utils.h"
 
 template <typename PlatformCircle>
 class BoundingCircle : public IBoundingCircle, public BoundingVolume<PlatformCircle>
@@ -16,6 +17,7 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
+        ENSURE_VALID(this->m_shape);
     }
 
     BoundingCircle(float radius)
@@ -24,6 +26,7 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
+        ENSURE_VALID(this->m_shape);
         Reset(radius);
     }
 
@@ -33,18 +36,21 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
+        ENSURE_VALID(this->m_shape);
         Reset(radius);
         Update(pos);
     }
 
     void Reset(float radius)
     {
-        this->m_shape->Reset(radius);
+        if (this->m_shape)
+            this->m_shape->Reset(radius);
     }
 
     void Update(const Vector2f& pos) override
     {
-        this->m_shape->Update(pos);
+        if (this->m_shape)
+            this->m_shape->Update(pos);
     }
 
     void Render(IRenderer* r) override { BoundingVolume<PlatformCircle>::Render(r); }
@@ -79,7 +85,7 @@ public:
     {
         // get distance between the point and circle's center
         // using the Pythagorean Theorem
-        Vector2f dist = pnt - BoundingVolume<PlatformCircle>::GetCenter();;
+        Vector2f dist = pnt - BoundingVolume<PlatformCircle>::GetCenter();
 
         float distance = dist.Length();
 
@@ -126,6 +132,8 @@ public:
 
     bool Intersects(IBoundingVolume* v) override
     {
+        ENSURE_VALID_RET(v, false);
+
         switch (v->GetType())
         {
         case VolumeType::Box:      if (auto* p = dynamic_cast<IBoundingBox*>(v))     return Intersects(p); break;
@@ -139,6 +147,8 @@ public:
     bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
         float& tfirst, float& tlast) override
     {
+        ENSURE_VALID_RET(v, false);
+
         switch (v->GetType())
         {
         case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return IntersectsMoving(p, va, vb, tfirst, tlast); break;
@@ -151,7 +161,10 @@ public:
 
     Vector2f GetSeparationVector(IBoundingVolume* v) override
     {
-        switch (v->GetType()) {
+        ENSURE_VALID_RET(v, Vector2f());
+
+        switch (v->GetType())
+        {
         case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return GetSeparationVector(p); break;
         case VolumeType::Circle:  if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return GetSeparationVector(p); break;
         case VolumeType::Capsule: if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return GetSeparationVector(p); break;
@@ -178,11 +191,15 @@ protected:
 
     bool Intersects(IBoundingBox* box) override
     {
+        ENSURE_VALID_RET(box, false);
+
         return box->Intersects(static_cast<IBoundingVolume*>(this));
     }
 
     bool Intersects(IBoundingCircle* circle) override
     {
+        ENSURE_VALID_RET(circle, false);
+
         // Calculate squared distance between centers
         Vector2f d = this->GetCenter() - circle->GetCenter();
         float dist2 = d.Dot(d);
@@ -194,6 +211,8 @@ protected:
 
     bool Intersects(IBoundingCapsule* capsule) override
     {
+        ENSURE_VALID_RET(capsule, false);
+
         float r = this->GetRadius() + capsule->GetRadius();
 
         float distSq = capsule->GetSegment().SqDistPointSegment(this->GetCenter());
@@ -203,11 +222,15 @@ protected:
 
     bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
+        ENSURE_VALID_RET(box, false);
+
         return box->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
     }
 
     bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
+        ENSURE_VALID_RET(circle, false);
+
         Vector2f s = this->GetCenter() - circle->GetCenter();
         float r = circle->GetRadius() + this->GetRadius();
 
@@ -245,43 +268,51 @@ protected:
 
     bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
+        ENSURE_VALID_RET(capsule, false);
+
         return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
     }
 
     Vector2f GetSeparationVector(IBoundingBox* box) override
     {
+        ENSURE_VALID_RET(box, Vector2f());
+
         return box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
     }
 
-    Vector2f GetSeparationVector(IBoundingCircle* other) override
+    Vector2f GetSeparationVector(IBoundingCircle* circle) override
     {
-        Vector2f displacement = other->GetPosition() - GetPosition();
+        ENSURE_VALID_RET(circle, Vector2f());
+
+        Vector2f displacement = circle->GetPosition() - GetPosition();
         float distance = displacement.Length();
-        float radiusSum = other->GetRadius() + GetRadius();
+        float radiusSum = circle->GetRadius() + GetRadius();
         float penetrationDepth = radiusSum - distance;
 
         if (penetrationDepth > 0.0f && distance > std::numeric_limits<float>::epsilon())
             return displacement.Normalize() * (penetrationDepth + ICollisionManager::BUFFER);
 
         if (distance <= std::numeric_limits<float>::epsilon())
-            return { 0.f, (other->GetPosition().y > GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
+            return { 0.f, (circle->GetPosition().y > GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
 
         return Vector2f();
     }
 
-    Vector2f GetSeparationVector(IBoundingCapsule* other) override
+    Vector2f GetSeparationVector(IBoundingCapsule* capsule) override
     {
-        Vector2f closestPoint = other->GetSegment().ClosestPointOnLineSegment(GetPosition());
+        ENSURE_VALID_RET(capsule, Vector2f());
+
+        Vector2f closestPoint = capsule->GetSegment().ClosestPointOnLineSegment(GetPosition());
         Vector2f displacement = GetPosition() - closestPoint;
         float distance = displacement.Length();
-        float radiusSum = GetRadius() + other->GetRadius();
+        float radiusSum = GetRadius() + capsule->GetRadius();
         float penetrationDepth = radiusSum - distance;
 
         if (penetrationDepth > 0.0f && distance > std::numeric_limits<float>::epsilon())
             return displacement.Normalize() * (penetrationDepth + ICollisionManager::BUFFER);
 
         if (distance <= std::numeric_limits<float>::epsilon())
-            return { 0.f, (GetPosition().y > other->GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
+            return { 0.f, (GetPosition().y > capsule->GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
 
         return Vector2f();
     }

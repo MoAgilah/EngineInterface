@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IMenu.h"
+#include "../../../Utilities/Utils.h"
 #include <vector>
 
 class IPaginatedMenu
@@ -13,7 +14,9 @@ public:
 		if (m_menuPages.empty())
 			return;
 
-		m_menuPages[m_currentMenuNum]->Update(deltaTime);
+		GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+
+		currPage->Update(deltaTime);
 	}
 
 	void Render(IRenderer* renderer)
@@ -21,7 +24,9 @@ public:
 		if (m_menuPages.empty())
 			return;
 
-		m_menuPages[m_currentMenuNum]->Render(renderer);
+		GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+
+		currPage->Render(renderer);
 	}
 
 	int GetCurrentMenuNumber() { return m_currentMenuNum; }
@@ -36,6 +41,8 @@ public:
 
 	IMenu* AddMenu(IMenu* menu)
 	{
+		ENSURE_VALID_RET(menu, nullptr);
+
 		m_menuPages.push_back(std::shared_ptr<IMenu>(menu));
 		return GetMenuByNumber(static_cast<int>(m_menuPages.size() - 1));
 	}

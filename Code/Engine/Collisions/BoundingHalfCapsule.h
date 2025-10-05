@@ -4,6 +4,7 @@
 #include "BoundingCircle.h"
 #include "BoundingCapsule.h"
 #include "../../Utilities/Vector.h"
+#include "../../Utilities/Utils.h"
 #include <algorithm>
 #include <cmath>
 
@@ -20,13 +21,14 @@ struct HalfCapsule
     explicit HalfCapsule(BoundingCapsule<PlatformCapsule>* cap,
         Which which = Which::Start)
     {
+        ENSURE_VALID(cap);
         Reset(cap, which);
     }
 
     void Reset(BoundingCapsule<PlatformCapsule>* cap,
         Which which = Which::Start)
     {
-        if (!cap) return;
+        ENSURE_VALID(cap);
 
         const float r = cap->GetRadius();
         const auto  seg = cap->GetSegment();
@@ -69,6 +71,8 @@ struct HalfCapsule
 
     void Render(IRenderer* r)
     {
+        ENSURE_VALID(r);
+
         m_body.Render(r);
         m_cap.Render(r);
     }
@@ -83,26 +87,49 @@ struct HalfCapsule
 
     bool Intersects(IBoundingVolume* v)
     {
+        ENSURE_VALID_RET(v, false);
+
         return m_cap.Intersects(v) || m_body.Intersects(v);
     }
 
     bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
         float& tfirst, float& tlast)
     {
+        ENSURE_VALID_RET(v, false);
+
         float tf2, tl2;
         const bool hitCap = m_cap.IntersectsMoving(v, va, vb, tfirst, tlast);
         const bool hitBody = m_body.IntersectsMoving(v, va, vb, tf2, tl2);
 
-        if (hitCap && hitBody) {
-            if (tf2 < tfirst) { tfirst = tf2; tlast = tl2; }
+        if (hitCap && hitBody)
+        {
+            if (tf2 < tfirst)
+            {
+                tfirst = tf2;
+                tlast = tl2;
+            }
+
             return true;
         }
-        if (hitCap)  return true;
-        if (hitBody) { tfirst = tf2; tlast = tl2; return true; }
+
+        if (hitCap)
+            return true;
+
+        if (hitBody)
+        {
+            tfirst = tf2;
+            tlast = tl2;
+
+            return true;
+        }
+
         return false;
     }
 
-    Vector2f GetSeparationVector(IBoundingVolume* v, bool preferCap) {
+    Vector2f GetSeparationVector(IBoundingVolume* v, bool preferCap)
+    {
+        ENSURE_VALID_RET(v, Vector2f());
+
         return preferCap ? m_cap.GetSeparationVector(v) : m_body.GetSeparationVector(v);
     }
 
@@ -112,6 +139,7 @@ struct HalfCapsule
     const BoundingBox<PlatformBox>& Body() const { return m_body; }
 
 private:
+
     BoundingBox<PlatformBox>       m_body;
     BoundingCircle<PlatformCircle> m_cap;
 };

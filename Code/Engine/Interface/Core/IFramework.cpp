@@ -1,6 +1,7 @@
 #include "IFramework.h"
 
 #include "../../Core/Constants.h"
+#include "../../../Utilities/Utils.h"
 #include <chrono>
 
 int IFrameWork::Run()
@@ -46,16 +47,12 @@ int IFrameWork::Run()
 
 void IFrameWork::PollEvents()
 {
-    auto* renderer = m_gameMgr.GetRenderer();
+    GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
+    renderer->PollWindowEvents();
 
-    if (renderer)
-    {
-        renderer->PollWindowEvents();
-
-        auto* window = renderer->GetWindow();
-        if (window && window->ShouldClose())
-            m_isRunning = false;
-    }
+    GET_OR_RETURN(window, renderer->GetWindow());
+    if (window->ShouldClose())
+        m_isRunning = false;
 }
 
 void IFrameWork::Update(float dt)
@@ -65,14 +62,11 @@ void IFrameWork::Update(float dt)
 
 void IFrameWork::Render()
 {
-    auto* renderer = m_gameMgr.GetRenderer();
+    GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
 
-    if (renderer)
-    {
-        renderer->Clear();
+    renderer->Clear();
 
-        m_gameMgr.Render();
+    m_gameMgr.Render();
 
-        renderer->Present();
-    }
+    renderer->Present();
 }
