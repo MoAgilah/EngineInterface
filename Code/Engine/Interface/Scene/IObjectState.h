@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../GameObjects/GameObject.h"
+#include "../../../Utilities/Utils.h"
 #include <string>
 
 class IObjectState
@@ -9,8 +10,8 @@ public:
     explicit IObjectState(DynamicGameObject* gameObj)
         : m_gameObj(gameObj), m_drawable(nullptr)
     {
-        if (m_gameObj)
-            m_drawable = m_gameObj->GetDrawable();
+        ENSURE_VALID(m_gameObj);
+        GET_OR_RETURN(m_drawable, m_gameObj->GetDrawable());
     }
 
     virtual ~IObjectState() = default;
