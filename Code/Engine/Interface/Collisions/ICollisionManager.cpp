@@ -14,12 +14,13 @@ std::vector<std::string> ICollisionManager::s_canCollideWithTile = {};
 ICollisionManager::ICollisionManager(std::shared_ptr<IGrid> grid)
 	: m_grid(std::move(grid))
 {
-	ENSURE_VALID(m_grid);
-
-	for (auto& tile : m_grid->GetGrid())
+	if (m_grid)
 	{
-		if (tile->GetType() != Types::EMPTY)
-			m_tiles.push_back(tile.get());
+		for (auto& tile : m_grid->GetGrid())
+		{
+			if (tile->GetType() != Types::EMPTY)
+				m_tiles.push_back(tile.get());
+		}
 	}
 }
 

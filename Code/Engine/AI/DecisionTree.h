@@ -94,33 +94,30 @@ private:
 
 	T EvaluateTree(std::shared_ptr<DecisionNode<T, S, Args...>> node, Args... input)
 	{
-		if (node)
+		auto current = node;
+		while (current)
 		{
-			auto current = node;
-			while (current)
+			if (current->m_condition)
 			{
-				if (current->m_condition)
+				if (current->m_condition(input...))
 				{
-					if (current->m_condition(input...))
-					{
-						if (!current->m_true)
-							return current->m_result;
-						current = current->m_true;
-					}
-					else
-					{
-						if (!current->m_false)
-							return current->m_result;
-						current = current->m_false;
-					}
+					if (!current->m_true)
+						return current->m_result;
+					current = current->m_true;
 				}
 				else
 				{
-					return current->m_result;
+					if (!current->m_false)
+						return current->m_result;
+					current = current->m_false;
 				}
 			}
-			throw std::runtime_error("Decision tree evaluation failed");
+			else
+			{
+				return current->m_result;
+			}
 		}
+		throw std::runtime_error("Decision tree evaluation failed");
 	}
 
 	std::shared_ptr<DecisionNode<T, S, Args...>> m_root; // Root of the tree
