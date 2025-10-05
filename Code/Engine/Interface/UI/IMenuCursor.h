@@ -3,6 +3,7 @@
 
 #include "../Drawables/ISprite.h"
 #include "../../UI/MenuNavigation.h"
+#include "../../../Utilities/Utils.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -12,7 +13,9 @@ class IMenuCursor
 public:
 	IMenuCursor(ISprite* spr, const MenuNav& menuNav)
 		: m_cursor(spr), m_menuNav(menuNav)
-	{}
+	{
+		ENSURE_VALID(m_cursor);
+	}
 
 	virtual ~IMenuCursor() = default;
 

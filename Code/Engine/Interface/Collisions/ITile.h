@@ -95,7 +95,11 @@ public:
 
 protected:
 
-	Vector2f GetSeperationVector(IDynamicGameObject* obj) { return m_aabb->GetSeparationVector(obj->GetVolume()); }
+	Vector2f GetSeperationVector(IDynamicGameObject* obj)
+	{
+		ENSURE_VALID_RET(m_aabb, Vector2f());
+		return m_aabb->GetSeparationVector(obj->GetVolume());
+	}
 
 	virtual void ResolveObjectToBoxTop(IDynamicGameObject* obj) = 0;
 	virtual void ResolveObjectToBoxBottom(IDynamicGameObject* obj) = 0;
