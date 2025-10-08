@@ -63,6 +63,9 @@ void IFrameWork::Update(float dt)
 void IFrameWork::Render()
 {
     GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
+    GET_OR_RETURN(camera, m_gameMgr.GetCamera());
+
+    camera->Reset(renderer);
 
     renderer->Clear();
 

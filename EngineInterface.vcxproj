@@ -111,6 +111,33 @@
   <ItemGroup>
     <None Include="Resources\Shaders\FadeInOutShader.frag" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\Game\Resources\Textures\Automation.png" />
+    <Image Include="..\..\Game\Resources\Textures\Background.png" />
+    <Image Include="..\..\Game\Resources\Textures\bill.png" />
+    <Image Include="..\..\Game\Resources\Textures\BreakingBox.png" />
+    <Image Include="..\..\Game\Resources\Textures\ChkPnt.png" />
+    <Image Include="..\..\Game\Resources\Textures\Chuck.png" />
+    <Image Include="..\..\Game\Resources\Textures\Clone.png" />
+    <Image Include="..\..\Game\Resources\Textures\Coin.png" />
+    <Image Include="..\..\Game\Resources\Textures\CoinBB.png" />
+    <Image Include="..\..\Game\Resources\Textures\Goal.png" />
+    <Image Include="..\..\Game\Resources\Textures\Koopa.png" />
+    <Image Include="..\..\Game\Resources\Textures\mario.png" />
+    <Image Include="..\..\Game\Resources\Textures\Name.png" />
+    <Image Include="..\..\Game\Resources\Textures\Pipe1.png" />
+    <Image Include="..\..\Game\Resources\Textures\Pipe2.png" />
+    <Image Include="..\..\Game\Resources\Textures\Pipe3.png" />
+    <Image Include="..\..\Game\Resources\Textures\PPlant.png" />
+    <Image Include="..\..\Game\Resources\Textures\QBlock.png" />
+    <Image Include="..\..\Game\Resources\Textures\RBlock.png" />
+    <Image Include="..\..\Game\Resources\Textures\Rex.png" />
+    <Image Include="..\..\Game\Resources\Textures\Shroom.png" />
+    <Image Include="..\..\Game\Resources\Textures\Super.png" />
+    <Image Include="..\..\Game\Resources\Textures\Time.png" />
+    <Image Include="..\..\Game\Resources\Textures\Title.png" />
+    <Image Include="..\..\Game\Resources\Textures\YCoin.png" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

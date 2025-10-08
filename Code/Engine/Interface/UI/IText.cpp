@@ -18,7 +18,7 @@ TextConfig::TextConfig(const TextConfig& config)
 
 Vector2f CalculateTextOrigin(const Vector2f& boundsSize, const Vector2f& boundsPos)
 {
-	return { boundsPos.x + boundsSize.x / 2.f, boundsPos.x + boundsSize.y / 2.f };
+	return { boundsPos.x + boundsSize.x / 2.f, boundsPos.y + boundsSize.y / 2.f };
 }
 
 Vector2f SetTextPosition(TextAlignment alignment, const Vector2f& textPos, const Vector2f& boundsSize, const Vector2f& boundsPos)
