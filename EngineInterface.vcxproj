@@ -71,6 +71,7 @@
     <ClInclude Include="Code\Utilities\ActiveTypesFwd.h" />
     <ClInclude Include="Code\Utilities\Colour.h" />
     <ClInclude Include="Code\Utilities\Defines.h" />
+    <ClInclude Include="Code\Utilities\ErrorUtils.h" />
     <ClInclude Include="Code\Utilities\MovementController.h" />
     <ClInclude Include="Code\Utilities\Rect.h" />
     <ClInclude Include="Code\Utilities\Utils.h" />

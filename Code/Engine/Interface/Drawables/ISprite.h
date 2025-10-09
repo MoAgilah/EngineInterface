@@ -15,7 +15,7 @@ public:
 
 	std::string_view GetTexID() const { return m_texID; }
 
-	virtual void SetTexture(const std::string& texId) = 0;
+	virtual bool SetTexture(const std::string& texId) = 0;
 
 	virtual Vector2u GetTextureSize() const = 0;
 	virtual void SetTextureRect(const IntRect& rect) = 0;

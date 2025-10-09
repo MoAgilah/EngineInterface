@@ -9,6 +9,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <format>
 
 enum class Types
 {
@@ -19,9 +20,14 @@ class ITile
 {
 public:
 	ITile() = default;
-	ITile(std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
+	ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
 		: m_text(std::move(text)), m_slope(std::move(slope)), m_aabb(std::move(aabb))
 	{
+		m_colNum = x;
+		m_rowNum = y;
+
+		m_id = std::format("{},{}", m_colNum, m_rowNum);
+
 		ENSURE_VALID(m_aabb);
 	}
 	virtual ~ITile() {};

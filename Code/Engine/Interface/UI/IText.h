@@ -4,6 +4,7 @@
 #include "../../../Utilities/Colour.h"
 #include "../../../Utilities/Vector.h"
 #include <string>
+#include <functional>
 
 enum class TextAnimType
 {
@@ -61,14 +62,25 @@ public:
 	virtual float GetOutlineThickness() = 0;
 	virtual void SetOutlineThickness(float thickness) = 0;
 
-	bool IsAnimated() { return m_config.m_animType > TextAnimType::Static; }
-	const Colour& GetDefaultColour() { return m_config.m_colour; }
-
-private:
-
-	virtual void Init() = 0;
+	bool IsAnimated() const { return m_config.m_animType > TextAnimType::Static; }
+	const Colour& GetDefaultColour() const { return m_config.m_colour; }
 
 protected:
 
+	virtual bool Init() = 0;
+
 	TextConfig m_config;
+};
+
+using UpdateFunc = std::function<void(float)>;
+using RenderFunc = std::function<void(IRenderer* renderer)>;
+
+struct CustomTextConfig
+{
+	CustomTextConfig(const TextConfig& config, UpdateFunc updateFunc, RenderFunc renderFunc, const std::string& shaderName = "");
+
+	TextConfig m_config;
+	UpdateFunc m_updateFunc;
+	RenderFunc m_renderFunc;
+	std::string m_shaderName;
 };

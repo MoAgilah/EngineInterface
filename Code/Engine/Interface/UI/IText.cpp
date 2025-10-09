@@ -44,3 +44,8 @@ IText::IText(const TextConfig& config)
 	: m_config(config)
 {
 }
+
+CustomTextConfig::CustomTextConfig(const TextConfig& config, UpdateFunc updateFunc, RenderFunc renderFunc, const std::string& shaderName)
+	: m_config(config), m_updateFunc(updateFunc), m_renderFunc(renderFunc), m_shaderName(shaderName)
+{
+}

@@ -33,3 +33,8 @@ void GameConstants::Init()
 	(void)MusicFilePaths;
 	(void)TextureFilePaths;
 }
+
+Vector2f GameConstants::ScaleScreenDim(float x, float y)
+{
+	return { ScreenDim.x * x,ScreenDim.y * y };
+}

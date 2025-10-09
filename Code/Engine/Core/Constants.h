@@ -9,6 +9,7 @@ class GameConstants
 {
 public:
 	static void Init();
+	static Vector2f ScaleScreenDim(float x, float y);
 
 	static bool DRender;
 	static bool GameIsReady;

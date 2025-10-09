@@ -1,67 +1,84 @@
 #pragma once
 
+#include "ErrorUtils.h"
+
 #include <iostream>
 
 // =========================
 // Pointer validation macros
 // =========================
 
-// Use this to check a getter-style expression that returns a pointer.
-// Example:
-//   GET_OR_RETURN(renderer, m_gameMgr->GetRenderer());
-//   renderer->Draw();
-#define GET_OR_RETURN(var, expr)                             \
-    auto var = (expr);                                        \
-    if (!(var)) {                                             \
-        std::cerr << "[ERROR] Null pointer in " << __func__   \
-                  << " at " << __FILE__ << ":" << __LINE__    \
-                  << " (" #expr " returned null)\n";          \
-        return;                                               \
+#define ENSURE_VALID(ptr)                                                             \
+    do {                                                                              \
+        if (!(ptr)) {                                                                 \
+            const auto __msg = std::format("Invalid pointer '{}'", #ptr);             \
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_error(__msg, __func__, __FILE__, __LINE__);                    \
+            return;                                                                   \
+        }                                                                             \
+    } while (0)
+
+#define ENSURE_VALID_RET(ptr, retval)                                                 \
+    do {                                                                              \
+        if (!(ptr)) {                                                                 \
+            const auto __msg = std::format("Invalid pointer '{}'", #ptr);             \
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_error(__msg, __func__, __FILE__, __LINE__);                    \
+            return (retval);                                                          \
+        }                                                                             \
+    } while (0)
+
+#define CONTINUE_IF_INVALID(ptr)                                                      \
+    do {                                                                              \
+        if (!(ptr)) {                                                                 \
+            const auto __msg = std::format("Invalid pointer '{}' -> continuing loop", #ptr); \
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_warn(__msg, __func__, __FILE__, __LINE__);                     \
+            continue;                                                                 \
+        }                                                                             \
+    } while (0)
+
+#define GET_OR_RETURN(var, expr)                                                      \
+    auto var = (expr);                                                                \
+    if (!(var)) {                                                                     \
+        const auto __msg = std::format("Null pointer: '{}' returned null", #expr);    \
+        ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__));  \
+        ::err::log_error(__msg, __func__, __FILE__, __LINE__);                        \
+        return;                                                                       \
     }
 
-// Use this to validate an incoming pointer argument at function entry.
-// Example:
-//   void Render(Renderer* renderer) {
-//       ENSURE_VALID(renderer);
-//       renderer->Draw();
-//   }
-#define ENSURE_VALID(ptr)                                     \
-    if (!(ptr)) {                                             \
-        std::cerr << "[ERROR] Invalid pointer '" #ptr         \
-                  << "' in " << __func__                      \
-                  << " at " << __FILE__ << ":" << __LINE__    \
-                  << "\n";                                    \
-        return;                                               \
+// GET_OR_CONTINUE: declare var from expr; if null -> warn + continue
+#define GET_OR_CONTINUE(var, expr)                                                    \
+        auto var = (expr);                                                            \
+        if (!(var)) {                                                                 \
+            const auto __msg = std::format("Null pointer: '{}' returned null -> continuing loop", #expr); \
+            ::err::log_warn(__msg, __func__, __FILE__, __LINE__);                     \
+            return;                                                                 \
+        }                                                                             \
+
+// Optional: switch-friendly
+#define GET_OR_BREAK(var, expr)                                                       \
+    auto var = (expr);                                                                \
+    if (!(var)) {                                                                     \
+        const auto __msg = std::format("Null pointer: '{}' returned null", #expr);    \
+        ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__));  \
+        ::err::log_warn(__msg, __func__, __FILE__, __LINE__);                         \
+        break;                                                                        \
     }
 
-#define ENSURE_VALID_RET(ptr, retval)                          \
-    if (!(ptr)) {                                              \
-        std::cerr << "[ERROR] Invalid pointer '" #ptr          \
-                  << "' in " << __func__                       \
-                  << " at " << __FILE__ << ":" << __LINE__     \
-                  << "\n";                                     \
-        return (retval);                                       \
-    }
+// Optional: try/assign + return for bool functions, etc.
+#define ERR_TRY_ASSIGN_OR_RET(target, expr, retval)                                   \
+    do {                                                                              \
+        try {                                                                         \
+            (target) = (expr);                                                        \
+        } catch (const std::exception& e) {                                           \
+            const auto __msg = std::format("Exception in '{}': {}", #expr, e.what());\
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_error(__msg, __func__, __FILE__, __LINE__);                    \
+            return (retval);                                                          \
+        }                                                                             \
+    } while (0)
 
-// Skip to the next iteration if the pointer is invalid
-#define CONTINUE_IF_INVALID(ptr)                              \
-    if (!(ptr)) {                                             \
-        std::cerr << "[WARN] Invalid pointer '" #ptr          \
-                  << "' in " << __func__                      \
-                  << " at " << __FILE__ << ":" << __LINE__    \
-                  << " -> continuing loop\n";                 \
-        continue;                                             \
-    }
-
-// Get pointer and continue loop if result is invalid
-#define GET_OR_CONTINUE(var, expr)                            \
-    auto var = (expr);                                        \
-    if (!(var)) {                                             \
-        std::cerr << "[WARN] Null pointer in " << __func__    \
-                  << " at " << __FILE__ << ":" << __LINE__    \
-                  << " (" #expr " returned null) -> continuing loop\n"; \
-        continue;                                             \
-    }
 
 struct ToIntFn
 {
