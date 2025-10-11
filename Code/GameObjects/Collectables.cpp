@@ -15,7 +15,7 @@ void StaticCollectable::Init(const Vector2f& initPos)
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
-	GET_OR_RETURN(volume, GetVolume());
+	DECL_GET_OR_RETURN(volume, GetVolume());
 	volume->Update(GetPosition());
 }
 
@@ -50,7 +50,7 @@ void DynamicCollectable::Init(const Vector2f& initPos)
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
-	GET_OR_RETURN(volume, GetVolume());
+	DECL_GET_OR_RETURN(volume, GetVolume());
 	volume->Update(GetPosition());
 }
 

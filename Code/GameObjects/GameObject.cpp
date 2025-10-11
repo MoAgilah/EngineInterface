@@ -12,15 +12,15 @@ GameObject::GameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBou
 	ENSURE_VALID(m_volume);
 	m_objectID = s_objectNum++;
 	SetScale(GameConstants::Scale);
-	GET_OR_RETURN(gameMgr, GameManager::Get());
-	GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+	DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+	DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
 	colMgr->AddCollidable(this);
 }
 
 GameObject::~GameObject()
 {
-	GET_OR_RETURN(gameMgr, GameManager::Get());
-	GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+	DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+	DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
 	colMgr->RemoveCollidable(this);
 }
 

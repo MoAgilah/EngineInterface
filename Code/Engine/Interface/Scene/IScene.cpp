@@ -80,8 +80,8 @@ void IScene::ResetScene()
 
 void IScene::CheckIsInView()
 {
-	GET_OR_RETURN(engine, GameManager::Get());
-	GET_OR_RETURN(camera, engine->GetCamera());
+	DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+	DECL_GET_OR_RETURN(camera, gameMgr->GetCamera());
 
 	for (auto& [_, enemy] : m_enemies)
 	{

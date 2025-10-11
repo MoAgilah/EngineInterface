@@ -14,7 +14,7 @@ public:
 		if (m_menuPages.empty())
 			return;
 
-		GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+		DECL_GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
 
 		currPage->Update(deltaTime);
 	}
@@ -24,12 +24,12 @@ public:
 		if (m_menuPages.empty())
 			return;
 
-		GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+		DECL_GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
 
 		currPage->Render(renderer);
 	}
 
-	int GetCurrentMenuNumber() { return m_currentMenuNum; }
+	int GetCurrentMenuNumber() const { return m_currentMenuNum; }
 
 	void SetCurrentMenuNumber(int menuNo)
 	{

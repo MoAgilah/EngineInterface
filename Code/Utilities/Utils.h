@@ -38,7 +38,8 @@
         }                                                                             \
     } while (0)
 
-#define GET_OR_RETURN(var, expr)                                                      \
+// First use: declares `var` with the deduced type
+#define DECL_GET_OR_RETURN(var, expr)                                                 \
     auto var = (expr);                                                                \
     if (!(var)) {                                                                     \
         const auto __msg = std::format("Null pointer: '{}' returned null", #expr);    \
@@ -47,13 +48,47 @@
         return;                                                                       \
     }
 
+// Subsequent uses: assign into an existing `var`
+#define GET_OR_RETURN(var, expr)                                                      \
+    do {                                                                              \
+        (var) = (expr);                                                               \
+        if (!(var)) {                                                                 \
+            const auto __msg = std::format("Null pointer: '{}' returned null", #expr);\
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_error(__msg, __func__, __FILE__, __LINE__);                    \
+            return;                                                                   \
+        }                                                                             \
+    } while (0)
+
+// First use: declares `var` with the deduced type
+#define DECL_GET_ENSURE_VALID_RET(var, expr, retVal)                                       \
+    auto var = (expr);                                                                \
+    if (!(var)) {                                                                     \
+        const auto __msg = std::format("Null pointer: '{}' returned null", #expr);    \
+        ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__));  \
+        ::err::log_error(__msg, __func__, __FILE__, __LINE__);                        \
+        return (retVal);                                                              \
+    }
+
+// Subsequent uses: assign into an existing `var`
+#define GET_ENSURE_VALID_RET(var, expr, retVal)                                       \
+    do {                                                                              \
+        (var) = (expr);                                                               \
+        if (!(var)) {                                                                 \
+            const auto __msg = std::format("Null pointer: '{}' returned null", #expr);\
+            ::err::set_last_error(std::format("{} ({}:{})", __msg, __FILE__, __LINE__)); \
+            ::err::log_error(__msg, __func__, __FILE__, __LINE__);                    \
+            return (retVal);                                                          \
+        }                                                                             \
+    } while (0)
+
 // GET_OR_CONTINUE: declare var from expr; if null -> warn + continue
 #define GET_OR_CONTINUE(var, expr)                                                    \
         auto var = (expr);                                                            \
         if (!(var)) {                                                                 \
             const auto __msg = std::format("Null pointer: '{}' returned null -> continuing loop", #expr); \
             ::err::log_warn(__msg, __func__, __FILE__, __LINE__);                     \
-            return;                                                                 \
+            continue;                                                                 \
         }                                                                             \
 
 // Optional: switch-friendly

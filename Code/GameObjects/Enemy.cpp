@@ -35,8 +35,8 @@ void Enemy::Update(float deltaTime)
             m_resetTimer.Update(deltaTime);
             if (m_resetTimer.CheckEnd())
             {
-                GET_OR_RETURN(gameMgr, GameManager::Get());
-                GET_OR_RETURN(camera, gameMgr->GetCamera());
+                DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+                DECL_GET_OR_RETURN(camera, gameMgr->GetCamera());
                 if (camera->CheckVerticalBounds(GetVolume()))
                     Reset();
             }

@@ -47,10 +47,10 @@ int IFrameWork::Run()
 
 void IFrameWork::PollEvents()
 {
-    GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
+    DECL_GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
     renderer->PollWindowEvents();
 
-    GET_OR_RETURN(window, renderer->GetWindow());
+    DECL_GET_OR_RETURN(window, renderer->GetWindow());
     if (window->ShouldClose())
         m_isRunning = false;
 }
@@ -62,8 +62,8 @@ void IFrameWork::Update(float dt)
 
 void IFrameWork::Render()
 {
-    GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
-    GET_OR_RETURN(camera, m_gameMgr.GetCamera());
+    DECL_GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
+    DECL_GET_OR_RETURN(camera, m_gameMgr.GetCamera());
 
     camera->Reset(renderer);
 

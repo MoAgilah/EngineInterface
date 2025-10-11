@@ -10,8 +10,8 @@ MenuNav::MenuNav(KeyCode ascKey, KeyCode desKey)
 
 void MenuNav::HandleNavigation()
 {
-	GET_OR_RETURN(gameMgr, GameManager::Get());
-	GET_OR_RETURN(inputMgr, gameMgr->GetInputManager())
+	DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+	DECL_GET_OR_RETURN(inputMgr, gameMgr->GetInputManager())
 
 	if (inputMgr)
 	{
