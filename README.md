@@ -34,7 +34,6 @@ EngineInterface/
 > - Drawable/resource abstractions (`ITexture`, `ISprite`, `IFont`, `IText`)
 > - `IInput` (keyboard/mouse/gamepad), `IAudio` (optional)
 > - `ITime/Clock`, `IResourceProvider`
-> - A small factory (`IEngineFactory`) that wires up a concrete backend
 
 ---
 
