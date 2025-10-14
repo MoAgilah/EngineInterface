@@ -17,7 +17,7 @@ Decouple your game/application logic from any specific multimedia library. Write
 - 🧰 **Gradual adoption**: start with one backend, keep the same game code  
 - 📦 **Simple integration**: add as a Git submodule and include the headers  
 
-> A reference backend using **SFML** lives in a separate repo: _SFMLEngine_.
+> A reference backend using **[SFML](https://www.sfml-dev.org/)** lives in a separate repo: [**SFMLEngine**](https://github.com/MoAgilah/SFMLEngine).
 
 ---
 
