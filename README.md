@@ -12,7 +12,6 @@ Decouple your game/application logic from any specific multimedia library. Write
 
 ## Features (current & planned)
 
-- 🧩 **Pure virtual interfaces** for windowing, rendering, input, timing, and resources  
 - 🔌 **Backend-agnostic**: implement once per backend (e.g., SFML)  
 - 🧪 **Testability**: provide mock implementations for unit tests  
 - 🧰 **Gradual adoption**: start with one backend, keep the same game code  
