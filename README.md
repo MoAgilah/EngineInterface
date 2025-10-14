@@ -23,13 +23,13 @@ Decouple your game/application logic from any specific multimedia library. Write
 ---
 
 ## Repository layout
-'''
+```
 EngineInterface/
 ├─ Code/ # Header-only or headers+minimal sources for the interfaces
 ├─ Resources/ # Any shared assets/helpers for samples or tests
 ├─ EngineInterface.sln # VS solution (if you use MSBuild)
 └─ README.md
-'''
+```
 
 > The exact headers may evolve, but the design aims to model:
 > - `IWindow`, `IRenderer` / `IGraphicsContext`
