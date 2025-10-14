@@ -41,9 +41,10 @@ EngineInterface/
 
 ### 1) Add as a submodule
 
-```bash
+```
 git submodule add https://github.com/MoAgilah/EngineInterface external/EngineInterface
 git commit -m "Add EngineInterface submodule"
+```
 
 ## 👤 Author
 **Mohamed Agilah**  
