@@ -1,12 +1,12 @@
 # EngineInterface
 
-> A lightweight, reusable C++ interface layer for game/visual apps that lets you plug in different graphics/audio/input backends (e.g., SFML, SDL, etc.) without changing game code.
+> A lightweight, reusable C++ interface layer for game/visual apps that lets you plug in different graphics/audio/input backends (e.g., SFML, DirectX, etc.) without changing game code.
 
 ---
 
 ## Why?
 
-Decouple your game/application logic from any specific multimedia library. Write to a stable set of C++ interfaces once; swap the backend later (PC → mobile, SFML → SDL/Vulkan, mock → headless tests) with minimal churn.
+Decouple your game/application logic from any specific multimedia library. Write to a stable set of C++ interfaces once; swap the backend later (SFML → DirectX, mock → headless tests) with minimal churn.
 
 ---
 
