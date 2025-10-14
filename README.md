@@ -23,4 +23,28 @@ Decouple your game/application logic from any specific multimedia library. Write
 ---
 
 ## Repository layout
+'''
+EngineInterface/
+├─ Code/ # Header-only or headers+minimal sources for the interfaces
+├─ Resources/ # Any shared assets/helpers for samples or tests
+├─ EngineInterface.sln # VS solution (if you use MSBuild)
+└─ README.md
+'''
+
+> The exact headers may evolve, but the design aims to model:
+> - `IWindow`, `IRenderer` / `IGraphicsContext`
+> - Drawable/resource abstractions (`ITexture`, `ISprite`, `IFont`, `IText`)
+> - `IInput` (keyboard/mouse/gamepad), `IAudio` (optional)
+> - `ITime/Clock`, `IResourceProvider`
+> - A small factory (`IEngineFactory`) that wires up a concrete backend
+
+---
+
+## Getting started
+
+### 1) Add as a submodule
+
+```bash
+git submodule add https://github.com/MoAgilah/EngineInterface external/EngineInterface
+git commit -m "Add EngineInterface submodule"
 
