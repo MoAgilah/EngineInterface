@@ -19,7 +19,11 @@ std::string GameConstants::TextureFilePaths = "../SFMLEngine/EngineInterface/Res
 void GameConstants::Init()
 {
 	// Touch the values so linker pulls this file in early
-	(void)DRender;
+#if defined(_DEBUG) || defined(DEBUG)
+	DRender = true;
+#else
+	DRender = false;
+#endif
 	(void)GameIsReady;
 	(void)FPS;
 	(void)WindowColour;
