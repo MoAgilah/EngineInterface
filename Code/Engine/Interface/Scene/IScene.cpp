@@ -5,6 +5,16 @@
 #include "../../Core/GameManager.h"
 #include "../../../Utilities/Utils.h"
 
+bool IScene::Initialise()
+{
+	THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
+	THROW_IF_FALSE_MSG(AddGUI(), "AddGUI initialization failed");
+	THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");
+	THROW_IF_FALSE_MSG(AddForeGroundObjects(), "AddForeGroundObjects initialization failed");
+
+	return true;
+}
+
 void IScene::Update(float deltaTime)
 {
 	UpdateGUI(deltaTime);
@@ -116,16 +126,36 @@ Enemy* IScene::GetEnemyByName(const std::string& name)
 	return nullptr;
 }
 
+ISprite* IScene::GetGUISpriteByName(const std::string& name)
+{
+	auto it = m_sprites.find(name);
+
+	if (it != m_sprites.end())
+		return it->second.get();
+
+	return nullptr;
+}
+
+IText* IScene::GetGUITextByName(const std::string& name)
+{
+	auto it = m_texts.find(name);
+
+	if (it != m_texts.end())
+		return it->second.get();
+
+	return nullptr;
+}
+
 void IScene::RenderGUI(IRenderer* renderer)
 {
-	for (auto spr : m_sprites)
+	for (auto& [_, spr] : m_sprites)
 	{
 		CONTINUE_IF_INVALID(spr);
 
 		spr->Render(renderer);
 	}
 
-	for (auto text : m_texts)
+	for (auto& [_, text] : m_texts)
 	{
 		CONTINUE_IF_INVALID(text);
 
