@@ -27,7 +27,7 @@ public:
 		{
 			CONTINUE_IF_INVALID(tile);
 
-			if (tile->GetActive())
+			if (!tile->GetActive())
 				continue;
 
 			tile->Render(renderer);
@@ -74,21 +74,39 @@ protected:
 
 	void ArrangeTilePositions()
 	{
-		const auto tileSize = m_grid.front()->GetBoundingBox()->GetExtents();
-		Vector2f pos = tileSize;
+		int x = 0;
+		int begin = x;
 
-		for (int y = 0; y < m_rows; ++y)
+		Vector2f pos(m_grid.front()->GetBoundingBox()->GetExtents());
+		m_grid[x]->SetPosition(pos);
+
+		for (x = x + 1; x < 313; x++)
 		{
-			for (int x = 0; x < m_columns; ++x)
+			pos = Vector2f(pos.x + (m_grid.front()->GetBoundingBox()->GetExtents().x * 2), pos.y);
+			m_grid[x]->SetPosition(pos);
+		}
+
+		//remaining rows
+		for (int i = 0; i < 14; i++)
+		{
+			pos = Vector2f(m_grid[begin]->GetPosition().x, m_grid[begin]->GetPosition().y + (m_grid.front()->GetBoundingBox()->GetExtents().y * 2));
+			m_grid[x]->SetPosition(pos);
+			begin = x;
+
+			int val = 2 + i;
+
+			for (x = x + 1; x < 313 * val; x++)
 			{
-				auto tx = tileSize.x + (x * tileSize.x * 2);
-				auto ty = tileSize.y + (y * tileSize.y * 2);
-
-				int idx = y * m_columns + x;
-
-				m_grid[idx]->SetPosition({tx, ty});
+				pos = Vector2f(pos.x + (m_grid.front()->GetBoundingBox()->GetExtents().x * 2), pos.y);
+				m_grid[x]->SetPosition(pos);
 			}
 		}
+
+		for (auto tile : m_grid)
+		{
+			tile->GetBoundingBox()->Update(tile->GetPosition());
+		}
+
 	}
 
 	int m_rows = 0;

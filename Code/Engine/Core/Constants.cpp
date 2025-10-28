@@ -7,6 +7,7 @@ float GameConstants::ObjectSpeed = 2.f;
 float GameConstants::Gravity = 9.81f;
 Colour GameConstants::WindowColour = Colour(0, 0, 255);
 Vector2f GameConstants::ScreenDim = Vector2f(600.f, 600.f);
+Vector2f GameConstants::ViewDim = GameConstants::ScreenDim;
 Vector2f GameConstants::Scale = Vector2f(1.f, 1.f);
 std::string GameConstants::WindowTitle = "SFML Game Engine";
 std::string GameConstants::TileFilePaths = "../Resources/TileTypes.txt";

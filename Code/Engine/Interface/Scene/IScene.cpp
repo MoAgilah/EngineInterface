@@ -1,5 +1,6 @@
 #include "IScene.h"
 
+#include "../Collisions/ITile.h"
 #include "../Renderer/ICamera.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
@@ -65,6 +66,16 @@ void IScene::Render(IRenderer* renderer)
 		object->Render(renderer);
 	}
 
+	if (GameConstants::DRender)
+	{
+		DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
+		DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+
+		colMgr->Render(renderer);
+
+		//gameMgr->GetCamera()->RenderDebug(renderer);
+	}
+
 	RenderGUI(renderer);
 }
 
@@ -103,6 +114,14 @@ void IScene::CheckIsInView()
 	{
 		CONTINUE_IF_INVALID(object);
 		object->SetActive(camera->IsInView(object->GetVolume()));
+	}
+
+	DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+
+	for (auto tile : colMgr->GetGrid())
+	{
+		CONTINUE_IF_INVALID(tile);
+		tile->SetActive(camera->IsInView(tile->GetBoundingBox()));
 	}
 }
 
