@@ -66,15 +66,15 @@ void IScene::Render(IRenderer* renderer)
 		object->Render(renderer);
 	}
 
-	if (GameConstants::DRender)
+	/*if (GameConstants::DRender)
 	{
 		DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
 		DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
 
 		colMgr->Render(renderer);
 
-		//gameMgr->GetCamera()->RenderDebug(renderer);
-	}
+		gameMgr->GetCamera()->RenderDebug(renderer);
+	}*/
 
 	RenderGUI(renderer);
 }

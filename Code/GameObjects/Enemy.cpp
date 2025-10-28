@@ -79,6 +79,10 @@ void Enemy::Reset()
 void Enemy::SetDirection(bool dir)
 {
     IGameObject::SetDirection(dir);
+
+    if (auto spr = dynamic_cast<ISprite*>(m_drawable.get()))
+        spr->SetDirection(dir);
+
     if (dir)
     {
         SetXVelocity(GetSpeedX());

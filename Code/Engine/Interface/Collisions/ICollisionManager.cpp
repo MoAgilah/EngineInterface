@@ -1,15 +1,17 @@
 #include "ICollisionManager.h"
 
+#include "IBoundingVolume.h"
 #include "IGrid.h"
 #include "ITile.h"
 #include "../Scene/IGameObject.h"
 #include "../Renderer/IRenderable.h"
 #include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Vector.h"
 #include <algorithm>
 #include <ranges>
 #include <utility>
 
-std::vector<std::string> ICollisionManager::s_canCollideWithTile = {};
+std::vector<std::type_index> ICollisionManager::s_canCollideWithTile = {};
 
 ICollisionManager::ICollisionManager(std::shared_ptr<IGrid> grid)
 	: m_grid(std::move(grid))
@@ -28,7 +30,7 @@ void ICollisionManager::ProcessCollisions(IGameObject* obj)
 {
 	ENSURE_VALID(obj);
 
-	if (CanCollideWithTile(obj->GetID()))
+	if (CanCollideWithTile(obj->GetTypeIndex()))
 	{
 		if (auto* dynObj = dynamic_cast<IDynamicGameObject*>(obj))
 			DynamicObjectToTileCollisions(dynObj);
@@ -105,9 +107,27 @@ std::vector<IGameObject*> ICollisionManager::GetCollidables()
 	return m_collidables;
 }
 
-bool ICollisionManager::CanCollideWithTile(const std::string& texID)
+Direction ICollisionManager::GetCollisionDirection(const Vector2f& sep, const Vector2f& v1, const Vector2f& v2)
 {
-	return std::find(s_canCollideWithTile.begin(), s_canCollideWithTile.end(), texID) != s_canCollideWithTile.end();
+	constexpr float EPS = 1e-5f;
+	const float ax = std::fabs(sep.x), ay = std::fabs(sep.y);
+
+	if (ax > ay + EPS)  return (sep.x > 0.0f) ? Direction::RDIR : Direction::LDIR;
+	if (ay > ax + EPS)  return (sep.y > 0.0f) ? Direction::UDIR : Direction::DDIR;
+
+	// tie / tiny MTV: use relative velocity
+	const float rx = v1.x - v2.x, ry = v1.y - v2.y;
+	if (std::fabs(rx) >= std::fabs(ry))
+		return (rx > 0.0f) ? Direction::RDIR : Direction::LDIR;
+	else
+		return (ry > 0.0f) ? Direction::UDIR : Direction::DDIR;
+}
+
+bool ICollisionManager::CanCollideWithTile(std::type_index typeIndex)
+{
+	return std::find(s_canCollideWithTile.begin(),
+		s_canCollideWithTile.end(),
+		typeIndex) != s_canCollideWithTile.end();
 }
 
 void ICollisionManager::SortCollidedTiles(std::vector<ITile*> collidedWith)
@@ -210,4 +230,30 @@ void ICollisionManager::DynamicObjectToObjectResolution(IDynamicGameObject* obj1
 void ICollisionManager::DynamicObjectToDynamicObjectResolution(IDynamicGameObject* obj1, IDynamicGameObject* obj2, float time)
 {
 	// Custom logic placeholder
+}
+
+Direction ICollisionManager::GetFacingDirection(IDynamicGameObject* obj)
+{
+	const Vector2f& currentVel = obj->GetVelocity();
+
+	Direction currentDir = Direction::DDIR;
+
+	if (currentVel.x != 0.f || currentVel.y != 0.f)
+	{
+		float vxa = std::abs(currentVel.x);
+		float vya = std::abs(currentVel.y);
+
+		if (vxa > vya)
+		{
+			currentDir = (currentVel.x < 0) ?
+				Direction::LDIR : Direction::RDIR;
+		}
+		else
+		{
+			currentDir = (currentVel.y < 0) ?
+				Direction::UDIR : Direction::DDIR;
+		}
+	}
+
+	return currentDir;
 }

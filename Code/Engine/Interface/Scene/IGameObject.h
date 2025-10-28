@@ -2,6 +2,7 @@
 
 #include "../Collisions/IBoundingVolume.h"
 #include "../Drawables/IDrawable.h"
+#include <typeindex>
 
 struct SpawnData
 {
@@ -24,7 +25,7 @@ class IGameObject
 public:
 	virtual ~IGameObject() = default;
 
-	std::string GetID() { return m_typeID; }
+	std::type_index GetTypeIndex() { return m_dynType; }
 	int GetObjectNum() const { return m_objectID; }
 	virtual bool IsDynamicObject() { return false; }
 
@@ -54,6 +55,7 @@ protected:
 	std::string m_typeID;
 	bool m_active = false;
 	bool m_direction = true;
+	std::type_index m_dynType = typeid(*this);
 };
 
 class IDynamicGameObject : public virtual IGameObject, public IMoveableWithVelocity
