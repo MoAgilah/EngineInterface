@@ -172,6 +172,11 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 				tile->ResolveCollision(obj, tFirst, tLast);
 		}
 	}
+	else
+	{
+		obj->SetOnGround(false);
+		obj->SetOnSlope(false);
+	}
 }
 
 void ICollisionManager::ObjectToObjectCollisions(IGameObject* obj1, IGameObject* obj2)

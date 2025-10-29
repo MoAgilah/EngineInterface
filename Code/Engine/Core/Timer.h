@@ -12,7 +12,7 @@ public:
 	void SetCurrTime(float time) { m_time = time; }
 
 	bool CheckEnd() const { return m_time <= 0.0f; }
-	void ForceEnd() { m_time = m_maxTime; }
+	void ForceEnd() { m_time = 0; }
 
 	void Pause() { m_stopped = true; }
 	void Resume() { m_stopped = false; }
