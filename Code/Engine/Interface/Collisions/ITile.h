@@ -56,6 +56,7 @@ public:
 
 	Linef GetEdge() const { return m_edge; }
 
+	float GetTileWidth();
 	float GetTileHeight();
 
 	virtual void SetFillColour(Colour col) = 0;
@@ -73,9 +74,9 @@ protected:
 
 	virtual void ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst, float tLast);
 
-	virtual bool ResolveObjectToSlopeTop(IDynamicGameObject* obj) = 0;
-	virtual bool ResolveObjectToSlopeIncline(IDynamicGameObject* obj, int start, int end) = 0;
-	virtual bool ResolveObjectToSlopeDecline(IDynamicGameObject* obj, int start, int end) = 0;
+	virtual bool ResolveObjectToSlopeTop(IDynamicGameObject* obj, float tFirst, float tLast) = 0;
+	virtual bool ResolveObjectToSlopeIncline(IDynamicGameObject* obj, int start, int end, float tFirst, float tLast) = 0;
+	virtual bool ResolveObjectToSlopeDecline(IDynamicGameObject* obj, int start, int end, float tFirst, float tLast) = 0;
 	virtual void ResolveObjectToEdgeBounds(IDynamicGameObject* obj) = 0;
 
 	int m_colNum = -1;

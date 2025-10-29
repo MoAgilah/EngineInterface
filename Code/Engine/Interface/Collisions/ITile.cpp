@@ -54,10 +54,16 @@ Linef ITile::GetSlope(int bgn, int end)
 	return m_slope->GetLine(bgn, end);
 }
 
+float ITile::GetTileWidth()
+{
+	ENSURE_VALID_RET(m_aabb, float());
+	return m_aabb->GetExtents().x;
+}
+
 float ITile::GetTileHeight()
 {
 	ENSURE_VALID_RET(m_aabb, float());
-	return m_aabb->GetExtents().y * 2;
+	return m_aabb->GetExtents().y;
 }
 
 Vector2f ITile::GetSeperationVector(IDynamicGameObject* obj)
