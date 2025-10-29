@@ -87,6 +87,7 @@
     <ClCompile Include="Code\Engine\Core\Timer.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManager.cpp" />
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp" />
+    <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp" />
     <ClCompile Include="Code\Engine\Interface\Core\IFramework.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IGameObject.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IScene.cpp" />

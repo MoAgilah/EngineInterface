@@ -151,7 +151,10 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 		if (!tile->GetActive())
 			continue;
 
-		if (tile->GetBoundingBox()->Intersects(obj->GetVolume()))
+		float tFirst;
+		float tLast;
+
+		if (tile->Intersects(obj, tFirst, tLast))
 			collidedWith.push_back(tile);
 	}
 
@@ -162,8 +165,11 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 
 		for (const auto& tile : collidedWith)
 		{
-			if (tile->Intersects(obj))
-				tile->ResolveCollision(obj);
+			float tFirst;
+			float tLast;
+
+			if (tile->Intersects(obj, tFirst, tLast))
+				tile->ResolveCollision(obj, tFirst, tLast);
 		}
 	}
 }

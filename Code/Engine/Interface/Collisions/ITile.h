@@ -6,6 +6,7 @@
 #include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
 #include "../../../Utilities/Utils.h"
+#include <algorithm>
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,26 +21,14 @@ class ITile
 {
 public:
 	ITile() = default;
-	ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
-		: m_text(std::move(text)), m_slope(std::move(slope)), m_aabb(std::move(aabb))
-	{
-		m_colNum = x;
-		m_rowNum = y;
-
-		m_id = std::format("{},{}", m_colNum, m_rowNum);
-
-		ENSURE_VALID(m_aabb);
-	}
-	virtual ~ITile() {};
+	ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope);
+	virtual ~ITile() = default;
 
 	virtual void Render(IRenderer* renderer) = 0;
 
-	bool Intersects(IDynamicGameObject* obj)
-	{
-		ENSURE_VALID_RET(m_aabb, false);
-		return m_aabb->Intersects(obj->GetVolume());
-	}
-	virtual void ResolveCollision(IDynamicGameObject* obj) = 0;
+	bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast);
+
+	virtual void ResolveCollision(IDynamicGameObject* obj, float tFirst, float tLast) = 0;
 
 	std::string_view GetID() const { return m_id; }
 
@@ -53,63 +42,37 @@ public:
 	void SetActive(bool vis) { m_visible = vis; }
 
 	virtual void SetPosition(const Vector2f& pos) = 0;
-	Vector2f GetPosition()
-	{
-		ENSURE_VALID_RET(m_aabb, Vector2f());
-		return m_aabb->GetPosition();
-	}
+	Vector2f GetPosition();
 
-	void SetOrigin(const Vector2f& origin)
-	{
-		if (m_aabb)
-			m_aabb->SetOrigin(origin);
-	}
+	void SetOrigin(const Vector2f& origin);
 
-	Vector2f GetOrigin()
-	{
-		ENSURE_VALID_RET(m_aabb, Vector2f());
-		return m_aabb->GetOrigin();
-	}
+	Vector2f GetOrigin();
 
-	IBoundingBox* GetBoundingBox()
-	{
-		ENSURE_VALID_RET(m_aabb, nullptr);
-		return m_aabb.get();
-	}
+	IBoundingBox* GetBoundingBox();
 
-	virtual void SetSlope(std::shared_ptr<ITriangleShape> slope)
-	{
-		ENSURE_VALID(slope);
-		m_slope = std::move(slope);
-	}
+	virtual void SetSlope(std::shared_ptr<ITriangleShape> slope);
 
-	virtual Linef GetSlope(int bgn, int end)
-	{
-		ENSURE_VALID_RET(m_slope, Linef());
-		return m_slope->GetLine(bgn, end);
-	}
+	virtual Linef GetSlope(int bgn, int end);
 
 	Linef GetEdge() const { return m_edge; }
 
-	float GetTileHeight()
-	{
-		ENSURE_VALID_RET(m_aabb, float());
-		return m_aabb->GetExtents().y * 2;
-	}
+	float GetTileHeight();
+
 	virtual void SetFillColour(Colour col) = 0;
 	virtual void SetOutlineColour(Colour col) = 0;
 
 protected:
 
-	Vector2f GetSeperationVector(IDynamicGameObject* obj)
-	{
-		ENSURE_VALID_RET(m_aabb, Vector2f());
-		return m_aabb->GetSeparationVector(obj->GetVolume());
-	}
+	Vector2f GetSeperationVector(IDynamicGameObject* obj);
 
-	virtual void ResolveObjectToBoxTop(IDynamicGameObject* obj) = 0;
-	virtual void ResolveObjectToBoxBottom(IDynamicGameObject* obj) = 0;
-	virtual void ResolveObjectToBoxHorizontally(IDynamicGameObject* obj) = 0;
+	void ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, float time);
+
+	virtual void ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float tLast);
+
+	virtual void ResolveObjectToBoxBottom(IDynamicGameObject* obj, float tFirst, float tLast);
+
+	virtual void ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst, float tLast);
+
 	virtual bool ResolveObjectToSlopeTop(IDynamicGameObject* obj) = 0;
 	virtual bool ResolveObjectToSlopeIncline(IDynamicGameObject* obj, int start, int end) = 0;
 	virtual bool ResolveObjectToSlopeDecline(IDynamicGameObject* obj, int start, int end) = 0;

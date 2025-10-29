@@ -9,6 +9,19 @@ enum class VolumeType { None, Box, Circle, Capsule };
 enum class Side { Left, Right, Top, Bottom };
 enum class Direction { LDIR, RDIR, UDIR, DDIR };
 
+namespace {
+    static Side OppositeSide(Side s)
+    {
+        switch (s) {
+        case Side::Top:    return Side::Bottom;
+        case Side::Bottom: return Side::Top;
+        case Side::Left:   return Side::Right;
+        case Side::Right:  return Side::Left;
+        }
+        return Side::Top; // fallback
+    }
+}
+
 // Forward declarations
 class IBoundingVolume;
 class IBoundingBox;

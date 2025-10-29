@@ -99,10 +99,7 @@ struct Line
 
 	bool IsPointAboveLine(const Vector<T>& p) const
 	{
-		// 2D cross product sign
-		auto s = (end.x - start.x) * (p.y - start.y)
-			- (end.y - start.y) * (p.x - start.x);
-		return s > static_cast<T>(0);
+		return p.y <= start.y + -1e-4f;
 	}
 
 	bool IntersectsPoint(const Vector<T>& p) const

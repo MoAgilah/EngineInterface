@@ -8,9 +8,9 @@
 
 bool IScene::Initialise()
 {
-	THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
+	/*THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
 	THROW_IF_FALSE_MSG(AddGUI(), "AddGUI initialization failed");
-	THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");
+	THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");*/
 	THROW_IF_FALSE_MSG(AddForeGroundObjects(), "AddForeGroundObjects initialization failed");
 
 	return true;
