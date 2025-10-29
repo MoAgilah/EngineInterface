@@ -8,9 +8,9 @@
 
 bool IScene::Initialise()
 {
-	/*THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
+	//THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
 	THROW_IF_FALSE_MSG(AddGUI(), "AddGUI initialization failed");
-	THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");*/
+	//THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");
 	THROW_IF_FALSE_MSG(AddForeGroundObjects(), "AddForeGroundObjects initialization failed");
 
 	return true;
@@ -46,7 +46,7 @@ void IScene::Render(IRenderer* renderer)
 	ENSURE_VALID(m_backgroundSpr);
 	m_backgroundSpr->Render(renderer);
 
-	for (const auto& [_, enemy] : m_enemies)
+	/*for (const auto& [_, enemy] : m_enemies)
 	{
 		CONTINUE_IF_INVALID(enemy);
 
@@ -64,7 +64,7 @@ void IScene::Render(IRenderer* renderer)
 			continue;
 
 		object->Render(renderer);
-	}
+	}*/
 
 	/*if (GameConstants::DRender)
 	{
