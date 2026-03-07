@@ -12,7 +12,7 @@ class IRenderer
 public:
 	virtual ~IRenderer() = default;
 
-	virtual void Initialise(const Vector2f& screenDims, const std::string& title) = 0;
+	virtual bool Initialise(const Vector2f& screenDims, const std::string& title) = 0;
 	virtual void PollWindowEvents() = 0;
 	virtual void Clear() = 0;
 	virtual void Draw(IRenderable* object) =  0;
