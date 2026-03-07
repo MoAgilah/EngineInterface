@@ -20,6 +20,19 @@ namespace
 		t1 = (-b + sqrtDiscriminant) / (2.0f * a);
 		return true;
 	}
+
+	// Add these outside the class (e.g., near the top of Line.h after includes)
+	template <typename T>
+	constexpr T GetXDist(const Vector<T>& a, const Vector<T>& b) noexcept
+	{
+		return b.x - a.x;
+	}
+
+	template <typename T>
+	constexpr T GetYDist(const Vector<T>& a, const Vector<T>& b) noexcept
+	{
+		return b.y - a.y;
+	}
 }
 
 template<typename T>
@@ -43,9 +56,12 @@ struct Line
 		-> std::conditional_t<std::is_floating_point_v<T>, T, double>
 	{
 		using R = std::conditional_t<std::is_floating_point_v<T>, T, double>;
-		return static_cast<R>(std::atan2(static_cast<R>(DistY()),
-			static_cast<R>(DistX()))
-			* (180.0 / std::numbers::pi_v<R>));
+		return static_cast<R>(
+			std::atan2(
+				static_cast<R>(GetYDist(start, end)),
+				static_cast<R>(GetXDist(start, end))
+			) * (180.0 / std::numbers::pi_v<R>)
+			);
 	}
 
 	T SqDistPointSegment(const Vector2f& p) const
@@ -83,10 +99,7 @@ struct Line
 
 	bool IsPointAboveLine(const Vector<T>& p) const
 	{
-		// 2D cross product sign
-		auto s = (end.x - start.x) * (p.y - start.y)
-			- (end.y - start.y) * (p.x - start.x);
-		return s > static_cast<T>(0);
+		return p.y <= start.y + -1e-4f;
 	}
 
 	bool IntersectsPoint(const Vector<T>& p) const

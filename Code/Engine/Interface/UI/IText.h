@@ -34,10 +34,6 @@ struct TextConfig
 	TextAlignment m_alignment;
 };
 
-Vector2f CalculateTextOrigin(const Vector2f& boundsSize, const Vector2f& boundsPos);
-
-Vector2f SetTextPosition(TextAlignment alignment, const Vector2f& textPos, const Vector2f& boundsSize, const Vector2f& boundsPos);
-
 class IText
 {
 public:

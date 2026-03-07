@@ -374,6 +374,9 @@
     <ClCompile Include="Code\Utilities\Utils.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp">
+      <Filter>Source Files\Engine\Interface\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\Arial.ttf">

@@ -18,6 +18,7 @@ public:
 	static float ObjectSpeed;
 	static Colour WindowColour;
 	static Vector2f ScreenDim;
+	static Vector2f ViewDim;
 	static Vector2f Scale;
 	static std::string WindowTitle;
 	static std::string TileFilePaths;

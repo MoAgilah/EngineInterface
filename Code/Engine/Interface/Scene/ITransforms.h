@@ -21,8 +21,13 @@ public:
 	virtual Vector2f GetOrigin() = 0;
 	virtual void SetOrigin(const Vector2f& pos) = 0;
 
-	virtual Vector2f GetSize() = 0;
-	virtual void SetSize(const Vector2f& size) = 0;
+	virtual Vector2f GetSize() { return GetLocalSize(); }
+	virtual void SetSize(const Vector2f& size) { SetLocalSize(size); }
+
+	virtual Vector2f GetGlobalSize() = 0;
+
+	virtual Vector2f GetLocalSize() = 0;
+	virtual void SetLocalSize(const Vector2f& size) = 0;
 
 protected:
 
