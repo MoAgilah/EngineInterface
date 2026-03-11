@@ -129,7 +129,7 @@ void IMenu::ProcessInput()
 		for (auto& cursor : m_cursors)
 		{
 			CONTINUE_IF_INVALID(cursor);
-			GET_OR_CONTINUE(menuNav, cursor->GetMenuNav());
+			DECL_GET_OR_CONTINUE(menuNav, cursor->GetMenuNav());
 			menuNav->HandleNavigation();
 		}
 	}
