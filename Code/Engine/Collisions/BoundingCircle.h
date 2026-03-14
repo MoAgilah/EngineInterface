@@ -94,7 +94,7 @@ public:
         return distance <= this->GetRadius();
     }
 
-    bool IntersectsMoving(const Linef& line, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) const
+    bool IntersectsMoving(const Line2f& line, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) const
     {
         Vector2f relativeVelocity = vb - va;
 
