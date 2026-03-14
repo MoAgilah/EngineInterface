@@ -5,6 +5,8 @@
 #include <format>
 #include <stdexcept>
 #include <utility>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 
 // =========================

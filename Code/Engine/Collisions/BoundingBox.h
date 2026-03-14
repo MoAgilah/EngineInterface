@@ -154,16 +154,16 @@ public:
         return Vector2f();
     }
 
-    Linef GetSide(Side side) override
+    Line2f GetSide(Side side) override
     {
         switch (side)
         {
-        case Side::Left:    return Linef(m_min, Vector2f(m_min.x, m_max.y));
-        case Side::Right:   return Linef(Vector2f(m_max.x, m_min.y), m_max);
-        case Side::Top:     return Linef(m_min, Vector2f(m_max.x, m_min.y));
-        case Side::Bottom:  return Linef(Vector2f(m_min.x, m_max.y), m_max);
+        case Side::Left:    return Line2f(m_min, Vector2f(m_min.x, m_max.y));
+        case Side::Right:   return Line2f(Vector2f(m_max.x, m_min.y), m_max);
+        case Side::Top:     return Line2f(m_min, Vector2f(m_max.x, m_min.y));
+        case Side::Bottom:  return Line2f(Vector2f(m_min.x, m_max.y), m_max);
         }
-        return Linef();
+        return Line2f();
     }
 
 protected:

@@ -38,7 +38,7 @@ public:
 		Update(pos);
 	}
 
-	BoundingCapsule(float radius, const Linef& segment)
+	BoundingCapsule(float radius, const Line2f& segment)
 		: IBoundingVolume(VolumeType::Capsule)
 		, IBoundingCapsule()
 		, BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
@@ -126,12 +126,12 @@ public:
 		return 0.f;
 	}
 
-	const Linef GetSegment() const override
+	const Line2f GetSegment() const override
 	{
 		if (this->m_shape)
 			return this->m_shape->GetSegment();
 
-		return Linef();
+		return Line2f();
 	}
 
 	bool Intersects(const Vector2f& pnt) const override
