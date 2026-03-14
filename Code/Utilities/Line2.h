@@ -21,7 +21,6 @@ namespace
 		return true;
 	}
 
-	// Add these outside the class (e.g., near the top of Line.h after includes)
 	template <typename T>
 	constexpr T GetXDist(const Vector2<T>& a, const Vector2<T>& b) noexcept
 	{
