@@ -2,7 +2,7 @@
 
 #include "../Drawables/IDrawable.h"
 #include "../../../Utilities/Line.h"
-#include "../../../Utilities/Vector.h"
+#include "../../../Utilities/Vector2.h"
 #include <memory>
 
 enum class VolumeType { None, Box, Circle, Capsule };

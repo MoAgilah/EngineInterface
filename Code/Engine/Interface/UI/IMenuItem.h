@@ -3,7 +3,7 @@
 #include "../Drawables/IShape.h"
 #include "../Drawables/ISprite.h"
 #include "../UI/IText.h"
-#include "../../../Utilities/Vector.h"
+#include "../../../Utilities/Vector2.h"
 #include "../../../Utilities/Utils.h"
 #include <memory>
 

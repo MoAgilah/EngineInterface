@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector.h"
+#include "Vector2.h"
 #include <algorithm>
 #include <cmath>
 #include <concepts>
@@ -23,13 +23,13 @@ namespace
 
 	// Add these outside the class (e.g., near the top of Line.h after includes)
 	template <typename T>
-	constexpr T GetXDist(const Vector<T>& a, const Vector<T>& b) noexcept
+	constexpr T GetXDist(const Vector2<T>& a, const Vector2<T>& b) noexcept
 	{
 		return b.x - a.x;
 	}
 
 	template <typename T>
-	constexpr T GetYDist(const Vector<T>& a, const Vector<T>& b) noexcept
+	constexpr T GetYDist(const Vector2<T>& a, const Vector2<T>& b) noexcept
 	{
 		return b.y - a.y;
 	}
@@ -39,16 +39,16 @@ template<typename T>
 struct Line
 {
 	Line() = default;
-	Line(const Vector<T>& start, const Vector<T>& end)
+	Line(const Vector2<T>& start, const Vector2<T>& end)
 		: start(start), end(end)
 	{}
 
-	Vector<T> GetMidPoint() const
+	Vector2<T> GetMidPoint() const
 	{
 		T x = (start.x + end.x) / 2.f;
 		T y = (start.y + end.y) / 2.f;
 
-		return Vector<T>(x, y);
+		return Vector2<T>(x, y);
 	}
 
 	// Return angle (degrees). If T is integral, use double to avoid truncation.
@@ -66,9 +66,9 @@ struct Line
 
 	T SqDistPointSegment(const Vector2f& p) const
 	{
-		Vector<T> es = end - start;
-		Vector<T> ps = p - start;
-		Vector<T> pe = p - end;
+		Vector2<T> es = end - start;
+		Vector2<T> ps = p - start;
+		Vector2<T> pe = p - end;
 
 		auto e = ps.Dot(es);
 		if (e <= static_cast<T>(0)) return ps.Dot(ps);
@@ -81,10 +81,10 @@ struct Line
 		return ps.Dot(ps) - (e * e) / f;
 	}
 
-	Vector<T> ClosestPointOnLineSegment(const Vector<T>& pnt) const
+	Vector2<T> ClosestPointOnLineSegment(const Vector2<T>& pnt) const
 	{
-		Vector<T> seg = end - start;
-		Vector<T> v = pnt - start;
+		Vector2<T> seg = end - start;
+		Vector2<T> v = pnt - start;
 
 		auto segLen2 = seg.LengthSquared();
 		if (segLen2 == static_cast<T>(0))
@@ -97,12 +97,12 @@ struct Line
 		return { start.x + t * seg.x, start.y + t * seg.y };
 	}
 
-	bool IsPointAboveLine(const Vector<T>& p) const
+	bool IsPointAboveLine(const Vector2<T>& p) const
 	{
 		return p.y <= start.y + -1e-4f;
 	}
 
-	bool IntersectsPoint(const Vector<T>& p) const
+	bool IntersectsPoint(const Vector2<T>& p) const
 	{
 		auto d1 = p.Distance(end);
 		auto d2 = p.Distance(start);
@@ -116,8 +116,8 @@ struct Line
 	T DistX() const { return end.x - start.x; }
 	T DistY() const { return end.y - start.y; }
 
-	Vector<T> start;
-	Vector<T> end;
+	Vector2<T> start;
+	Vector2<T> end;
 };
 
 using Linei = Line<int>;

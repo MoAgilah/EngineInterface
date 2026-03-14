@@ -2,7 +2,7 @@
 
 
 #include "../../Utilities/Colour.h"
-#include "../../Utilities/Vector.h"
+#include "../../Utilities/Vector2.h"
 #include <string>
 
 class GameConstants

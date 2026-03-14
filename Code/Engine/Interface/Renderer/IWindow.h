@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../Utilities/Vector.h"
+#include "../../../Utilities/Vector2.h"
 #include <string>
 
 // Non-templated base interface for type-erased window management

@@ -3,7 +3,7 @@
 #include "BoundingBox.h"
 #include "BoundingCircle.h"
 #include "BoundingCapsule.h"
-#include "../../Utilities/Vector.h"
+#include "../../Utilities/Vector2.h"
 #include "../../Utilities/Utils.h"
 #include <algorithm>
 #include <cmath>

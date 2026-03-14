@@ -10,18 +10,18 @@ namespace sf { template<typename T> class Vector2; }
 #endif
 
 template<typename T>
-class Vector
+class Vector2
 {
 public:
-	Vector()
+	Vector2()
 		: x{}, y{}
 	{}
 
-	Vector(T x, T y)
+	Vector2(T x, T y)
 		: x(x), y(y)
 	{}
 
-	~Vector() = default;
+	~Vector2() = default;
 
 	T& operator[] (std::size_t index)
 	{
@@ -44,25 +44,25 @@ public:
 	}
 
 	// --- compound assignment (ONE parameter each) ---
-	Vector& operator+=(const Vector& rhs) { x += rhs.x; y += rhs.y; return *this; }
-	Vector& operator-=(const Vector& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
+	Vector2& operator+=(const Vector2& rhs) { x += rhs.x; y += rhs.y; return *this; }
+	Vector2& operator-=(const Vector2& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
 
 	// scale by scalar
-	Vector& operator*=(const T& s) { x *= s;     y *= s;     return *this; }
-	Vector& operator/=(const T& s) { x /= s;     y /= s;     return *this; }
+	Vector2& operator*=(const T& s) { x *= s;     y *= s;     return *this; }
+	Vector2& operator/=(const T& s) { x /= s;     y /= s;     return *this; }
 
 	// element-wise by vector (only keep if you already had these)
-	Vector& operator*=(const Vector& rhs) { x *= rhs.x; y *= rhs.y; return *this; }
-	Vector& operator/=(const Vector& rhs) { x /= rhs.x; y /= rhs.y; return *this; }
+	Vector2& operator*=(const Vector2& rhs) { x *= rhs.x; y *= rhs.y; return *this; }
+	Vector2& operator/=(const Vector2& rhs) { x /= rhs.x; y /= rhs.y; return *this; }
 
 	// --- comparisons (must have return type and be const) ---
-	bool operator==(const Vector& rhs) const { return x == rhs.x && y == rhs.y; }
-	bool operator!=(const Vector& rhs) const { return !(*this == rhs); }
+	bool operator==(const Vector2& rhs) const { return x == rhs.x && y == rhs.y; }
+	bool operator!=(const Vector2& rhs) const { return !(*this == rhs); }
 
 #if USE_SFML
 
 	// Construct from sf::Vector2<T>
-	Vector(const sf::Vector2<T>& vec)
+	Vector2(const sf::Vector2<T>& vec)
 		: x(vec.x), y(vec.y)
 	{
 	}
@@ -75,7 +75,7 @@ public:
 
 #endif
 
-	Vector Clamp(const Vector& p1, const Vector& p2) const
+	Vector2 Clamp(const Vector2& p1, const Vector2& p2) const
 	{
 		return { std::max(p1.x, std::min(p2.x, x)), std::max(p1.y, std::min(p2.y, y)) };
 	}
@@ -85,12 +85,12 @@ public:
 		return x * x + y * y;
 	}
 
-	T Dot(const Vector& op) const
+	T Dot(const Vector2& op) const
 	{
 		return x * op.x + y * op.y;
 	}
 
-	T Distance(const Vector& op) const
+	T Distance(const Vector2& op) const
 	{
 		return std::sqrtf(std::powf((op.x - x), 2) + std::powf((op.y - y), 2));
 	}
@@ -100,13 +100,13 @@ public:
 		return std::sqrtf(Dot(*this));
 	}
 
-	Vector Normalize() const
+	Vector2 Normalize() const
 	{
 		auto len = Length();
-		return Vector(x / len, y / len);
+		return Vector2(x / len, y / len);
 	}
 
-	bool  IsBetween(const Vector& a, const Vector& b)
+	bool  IsBetween(const Vector2& a, const Vector2& b)
 	{
 		// p is between a and b if the dot product of (p - a) and (p - b) is non-positive.
 		return ((*this - a).Dot(*this - b)) <= 0.0f;
@@ -118,32 +118,32 @@ public:
 
 // vector + vector
 template <typename T>
-inline Vector<T> operator+(Vector<T> lhs, const Vector<T>& rhs) { lhs += rhs; return lhs; }
+inline Vector2<T> operator+(Vector2<T> lhs, const Vector2<T>& rhs) { lhs += rhs; return lhs; }
 
 // vector - vector
 template <typename T>
-inline Vector<T> operator-(Vector<T> lhs, const Vector<T>& rhs) { lhs -= rhs; return lhs; }
+inline Vector2<T> operator-(Vector2<T> lhs, const Vector2<T>& rhs) { lhs -= rhs; return lhs; }
 
 // vector * scalar
 template <typename T>
-inline Vector<T> operator*(Vector<T> lhs, const T& s) { lhs *= s; return lhs; }
+inline Vector2<T> operator*(Vector2<T> lhs, const T& s) { lhs *= s; return lhs; }
 
 // scalar * vector
 template <typename T>
-inline Vector<T> operator*(const T& s, Vector<T> rhs) { rhs *= s; return rhs; }
+inline Vector2<T> operator*(const T& s, Vector2<T> rhs) { rhs *= s; return rhs; }
 
 // vector / scalar
 template <typename T>
-inline Vector<T> operator/(Vector<T> lhs, const T& s) { lhs /= s; return lhs; }
+inline Vector2<T> operator/(Vector2<T> lhs, const T& s) { lhs /= s; return lhs; }
 
 // element-wise vector * vector  (only keep if you already had member *= (Vector))
 template <typename T>
-inline Vector<T> operator*(Vector<T> lhs, const Vector<T>& rhs) { lhs *= rhs; return lhs; }
+inline Vector2<T> operator*(Vector2<T> lhs, const Vector2<T>& rhs) { lhs *= rhs; return lhs; }
 
 // element-wise vector / vector  (only keep if you already had member /= (Vector))
 template <typename T>
-inline Vector<T> operator/(Vector<T> lhs, const Vector<T>& rhs) { lhs /= rhs; return lhs; }
+inline Vector2<T> operator/(Vector2<T> lhs, const Vector2<T>& rhs) { lhs /= rhs; return lhs; }
 
-using Vector2i = Vector<int>;
-using Vector2u = Vector<unsigned int>;
-using Vector2f = Vector<float>;
+using Vector2i = Vector2<int>;
+using Vector2u = Vector2<unsigned int>;
+using Vector2f = Vector2<float>;

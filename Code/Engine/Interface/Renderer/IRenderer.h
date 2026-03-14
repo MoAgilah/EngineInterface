@@ -2,7 +2,7 @@
 
 #include "IWindow.h"
 #include "../Resources/IShader.h"
-#include "../../../Utilities/Vector.h"
+#include "../../../Utilities/Vector2.h"
 #include <memory>
 
 class IRenderable;

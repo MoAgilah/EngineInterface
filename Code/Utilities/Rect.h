@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Defines.h"
-#include "Vector.h"
+#include "Vector2.h"
 
 #if USE_SFML
 // Forward declaration so we don't include SFML headers here
@@ -41,15 +41,15 @@ struct Rect
 
 #endif
 
-	Vector<T> Min() const { return m_min; }
-	Vector<T> Max() const { return m_max; }
-	Vector<T> MidPoint() const { return m_midPoint; }
+	Vector2<T> Min() const { return m_min; }
+	Vector2<T> Max() const { return m_max; }
+	Vector2<T> MidPoint() const { return m_midPoint; }
 
 private:
 
-	Vector<T> m_min;
-	Vector<T> m_max;
-	Vector<T> m_midPoint;
+	Vector2<T> m_min;
+	Vector2<T> m_max;
+	Vector2<T> m_midPoint;
 };
 
 using FloatRect = Rect<float>;
