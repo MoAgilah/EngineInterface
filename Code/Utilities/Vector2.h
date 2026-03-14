@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstddef>
 #include <stdexcept>
+#include <algorithm>
 
 #if USE_SFML
 namespace sf { template<typename T> class Vector2; }
@@ -48,8 +49,8 @@ public:
 	Vector2& operator-=(const Vector2& rhs) { x -= rhs.x; y -= rhs.y; return *this; }
 
 	// scale by scalar
-	Vector2& operator*=(const T& s) { x *= s;     y *= s;     return *this; }
-	Vector2& operator/=(const T& s) { x /= s;     y /= s;     return *this; }
+	Vector2& operator*=(const T& s) { x *= s; y *= s;     return *this; }
+	Vector2& operator/=(const T& s) { x /= s; y /= s;     return *this; }
 
 	// element-wise by vector (only keep if you already had these)
 	Vector2& operator*=(const Vector2& rhs) { x *= rhs.x; y *= rhs.y; return *this; }
@@ -77,7 +78,10 @@ public:
 
 	Vector2 Clamp(const Vector2& p1, const Vector2& p2) const
 	{
-		return { std::max(p1.x, std::min(p2.x, x)), std::max(p1.y, std::min(p2.y, y)) };
+		return {
+		std::clamp(x, p1.x, p2.x),
+		std::clamp(y, p1.y, p2.y),
+		};
 	}
 
 	T LengthSquared() const
@@ -92,7 +96,9 @@ public:
 
 	T Distance(const Vector2& op) const
 	{
-		return std::sqrtf(std::powf((op.x - x), 2) + std::powf((op.y - y), 2));
+		T dx = op.x - x;
+		T dy = op.y - y;
+		return std::sqrt(dx * dx + dy * dy);
 	}
 
 	T Length() const
