@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../Utilities/Colour.h"
-#include "../../../Utilities/Line.h"
+#include "../../../Utilities/Line2.h"
 #include "../../../Utilities/Vector2.h"
 #include <array>
 
@@ -72,15 +72,15 @@ public:
 	virtual float GetAngle() const { return m_angle; }
 	virtual void SetAngle(float angle) { m_angle = angle; }
 
-	virtual const Linef& GetSegment() const { return m_segment; }
-	virtual void SetSegment(const Linef& segment) { m_segment = segment; }
+	virtual const Line2f& GetSegment() const { return m_segment; }
+	virtual void SetSegment(const Line2f& segment) { m_segment = segment; }
 
 protected:
 
 	float m_angle = 0.f;
 	float m_radius = 0.f;
 	float m_length = 0.f;
-	Linef m_segment;
+	Line2f m_segment;
 };
 
 class ITriangleShape
@@ -91,7 +91,7 @@ public:
 	virtual void Render(IRenderer* renderer) = 0;
 
 	virtual Vector2f GetPoint(int idx) = 0;
-	virtual Linef GetLine(int start, int end) = 0;
+	virtual Line2f GetLine(int start, int end) = 0;
 
 	// Returns the three points of the triangle
 	virtual std::array<Vector2f, 3> GetPoints() const = 0;

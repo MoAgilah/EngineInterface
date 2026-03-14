@@ -36,10 +36,10 @@ namespace
 }
 
 template<typename T>
-struct Line
+struct Line2
 {
-	Line() = default;
-	Line(const Vector2<T>& start, const Vector2<T>& end)
+	Line2() = default;
+	Line2(const Vector2<T>& start, const Vector2<T>& end)
 		: start(start), end(end)
 	{}
 
@@ -120,6 +120,6 @@ struct Line
 	Vector2<T> end;
 };
 
-using Linei = Line<int>;
-using Lineu = Line<unsigned int>;
-using Linef = Line<float>;
+using Line2i = Line2<int>;
+using Line2u = Line2<unsigned int>;
+using Line2f = Line2<float>;

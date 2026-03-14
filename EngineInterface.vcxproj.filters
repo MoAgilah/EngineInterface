@@ -255,7 +255,7 @@
     <ClInclude Include="Code\Utilities\Traits.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Utilities\Line.h">
+    <ClInclude Include="Code\Utilities\Line2.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Code\Engine\Interface\UI\IMenu.h">

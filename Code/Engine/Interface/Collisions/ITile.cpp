@@ -48,9 +48,9 @@ void ITile::SetSlope(std::shared_ptr<ITriangleShape> slope)
 	m_slope = std::move(slope);
 }
 
-Linef ITile::GetSlope(int bgn, int end)
+Line2f ITile::GetSlope(int bgn, int end)
 {
-	ENSURE_VALID_RET(m_slope, Linef());
+	ENSURE_VALID_RET(m_slope, Line2f());
 	return m_slope->GetLine(bgn, end);
 }
 
@@ -101,7 +101,7 @@ void ITile::ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, fl
 
 	obj->Move(rewind.x, rewind.y);
 
-	const Line tileEdge = m_aabb->GetSide(tileSide);
+	const Line2f tileEdge = m_aabb->GetSide(tileSide);
 	const Vector2f objOppPt = obj->GetVolume()->GetPoint(OppositeSide(tileSide));
 
 	Vector2f snap(0.f, 0.f);

@@ -78,7 +78,7 @@
     <ClInclude Include="Code\Utilities\Vector2.h" />
     <ClInclude Include="Code\Utilities\ResourceLoader.h" />
     <ClInclude Include="Code\Utilities\Traits.h" />
-    <ClInclude Include="Code\Utilities\Line.h" />
+    <ClInclude Include="Code\Utilities\Line2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\Constants.cpp" />

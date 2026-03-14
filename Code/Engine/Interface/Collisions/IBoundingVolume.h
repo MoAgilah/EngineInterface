@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Drawables/IDrawable.h"
-#include "../../../Utilities/Line.h"
+#include "../../../Utilities/Line2.h"
 #include "../../../Utilities/Vector2.h"
 #include <memory>
 
@@ -155,7 +155,7 @@ public:
     virtual const Vector2f& GetMin() const { return m_min; }
     virtual const Vector2f& GetMax() const { return m_max; }
     virtual const Vector2f& GetExtents() const { return m_extents; }
-    virtual Linef GetSide(Side side) = 0;
+    virtual Line2f GetSide(Side side) = 0;
 
 protected:
 
@@ -171,7 +171,7 @@ public:
 
     virtual float GetRadius() const = 0;
 
-    virtual bool IntersectsMoving(const Linef& line,
+    virtual bool IntersectsMoving(const Line2f& line,
         const Vector2f& va,
         const Vector2f& vb,
         float& tfirst,
@@ -186,5 +186,5 @@ public:
     virtual float GetRadius() const = 0;
     virtual float GetLength() const = 0;
     virtual float GetAngle()  const = 0;
-    virtual const Linef GetSegment() const = 0;
+    virtual const Line2f GetSegment() const = 0;
 };

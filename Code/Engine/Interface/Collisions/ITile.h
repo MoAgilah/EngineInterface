@@ -52,9 +52,9 @@ public:
 
 	virtual void SetSlope(std::shared_ptr<ITriangleShape> slope);
 
-	virtual Linef GetSlope(int bgn, int end);
+	virtual Line2f GetSlope(int bgn, int end);
 
-	Linef GetEdge() const { return m_edge; }
+	Line2f GetEdge() const { return m_edge; }
 
 	float GetTileWidth();
 	float GetTileHeight();
@@ -85,7 +85,7 @@ protected:
 	bool m_hasFont = false;
 	Types m_type = Types::EMPTY;
 	std::string m_id;
-	Linef m_edge;
+	Line2f m_edge;
 	std::shared_ptr<IDrawable> m_text;
 	std::shared_ptr<ITriangleShape> m_slope;
 	std::shared_ptr<IBoundingBox> m_aabb;
