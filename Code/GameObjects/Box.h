@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "../Engine/Core/Timer.h"
+#include "../Engine/Core/CountdownTimer.h"
 
 class Box : public GameObject
 {

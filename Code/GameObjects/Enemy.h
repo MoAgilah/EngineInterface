@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
-#include "../Engine/Core/Timer.h"
+#include "../Engine/Core/CountdownTimer.h"
 
 class Player;
 
@@ -35,7 +35,7 @@ public:
 	bool GetInvulnerabe() const { return m_invulnerable; }
 	void SetInvulnerability(bool val) { m_invulnerable = val; }
 
-	Timer* GetAirTimer() { return &m_airTimer; }
+	CountdownTimer* GetAirTimer() { return &m_airTimer; }
 	void SetAirTime(float time);
 	void SetTimeLeftActive(float time);
 
@@ -56,7 +56,7 @@ private:
 	bool m_invulnerable = false;
 	bool m_resetAllowed = false;
 	Vector2f m_speed;
-	Timer m_airTimer;
-	Timer m_resetTimer;
-	Timer m_activationTimer;
+	CountdownTimer m_airTimer;
+	CountdownTimer m_resetTimer;
+	CountdownTimer m_activationTimer;
 };
