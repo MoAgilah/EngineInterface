@@ -14,6 +14,7 @@ public:
 	static bool DRender;
 	static bool GameIsReady;
 	static float FPS;
+	static float CountdownDuration;
 	static float Gravity;
 	static float ObjectSpeed;
 	static Colour WindowColour;

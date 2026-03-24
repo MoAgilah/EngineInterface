@@ -7,7 +7,7 @@
 GameManager* GameManager::m_instance = nullptr;
 
 GameManager::GameManager()
-	: m_gameTimer(300.f)
+	: m_gameTimer(GameConstants::CountdownDuration)
 {
 	m_instance = this;
 }
