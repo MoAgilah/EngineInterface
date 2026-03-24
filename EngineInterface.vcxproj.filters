@@ -303,6 +303,9 @@
     <ClInclude Include="Code\Utilities\Vector3.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\Core\Timer.h">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">
@@ -379,6 +382,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp">
       <Filter>Source Files\Engine\Interface\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Core\Timer.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
