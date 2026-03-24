@@ -28,6 +28,7 @@
     <ClInclude Include="Code\Engine\Core\GameManager.h" />
     <ClInclude Include="Code\Engine\Core\GameStateMgr.h" />
     <ClInclude Include="Code\Engine\Core\CountdownTimer.h" />
+    <ClInclude Include="Code\Engine\Core\Timer.h" />
     <ClInclude Include="Code\Engine\Input\InputManager.h" />
     <ClInclude Include="Code\Engine\Input\KeyCode.h" />
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h" />
@@ -86,6 +87,7 @@
     <ClCompile Include="Code\Engine\Core\GameManager.cpp" />
     <ClCompile Include="Code\Engine\Core\GameStateMgr.cpp" />
     <ClCompile Include="Code\Engine\Core\CountdownTimer.cpp" />
+    <ClCompile Include="Code\Engine\Core\Timer.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManager.cpp" />
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp" />
     <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp" />

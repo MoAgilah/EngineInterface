@@ -1,28 +1,26 @@
 #include "IFramework.h"
 
 #include "../../Core/Constants.h"
+#include "../../Core/GameManager.h"
 #include "../../../Utilities/Utils.h"
-#include <chrono>
 
 int IFrameWork::Run()
 {
-    using clock = std::chrono::steady_clock;
-    using duration = std::chrono::duration<float>;
-
     const float dt = 1.f / GameConstants::FPS;
     const int subSteps = 4;
     const float subStepDt = dt / static_cast<float>(subSteps);
 
     float accumulator = 0.0f;
-    auto previousTime = clock::now();
+
+    auto& timer = m_gameMgr.GetTimer();
+
+    timer.Reset();
 
     while (m_isRunning)
     {
         PollEvents();
 
-        auto currentTime = clock::now();
-        float frameTime = std::chrono::duration_cast<duration>(currentTime - previousTime).count();
-        previousTime = currentTime;
+        float frameTime = static_cast<float>(timer.Tick());
 
         if (frameTime > 0.25f)
             frameTime = 0.25f;
