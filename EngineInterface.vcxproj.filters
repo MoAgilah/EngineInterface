@@ -195,7 +195,7 @@
     <ClInclude Include="Code\Engine\Core\GameManager.h">
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Core\Timer.h">
+    <ClInclude Include="Code\Engine\Core\CountdownTimer.h">
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="Code\Engine\Collisions\BoundingBox.h">
@@ -323,7 +323,7 @@
     <ClCompile Include="Code\Engine\Core\GameManager.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Engine\Core\Timer.cpp">
+    <ClCompile Include="Code\Engine\Core\CountdownTimer.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="Code\Engine\Input\InputManager.cpp">

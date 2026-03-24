@@ -1,10 +1,10 @@
 #pragma once
 
-class Timer
+class CountdownTimer
 {
 public:
-	Timer(float maxTime);
-	~Timer() = default;
+	CountdownTimer(float maxTime);
+	~CountdownTimer() = default;
 
 	void Update(float deltaTime);
 

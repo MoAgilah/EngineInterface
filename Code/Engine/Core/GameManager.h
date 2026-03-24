@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GameStateMgr.h"
-#include "Timer.h"
+#include "CountDownTimer.h"
 #include "../Interface/Renderer/ICamera.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Renderer/IRenderer.h"
@@ -29,7 +29,7 @@ public:
 	void Render();
 
 	// Getters
-	[[nodiscard]] Timer& GetTimer() noexcept { return m_timer; }
+	[[nodiscard]] CountdownTimer& GetGameTimer() noexcept { return m_gameTimer; }
 	[[nodiscard]] ICamera* GetCamera() noexcept { return m_camera.get(); }
 	[[nodiscard]] InputManager* GetInputManager() noexcept { return m_inputManager.get(); }
 	[[nodiscard]] FontManager& GetFontMgr() noexcept { return m_fontManager; }
@@ -52,7 +52,7 @@ public:
 private:
 	static GameManager* m_instance;
 
-	Timer								m_timer;
+	CountdownTimer						m_gameTimer;
 	FontManager							m_fontManager;
 	ShaderManager						m_shaderManager;
 	SoundManager						m_soundManager;
