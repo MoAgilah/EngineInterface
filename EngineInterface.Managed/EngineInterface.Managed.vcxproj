@@ -83,7 +83,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\EngineInterface\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
@@ -114,10 +114,10 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\EngineInterface\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
+      <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\$(Configuration);</AdditionalLibraryDirectories>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
@@ -128,7 +128,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineInterface.Managed.cpp" />
+    <ClInclude Include="Code\Engine\Core\TimerWrapper.h" />
+    <ClInclude Include="Code\Interop\InteropSmokeTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\Engine\Core\TimerWrapper.cpp" />
+    <ClCompile Include="Code\Interop\InteropSmokeTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
