@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using EngineInterface.Managed.Interop;
 
-namespace EngineInterface.Tests.Interop
+namespace EngineInterface.Test.Interop
 {
     public class InteropSmokeTests
     {

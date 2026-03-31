@@ -2,20 +2,29 @@
 
 #include <Engine/Core/Timer.h>
 
-namespace EngineInterfaceManaged
+namespace EngineInterface
 {
-    public ref class TimerWrapper
+    namespace Managed
     {
-    private:
-        Timer* m_timer;
+        namespace Engine
+        {
+            namespace Core
+            {
+                public ref class TimerWrapper
+                {
+                private:
+                    Timer* m_timer;
 
-    public:
-        TimerWrapper();
-        ~TimerWrapper();
-        !TimerWrapper();
+                public:
+                    TimerWrapper();
+                    ~TimerWrapper();
+                    !TimerWrapper();
 
-        void Reset();
-        double Tick();
-        double TimeElapsed();
-    };
+                    void Reset();
+                    double Tick();
+                    double TimeElapsed();
+                };
+            }
+        }
+    }
 }
