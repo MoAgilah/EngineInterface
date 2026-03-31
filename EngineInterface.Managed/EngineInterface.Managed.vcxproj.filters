@@ -13,10 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{7a22500a-04e3-471b-87cf-6bca29a1f1bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core">
+      <UniqueIdentifier>{fc308b76-b916-4e96-8c42-d23f696b16f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{10faf72b-eebd-4cb3-91e5-b505c30f41ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core">
+      <UniqueIdentifier>{41ad1873-a8af-4051-9a1b-d9bd7e651040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interop">
+      <UniqueIdentifier>{13204f96-6595-4a8e-96ed-66703f8c305f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interop">
+      <UniqueIdentifier>{5d60c4aa-78b0-4222-8593-f7219ba3e5d5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineInterface.Managed.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="Code\Interop\InteropSmokeTest.h">
+      <Filter>Header Files\Interop</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\Interop\InteropSmokeTest.cpp">
+      <Filter>Source Files\Interop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
