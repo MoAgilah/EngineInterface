@@ -128,7 +128,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EngineInterface.Managed.cpp" />
+    <ClInclude Include="Code\Interop\InteropSmokeTest.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\Interop\InteropSmokeTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
