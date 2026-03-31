@@ -117,7 +117,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
+      <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)x64\$(Configuration);</AdditionalLibraryDirectories>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>

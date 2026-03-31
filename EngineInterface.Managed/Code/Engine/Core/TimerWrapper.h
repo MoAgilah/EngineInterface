@@ -1,6 +1,8 @@
 #pragma once
 
+#pragma managed(push, off)
 #include <Engine/Core/Timer.h>
+#pragma managed(pop)
 
 namespace EngineInterface
 {
