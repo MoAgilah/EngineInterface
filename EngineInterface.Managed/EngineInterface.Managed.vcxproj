@@ -128,9 +128,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Engine\Core\TimerWrapper.h" />
     <ClInclude Include="Code\Interop\InteropSmokeTest.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Engine\Core\TimerWrapper.cpp" />
     <ClCompile Include="Code\Interop\InteropSmokeTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
