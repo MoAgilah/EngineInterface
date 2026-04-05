@@ -9,7 +9,7 @@ public:
 	void Update(float deltaTime);
 
 	float GetCurrTime() const { return m_time; }
-	void SetCurrTime(float time) { m_time = time; }
+	void SetCurrTime(float time);
 
 	bool CheckEnd() const { return m_time <= 0.0f; }
 	void ForceEnd() { m_time = 0; }
@@ -19,7 +19,7 @@ public:
 
 	void RestartTimer();
 
-	void SetMaxTime(float maxTime) { m_maxTime = maxTime; }
+	void SetMaxTime(float maxTime);
 	float GetMaxTime() const { return m_maxTime; }
 private:
 
