@@ -10,6 +10,9 @@ CountdownTimer::CountdownTimer(float maxTime)
 
 void CountdownTimer::Update(float deltaTime)
 {
+	if (deltaTime < 0.0f)
+		return;
+
 	if (m_stopped || m_time <= 0.0f)
 		return;
 
