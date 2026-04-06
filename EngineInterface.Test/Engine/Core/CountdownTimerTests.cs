@@ -267,5 +267,60 @@ namespace EngineInterface.Tests.Engine.Core
 
             Assert.True(timer.CheckEnd());
         }
+
+        [Fact]
+        public void RestartTimer_RestartsTimeToThatOfMaxTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+            var max = timer.GetMaxTime();
+
+            timer.SetCurrTime(1.0f);
+
+            Assert.False(timer.CheckEnd());
+
+            timer.RestartTimer();
+
+            Assert.Equal(max, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void RestartTimer_AfterPause_ResetsCurrTimeToMaxTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            var max = timer.GetMaxTime();
+
+            timer.SetCurrTime(2.0f);
+
+            Assert.Equal(2.0f, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+
+            timer.Pause();
+
+            Assert.False(timer.CheckEnd());
+
+            timer.RestartTimer();
+
+
+            Assert.Equal(max, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void RestartTimer_AfterPause_ResumesTimer()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.Pause();
+            timer.Update(1.0f);
+
+            Assert.Equal(3.0f, timer.GetCurrTime(), 0.001f);
+
+            timer.RestartTimer();
+            timer.Update(1.0f);
+
+            Assert.Equal(2.0f, timer.GetCurrTime(), 0.001f);
+        }
     }
 };
