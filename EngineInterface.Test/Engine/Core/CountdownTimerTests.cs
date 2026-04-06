@@ -249,5 +249,23 @@ namespace EngineInterface.Tests.Engine.Core
             Assert.Equal(max, timer.GetCurrTime(), 0.001f);
             Assert.False(timer.CheckEnd());
         }
+
+        [Fact]
+        public void CheckEnd_ReturnsFalseBeforeTimerIsFinished()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void CheckEnd_ReturnsTrueWhenTimerIsFinished()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.SetCurrTime(0.0f);
+
+            Assert.True(timer.CheckEnd());
+        }
     }
 };
