@@ -392,5 +392,33 @@ namespace EngineInterface.Tests.Engine.Core
             Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
             Assert.True(timer.CheckEnd());
         }
+
+        [Fact]
+        public void ForceEnd_SetsCurrTimeToZero_AndTimerIsEnded()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.ForceEnd();
+
+            Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
+            Assert.True(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void ForceEnd_UpdateDoesNotMakeCurrTimeNegative()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.ForceEnd();
+
+            Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
+            Assert.True(timer.CheckEnd());
+
+            timer.Update(1.0f);
+
+            Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
+            Assert.True(timer.CheckEnd());
+        }
+
     }
 };
