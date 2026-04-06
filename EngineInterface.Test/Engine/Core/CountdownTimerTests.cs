@@ -151,5 +151,83 @@ namespace EngineInterface.Tests.Engine.Core
             Assert.Equal(currTime, timer.GetCurrTime(), 0.001f);
             Assert.False(timer.CheckEnd());
         }
+
+        [Fact]
+        public void GetCurrTime_UpdateChangesCurrTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            var currTime = timer.GetCurrTime();
+
+            timer.Update(1.0f);
+
+            Assert.NotEqual(currTime, timer.GetCurrTime(), 0.001f);
+            Assert.Equal(2.0f, timer.GetCurrTime(), 0.001f);
+        }
+
+        [Fact]
+        public void SetCurrTime_ChangesValueOfCurrTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            Assert.False(timer.CheckEnd());
+
+            timer.SetCurrTime(2.0f);
+
+            Assert.Equal(2.0f, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void SetCurrTime_WhenSetAboveMax_ClampsToMaxTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            Assert.False(timer.CheckEnd());
+
+            timer.SetCurrTime(4.0f);
+
+            Assert.Equal(3.0f, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void SetCurrTime_WhenSetBelowZero_ClampsToZero()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.SetCurrTime(-1.0f);
+
+            Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
+            Assert.True(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void SetCurrTime_WhenSetToZero_CheckEndReturnsTrue()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            Assert.False(timer.CheckEnd());
+
+            timer.SetCurrTime(0.0f);
+
+            Assert.Equal(0.0f, timer.GetCurrTime(), 0.001f);
+            Assert.True(timer.CheckEnd());
+        }
+
+        [Fact]
+        public void SetCurrTime_WhenSetToMaxTime_SetsToMaxTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            Assert.False(timer.CheckEnd());
+
+            var max = timer.GetMaxTime();
+
+            timer.SetCurrTime(max);
+
+            Assert.Equal(max, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
     }
 };
