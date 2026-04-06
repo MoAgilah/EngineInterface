@@ -123,6 +123,26 @@ namespace EngineInterface.Tests.Engine.Core
         }
 
         [Fact]
+        public void Update_WhenTimerIsResumed_DecreasesCurrTime()
+        {
+            var timer = new CountdownTimerWrapper(3.0f);
+
+            timer.Pause();
+
+            Assert.False(timer.CheckEnd());
+
+            timer.Update(0.1f);
+            Assert.Equal(3.0f, timer.GetCurrTime(), 0.001f);
+
+            timer.Resume();
+
+            timer.Update(1.0f);
+
+            Assert.Equal(2.0f, timer.GetCurrTime(), 0.001f);
+            Assert.False(timer.CheckEnd());
+        }
+
+        [Fact]
         public void Update_WhenDeltaTimeIsZero_DoesNotChangeCurrTime()
         {
             var timer = new CountdownTimerWrapper(3.0f);
