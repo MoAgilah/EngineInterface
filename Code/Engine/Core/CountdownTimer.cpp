@@ -3,7 +3,7 @@
 #include <algorithm>
 
 CountdownTimer::CountdownTimer(float maxTime)
-	: m_maxTime(maxTime)
+	: m_maxTime(std::max(0.0f, maxTime))
 {
 	RestartTimer();
 }
