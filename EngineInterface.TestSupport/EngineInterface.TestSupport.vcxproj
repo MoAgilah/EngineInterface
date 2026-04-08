@@ -88,7 +88,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
@@ -114,7 +114,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
@@ -126,7 +126,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
