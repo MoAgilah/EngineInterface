@@ -21,14 +21,12 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <EnableManagedPackageReferenceSupport>true</EnableManagedPackageReferenceSupport>
-    <ProjectGuid>{41A80018-0A41-0764-8D38-C8CAB16821F4}</ProjectGuid>
+    <ProjectGuid>{A7EF7EE7-6222-0DA8-56A7-E8E0D23A0346}</ProjectGuid>
     <Keyword>NetCoreCProj</Keyword>
-    <RootNamespace>EngineInterfaceManaged</RootNamespace>
+    <RootNamespace>EngineInterfaceTestSupport</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net9.0</TargetFramework>
     <WindowsTargetPlatformMinVersion>7.0</WindowsTargetPlatformMinVersion>
-    <TargetFrameworkVersion>
-    </TargetFrameworkVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -90,10 +88,10 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
+      <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);</AdditionalLibraryDirectories>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
@@ -103,10 +101,10 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
+      <AdditionalDependencies>EngineInterface.lib;</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);</AdditionalLibraryDirectories>
       <NoEntryPoint>true</NoEntryPoint>
     </Link>
@@ -116,7 +114,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
@@ -128,28 +126,26 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Code;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Code;$</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>EngineInterface.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)$(Platform)\$(Configuration);</AdditionalLibraryDirectories>
-      <NoEntryPoint>true</NoEntryPoint>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Interop\InteropTestSupport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EngineInterface.Managed\EngineInterface.Managed.vcxproj">
+      <Project>{41a80018-0a41-0764-8d38-c8cab16821f4}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EngineInterface.vcxproj">
       <Project>{0bfb223a-c0af-49a4-9582-a690efb0921b}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\Engine\Core\CountdownTimerWrapper.h" />
-    <ClInclude Include="Code\Engine\Core\TimerWrapper.h" />
-    <ClInclude Include="Code\Interop\InteropSmokeTest.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Code\Engine\Core\CountdownTimerWrapper.cpp" />
-    <ClCompile Include="Code\Engine\Core\TimerWrapper.cpp" />
-    <ClCompile Include="Code\Interop\InteropSmokeTest.cpp" />
+    <ClInclude Include="Code\Interop\InteropTestSupport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

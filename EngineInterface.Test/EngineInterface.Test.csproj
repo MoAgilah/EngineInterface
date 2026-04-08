@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EngineInterface.Managed\EngineInterface.Managed.vcxproj" />
+    <ProjectReference Include="..\EngineInterface.TestSupport\EngineInterface.TestSupport.vcxproj" />
   </ItemGroup>
 
   <ItemGroup>
