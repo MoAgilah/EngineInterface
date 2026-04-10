@@ -13,15 +13,33 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Code\Interop\InteropTestSupport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <Filter Include="Header Files\Interop">
+      <UniqueIdentifier>{a1948ce4-1666-4e0c-9f51-ef771d8ab39d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Interop">
+      <UniqueIdentifier>{c63f3406-be71-4a70-a100-a10b69f79ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{e5b3bd59-38e0-4e23-a605-4a5d310ab574}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Interface">
+      <UniqueIdentifier>{ea422457-6982-4158-b496-08895c1fc05c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Interface\Scene">
+      <UniqueIdentifier>{b91116d8-c5ef-419e-9821-cd1b3f686a8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Interop\InteropTestSupport.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Interop</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Scene\FakeGameState.h">
+      <Filter>Header Files\Engine\Interface\Scene</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\Interop\InteropTestSupport.cpp">
+      <Filter>Source Files\Interop</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
