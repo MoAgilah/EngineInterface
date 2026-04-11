@@ -36,9 +36,6 @@
     <ClInclude Include="Code\Interop\InteropSmokeTest.h">
       <Filter>Header Files\Interop</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Core\TimerWrapper.h">
-      <Filter>Header Files\Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Engine\Core\CountdownTimerWrapper.h">
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
@@ -46,9 +43,6 @@
   <ItemGroup>
     <ClCompile Include="Code\Interop\InteropSmokeTest.cpp">
       <Filter>Source Files\Interop</Filter>
-    </ClCompile>
-    <ClCompile Include="Code\Engine\Core\TimerWrapper.cpp">
-      <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="Code\Engine\Core\CountdownTimerWrapper.cpp">
       <Filter>Source Files\Engine\Core</Filter>
