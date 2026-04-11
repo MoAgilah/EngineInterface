@@ -162,6 +162,9 @@
       <Project>{0bfb223a-c0af-49a4-9582-a690efb0921b}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
