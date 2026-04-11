@@ -158,6 +158,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EngineInterface.TestSupport\EngineInterface.TestSupport.vcxproj">
+      <Project>{ebe1b96b-8dc1-43df-98dc-12b48dc7870a}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\EngineInterface.vcxproj">
       <Project>{0bfb223a-c0af-49a4-9582-a690efb0921b}</Project>
     </ProjectReference>
