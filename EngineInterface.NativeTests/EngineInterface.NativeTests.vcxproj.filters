@@ -24,5 +24,8 @@
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="CountdownTimerTests.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
