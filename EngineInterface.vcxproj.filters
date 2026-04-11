@@ -306,6 +306,15 @@
     <ClInclude Include="Code\Engine\Core\Timer.h">
       <Filter>Header Files\Engine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Utilities\LogFormatter.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Utilities\Logger.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Utilities\LogRecord.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">
@@ -385,6 +394,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Core\Timer.cpp">
       <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\Logger.cpp">
+      <Filter>Header Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
