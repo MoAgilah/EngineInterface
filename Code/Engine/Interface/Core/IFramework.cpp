@@ -4,6 +4,11 @@
 #include "../../Core/GameManager.h"
 #include "../../../Utilities/Utils.h"
 
+void IFrameWork::Initialise()
+{
+    m_gameMgr.GetLogger().Log(LogLevel::Info, "Framework initialisation started");
+}
+
 int IFrameWork::Run()
 {
     const float dt = 1.f / GameConstants::FPS;

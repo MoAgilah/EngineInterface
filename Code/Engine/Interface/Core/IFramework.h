@@ -11,7 +11,7 @@ public:
     int Run();
 
     // Life cycle hooks
-    virtual void Initialise() = 0;
+    virtual void Initialise();
     virtual void PollEvents();
     virtual void Update(float dt);
     virtual void Render();

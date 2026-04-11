@@ -14,6 +14,17 @@ namespace logger
 		return std::format("[ {:%Y-%m-%d %H:%M:%S} ]", now);
 	}
 
+	inline std::string FormatFilenameTimestamp(
+		const std::chrono::system_clock::time_point& tp)
+	{
+		return std::format("{:%Y-%m-%d_%H-%M-%S}", tp);
+	}
+
+	inline std::string FormatFilenameTimestamp()
+	{
+		return FormatFilenameTimestamp(std::chrono::system_clock::now());
+	}
+
 	inline std::string FormatLogLevel(LogLevel lvl)
 	{
 		return std::format("[ {} ]", toString(lvl));

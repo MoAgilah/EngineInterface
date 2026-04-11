@@ -3,17 +3,24 @@
 #include "Constants.h"
 #include "../Interface/Collisions/ITile.h"
 #include "../../Utilities/Utils.h"
+#include "../../Utilities/LogFormatter.h"
 
 GameManager* GameManager::m_instance = nullptr;
 
 GameManager::GameManager()
 	: m_gameTimer(GameConstants::CountdownDuration)
 {
+	auto filename = logger::FormatFilenameTimestamp() + ".log";
+
+	m_logger.Start(filename);
+
 	m_instance = this;
 }
 
 GameManager::~GameManager()
 {
+	m_logger.Stop();
+
 	if (m_instance)
 		m_instance = nullptr;
 }
