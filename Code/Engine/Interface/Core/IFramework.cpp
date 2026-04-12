@@ -2,7 +2,13 @@
 
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
+#include "../../../Utilities/ThreadContext.h"
 #include "../../../Utilities/Utils.h"
+
+void IFrameWork::Initialise()
+{
+    logger::ThreadContext::SetLabel("Main");
+}
 
 int IFrameWork::Run()
 {
