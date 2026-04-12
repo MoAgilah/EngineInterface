@@ -1,17 +1,10 @@
 #include "Logger.h"
 
 #include "LogFormatter.h"
+#include "ThreadContext.h"
 
 #include <thread>
 #include <stop_token>
-
-ThreadInfo GetThreadInfo()
-{
-	ThreadInfo ti;
-	ti.id = std::this_thread::get_id();
-	ti.optional_thread_label = "";
-	return ti;
-}
 
 Logger::~Logger()
 {
@@ -67,7 +60,7 @@ void Logger::Log(LogLevel logLevel, std::string message, const std::source_locat
 	LogRecord record = LogRecord(logLevel, std::move(message), loc);
 
 	record.sequenceId = m_nextSequenceId.fetch_add(1);
-	record.threadInfo = GetThreadInfo();
+	record.threadInfo = logger::ThreadContext::GetInfo();
 
 	std::unique_lock<std::mutex> lock(m_queueMutex);
 
