@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
+    <ClCompile Include="Code\Utilities\LogFormatterTests.cpp" />
     <ClCompile Include="Code\Utilities\LogRecordTests.cpp" />
     <ClCompile Include="Code\Utilities\ThreadContextTests.cpp" />
     <ClCompile Include="CountdownTimerTests.cpp" />
