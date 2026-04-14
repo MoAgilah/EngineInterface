@@ -1,7 +1,9 @@
 #include "CppUnitTest.h"
 
+
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
+#include <TestHelpers/TestFilesystemHelpers.h>
 #include <string>
 #include <source_location>
 #include <thread>
@@ -12,27 +14,6 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Utilities
 {
-	std::filesystem::path GetFilePath()
-	{
-		return std::filesystem::temp_directory_path() /
-			("logger_test_" + std::to_string(std::rand()) +
-				"_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
-				".txt");
-	}
-
-	struct TempFileGuard
-	{
-		std::filesystem::path path;
-
-		~TempFileGuard()
-		{
-			if (!path.empty() && std::filesystem::exists(path))
-			{
-				std::filesystem::remove(path);
-			}
-		}
-	};
-
 	TEST_CLASS(LoggerTests)
 	{
 	public:
@@ -40,7 +21,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();
@@ -52,8 +33,8 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 
@@ -104,7 +85,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();
@@ -124,7 +105,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Stop();
 
@@ -138,14 +119,14 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 			logger.Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard2.path.string());
 			logger.Stop();
@@ -157,8 +138,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
-
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -179,7 +159,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Log(LogLevel::Info, "test");
 
@@ -200,7 +180,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -221,14 +201,14 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 			logger.Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard2.path.string());
 
@@ -249,7 +229,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -293,7 +273,7 @@ namespace Utilities
 
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -326,7 +306,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -355,7 +335,7 @@ namespace Utilities
 
 		TEST_METHOD(Logger_Destructor_DrainsQueuedMessagesBeforeExit)
 		{
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			{
 				::Logger logger;
@@ -391,7 +371,7 @@ namespace Utilities
 
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 

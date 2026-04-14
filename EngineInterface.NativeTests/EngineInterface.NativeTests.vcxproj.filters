@@ -27,9 +27,6 @@
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="CountdownTimerTests.cpp">
-      <Filter>Source Files\Engine\Core</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Utilities\ThreadContextTests.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
@@ -41,6 +38,9 @@
     </ClCompile>
     <ClCompile Include="Code\Utilities\LoggerTest.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Core\CountdownTimerTests.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
