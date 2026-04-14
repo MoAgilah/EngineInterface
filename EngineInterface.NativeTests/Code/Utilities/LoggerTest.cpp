@@ -1,14 +1,11 @@
 #include "CppUnitTest.h"
 
-
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
 #include <TestHelpers/TestFilesystemHelpers.h>
 #include <string>
-#include <source_location>
 #include <thread>
 #include <filesystem>
-#include <fstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
