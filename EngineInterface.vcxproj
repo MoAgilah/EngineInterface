@@ -78,6 +78,7 @@
     <ClInclude Include="Code\Utilities\LogRecord.h" />
     <ClInclude Include="Code\Utilities\MovementController.h" />
     <ClInclude Include="Code\Utilities\Rect.h" />
+    <ClInclude Include="Code\Utilities\ThreadContext.h" />
     <ClInclude Include="Code\Utilities\Utils.h" />
     <ClInclude Include="Code\Utilities\Vector2.h" />
     <ClInclude Include="Code\Utilities\ResourceLoader.h" />

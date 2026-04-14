@@ -97,6 +97,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -149,6 +150,7 @@
       <UseFullPaths>true</UseFullPaths>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,6 +169,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
+    <ClCompile Include="Code\Utilities\LogFormatterTests.cpp" />
+    <ClCompile Include="Code\Utilities\LoggerTest.cpp" />
+    <ClCompile Include="Code\Utilities\LogRecordTests.cpp" />
+    <ClCompile Include="Code\Utilities\ThreadContextTests.cpp" />
     <ClCompile Include="CountdownTimerTests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

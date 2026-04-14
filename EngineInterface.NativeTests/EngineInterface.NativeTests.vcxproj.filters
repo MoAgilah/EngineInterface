@@ -19,6 +19,9 @@
     <Filter Include="Source Files\Engine\Core">
       <UniqueIdentifier>{c18fc430-4b88-4ace-858d-c3da2b3886f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Utilities">
+      <UniqueIdentifier>{05aec86c-b2e8-428d-a3d6-4bd31c0173ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -26,6 +29,18 @@
     </ClCompile>
     <ClCompile Include="CountdownTimerTests.cpp">
       <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\ThreadContextTests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\LogRecordTests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\LogFormatterTests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Utilities\LoggerTest.cpp">
+      <Filter>Source Files\Utilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
