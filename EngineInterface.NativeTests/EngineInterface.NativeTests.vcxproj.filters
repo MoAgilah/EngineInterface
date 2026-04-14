@@ -39,5 +39,8 @@
     <ClCompile Include="Code\Utilities\LogFormatterTests.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Utilities\LoggerTest.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
