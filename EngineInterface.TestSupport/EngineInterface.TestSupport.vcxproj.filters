@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\TestHelpers\TestTempFileHelpers.h">
+    <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

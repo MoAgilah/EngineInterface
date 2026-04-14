@@ -24,7 +24,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Code\TestHelpers\TestTempFileHelpers.h" />
+    <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

@@ -46,18 +46,14 @@ namespace Utilities
 			// First file should contain output
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			std::ifstream file1(guard1.path);
-			std::string contents1((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents1 = TestHelpers::ReadFile(guard1.path);
 
 			Assert::IsTrue(contents1.find("test") != std::string::npos);
 
 			// Second file should NOT contain output
 			if (std::filesystem::exists(guard2.path))
 			{
-				std::ifstream file2(guard2.path);
-				std::string contents2((std::istreambuf_iterator<char>(file2)),
-					std::istreambuf_iterator<char>());
+				std::string contents2 = TestHelpers::ReadFile(guard2.path);
 
 				Assert::IsTrue(contents2.empty());
 			}
@@ -94,9 +90,7 @@ namespace Utilities
 
 			logger.Log(LogLevel::Info, "test");
 
-			std::ifstream file(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -148,9 +142,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") != std::string::npos);
 		}
@@ -169,9 +161,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -190,9 +180,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -218,9 +206,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard2.path));
 
-			std::ifstream file1(guard2.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard2.path);
 
 			Assert::IsTrue(contents.find("test") != std::string::npos);
 		}
@@ -241,9 +227,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			auto pos1 = contents.find("[#0]");
 			auto pos2 = contents.find("[#1]");
@@ -291,9 +275,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("[ Main ]") != std::string::npos);
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
@@ -321,9 +303,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
 			Assert::IsTrue(contents.find("test2") != std::string::npos);
@@ -352,9 +332,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
 			Assert::IsTrue(contents.find("test2") != std::string::npos);
@@ -381,9 +359,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("[ Thread ]") == std::string::npos);
 			Assert::IsTrue(contents.find("[ Main ]") != std::string::npos);
