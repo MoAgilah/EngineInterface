@@ -13,6 +13,7 @@
 #include "../Resources/ShaderManager.h"
 #include "../Resources/SoundManager.h"
 #include "../Resources/TextureManager.h"
+#include "../../Utilities/Logger.h"
 #include <array>
 #include <memory>
 
@@ -33,6 +34,7 @@ public:
 	[[nodiscard]] Timer& GetTimer() noexcept { return m_timer; }
 	[[nodiscard]] CountdownTimer& GetGameTimer() noexcept { return m_gameTimer; }
 	[[nodiscard]] ICamera* GetCamera() noexcept { return m_camera.get(); }
+	[[nodiscard]] Logger& GetLogger() noexcept { return m_logger; }
 	[[nodiscard]] InputManager* GetInputManager() noexcept { return m_inputManager.get(); }
 	[[nodiscard]] FontManager& GetFontMgr() noexcept { return m_fontManager; }
 	[[nodiscard]] ShaderManager& GetShaderMgr() noexcept { return m_shaderManager; }
@@ -56,6 +58,7 @@ private:
 
 	Timer								m_timer;
 	CountdownTimer						m_gameTimer;
+	::Logger							m_logger;
 	FontManager							m_fontManager;
 	ShaderManager						m_shaderManager;
 	SoundManager						m_soundManager;

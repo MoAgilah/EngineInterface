@@ -9,11 +9,15 @@ GameManager* GameManager::m_instance = nullptr;
 GameManager::GameManager()
 	: m_gameTimer(GameConstants::CountdownDuration)
 {
+	m_logger.Start(GameConstants::GetDefaultLogPath().string());
+
 	m_instance = this;
 }
 
 GameManager::~GameManager()
 {
+	m_logger.Stop();
+
 	if (m_instance)
 		m_instance = nullptr;
 }

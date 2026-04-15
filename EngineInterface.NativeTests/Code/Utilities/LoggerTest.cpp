@@ -1,5 +1,6 @@
 #include "CppUnitTest.h"
 
+#include <Engine/Core/Constants.h>
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
 #include <TestHelpers/TestFilesystemHelpers.h>
@@ -19,6 +20,18 @@ namespace Utilities
 			::Logger logger;
 
 			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
+
+			logger.Start(guard.path.string());
+			logger.Stop();
+
+			Assert::IsTrue(std::filesystem::exists(guard.path));
+		}
+
+		TEST_METHOD(Logger_DefaultDirectory_GetsLogFileOnCreate)
+		{
+			::Logger logger;
+
+			TestHelpers::TempFileGuard guard{ GameConstants::GetDefaultLogPath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();

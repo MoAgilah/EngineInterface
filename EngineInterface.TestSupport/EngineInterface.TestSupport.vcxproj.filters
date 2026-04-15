@@ -13,10 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\TestHelpers">
+      <UniqueIdentifier>{a633ea76-3550-4c8a-8138-1ade1c5a9ef7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\TestHelpers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
