@@ -21,5 +21,8 @@
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
       <Filter>Header Files\TestHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h">
+      <Filter>Header Files\TestHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

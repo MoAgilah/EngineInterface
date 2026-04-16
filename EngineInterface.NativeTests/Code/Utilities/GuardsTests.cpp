@@ -3,6 +3,7 @@
 #include <Utilities/Guards.h>
 #include <Utilities/Logger.h>
 #include <TestHelpers/TestFilesystemHelpers.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 #include <string>
 #include <filesystem>
@@ -16,19 +17,19 @@ namespace Utilities
 	public:
 		TEST_METHOD(CheckNotNull_WhenPtrIsNotNullDoesNotLog)
 		{
+			TestHelpers::ResetLoggerDefaultsForTests();
+
 			std::unique_ptr<int> ptr = std::make_unique<int>(7);
 
-			::Logger logger;
+			::Logger::GetDefaultLogger();
 
-			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
-
-			logger.Start(guard.path.string());
+			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
 
 			std::string msg = "ptr is null";
 
-			Assert::IsTrue(CheckNotNull(ptr.get(), logger, msg));
+			Assert::IsTrue(CheckNotNull(ptr.get(), msg));
 
-			logger.Stop();
+			::Logger::GetDefaultLogger().Stop();
 
 			// First file should contain output
 			Assert::IsTrue(std::filesystem::exists(guard.path));
@@ -40,19 +41,19 @@ namespace Utilities
 
 		TEST_METHOD(CheckNotNull_WhenPtrIsNullDoesLog)
 		{
+			TestHelpers::ResetLoggerDefaultsForTests();
+
 			std::unique_ptr<int> ptr = nullptr;
 
-			::Logger logger;
+			::Logger::GetDefaultLogger();
 
-			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
-
-			logger.Start(guard.path.string());
+			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
 
 			std::string msg = "ptr is null";
 
-			Assert::IsFalse(CheckNotNull(ptr.get(), logger, msg));
+			Assert::IsFalse(CheckNotNull(ptr.get(), msg));
 
-			logger.Stop();
+			::Logger::GetDefaultLogger().Stop();
 
 			// First file should contain output
 			Assert::IsTrue(std::filesystem::exists(guard.path));

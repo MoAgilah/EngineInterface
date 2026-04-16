@@ -2,13 +2,38 @@
 
 #include "LogFormatter.h"
 #include "ThreadContext.h"
+#include "../Engine/Core/Constants.h"
 
 #include <thread>
 #include <stop_token>
 
+std::string Logger::s_defaultLogPath{};
+bool Logger::s_defaultLoggerInitialised = false;
+
 Logger::~Logger()
 {
 	Stop();
+}
+
+const std::string& Logger::GetDefaultLogPath()
+{
+	if (s_defaultLogPath.empty())
+		s_defaultLogPath = GameConstants::GetDefaultLogPath().string();
+
+	return s_defaultLogPath;
+}
+
+Logger& Logger::GetDefaultLogger()
+{
+	static Logger logger;
+
+	if (!s_defaultLoggerInitialised)
+	{
+		logger.Start(GetDefaultLogPath());
+		s_defaultLoggerInitialised = true;
+	}
+
+	return logger;
 }
 
 void Logger::Start(const std::string& filePath)

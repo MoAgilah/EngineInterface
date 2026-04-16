@@ -4,6 +4,7 @@
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
 #include <TestHelpers/TestFilesystemHelpers.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <string>
 #include <thread>
 #include <filesystem>
@@ -35,6 +36,19 @@ namespace Utilities
 
 			logger.Start(guard.path.string());
 			logger.Stop();
+
+			Assert::IsTrue(std::filesystem::exists(guard.path));
+		}
+
+		TEST_METHOD(Logger_GetDefaultLogger_GetsLogFileOnCreate)
+		{
+			TestHelpers::ResetLoggerDefaultsForTests();
+
+			::Logger::GetDefaultLogger();
+
+			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
+
+			::Logger::GetDefaultLogger().Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 		}

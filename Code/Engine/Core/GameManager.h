@@ -34,7 +34,6 @@ public:
 	[[nodiscard]] Timer& GetTimer() noexcept { return m_timer; }
 	[[nodiscard]] CountdownTimer& GetGameTimer() noexcept { return m_gameTimer; }
 	[[nodiscard]] ICamera* GetCamera() noexcept { return m_camera.get(); }
-	[[nodiscard]] Logger& GetLogger() noexcept { return m_logger; }
 	[[nodiscard]] InputManager* GetInputManager() noexcept { return m_inputManager.get(); }
 	[[nodiscard]] FontManager& GetFontMgr() noexcept { return m_fontManager; }
 	[[nodiscard]] ShaderManager& GetShaderMgr() noexcept { return m_shaderManager; }
@@ -54,11 +53,11 @@ public:
 	void SetRenderer(std::shared_ptr<IRenderer> renderer) { m_renderer = std::move(renderer); }
 
 private:
+
 	static GameManager* m_instance;
 
 	Timer								m_timer;
 	CountdownTimer						m_gameTimer;
-	::Logger							m_logger;
 	FontManager							m_fontManager;
 	ShaderManager						m_shaderManager;
 	SoundManager						m_soundManager;
