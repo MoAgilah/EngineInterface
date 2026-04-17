@@ -6,7 +6,6 @@
 #include "../Renderer/IRenderer.h"
 #include "../../../GameObjects/Enemy.h"
 #include "../../../GameObjects/GameObject.h"
-#include "../../../Utilities/Utils.h"
 #include <array>
 #include <map>
 #include <memory>
@@ -14,6 +13,7 @@
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <format>
 
 class IScene
 {
@@ -75,28 +75,34 @@ private:
 	{
 		using key_t = typename std::remove_reference_t<Map>::key_type;
 		using mapped_t = typename std::remove_reference_t<Map>::mapped_type;
-		static_assert(std::is_same_v<key_t, std::string>, "Map key_type must be std::string");
-		static_assert(std::is_same_v<mapped_t, std::shared_ptr<typename mapped_t::element_type>>,
+
+		static_assert(std::is_same_v<key_t, std::string>,
+			"Map key_type must be std::string");
+
+		static_assert(std::is_same_v<mapped_t,
+			std::shared_ptr<typename mapped_t::element_type>>,
 			"Map mapped_type must be std::shared_ptr<U>");
 
 		using U = typename mapped_t::element_type;
+
 		static_assert(std::is_base_of_v<U, T> || std::is_same_v<U, T>,
 			"T must be (or derive from) the map's element type");
 
-		// Optional pre-check to avoid constructing on duplicates
+		// Pre-check to avoid constructing on duplicate key
 #if __cpp_lib_unordered_map_contains || __cpp_lib_map_contains
-		if (m.contains(id)) {
+		if (m.contains(id))
 #else
-		if (m.find(id) != m.end()) {
+		if (m.find(id) != m.end())
 #endif
-			THROW_IF_FALSE_MSG(false, "Key '{}' already exists", id);
+		{
+			throw std::invalid_argument(
+				std::format("EmplaceSharedOrThrow: key '{}' already exists", id));
 		}
 
+		// Safe to construct and insert
 		auto ptr = std::make_shared<T>(std::forward<CtorArgs>(args)...);
-		auto [it, inserted] = m.emplace(id, std::move(ptr));
-		THROW_IF_FALSE_MSG(inserted, "Key '{}' already exists", id);
-		}
-
+		m.emplace(id, std::move(ptr));
+	}
 
 protected:
 

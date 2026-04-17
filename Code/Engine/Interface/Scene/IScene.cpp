@@ -216,16 +216,23 @@ IText* IScene::GetGUITextByName(const std::string& name)
 
 void IScene::RenderGUI(IRenderer* renderer)
 {
-	for (auto& [_, spr] : m_sprites)
+	if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+		return;
+
+	for (auto& [id, spr] : m_sprites)
 	{
-		CONTINUE_IF_INVALID(spr);
+		if (!CheckNotNull(spr.get(),
+			std::format("Invalid Pointer 'spr' with key {}", id)))
+			continue;
 
 		spr->Render(renderer);
 	}
 
-	for (auto& [_, text] : m_texts)
+	for (auto& [id, text] : m_texts)
 	{
-		CONTINUE_IF_INVALID(text);
+		if (!CheckNotNull(text.get(),
+			std::format("Invalid Pointer 'text' with key {}", id)))
+			continue;
 
 		text->Render(renderer);
 	}
