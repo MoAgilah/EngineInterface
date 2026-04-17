@@ -23,12 +23,13 @@ public:
 		if (!GameConstants::DRender)
 			return;
 
-		for (const auto& tile : m_grid)
+		for (size_t i = 0; i < m_grid.size(); ++i)
 		{
-			if (!CheckNotNull(tile.get(), "Invalid Pointer 'tile'"))
-				continue;
+			auto* tile = m_grid[i].get();
 
-			CONTINUE_IF_INVALID(tile);
+			if (!CheckNotNull(tile,
+				std::format("Invalid Pointer 'tile' at index {}", i)))
+				continue;
 
 			if (!tile->GetActive())
 				continue;
