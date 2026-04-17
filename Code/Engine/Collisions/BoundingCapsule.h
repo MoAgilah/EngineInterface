@@ -94,6 +94,9 @@ public:
 
     void Render(IRenderer* renderer) override
     {
+        if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+            return;
+
         if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
             this->m_shape->Render(renderer);
     }
