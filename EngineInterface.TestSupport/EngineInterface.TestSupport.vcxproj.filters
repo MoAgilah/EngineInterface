@@ -25,4 +25,9 @@
       <Filter>Header Files\TestHelpers</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
 </Project>

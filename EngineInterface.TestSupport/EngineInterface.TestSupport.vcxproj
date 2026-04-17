@@ -27,6 +27,9 @@
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Code\TestHelpers\TestSupport.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
