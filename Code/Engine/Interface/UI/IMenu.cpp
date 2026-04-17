@@ -1,6 +1,9 @@
 #include "IMenu.h"
 
+#include "../../../Utilities/Logger.h"
+#include "../../../Utilities/Guards.h"
 #include "../../../Utilities/Utils.h"
+#include <format>
 
 IMenu::IMenu(float outlineThickness, const Vector2f& dimensions, const MenuPositionData& menuPositionData)
 	: m_outlineThickness(outlineThickness), m_dimensions(dimensions), m_menuPositionData(menuPositionData), m_menuNavigation(KeyCode::Up, KeyCode::Down)
@@ -13,17 +16,29 @@ void IMenu::Update(float dt)
 
 	if (!m_cursors.empty())
 	{
-		for (auto& cursor : m_cursors)
+		for (size_t i = 0; i < m_cursors.size(); ++i)
 		{
-			auto menuNav = cursor->GetMenuNav();
-			CONTINUE_IF_INVALID(menuNav);
+			auto* cursor = m_cursors[i].get();
+			if (!CheckNotNull(cursor,
+				std::format("Invalid Pointer 'cursor' at index {}", i)))
+				continue;
+
+			auto* menuNav = cursor->GetMenuNav();
+			if (!CheckNotNull(menuNav, "Invalid Pointer 'menuNav' from cursor->GetMenuNav()"))
+				continue;
 
 			if (menuNav->HasMoved())
 			{
 				int cellNo = menuNav->GetCurrCursorPos();
-				auto cell = GetCellByCellNumber(cellNo);
 
-				CONTINUE_IF_INVALID(cell);
+				auto* cell = GetCellByCellNumber(cellNo);
+				if (!cell)
+				{
+					Logger::GetDefaultLogger().Log(
+						LogLevel::Error,
+						std::format("Invalid Pointer 'cell' from GetCellByCellNumber({})", cellNo));
+					continue;
+				}
 
 				cursor->SetPosition(cell->GetPosition());
 				menuNav->SetPrevCursorPos(cellNo);
@@ -38,11 +53,18 @@ void IMenu::Update(float dt)
 		}
 	}
 
-	for (const auto& cellNo : m_activeCells)
+	for (const auto& [col, row] : m_activeCells)
 	{
-		auto cell = GetCell(cellNo);
+		auto* cell = GetCell({ col, row });
 
-		CONTINUE_IF_INVALID(cell);
+		if (!cell)
+		{
+			Logger::GetDefaultLogger().Log(
+				LogLevel::Error,
+				std::format("Invalid Pointer 'cell' from GetCell({}, {})",
+					col, row));
+			continue;
+		}
 
 		cell->Update(dt);
 	}
@@ -50,31 +72,54 @@ void IMenu::Update(float dt)
 
 void IMenu::Render(IRenderer* renderer)
 {
+	if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+		return;
+
 #if defined _DEBUG
-	ENSURE_VALID(m_menuSpace);
+
+	if (!CheckNotNull(m_menuSpace.get(), "Invalid Pointer 'm_menuSpace'"))
+		return;
+
 	m_menuSpace->Render(renderer);
 
-	for (auto& col : m_columns)
+	for (size_t i = 0; i < m_columns.size(); ++i)
 	{
-		CONTINUE_IF_INVALID(col);
+		auto* col = m_columns[i].get();
+		if (!CheckNotNull(col,
+			std::format("Invalid Pointer 'col' at index {}", i)))
+			continue;
+
 		col->Render(renderer);
 	}
 #endif
 
-	for (auto& row : m_rows)
+	for (size_t i = 0; i < m_rows.size(); ++i)
 	{
-		for (auto& cell : row)
+		for (size_t j = 0; j < m_rows[i].size(); ++j)
 		{
-			CONTINUE_IF_INVALID(cell);
+			auto* cell = m_rows[i][j].get();
+
+			if (!cell)
+			{
+				Logger::GetDefaultLogger().Log(
+					LogLevel::Error,
+					std::format("Invalid Pointer 'cell' at ({}, {})", i, j));
+				continue;
+			}
+
 			cell->Render(renderer);
 		}
 	}
 
 	if (!m_cursors.empty())
 	{
-		for (auto& cursor : m_cursors)
+		for (size_t i = 0; i < m_cursors.size(); ++i)
 		{
-			CONTINUE_IF_INVALID(cursor);
+			auto* cursor = m_cursors[i].get();
+			if (!CheckNotNull(cursor,
+				std::format("Invalid Pointer 'cursor' at index {}", i)))
+				continue;
+
 			cursor->Render(renderer);
 		}
 	}
@@ -86,7 +131,16 @@ void IMenu::SetActiveCells()
 	{
 		for (size_t j = 0; j < m_rows[i].size(); j++)
 		{
-			CONTINUE_IF_INVALID(m_rows[i][j]);
+			auto* cell = m_rows[i][j].get();
+
+			if (!cell)
+			{
+				Logger::GetDefaultLogger().Log(
+					LogLevel::Error,
+					std::format("Invalid Pointer 'cell' at ({}, {})", i, j));
+				continue;
+			}
+
 			if (m_rows[i][j]->GetMenuSlotNumber() >= 0)
 			{
 				m_activeCells.emplace_back(static_cast<int>(i), static_cast<int>(j));
@@ -126,10 +180,17 @@ void IMenu::ProcessInput()
 {
 	if (!m_cursors.empty())
 	{
-		for (auto& cursor : m_cursors)
+		for (size_t i = 0; i < m_cursors.size(); ++i)
 		{
-			CONTINUE_IF_INVALID(cursor);
-			DECL_GET_OR_CONTINUE(menuNav, cursor->GetMenuNav());
+			auto* cursor = m_cursors[i].get();
+			if (!CheckNotNull(cursor,
+				std::format("Invalid Pointer 'cursor' at index {}", i)))
+				continue;
+
+			auto* menuNav = cursor->GetMenuNav();
+			if (!CheckNotNull(menuNav, "Invalid Pointer 'menuNav' from cursor->GetMenuNav()"))
+				continue;
+
 			menuNav->HandleNavigation();
 		}
 	}

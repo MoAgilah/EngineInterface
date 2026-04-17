@@ -55,7 +55,9 @@ void IScene::Update(float deltaTime)
 
 void IScene::Render(IRenderer* renderer)
 {
-	ENSURE_VALID(m_backgroundSpr);
+	if (!CheckNotNull(m_backgroundSpr.get(), "Invalid Pointer 'm_backgroundSpr' from GameManager::Get()"))
+		return;
+
 	m_backgroundSpr->Render(renderer);
 
 	for (auto& [id, enemy] : m_enemies)
