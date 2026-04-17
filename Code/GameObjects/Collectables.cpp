@@ -19,7 +19,7 @@ void StaticCollectable::Init(const Vector2f& initPos)
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
 		return;
 
-	volume->Update(GetPosition());
+	m_volume->Update(GetPosition());
 }
 
 void StaticCollectable::OnCollisionEnter(IGameObject* obj)
