@@ -3,7 +3,7 @@
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
 #include "../../../Utilities/ThreadContext.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 
 void IFrameWork::Initialise()
 {
@@ -51,10 +51,16 @@ int IFrameWork::Run()
 
 void IFrameWork::PollEvents()
 {
-    DECL_GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
+    auto* renderer = m_gameMgr.GetRenderer();
+    if (!CheckNotNull(renderer, "Invalid Pointer 'renderer' from m_gameMgr.GetRenderer()"))
+        return;
+
     renderer->PollWindowEvents();
 
-    DECL_GET_OR_RETURN(window, renderer->GetWindow());
+    auto* window = renderer->GetWindow();
+    if (!CheckNotNull(window, "Invalid Pointer 'window' from renderer->GetWindow()"))
+        return;
+
     if (window->ShouldClose())
         m_isRunning = false;
 }
@@ -66,8 +72,13 @@ void IFrameWork::Update(float dt)
 
 void IFrameWork::Render()
 {
-    DECL_GET_OR_RETURN(renderer, m_gameMgr.GetRenderer());
-    DECL_GET_OR_RETURN(camera, m_gameMgr.GetCamera());
+    auto* renderer = m_gameMgr.GetRenderer();
+    if (!CheckNotNull(renderer, "Invalid Pointer 'renderer' from m_gameMgr.GetRenderer()"))
+        return;
+
+    auto* camera = m_gameMgr.GetCamera();
+    if (!CheckNotNull(camera, "Invalid Pointer 'camera' from m_gameMgr.GetCamera()"))
+        return;
 
     camera->Reset(renderer);
 
