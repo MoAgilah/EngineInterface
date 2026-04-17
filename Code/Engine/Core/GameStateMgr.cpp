@@ -3,7 +3,7 @@
 #include "../Core/Constants.h"
 #include "../Interface/Scene/IGameState.h"
 #include "../Interface/Scene/IObjectState.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 #include <format>
 #include <iostream>
 
@@ -28,7 +28,8 @@ std::string_view GameStateMgr<T>::GetStateName()
 template<typename T>
 void GameStateMgr<T>::ChangeState(T* state)
 {
-	ENSURE_VALID(state);
+	if (!CheckNotNull(state, "Invalid Pointer 'state'"))
+		return;
 
 	if (!m_vGameStates.empty())
 		m_vGameStates.pop_back();
@@ -47,7 +48,8 @@ void GameStateMgr<T>::ChangeState(T* state)
 template<typename T>
 void GameStateMgr<T>::PushState(T* state)
 {
-	ENSURE_VALID(state);
+	if (!CheckNotNull(state, "Invalid Pointer 'state'"))
+		return;
 
 	T* s;
 
