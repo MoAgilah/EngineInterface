@@ -42,7 +42,7 @@ public:
 protected:
 
 	bool CanCollideWithTile(std::type_index typeID);
-	void SortCollidedTiles(std::vector<ITile*> collidedWith);
+	void SortCollidedTiles(std::vector<ITile*>& collidedWith);
 
 	void DynamicObjectToTileCollisions(IDynamicGameObject* obj);
 

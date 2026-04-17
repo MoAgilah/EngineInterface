@@ -1,5 +1,7 @@
 #include "ITile.h"
 
+#include "../../../Utilities/Guards.h"
+
 ITile::ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
 	: m_text(std::move(text)), m_slope(std::move(slope)), m_aabb(std::move(aabb))
 {
@@ -8,75 +10,109 @@ ITile::ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<I
 
 	m_id = std::format("{},{}", m_colNum, m_rowNum);
 
-	ENSURE_VALID(m_aabb);
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+	{
+		throw std::invalid_argument("ITile requires a valid BoundingBox");
+	}
 }
 
 bool ITile::Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast)
 {
-	ENSURE_VALID_RET(obj, false);
-	ENSURE_VALID_RET(m_aabb, false);
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return false;
+
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return false;
+
 	return m_aabb->IntersectsMoving(obj->GetVolume(), Vector2f(0, 0), obj->GetVelocity(), tFirst, tLast);
 }
 
 Vector2f ITile::GetPosition()
 {
-	ENSURE_VALID_RET(m_aabb, Vector2f());
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return Vector2f();
+
 	return m_aabb->GetPosition();
 }
 
 void ITile::SetOrigin(const Vector2f& origin)
 {
-	if (m_aabb)
+	if (CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
 		m_aabb->SetOrigin(origin);
 }
 
 Vector2f ITile::GetOrigin()
 {
-	ENSURE_VALID_RET(m_aabb, Vector2f());
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return Vector2f();
+
 	return m_aabb->GetOrigin();
 }
 
 IBoundingBox* ITile::GetBoundingBox()
 {
-	ENSURE_VALID_RET(m_aabb, nullptr);
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return nullptr;
+
 	return m_aabb.get();
 }
 
 void ITile::SetSlope(std::shared_ptr<ITriangleShape> slope)
 {
-	ENSURE_VALID(slope);
+	if (!CheckNotNull(slope.get(), "Invalid Pointer 'slope'"))
+		return;
+
 	m_slope = std::move(slope);
 }
 
 Line2f ITile::GetSlope(int bgn, int end)
 {
-	ENSURE_VALID_RET(m_slope, Line2f());
+	if (!CheckNotNull(m_slope.get(), "Invalid Pointer 'slope'"))
+		return Line2f();
+
 	return m_slope->GetLine(bgn, end);
 }
 
 float ITile::GetTileWidth()
 {
-	ENSURE_VALID_RET(m_aabb, float());
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return float();
+
 	return m_aabb->GetExtents().x;
 }
 
 float ITile::GetTileHeight()
 {
-	ENSURE_VALID_RET(m_aabb, float());
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return float();
+
 	return m_aabb->GetExtents().y;
 }
 
 Vector2f ITile::GetSeperationVector(IDynamicGameObject* obj)
 {
-	ENSURE_VALID_RET(m_aabb, Vector2f());
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return Vector2f();
+
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return Vector2f();
+
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume()'"))
+		return Vector2f();
+
 	return m_aabb->GetSeparationVector(obj->GetVolume());
 }
 
 void ITile::ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, float time)
 {
-	ENSURE_VALID(obj);
-	ENSURE_VALID(m_aabb);
-	ENSURE_VALID(obj->GetVolume());
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
+
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return;
+
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume()'"))
+		return;
 
 	const Vector2f sep = GetSeperationVector(obj);
 	const float fracAfterTOI = std::clamp(1.0f - time, 0.0f, 1.0f);
@@ -115,6 +151,9 @@ void ITile::ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, fl
 
 void ITile::ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float tLast)
 {
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
+
 	ResolveToObjectToTileSide(obj, Side::Top, tFirst);
 
 	obj->SetOnGround(true);
@@ -123,10 +162,16 @@ void ITile::ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float t
 
 void ITile::ResolveObjectToBoxBottom(IDynamicGameObject* obj, float tFirst, float tLast)
 {
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
+
 	ResolveToObjectToTileSide(obj, Side::Bottom, tFirst);
 }
 
 void ITile::ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst, float tLast)
 {
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
+
 	ResolveToObjectToTileSide(obj, obj->GetDirection() ? Side::Right : Side::Left, tFirst);
 }

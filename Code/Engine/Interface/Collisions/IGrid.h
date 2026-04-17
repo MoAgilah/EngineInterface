@@ -4,7 +4,7 @@
 #include "../Renderer/IRenderer.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -25,6 +25,9 @@ public:
 
 		for (const auto& tile : m_grid)
 		{
+			if (!CheckNotNull(tile.get(), "Invalid Pointer 'tile'"))
+				continue;
+
 			CONTINUE_IF_INVALID(tile);
 
 			if (!tile->GetActive())
