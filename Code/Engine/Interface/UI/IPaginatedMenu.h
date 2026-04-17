@@ -1,8 +1,9 @@
 #pragma once
 
 #include "IMenu.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <vector>
+#include <format>
 
 class IPaginatedMenu
 {
@@ -11,20 +12,27 @@ public:
 
 	void Update(float deltaTime)
 	{
-		if (m_menuPages.empty())
+		if (m_currentMenuNum >= m_menuPages.size())
 			return;
 
-		DECL_GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+		auto* currPage = m_menuPages[m_currentMenuNum].get();
+		if (!CheckNotNull(currPage, std::format("Invalid Pointer 'currPage' from m_menuPages[{}]", m_currentMenuNum)))
+			return;
 
 		currPage->Update(deltaTime);
 	}
 
 	void Render(IRenderer* renderer)
 	{
-		if (m_menuPages.empty())
+		if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
 			return;
 
-		DECL_GET_OR_RETURN(currPage, m_menuPages[m_currentMenuNum]);
+		if (m_currentMenuNum >= m_menuPages.size())
+			return;
+
+		auto* currPage = m_menuPages[m_currentMenuNum].get();
+		if (!CheckNotNull(currPage, std::format("Invalid Pointer 'currPage' from m_menuPages[{}]", m_currentMenuNum)))
+			return;
 
 		currPage->Render(renderer);
 	}
@@ -41,7 +49,8 @@ public:
 
 	IMenu* AddMenu(IMenu* menu)
 	{
-		ENSURE_VALID_RET(menu, nullptr);
+		if (!CheckNotNull(menu, "Invalid Pointer 'menu'"))
+			return __nullptr;
 
 		m_menuPages.push_back(std::shared_ptr<IMenu>(menu));
 		return GetMenuByNumber(static_cast<int>(m_menuPages.size() - 1));
