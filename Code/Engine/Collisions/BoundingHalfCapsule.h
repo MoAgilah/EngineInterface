@@ -4,7 +4,6 @@
 #include "BoundingCircle.h"
 #include "BoundingCapsule.h"
 #include "../../Utilities/Vector2.h"
-#include "../../Utilities/Utils.h"
 #include "../../Utilities/Guards.h"
 #include <algorithm>
 #include <cmath>

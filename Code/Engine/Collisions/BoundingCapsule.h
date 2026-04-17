@@ -6,7 +6,6 @@
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
 #include "../../Utilities/Traits.h"
-#include "../../Utilities/Utils.h"
 #include "../../Utilities/Guards.h"
 #include <algorithm>
 #include <numbers>

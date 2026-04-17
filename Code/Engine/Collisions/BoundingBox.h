@@ -4,7 +4,6 @@
 #include "../Interface/Drawables/IShape.h"
 #include "../Interface/Collisions/IBoundingVolume.h"
 #include "../../Utilities/Traits.h"
-#include "../../Utilities/Utils.h"
 #include "../../Utilities/Guards.h"
 #include <algorithm>
 #include <stdexcept>
