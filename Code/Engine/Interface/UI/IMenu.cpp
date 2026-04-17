@@ -2,7 +2,6 @@
 
 #include "../../../Utilities/Logger.h"
 #include "../../../Utilities/Guards.h"
-#include "../../../Utilities/Utils.h"
 #include <format>
 
 IMenu::IMenu(float outlineThickness, const Vector2f& dimensions, const MenuPositionData& menuPositionData)
