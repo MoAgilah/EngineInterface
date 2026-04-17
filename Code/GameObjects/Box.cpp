@@ -1,6 +1,7 @@
 #include "Box.h"
 
 #include "../Engine/Core/GameManager.h"
+#include "../Utilities/Guards.h"
 
 Box::Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos)
 	: GameObject(std::move(drawable), std::move(volume))
@@ -46,5 +47,10 @@ void Box::Init(const Vector2f& initPos)
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
-	GetVolume()->Update(GetPosition());
+
+	auto* volume = GetVolume();
+	if (!CheckNotNull(volume, "Invalid Pointer 'volume' from GetVolume()"))
+		return;
+
+	volume->Update(GetPosition());
 }
