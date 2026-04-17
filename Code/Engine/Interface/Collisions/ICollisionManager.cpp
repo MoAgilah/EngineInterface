@@ -5,11 +5,13 @@
 #include "ITile.h"
 #include "../Scene/IGameObject.h"
 #include "../Renderer/IRenderable.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
+#include "../../../Utilities/Logger.h"
 #include "../../../Utilities/Vector2.h"
 #include <algorithm>
 #include <ranges>
 #include <utility>
+#include <format>
 
 std::vector<std::type_index> ICollisionManager::s_canCollideWithTile = {};
 
@@ -28,7 +30,11 @@ ICollisionManager::ICollisionManager(std::shared_ptr<IGrid> grid)
 
 void ICollisionManager::ProcessCollisions(IGameObject* obj)
 {
-	ENSURE_VALID(obj);
+	if (!obj)
+	{
+		Logger::GetDefaultLogger().Log(LogLevel::Error, "Invalid Pointer 'obj'");
+		return;
+	}
 
 	if (CanCollideWithTile(obj->GetTypeIndex()))
 	{
@@ -36,9 +42,15 @@ void ICollisionManager::ProcessCollisions(IGameObject* obj)
 			DynamicObjectToTileCollisions(dynObj);
 	}
 
-	for (auto collidable : m_collidables)
+	for (size_t i = 0; i < m_collidables.size(); ++i)
 	{
-		if (!collidable || !collidable->GetActive())
+		auto* collidable = m_collidables[i];
+
+		if (!CheckNotNull(collidable,
+			std::format("Invalid Pointer 'collidable' at index {}", i)))
+			continue;
+
+		if (!collidable->GetActive())
 			continue;
 
 		if (obj->GetObjectNum() == collidable->GetObjectNum())
@@ -50,7 +62,8 @@ void ICollisionManager::ProcessCollisions(IGameObject* obj)
 
 void ICollisionManager::Render(IRenderer* renderer)
 {
-	ENSURE_VALID(renderer);
+	if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+		return;
 
 	if (m_grid)
 		m_grid->Render(renderer);
@@ -58,7 +71,8 @@ void ICollisionManager::Render(IRenderer* renderer)
 
 void ICollisionManager::RemoveCollidable(IGameObject* obj)
 {
-	ENSURE_VALID(obj);
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
 
 	m_collidables.erase(
 		std::remove_if(m_collidables.begin(), m_collidables.end(),
@@ -81,6 +95,9 @@ IGameObject* ICollisionManager::GetLastAdded()
 
 ITile* ICollisionManager::GetTile(int x, int y)
 {
+	if (!CheckNotNull(m_grid.get(), "Invalid Pointer 'm_grid'"))
+		return nullptr;
+
 	return m_grid->GetTile(x, y);
 }
 
@@ -130,8 +147,17 @@ bool ICollisionManager::CanCollideWithTile(std::type_index typeIndex)
 		typeIndex) != s_canCollideWithTile.end();
 }
 
-void ICollisionManager::SortCollidedTiles(std::vector<ITile*> collidedWith)
+void ICollisionManager::SortCollidedTiles(std::vector<ITile*>& collidedWith)
 {
+	for (size_t i = 0; i < collidedWith.size(); ++i)
+	{
+		if (!CheckNotNull(collidedWith[i],
+			std::format("Invalid Pointer 'tile' in collidedWith at index {}", i)))
+		{
+			return;
+		}
+	}
+
 	std::ranges::sort(collidedWith, [](const auto& a, const auto& b)
 		{
 			if (a->GetColNum() == b->GetColNum())
@@ -143,11 +169,18 @@ void ICollisionManager::SortCollidedTiles(std::vector<ITile*> collidedWith)
 
 void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 {
-	ENSURE_VALID(obj);
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
 
 	std::vector<ITile*> collidedWith;
-	for (const auto& tile : m_tiles)
+	for (size_t i = 0; i < m_tiles.size(); ++i)
 	{
+		auto* tile = m_tiles[i];
+
+		if (!CheckNotNull(tile,
+			std::format("Invalid Pointer 'tile' at index {}", i)))
+			continue;
+
 		if (!tile->GetActive())
 			continue;
 
@@ -181,8 +214,11 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 
 void ICollisionManager::ObjectToObjectCollisions(IGameObject* obj1, IGameObject* obj2)
 {
-	ENSURE_VALID(obj1);
-	ENSURE_VALID(obj2);
+	if (!CheckNotNull(obj1, "Invalid Pointer 'obj1'"))
+		return;
+
+	if (!CheckNotNull(obj2, "Invalid Pointer 'obj2'"))
+		return;
 
 	const bool isDyn1 = obj1->IsDynamicObject();
 	const bool isDyn2 = obj2->IsDynamicObject();
@@ -210,8 +246,11 @@ void ICollisionManager::ObjectToObjectCollisions(IGameObject* obj1, IGameObject*
 
 void ICollisionManager::DynamicObjectToObjectCollisions(IDynamicGameObject* obj1, IGameObject* obj2)
 {
-	ENSURE_VALID(obj1);
-	ENSURE_VALID(obj2);
+	if (!CheckNotNull(obj1, "Invalid Pointer 'obj1'"))
+		return;
+
+	if (!CheckNotNull(obj2, "Invalid Pointer 'obj2'"))
+		return;
 
 	float tFirst, tLast;
 	if (obj2->Intersects(obj1, tFirst, tLast))
@@ -220,8 +259,11 @@ void ICollisionManager::DynamicObjectToObjectCollisions(IDynamicGameObject* obj1
 
 void ICollisionManager::DynamicObjectToDynamicObjectCollisions(IDynamicGameObject* obj1, IDynamicGameObject* obj2)
 {
-	ENSURE_VALID(obj1);
-	ENSURE_VALID(obj2);
+	if (!CheckNotNull(obj1, "Invalid Pointer 'obj1'"))
+		return;
+
+	if (!CheckNotNull(obj2, "Invalid Pointer 'obj2'"))
+		return;
 
 	float tFirst, tLast;
 	if (obj1->Intersects(obj2, tFirst, tLast))
@@ -245,6 +287,9 @@ void ICollisionManager::DynamicObjectToDynamicObjectResolution(IDynamicGameObjec
 
 Direction ICollisionManager::GetFacingDirection(IDynamicGameObject* obj)
 {
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return Direction::DDIR;
+
 	const Vector2f& currentVel = obj->GetVelocity();
 
 	Direction currentDir = Direction::DDIR;

@@ -21,6 +21,7 @@ public:
 
 	void SetMaxTime(float maxTime);
 	float GetMaxTime() const { return m_maxTime; }
+
 private:
 
 	float m_time = 0;

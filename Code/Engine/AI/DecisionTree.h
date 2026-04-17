@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 #include <functional>
 #include <map>
 #include <memory>
@@ -10,17 +10,18 @@
 
 // Generic Decision Node
 template <typename T, typename S, typename... Args>
-class DecisionNode {
+class DecisionNode
+{
 public:
-	T m_result;
-	std::function<S(Args...)> m_condition;
-	std::shared_ptr<DecisionNode> m_true;
-	std::shared_ptr<DecisionNode> m_false;
+    T m_result;
+    std::function<S(Args...)> m_condition;
+    std::shared_ptr<DecisionNode<T, S, Args...>> m_true;
+    std::shared_ptr<DecisionNode<T, S, Args...>> m_false;
 
-	DecisionNode(std::function<S(Args...)> condition, T result)
-		: m_condition(condition), m_result(result), m_true(nullptr), m_false(nullptr)
-	{
-	}
+    DecisionNode(std::function<S(Args...)> condition, T result)
+        : m_result(result), m_condition(condition), m_true(nullptr), m_false(nullptr)
+    {
+    }
 };
 
 // Decision Tree Class
@@ -28,99 +29,124 @@ template <typename T, typename S, typename... Args>
 class DecisionTree
 {
 public:
-	DecisionTree(std::shared_ptr<DecisionNode<T, S, Args...>> root)
-		: m_root(root)
-	{
-		ENSURE_VALID(m_root);
-	}
+    explicit DecisionTree(std::shared_ptr<DecisionNode<T, S, Args...>> root)
+        : m_root(root)
+    {
+        if (!CheckNotNull(m_root.get(), "Invalid Pointer 'm_root'"))
+        {
+            throw std::invalid_argument("DecisionTree requires a valid root node");
+        }
+    }
 
-	std::shared_ptr<DecisionNode<T, S, Args...>> GetRoot() { return m_root; }
+    std::shared_ptr<DecisionNode<T, S, Args...>> GetRoot() const
+    {
+        return m_root;
+    }
 
-	void AddBranch(std::string id, std::shared_ptr<DecisionNode<T, S, Args...>> root)
-	{
-		ENSURE_VALID(root);
-		m_branches[id] = root;
-	}
+    void AddBranch(const std::string& id, std::shared_ptr<DecisionNode<T, S, Args...>> root)
+    {
+        if (!CheckNotNull(root.get(), "Invalid Pointer 'root'"))
+            return;
 
-	std::shared_ptr<DecisionNode<T, S, Args...>> GetBranchNode(std::string id)
-	{
-		auto it = m_branches.find(id);
-		if (it != m_branches.end())
-			return it->second;
+        m_branches[id] = root;
+    }
 
-		return nullptr;
-	}
+    std::shared_ptr<DecisionNode<T, S, Args...>> GetBranchNode(const std::string& id) const
+    {
+        auto it = m_branches.find(id);
+        if (it != m_branches.end())
+            return it->second;
 
-	// Function to dynamically add a node
-	std::shared_ptr<DecisionNode<T, S, Args...>> AddNode(
-		std::shared_ptr<DecisionNode<T, S, Args...>> parent,
-		std::function<S(Args...)> condition,
-		T result, bool branch)
-	{
-		ENSURE_VALID_RET(parent, nullptr);
+        return nullptr;
+    }
 
-		auto newNode = std::make_shared<DecisionNode<T, S, Args...>>(condition, result);
+    std::shared_ptr<DecisionNode<T, S, Args...>> AddNode(
+        std::shared_ptr<DecisionNode<T, S, Args...>> parent,
+        std::function<S(Args...)> condition,
+        T result,
+        bool branch)
+    {
+        if (!CheckNotNull(parent.get(), "Invalid Pointer 'parent'"))
+            return nullptr;
 
-		ENSURE_VALID_RET(newNode, nullptr);
+        auto newNode = std::make_shared<DecisionNode<T, S, Args...>>(condition, result);
 
-		if (branch)
-		{
-			parent->m_true = newNode;
-		}
-		else
-		{
-			parent->m_false = newNode;
-		}
+        if (!CheckNotNull(newNode.get(), "Invalid Pointer 'newNode'"))
+            return nullptr;
 
-		return newNode;
-	}
+        if (branch)
+        {
+            parent->m_true = newNode;
+        }
+        else
+        {
+            parent->m_false = newNode;
+        }
 
-	void Evaluate(Args... input)
-	{
-		ENSURE_VALID(m_root);
-		T result = EvaluateTree(m_root, input...);
-		m_results.push_back(result);
+        return newNode;
+    }
 
-		for (auto& branchPair : m_branches)
-		{
-			CONTINUE_IF_INVALID(branchPair.second);
-			m_results.push_back(EvaluateTree(branchPair.second, input...));
-		}
-	}
+    void Evaluate(Args... input)
+    {
+        if (!CheckNotNull(m_root.get(), "Invalid Pointer 'm_root'"))
+            return;
 
-	std::vector<T> GetResults() { return m_results; }
+        m_results.clear();
+
+        T result = EvaluateTree(m_root, input...);
+        m_results.push_back(result);
+
+        for (auto& branchPair : m_branches)
+        {
+            if (!CheckNotNull(branchPair.second.get(), "Invalid Pointer 'branchPair.second'"))
+                continue;
+
+            m_results.push_back(EvaluateTree(branchPair.second, input...));
+        }
+    }
+
+    const std::vector<T>& GetResults() const
+    {
+        return m_results;
+    }
 
 private:
+    T EvaluateTree(std::shared_ptr<DecisionNode<T, S, Args...>> node, Args... input)
+    {
+        if (!CheckNotNull(node.get(), "Invalid Pointer 'node'"))
+            throw std::runtime_error("Decision tree evaluation failed: invalid root node");
 
-	T EvaluateTree(std::shared_ptr<DecisionNode<T, S, Args...>> node, Args... input)
-	{
-		auto current = node;
-		while (current)
-		{
-			if (current->m_condition)
-			{
-				if (current->m_condition(input...))
-				{
-					if (!current->m_true)
-						return current->m_result;
-					current = current->m_true;
-				}
-				else
-				{
-					if (!current->m_false)
-						return current->m_result;
-					current = current->m_false;
-				}
-			}
-			else
-			{
-				return current->m_result;
-			}
-		}
-		throw std::runtime_error("Decision tree evaluation failed");
-	}
+        auto current = node;
 
-	std::shared_ptr<DecisionNode<T, S, Args...>> m_root; // Root of the tree
-	std::map<std::string, std::shared_ptr<DecisionNode<T, S, Args...>>> m_branches;
-	std::vector<T> m_results;
+        while (current)
+        {
+            if (current->m_condition)
+            {
+                if (current->m_condition(input...))
+                {
+                    if (!current->m_true)
+                        return current->m_result;
+
+                    current = current->m_true;
+                }
+                else
+                {
+                    if (!current->m_false)
+                        return current->m_result;
+
+                    current = current->m_false;
+                }
+            }
+            else
+            {
+                return current->m_result;
+            }
+        }
+
+        throw std::runtime_error("Decision tree evaluation failed");
+    }
+
+    std::shared_ptr<DecisionNode<T, S, Args...>> m_root;
+    std::map<std::string, std::shared_ptr<DecisionNode<T, S, Args...>>> m_branches;
+    std::vector<T> m_results;
 };

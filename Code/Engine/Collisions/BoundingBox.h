@@ -4,8 +4,10 @@
 #include "../Interface/Drawables/IShape.h"
 #include "../Interface/Collisions/IBoundingVolume.h"
 #include "../../Utilities/Traits.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 #include <algorithm>
+#include <stdexcept>
+#include <limits>
 
 template <typename PlatformBox>
 class BoundingBox : public IBoundingBox, public BoundingVolume<PlatformBox>
@@ -17,7 +19,10 @@ public:
         , BoundingVolume<PlatformBox>(VolumeType::Box)
     {
         this->m_shape = std::make_shared<PlatformBox>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingBox requires a valid shape");
+        }
     }
 
     BoundingBox(const Vector2f& size)
@@ -26,7 +31,11 @@ public:
         , BoundingVolume<PlatformBox>(VolumeType::Box)
     {
         this->m_shape = std::make_shared<PlatformBox>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingBox requires a valid shape");
+        }
+
         Reset(size);
     }
 
@@ -37,14 +46,20 @@ public:
         , BoundingVolume<PlatformBox>(VolumeType::Box)
     {
         this->m_shape = std::make_shared<PlatformBox>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingBox requires a valid shape");
+        }
+
         Reset(size);
         Update(pos);
     }
 
     void Reset(const Vector2f& size)
     {
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return;
+
         this->m_shape->Reset(size);
         auto scale = GetScale();
         m_extents = { size.x * 0.5f * scale.x, size.y * 0.5f * scale.y };
@@ -52,7 +67,9 @@ public:
 
     void Update(const Vector2f& pos) override
     {
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return;
+
         this->m_shape->Update(pos);
         auto center = BoundingVolume<PlatformBox>::GetCenter();
         m_min = center - m_extents;
@@ -75,7 +92,7 @@ public:
     void SetScale(const Vector2f& scale) override
     {
         BoundingVolume<PlatformBox>::SetScale(scale);
-        if (this->m_shape)
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
             Reset(this->m_shape->GetSize());
     }
 
@@ -99,7 +116,8 @@ public:
 
     bool Intersects(IBoundingVolume* v) override
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
         switch (v->GetType())
         {
@@ -114,7 +132,8 @@ public:
     bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
         float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
         switch (v->GetType())
         {
@@ -128,7 +147,8 @@ public:
 
     Vector2f GetSeparationVector(IBoundingVolume* v) override
     {
-        ENSURE_VALID_RET(v, Vector2f());
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return Vector2f();
 
         switch (v->GetType())
         {
@@ -139,7 +159,6 @@ public:
         }
         return {};
     }
-
 
     Vector2f GetPoint(Side side) override
     {
@@ -158,55 +177,49 @@ public:
     {
         switch (side)
         {
-        case Side::Left:    return Line2f(m_min, Vector2f(m_min.x, m_max.y));
-        case Side::Right:   return Line2f(Vector2f(m_max.x, m_min.y), m_max);
-        case Side::Top:     return Line2f(m_min, Vector2f(m_max.x, m_min.y));
-        case Side::Bottom:  return Line2f(Vector2f(m_min.x, m_max.y), m_max);
+        case Side::Left:   return Line2f(m_min, Vector2f(m_min.x, m_max.y));
+        case Side::Right:  return Line2f(Vector2f(m_max.x, m_min.y), m_max);
+        case Side::Top:    return Line2f(m_min, Vector2f(m_max.x, m_min.y));
+        case Side::Bottom: return Line2f(Vector2f(m_min.x, m_max.y), m_max);
         }
         return Line2f();
     }
 
 protected:
-
     bool Intersects(IBoundingBox* box) override
     {
-        ENSURE_VALID_RET(box, false);
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
         for (size_t i = 0; i < 2; i++)
         {
-            if (std::abs(this->GetCenter()[i] - box->GetCenter()[i])
-        > m_extents[i] + box->GetExtents()[i])
+            if (std::abs(this->GetCenter()[i] - box->GetCenter()[i]) > m_extents[i] + box->GetExtents()[i])
                 return false;
         }
 
-        // Overlapping on all axes means AABBs are intersecting
         return true;
     }
 
     bool Intersects(IBoundingCircle* circle) override
     {
-        ENSURE_VALID_RET(circle, false);
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
-        // Compute squared distance between sphere center and AABB
         float sqDist = SqDistPoint(circle->GetCenter());
         float radius = circle->GetRadius();
-
-        // Sphere and AABB intersect if the (squared) distance
-        // between them is less than the (squared) sphere radius
         return sqDist <= radius * radius;
     }
 
     bool Intersects(IBoundingCapsule* capsule) override
     {
-        ENSURE_VALID_RET(capsule, false);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
-        // Compute the box's min and max corners
         Vector2f boxMin = m_min;
         Vector2f boxMax = m_max;
 
         const auto& line = capsule->GetSegment();
 
-        // Check the line segment (capsule core) against the box
         Vector2f closestToStart = line.start.Clamp(boxMin, boxMax);
         Vector2f closestToEnd = line.end.Clamp(boxMin, boxMax);
 
@@ -215,7 +228,6 @@ protected:
 
         float radSq = capsule->GetRadius() * capsule->GetRadius();
 
-        // Check if the distances are less than or equal to the capsule's radius squared
         if (distStart <= radSq || distEnd <= radSq)
             return true;
 
@@ -225,9 +237,11 @@ protected:
         return closestPointStartDistSq <= radSq || closestPointEndDistSq <= radSq;
     }
 
-    bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb,
+        float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(box, false);
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
         if (Intersects(box))
         {
@@ -248,7 +262,6 @@ protected:
             {
                 if (box->GetMax()[i] < m_min[i] || box->GetMin()[i] > m_max[i])
                     return false;
-
                 continue;
             }
 
@@ -266,24 +279,20 @@ protected:
             }
         }
 
-        if (tfirst > tlast)
-            return false;
-
-        return true;
+        return tfirst <= tlast;
     }
 
-    bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb,
+        float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(circle, false);
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
-        // Calculate relative velocity: circle's motion relative to the box
         Vector2f relativeVelocity = vb - va;
 
-        // No movement → fall back to static check
         if (relativeVelocity.LengthSquared() < ICollisionManager::EPSILON * ICollisionManager::EPSILON)
             return Intersects(circle);
 
-        // Treat the circle as a moving point by expanding the box by the radius
         float r = circle->GetRadius();
         Vector2f boxMin = GetMin() - Vector2f(r, r);
         Vector2f boxMax = GetMax() + Vector2f(r, r);
@@ -304,26 +313,27 @@ protected:
         float entryTime = std::max(tEnterX, tEnterY);
         float exitTime = std::min(tExitX, tExitY);
 
-        // Reject if exit before entry, or exit is in the past, or entry is too far in future
         if (entryTime > exitTime || exitTime < -ICollisionManager::EPSILON || entryTime > 1.0f)
             return false;
 
-        // ✅ Allow t=0 contact as a valid collision
         tfirst = std::max(0.f, entryTime);
         tlast = std::min(1.f, exitTime);
         return true;
     }
 
-    bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb,
+        float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(capsule, false);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
         return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
     }
 
     Vector2f GetSeparationVector(IBoundingBox* box) override
     {
-        ENSURE_VALID_RET(box, Vector2f());
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return Vector2f();
 
         Vector2f delta = box->GetPosition() - GetPosition();
         delta = { std::abs(delta.x), std::abs(delta.y) };
@@ -343,7 +353,8 @@ protected:
 
     Vector2f GetSeparationVector(IBoundingCircle* circle) override
     {
-        ENSURE_VALID_RET(circle, Vector2f());
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return Vector2f();
 
         Vector2f circlePos = circle->GetPosition();
         Vector2f closestPoint = {
@@ -355,27 +366,22 @@ protected:
         float distance = displacement.Length();
         float penetrationDepth = circle->GetRadius() - distance;
 
-        // If overlapping and distance is meaningful
         if (penetrationDepth > 0.f && distance > std::numeric_limits<float>::epsilon())
-        {
             return displacement.Normalize() * (penetrationDepth + ICollisionManager::BUFFER);
-        }
 
-        // If the circle's center is inside the box (distance ≈ 0), pick an arbitrary direction
         if (distance <= std::numeric_limits<float>::epsilon())
         {
-            // Choose vertical push direction based on position relative to box center
             float pushDir = (circlePos.y < this->GetCenter().y) ? -1.f : 1.f;
             return Vector2f(0.f, pushDir * (circle->GetRadius() + ICollisionManager::BUFFER));
         }
 
-        // No collision
         return Vector2f();
     }
 
     Vector2f GetSeparationVector(IBoundingCapsule* capsule) override
     {
-        ENSURE_VALID_RET(capsule, Vector2f());
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return Vector2f();
 
         Vector2f closestPoint = capsule->GetSegment().ClosestPointOnLineSegment(this->GetCenter());
         Vector2f clampedPoint = {

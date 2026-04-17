@@ -5,7 +5,6 @@
 #include "../Scene/IGameObject.h"
 #include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
-#include "../../../Utilities/Utils.h"
 #include <algorithm>
 #include <memory>
 #include <string>

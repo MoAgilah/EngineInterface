@@ -4,9 +4,10 @@
 #include "BoundingCircle.h"
 #include "BoundingCapsule.h"
 #include "../../Utilities/Vector2.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 #include <algorithm>
 #include <cmath>
+#include <stdexcept>
 
 template <typename PlatformCapsule>
 struct HalfCapsule
@@ -18,20 +19,25 @@ struct HalfCapsule
 
     HalfCapsule() = default;
 
-    explicit HalfCapsule(BoundingCapsule<PlatformCapsule>* cap,
+    explicit HalfCapsule(BoundingCapsule<PlatformCapsule>* capsule,
         Which which = Which::Start)
     {
-        ENSURE_VALID(cap);
-        Reset(cap, which);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+        {
+            throw std::invalid_argument("HalfCapsule requires a valid capsule");
+        }
+
+        Reset(capsule, which);
     }
 
-    void Reset(BoundingCapsule<PlatformCapsule>* cap,
+    void Reset(BoundingCapsule<PlatformCapsule>* capsule,
         Which which = Which::Start)
     {
-        ENSURE_VALID(cap);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return;
 
-        const float r = cap->GetRadius();
-        const auto  seg = cap->GetSegment();
+        const float r = capsule->GetRadius();
+        const auto seg = capsule->GetSegment();
 
         // chosen end-cap as a circle
         const Vector2f capCenter = (which == Which::Start) ? seg.start : seg.end;
@@ -44,13 +50,18 @@ struct HalfCapsule
         const Vector2f ab = b - a;
         const float len2 = ab.x * ab.x + ab.y * ab.y;
 
-        if (len2 > 0.0f) {
+        if (len2 > 0.0f)
+        {
             const float invLen = 1.0f / std::sqrt(len2);
             const Vector2f dir = ab * invLen;
-            if (which == Which::Start) a = a + dir * r; else b = b - dir * r;
+
+            if (which == Which::Start)
+                a = a + dir * r;
+            else
+                b = b - dir * r;
         }
 
-        // AABB of sub-segment expanded by radius (same style as Capsule::ToBoundingBox)
+        // AABB of sub-segment expanded by radius
         const float minX = std::min(a.x, b.x) - r;
         const float maxX = std::max(a.x, b.x) + r;
         const float minY = std::min(a.y, b.y) - r;
@@ -61,7 +72,6 @@ struct HalfCapsule
         m_body.Update((a + b) * 0.5f);
     }
 
-    // Keep both components moving together (preserve their internal offset)
     void Update(const Vector2f& pos)
     {
         const Vector2f delta = pos - GetCenter();
@@ -69,15 +79,15 @@ struct HalfCapsule
         m_body.SetCenter(m_body.GetCenter() + delta);
     }
 
-    void Render(IRenderer* r)
+    void Render(IRenderer* renderer)
     {
-        ENSURE_VALID(r);
+        if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+            return;
 
-        m_body.Render(r);
-        m_cap.Render(r);
+        m_body.Render(renderer);
+        m_cap.Render(renderer);
     }
 
-    // Composite helpers
     Vector2f GetCenter() const { return m_body.GetCenter(); }
 
     bool Intersects(const Vector2f& p) const
@@ -87,7 +97,8 @@ struct HalfCapsule
 
     bool Intersects(IBoundingVolume* v)
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
         return m_cap.Intersects(v) || m_body.Intersects(v);
     }
@@ -95,9 +106,10 @@ struct HalfCapsule
     bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
         float& tfirst, float& tlast)
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
-        float tf2, tl2;
+        float tf2 = 0.0f, tl2 = 0.0f;
         const bool hitCap = m_cap.IntersectsMoving(v, va, vb, tfirst, tlast);
         const bool hitBody = m_body.IntersectsMoving(v, va, vb, tf2, tl2);
 
@@ -108,7 +120,6 @@ struct HalfCapsule
                 tfirst = tf2;
                 tlast = tl2;
             }
-
             return true;
         }
 
@@ -119,7 +130,6 @@ struct HalfCapsule
         {
             tfirst = tf2;
             tlast = tl2;
-
             return true;
         }
 
@@ -128,18 +138,20 @@ struct HalfCapsule
 
     Vector2f GetSeparationVector(IBoundingVolume* v, bool preferCap)
     {
-        ENSURE_VALID_RET(v, Vector2f());
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return Vector2f();
 
         return preferCap ? m_cap.GetSeparationVector(v) : m_body.GetSeparationVector(v);
     }
 
     BoundingCircle<PlatformCircle>& Cap() { return m_cap; }
     const BoundingCircle<PlatformCircle>& Cap() const { return m_cap; }
+
     BoundingBox<PlatformBox>& Body() { return m_body; }
     const BoundingBox<PlatformBox>& Body() const { return m_body; }
 
 private:
 
-    BoundingBox<PlatformBox>       m_body;
+    BoundingBox<PlatformBox> m_body;
     BoundingCircle<PlatformCircle> m_cap;
 };

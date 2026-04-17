@@ -1,38 +1,18 @@
 #include "CppUnitTest.h"
 
+#include <Engine/Core/Constants.h>
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
+#include <TestHelpers/TestFilesystemHelpers.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <string>
-#include <source_location>
 #include <thread>
 #include <filesystem>
-#include <fstream>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Utilities
 {
-	std::filesystem::path GetFilePath()
-	{
-		return std::filesystem::temp_directory_path() /
-			("logger_test_" + std::to_string(std::rand()) +
-				"_" + std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()) +
-				".txt");
-	}
-
-	struct TempFileGuard
-	{
-		std::filesystem::path path;
-
-		~TempFileGuard()
-		{
-			if (!path.empty() && std::filesystem::exists(path))
-			{
-				std::filesystem::remove(path);
-			}
-		}
-	};
-
 	TEST_CLASS(LoggerTests)
 	{
 	public:
@@ -40,10 +20,35 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();
+
+			Assert::IsTrue(std::filesystem::exists(guard.path));
+		}
+
+		TEST_METHOD(Logger_DefaultDirectory_GetsLogFileOnCreate)
+		{
+			::Logger logger;
+
+			TestHelpers::TempFileGuard guard{ GameConstants::GetDefaultLogPath() };
+
+			logger.Start(guard.path.string());
+			logger.Stop();
+
+			Assert::IsTrue(std::filesystem::exists(guard.path));
+		}
+
+		TEST_METHOD(Logger_GetDefaultLogger_GetsLogFileOnCreate)
+		{
+			TestHelpers::ResetLoggerDefaultsForTests();
+
+			::Logger::GetDefaultLogger();
+
+			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
+
+			::Logger::GetDefaultLogger().Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 		}
@@ -52,8 +57,8 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 
@@ -65,18 +70,14 @@ namespace Utilities
 			// First file should contain output
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			std::ifstream file1(guard1.path);
-			std::string contents1((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents1 = TestHelpers::ReadFile(guard1.path);
 
 			Assert::IsTrue(contents1.find("test") != std::string::npos);
 
 			// Second file should NOT contain output
 			if (std::filesystem::exists(guard2.path))
 			{
-				std::ifstream file2(guard2.path);
-				std::string contents2((std::istreambuf_iterator<char>(file2)),
-					std::istreambuf_iterator<char>());
+				std::string contents2 = TestHelpers::ReadFile(guard2.path);
 
 				Assert::IsTrue(contents2.empty());
 			}
@@ -104,7 +105,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();
@@ -113,9 +114,7 @@ namespace Utilities
 
 			logger.Log(LogLevel::Info, "test");
 
-			std::ifstream file(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -124,7 +123,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Stop();
 
@@ -138,14 +137,14 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 			logger.Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard2.path.string());
 			logger.Stop();
@@ -157,8 +156,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
-
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -168,9 +166,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") != std::string::npos);
 		}
@@ -179,7 +175,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Log(LogLevel::Info, "test");
 
@@ -189,9 +185,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -200,7 +194,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -210,9 +204,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test") == std::string::npos);
 		}
@@ -221,14 +213,14 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard1{ GetFilePath() };
+			TestHelpers::TempFileGuard guard1{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard1.path.string());
 			logger.Stop();
 
 			Assert::IsTrue(std::filesystem::exists(guard1.path));
 
-			TempFileGuard guard2{ GetFilePath() };
+			TestHelpers::TempFileGuard guard2{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard2.path.string());
 
@@ -238,9 +230,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard2.path));
 
-			std::ifstream file1(guard2.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard2.path);
 
 			Assert::IsTrue(contents.find("test") != std::string::npos);
 		}
@@ -249,7 +239,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -261,9 +251,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			auto pos1 = contents.find("[#0]");
 			auto pos2 = contents.find("[#1]");
@@ -293,7 +281,7 @@ namespace Utilities
 
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -311,9 +299,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("[ Main ]") != std::string::npos);
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
@@ -326,7 +312,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -341,9 +327,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
 			Assert::IsTrue(contents.find("test2") != std::string::npos);
@@ -355,7 +339,7 @@ namespace Utilities
 
 		TEST_METHOD(Logger_Destructor_DrainsQueuedMessagesBeforeExit)
 		{
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			{
 				::Logger logger;
@@ -372,9 +356,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("test1") != std::string::npos);
 			Assert::IsTrue(contents.find("test2") != std::string::npos);
@@ -391,7 +373,7 @@ namespace Utilities
 
 			::Logger logger;
 
-			TempFileGuard guard{ GetFilePath() };
+			TestHelpers::TempFileGuard guard{ TestHelpers::GetTempFilePath() };
 
 			logger.Start(guard.path.string());
 
@@ -401,9 +383,7 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 
-			std::ifstream file1(guard.path);
-			std::string contents((std::istreambuf_iterator<char>(file1)),
-				std::istreambuf_iterator<char>());
+			std::string contents = TestHelpers::ReadFile(guard.path);
 
 			Assert::IsTrue(contents.find("[ Thread ]") == std::string::npos);
 			Assert::IsTrue(contents.find("[ Main ]") != std::string::npos);

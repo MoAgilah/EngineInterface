@@ -6,368 +6,378 @@
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
 #include "../../Utilities/Traits.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 #include <algorithm>
 #include <numbers>
+#include <stdexcept>
+#include <limits>
 
 template <typename PlatformCapsule>
 class BoundingCapsule : public IBoundingCapsule, public BoundingVolume<PlatformCapsule>
 {
 public:
-	using PlatformCircle = typename CapsuleTraits<PlatformCapsule>::CircleType;
-	using PlatformBox = typename CapsuleTraits<PlatformCapsule>::BoxType;
+    using PlatformCircle = typename CapsuleTraits<PlatformCapsule>::CircleType;
+    using PlatformBox = typename CapsuleTraits<PlatformCapsule>::BoxType;
 
-	BoundingCapsule(float radius, float length, float angle)
-		: IBoundingVolume(VolumeType::Capsule)
-		, IBoundingCapsule()
-		, BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
-	{
-		this->m_shape = std::make_shared<PlatformCapsule>();
-		ENSURE_VALID(this->m_shape);
-		Reset(radius, length, angle);
-	}
+    BoundingCapsule(float radius, float length, float angle)
+        : IBoundingVolume(VolumeType::Capsule)
+        , IBoundingCapsule()
+        , BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+    {
+        this->m_shape = std::make_shared<PlatformCapsule>();
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCapsule requires a valid shape");
+        }
 
-	BoundingCapsule(float radius, float length, float angle, const Vector2f& pos)
-		: IBoundingVolume(VolumeType::Capsule)
-		, IBoundingCapsule()
-		, BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
-	{
-		this->m_shape = std::make_shared<PlatformCapsule>();
-		ENSURE_VALID(this->m_shape);
-		Reset(radius, length, angle);
-		Update(pos);
-	}
+        Reset(radius, length, angle);
+    }
 
-	BoundingCapsule(float radius, const Line2f& segment)
-		: IBoundingVolume(VolumeType::Capsule)
-		, IBoundingCapsule()
-		, BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
-	{
-		this->m_shape = std::make_shared<PlatformCapsule>();
-		ENSURE_VALID(this->m_shape);
-		Reset(radius, segment.start.Distance(segment.end), segment.CalculateAngle());
-		Update(segment.GetMidPoint());
-	}
+    BoundingCapsule(float radius, float length, float angle, const Vector2f& pos)
+        : IBoundingVolume(VolumeType::Capsule)
+        , IBoundingCapsule()
+        , BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+    {
+        this->m_shape = std::make_shared<PlatformCapsule>();
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCapsule requires a valid shape");
+        }
 
-	BoundingBox<PlatformBox> ToBoundingBox() const
-	{
-		BoundingBox<PlatformBox> out;
-		const float r = GetRadius();
-		const auto& seg = GetSegment();
+        Reset(radius, length, angle);
+        Update(pos);
+    }
 
-		const float minX = std::min(seg.start.x, seg.end.x) - r;
-		const float maxX = std::max(seg.start.x, seg.end.x) + r;
-		const float minY = std::min(seg.start.y, seg.end.y) - r;
-		const float maxY = std::max(seg.start.y, seg.end.y) + r;
+    BoundingCapsule(float radius, const Line2f& segment)
+        : IBoundingVolume(VolumeType::Capsule)
+        , IBoundingCapsule()
+        , BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+    {
+        this->m_shape = std::make_shared<PlatformCapsule>();
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCapsule requires a valid shape");
+        }
 
-		out.Reset({ maxX - minX, maxY - minY });
-		out.Update(seg.GetMidPoint());
-		return out;
-	}
+        Reset(radius, segment.start.Distance(segment.end), segment.CalculateAngle());
+        Update(segment.GetMidPoint());
+    }
 
-	void Reset(float radius, float length, float angle)
-	{
-		if (this->m_shape)
-			this->m_shape->Reset(radius, length, angle);
-	}
+    BoundingBox<PlatformBox> ToBoundingBox() const
+    {
+        BoundingBox<PlatformBox> out;
+        const float r = GetRadius();
+        const auto& seg = GetSegment();
 
-	void Update(const Vector2f& pos) override
-	{
-		if (this->m_shape)
-			this->m_shape->Update(pos);
-	}
+        const float minX = std::min(seg.start.x, seg.end.x) - r;
+        const float maxX = std::max(seg.start.x, seg.end.x) + r;
+        const float minY = std::min(seg.start.y, seg.end.y) - r;
+        const float maxY = std::max(seg.start.y, seg.end.y) + r;
 
-	void Render(IRenderer* renderer) override
-	{
-		if (this->m_shape)
-			this->m_shape->Render(renderer);
-	}
+        out.Reset({ maxX - minX, maxY - minY });
+        out.Update(seg.GetMidPoint());
+        return out;
+    }
 
-	void* GetNativeShape() override { return BoundingVolume<PlatformCapsule>::GetNativeShape(); }
+    void Reset(float radius, float length, float angle)
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            this->m_shape->Reset(radius, length, angle);
+    }
 
-	Vector2f GetCenter() const override { return BoundingVolume<PlatformCapsule>::GetCenter(); }
-	void SetCenter(const Vector2f& c) override { BoundingVolume<PlatformCapsule>::SetCenter(c); }
+    void Update(const Vector2f& pos) override
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            this->m_shape->Update(pos);
+    }
 
-	Vector2f GetPosition() const override { return BoundingVolume<PlatformCapsule>::GetPosition(); }
-	void SetPosition(const Vector2f& p) override { BoundingVolume<PlatformCapsule>::SetPosition(p); }
+    void Render(IRenderer* renderer) override
+    {
+        if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+            return;
 
-	Vector2f GetOrigin() const override { return BoundingVolume<PlatformCapsule>::GetOrigin(); }
-	void SetOrigin(const Vector2f& o) override { BoundingVolume<PlatformCapsule>::SetOrigin(o); }
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            this->m_shape->Render(renderer);
+    }
 
-	Vector2f GetScale() const override { return BoundingVolume<PlatformCapsule>::GetScale(); }
-	void SetScale(const Vector2f& scale) override
-	{
-		BoundingVolume<PlatformCapsule>::SetScale(scale);
-		if (this->m_shape)
-			Reset(GetRadius(), GetLength(), GetAngle());
-	}
+    void* GetNativeShape() override { return BoundingVolume<PlatformCapsule>::GetNativeShape(); }
 
-	float GetRadius() const override
-	{
-		if (this->m_shape)
-			return this->m_shape->GetRadius();
+    Vector2f GetCenter() const override { return BoundingVolume<PlatformCapsule>::GetCenter(); }
+    void SetCenter(const Vector2f& c) override { BoundingVolume<PlatformCapsule>::SetCenter(c); }
 
-		return 0.f;
-	}
+    Vector2f GetPosition() const override { return BoundingVolume<PlatformCapsule>::GetPosition(); }
+    void SetPosition(const Vector2f& p) override { BoundingVolume<PlatformCapsule>::SetPosition(p); }
 
-	float GetLength() const override
-	{
-		if (this->m_shape)
-			return this->m_shape->GetLength();
+    Vector2f GetOrigin() const override { return BoundingVolume<PlatformCapsule>::GetOrigin(); }
+    void SetOrigin(const Vector2f& o) override { BoundingVolume<PlatformCapsule>::SetOrigin(o); }
 
-		return 0.f;
-	}
+    Vector2f GetScale() const override { return BoundingVolume<PlatformCapsule>::GetScale(); }
+    void SetScale(const Vector2f& scale) override
+    {
+        BoundingVolume<PlatformCapsule>::SetScale(scale);
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            Reset(GetRadius(), GetLength(), GetAngle());
+    }
 
-	float GetAngle()  const override
-	{
-		if (this->m_shape)
-			return this->m_shape->GetAngle();
+    float GetRadius() const override
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return this->m_shape->GetRadius();
 
-		return 0.f;
-	}
+        return 0.f;
+    }
 
-	const Line2f GetSegment() const override
-	{
-		if (this->m_shape)
-			return this->m_shape->GetSegment();
+    float GetLength() const override
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return this->m_shape->GetLength();
 
-		return Line2f();
-	}
+        return 0.f;
+    }
 
-	bool Intersects(const Vector2f& pnt) const override
-	{
-		auto clsPnt = GetSegment().ClosestPointOnLineSegment(pnt);
+    float GetAngle() const override
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return this->m_shape->GetAngle();
 
-		BoundingCircle<PlatformCircle> circle{ GetRadius(), clsPnt };
+        return 0.f;
+    }
 
-		return circle.Intersects(pnt);
-	}
+    const Line2f GetSegment() const override
+    {
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+            return this->m_shape->GetSegment();
 
-	bool Intersects(IBoundingVolume* v) override
-	{
-		ENSURE_VALID_RET(v, false);
+        return Line2f();
+    }
 
-		switch (v->GetType())
-		{
-		case VolumeType::Box:      if (auto* p = dynamic_cast<IBoundingBox*>(v))     return Intersects(p); break;
-		case VolumeType::Circle:   if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return Intersects(p); break;
-		case VolumeType::Capsule:  if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return Intersects(p); break;
-		default: break;
-		}
-		return false;
-	}
+    bool Intersects(const Vector2f& pnt) const override
+    {
+        auto clsPnt = GetSegment().ClosestPointOnLineSegment(pnt);
+        BoundingCircle<PlatformCircle> circle{ GetRadius(), clsPnt };
+        return circle.Intersects(pnt);
+    }
 
-	bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
-		float& tfirst, float& tlast) override
-	{
-		ENSURE_VALID_RET(v, false);
+    bool Intersects(IBoundingVolume* v) override
+    {
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
-		switch (v->GetType())
-		{
-		case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return IntersectsMoving(p, va, vb, tfirst, tlast); break;
-		case VolumeType::Circle:  if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return IntersectsMoving(p, va, vb, tfirst, tlast); break;
-		case VolumeType::Capsule: if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return IntersectsMoving(p, va, vb, tfirst, tlast); break;
-		default: break;
-		}
-		return false;
-	}
+        switch (v->GetType())
+        {
+        case VolumeType::Box:      if (auto* p = dynamic_cast<IBoundingBox*>(v))     return Intersects(p); break;
+        case VolumeType::Circle:   if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return Intersects(p); break;
+        case VolumeType::Capsule:  if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return Intersects(p); break;
+        default: break;
+        }
+        return false;
+    }
 
-	Vector2f GetSeparationVector(IBoundingVolume* v) override
-	{
-		ENSURE_VALID_RET(v, Vector2f());
+    bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    {
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
-		switch (v->GetType())
-		{
-		case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return GetSeparationVector(p); break;
-		case VolumeType::Circle:  if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return GetSeparationVector(p); break;
-		case VolumeType::Capsule: if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return GetSeparationVector(p); break;
-		default: break;
-		}
-		return {};
-	}
+        switch (v->GetType())
+        {
+        case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return IntersectsMoving(p, va, vb, tfirst, tlast); break;
+        case VolumeType::Circle:  if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return IntersectsMoving(p, va, vb, tfirst, tlast); break;
+        case VolumeType::Capsule: if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return IntersectsMoving(p, va, vb, tfirst, tlast); break;
+        default: break;
+        }
+        return false;
+    }
 
+    Vector2f GetSeparationVector(IBoundingVolume* v) override
+    {
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return Vector2f();
 
-	Vector2f GetPoint(Side side) override
-	{
-		auto center = BoundingVolume<PlatformCapsule>::GetCenter();
-		switch (side) {
-		case Side::Top:    return this->GetSegment().start;
-		case Side::Bottom: return this->GetSegment().end;
-		case Side::Left:   return center - Vector2f(this->GetLength() * 0.5f, 0);
-		case Side::Right:  return center + Vector2f(this->GetLength() * 0.5f, 0);
-		}
-		return center;
-	}
+        switch (v->GetType())
+        {
+        case VolumeType::Box:     if (auto* p = dynamic_cast<IBoundingBox*>(v))     return GetSeparationVector(p); break;
+        case VolumeType::Circle:  if (auto* p = dynamic_cast<IBoundingCircle*>(v))  return GetSeparationVector(p); break;
+        case VolumeType::Capsule: if (auto* p = dynamic_cast<IBoundingCapsule*>(v)) return GetSeparationVector(p); break;
+        default: break;
+        }
+        return {};
+    }
+
+    Vector2f GetPoint(Side side) override
+    {
+        auto center = BoundingVolume<PlatformCapsule>::GetCenter();
+        switch (side)
+        {
+        case Side::Top:    return this->GetSegment().start;
+        case Side::Bottom: return this->GetSegment().end;
+        case Side::Left:   return center - Vector2f(this->GetLength() * 0.5f, 0);
+        case Side::Right:  return center + Vector2f(this->GetLength() * 0.5f, 0);
+        }
+        return center;
+    }
 
 protected:
+    bool Intersects(IBoundingBox* box) override
+    {
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
-	bool Intersects(IBoundingBox* box) override
-	{
-		ENSURE_VALID_RET(box, false);
+        Vector2f boxMin = box->GetMin();
+        Vector2f boxMax = box->GetMax();
 
-		// Compute the box's min and max corners
-		Vector2f boxMin = box->GetMin();
-		Vector2f boxMax = box->GetMax();
+        Vector2f closestToStart = GetSegment().start.Clamp(boxMin, boxMax);
+        Vector2f closestToEnd = GetSegment().end.Clamp(boxMin, boxMax);
 
-		// Check the line segment (capsule core) against the box
-		Vector2f closestToStart = GetSegment().start.Clamp(boxMin, boxMax);
-		Vector2f closestToEnd = GetSegment().end.Clamp(boxMin, boxMax);
+        float distStart = GetSegment().SqDistPointSegment(closestToStart);
+        float distEnd = GetSegment().SqDistPointSegment(closestToEnd);
 
-		float distStart = GetSegment().SqDistPointSegment(closestToStart);
-		float distEnd = GetSegment().SqDistPointSegment(closestToEnd);
+        float radSq = this->GetRadius() * this->GetRadius();
 
-		float radSq = this->GetRadius() * this->GetRadius();
+        if (distStart <= radSq || distEnd <= radSq)
+            return true;
 
-		// Check if the distances are less than or equal to the capsule's radius squared
-		if (distStart <= radSq || distEnd <= radSq)
-			return true;
+        float closestPointStartDistSq = (closestToStart - GetSegment().start).LengthSquared();
+        float closestPointEndDistSq = (closestToEnd - GetSegment().end).LengthSquared();
 
-		float closestPointStartDistSq = (closestToStart - GetSegment().start).LengthSquared();
-		float closestPointEndDistSq = (closestToEnd - GetSegment().end).LengthSquared();
+        return closestPointStartDistSq <= radSq || closestPointEndDistSq <= radSq;
+    }
 
-		return closestPointStartDistSq <= radSq || closestPointEndDistSq <= radSq;
-	}
+    bool Intersects(IBoundingCircle* circle) override
+    {
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
-	bool Intersects(IBoundingCircle* circle) override
-	{
-		ENSURE_VALID_RET(circle, false);
+        float r = circle->GetRadius() + this->GetRadius();
+        float dist2 = GetSegment().SqDistPointSegment(circle->GetCenter());
+        return dist2 <= r * r;
+    }
 
-		float r = circle->GetRadius() + this->GetRadius();
+    bool Intersects(IBoundingCapsule* capsule) override
+    {
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
-		float dist2 = GetSegment().SqDistPointSegment(circle->GetCenter());
+        float combinedRadiusSquared = (this->GetRadius() + capsule->GetRadius()) * (this->GetRadius() + capsule->GetRadius());
 
-		return dist2 <= r * r;
-	}
+        float a = capsule->GetSegment().SqDistPointSegment(this->GetSegment().start);
+        float b = capsule->GetSegment().SqDistPointSegment(this->GetSegment().end);
+        float c = GetSegment().SqDistPointSegment(capsule->GetSegment().start);
+        float d = GetSegment().SqDistPointSegment(capsule->GetSegment().end);
 
-	bool Intersects(IBoundingCapsule* capsule) override
-	{
-		ENSURE_VALID_RET(capsule, false);
+        float distanceSquared = std::min<float>(std::min<float>(a, b), std::min<float>(c, d));
+        return distanceSquared <= combinedRadiusSquared;
+    }
 
-		float combinedRadiusSquared = (this->GetRadius() + capsule->GetRadius()) * (this->GetRadius() + capsule->GetRadius());
+    bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    {
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
-		// Compute the shortest distance squared between the two line segments
-		float a = capsule->GetSegment().SqDistPointSegment(this->GetSegment().start);
-		float b = capsule->GetSegment().SqDistPointSegment(this->GetSegment().end);
-		float c = GetSegment().SqDistPointSegment(capsule->GetSegment().start);
-		float d = GetSegment().SqDistPointSegment(capsule->GetSegment().end);
+        BoundingCircle<PlatformCircle> circle{ GetRadius(), GetSegment().start };
+        if (static_cast<IBoundingVolume*>(&circle)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast))
+            return true;
 
-		float distanceSquared = std::min<float>(std::min<float>(a, b), std::min<float>(c, d));
+        circle.Update(GetSegment().end);
 
-		// Check if the distance is within the combined radii
-		return distanceSquared <= combinedRadiusSquared;
-	}
+        if (static_cast<IBoundingVolume*>(&circle)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast))
+            return true;
 
-	bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
-	{
-		ENSURE_VALID_RET(box, false);
+        auto capBox = this->ToBoundingBox();
+        return static_cast<IBoundingVolume*>(&capBox)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast);
+    }
 
-		BoundingCircle<PlatformCircle> circle{ GetRadius(), GetSegment().start };
-		if (static_cast<IBoundingVolume*>(&circle)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast))
-			return true;
+    bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    {
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
-		circle.Update(GetSegment().end);
+        BoundingCircle<PlatformCircle> capCircle{ circle->GetRadius(), GetSegment().start };
+        IBoundingVolume* cc = &capCircle;
 
-		if (static_cast<IBoundingVolume*>(&circle)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast))
-			return true;
+        if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
+            return true;
 
-		auto capBox = this->ToBoundingBox();
-		return static_cast<IBoundingVolume*>(&capBox)->IntersectsMoving(static_cast<IBoundingVolume*>(box), va, vb, tfirst, tlast);
-	}
+        capCircle.Update(GetSegment().end);
+        if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
+            return true;
 
-	bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
-	{
-		ENSURE_VALID_RET(circle, false);
+        capCircle.Update(GetSegment().GetMidPoint());
+        if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
+            return true;
 
-		// check the capsule spherical ends
-		BoundingCircle<PlatformCircle> capCircle{ circle->GetRadius(), GetSegment().start };
+        return circle->IntersectsMoving(GetSegment(), va, vb, tfirst, tlast);
+    }
 
-		IBoundingVolume* cc = &capCircle;
+    bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
+    {
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
-		if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
-			return true;
+        BoundingCircle<PlatformCircle> endpoint1{ GetRadius(), GetSegment().start };
+        BoundingCircle<PlatformCircle> endpoint2{ GetRadius(), GetSegment().end };
 
-		capCircle.Update(GetSegment().end);
+        BoundingCircle<PlatformCircle> otherEndpoint1{ capsule->GetRadius(), capsule->GetSegment().start };
+        BoundingCircle<PlatformCircle> otherEndpoint2{ capsule->GetRadius(), capsule->GetSegment().end };
 
-		if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
-			return true;
+        IBoundingVolume* e1 = &endpoint1;
+        IBoundingVolume* e2 = &endpoint2;
+        IBoundingVolume* o1 = &otherEndpoint1;
+        IBoundingVolume* o2 = &otherEndpoint2;
 
-		capCircle.Update(GetSegment().GetMidPoint());
+        if (e1->IntersectsMoving(o2, va, vb, tfirst, tlast))
+            return true;
+        if (e2->IntersectsMoving(o1, va, vb, tfirst, tlast))
+            return true;
+        if (e2->IntersectsMoving(o2, va, vb, tfirst, tlast))
+            return true;
+        if (e1->IntersectsMoving(o1, va, vb, tfirst, tlast))
+            return true;
 
-		if (cc->IntersectsMoving(static_cast<IBoundingVolume*>(circle), va, vb, tfirst, tlast))
-			return true;
+        BoundingBox<PlatformBox> box1 = this->ToBoundingBox();
+        BoundingBox<PlatformBox> box2 = static_cast<BoundingCapsule<PlatformCapsule>*>(capsule)->ToBoundingBox();
 
-		return circle->IntersectsMoving(GetSegment(), va, vb, tfirst, tlast);
-	}
+        IBoundingVolume* b1 = &box1;
+        IBoundingVolume* b2 = &box2;
 
-	bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
-	{
-		ENSURE_VALID_RET(capsule, false);
+        return b1->IntersectsMoving(b2, va, vb, tfirst, tlast);
+    }
 
-		BoundingCircle<PlatformCircle> endpoint1{ GetRadius(), GetSegment().start };
-		BoundingCircle<PlatformCircle> endpoint2{ GetRadius(), GetSegment().end };
+    Vector2f GetSeparationVector(IBoundingBox* box) override
+    {
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return Vector2f();
 
-		BoundingCircle<PlatformCircle> otherEndpoint1{ capsule->GetRadius(), capsule->GetSegment().start };
-		BoundingCircle<PlatformCircle> otherEndpoint2{ capsule->GetRadius(), capsule->GetSegment().end };
+        return box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
+    }
 
-		IBoundingVolume* e1 = &endpoint1;
-		IBoundingVolume* e2 = &endpoint2;
-		IBoundingVolume* o1 = &otherEndpoint1;
-		IBoundingVolume* o2 = &otherEndpoint2;
+    Vector2f GetSeparationVector(IBoundingCircle* circle) override
+    {
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return Vector2f();
 
-		if (e1->IntersectsMoving(o2, va, vb, tfirst, tlast))
-			return true;
+        return circle->GetSeparationVector(static_cast<IBoundingVolume*>(this));
+    }
 
-		if (e2->IntersectsMoving(o1, va, vb, tfirst, tlast))
-			return true;
+    Vector2f GetSeparationVector(IBoundingCapsule* capsule) override
+    {
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return Vector2f();
 
-		if (e2->IntersectsMoving(o2, va, vb, tfirst, tlast))
-			return true;
+        Vector2f closest1 = GetSegment().ClosestPointOnLineSegment(capsule->GetSegment().start);
+        Vector2f closest2 = capsule->GetSegment().ClosestPointOnLineSegment(closest1);
+        closest1 = GetSegment().ClosestPointOnLineSegment(closest2);
 
-		if (e1->IntersectsMoving(o1, va, vb, tfirst, tlast))
-			return true;
+        Vector2f displacement = closest2 - closest1;
+        float distance = displacement.Length();
+        float radiusSum = GetRadius() + capsule->GetRadius();
+        float penetrationDepth = radiusSum - distance;
 
-		BoundingBox<PlatformBox> box1 = this->ToBoundingBox();
-		BoundingBox<PlatformBox> box2 = static_cast<BoundingCapsule<PlatformCapsule>*>(capsule)->ToBoundingBox();
+        if (penetrationDepth > 0.0f && distance > std::numeric_limits<float>::epsilon())
+            return displacement.Normalize() * (penetrationDepth + ICollisionManager::BUFFER);
 
-		IBoundingVolume* b1 = &box1;
-		IBoundingVolume* b2 = &box2;
+        if (distance <= std::numeric_limits<float>::epsilon())
+            return { 0.f, (capsule->GetPosition().y > this->GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
 
-		return b1->IntersectsMoving(b2, va, vb, tfirst, tlast);
-	}
-
-	Vector2f GetSeparationVector(IBoundingBox* box) override
-	{
-		ENSURE_VALID_RET(box, Vector2f());
-
-		return box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
-	}
-
-	Vector2f GetSeparationVector(IBoundingCircle* circle) override
-	{
-		ENSURE_VALID_RET(circle, Vector2f());
-
-		return circle->GetSeparationVector(static_cast<IBoundingVolume*>(this));
-	}
-
-	Vector2f GetSeparationVector(IBoundingCapsule* capsule) override
-	{
-		ENSURE_VALID_RET(capsule, Vector2f());
-
-		Vector2f closest1 = GetSegment().ClosestPointOnLineSegment(capsule->GetSegment().start);
-		Vector2f closest2 = capsule->GetSegment().ClosestPointOnLineSegment(closest1);
-		closest1 = GetSegment().ClosestPointOnLineSegment(closest2);
-
-		Vector2f displacement = closest2 - closest1;
-		float distance = displacement.Length();
-		float radiusSum = GetRadius() + capsule->GetRadius();
-		float penetrationDepth = radiusSum - distance;
-
-		if (penetrationDepth > 0.0f && distance > std::numeric_limits<float>::epsilon())
-			return displacement.Normalize() * (penetrationDepth + ICollisionManager::BUFFER);
-
-		if (distance <= std::numeric_limits<float>::epsilon())
-			return { 0.f, (capsule->GetPosition().y > this->GetPosition().y ? 1.f : -1.f) * (radiusSum + ICollisionManager::BUFFER) };
-
-		return Vector2f();
-	}
+        return Vector2f();
+    }
 };

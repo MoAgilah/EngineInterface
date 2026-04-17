@@ -4,7 +4,7 @@
 #include "../Renderer/IRenderer.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <format>
 #include <fstream>
 #include <sstream>
@@ -23,9 +23,13 @@ public:
 		if (!GameConstants::DRender)
 			return;
 
-		for (const auto& tile : m_grid)
+		for (size_t i = 0; i < m_grid.size(); ++i)
 		{
-			CONTINUE_IF_INVALID(tile);
+			auto* tile = m_grid[i].get();
+
+			if (!CheckNotNull(tile,
+				std::format("Invalid Pointer 'tile' at index {}", i)))
+				continue;
 
 			if (!tile->GetActive())
 				continue;

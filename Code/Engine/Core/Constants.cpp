@@ -1,5 +1,8 @@
 #include "Constants.h"
 
+#include "..\..\Utilities\LogFormatter.h"
+#include <format>
+
 bool  GameConstants::DRender = false;
 bool  GameConstants::GameIsReady = false;
 float GameConstants::FPS = 60.f;
@@ -11,6 +14,7 @@ Vector2f GameConstants::ScreenDim = Vector2f(600.f, 600.f);
 Vector2f GameConstants::ViewDim = GameConstants::ScreenDim;
 Vector2f GameConstants::Scale = Vector2f(1.f, 1.f);
 std::string GameConstants::WindowTitle = "SFML Game Engine";
+std::string GameConstants::DefaultOutputPath = "../../Resources/Outputs";
 std::string GameConstants::TileFilePaths = "../Resources/TileTypes.txt";
 std::string GameConstants::FontFilePaths = "../SFMLEngine/EngineInterface/Resources/Fonts/";
 std::string GameConstants::ShaderFilePaths = "../SFMLEngine/EngineInterface/Resources/Shaders/";
@@ -33,6 +37,7 @@ void GameConstants::Init()
 	(void)ScreenDim;
 	(void)Scale;
 	(void)WindowTitle;
+	(void)DefaultOutputPath;
 	(void)TileFilePaths;
 	(void)FontFilePaths;
 	(void)ShaderFilePaths;
@@ -44,4 +49,13 @@ void GameConstants::Init()
 Vector2f GameConstants::ScaleScreenDim(float x, float y)
 {
 	return { ScreenDim.x * x,ScreenDim.y * y };
+}
+
+std::filesystem::path GameConstants::GetDefaultLogPath()
+{
+	auto outputDir = std::filesystem::current_path() / ".." / ".." / "Resources" / "Outputs";
+	outputDir = std::filesystem::weakly_canonical(outputDir);
+
+	return outputDir /
+		std::format("engine_{}.log", logger::FormatFilenameTimestamp());
 }

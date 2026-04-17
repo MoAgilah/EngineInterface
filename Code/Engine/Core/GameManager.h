@@ -13,6 +13,7 @@
 #include "../Resources/ShaderManager.h"
 #include "../Resources/SoundManager.h"
 #include "../Resources/TextureManager.h"
+#include "../../Utilities/Logger.h"
 #include <array>
 #include <memory>
 
@@ -52,6 +53,7 @@ public:
 	void SetRenderer(std::shared_ptr<IRenderer> renderer) { m_renderer = std::move(renderer); }
 
 private:
+
 	static GameManager* m_instance;
 
 	Timer								m_timer;

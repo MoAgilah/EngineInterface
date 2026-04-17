@@ -4,7 +4,7 @@
 #include "../Drawables/ISprite.h"
 #include "../UI/IText.h"
 #include "../../../Utilities/Vector2.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <memory>
 
 class IMenuItem
@@ -27,11 +27,14 @@ public:
 
 	virtual void Render(IRenderer* renderer)
 	{
-		ENSURE_VALID(renderer);
+		if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+			return;
 
 #if defined _DEBUG
-		if (m_cellSpace)
-			m_cellSpace->Render(renderer);
+		if (!CheckNotNull(m_cellSpace.get(), "Invalid Pointer 'm_cellSpace'"))
+			return;
+
+		m_cellSpace->Render(renderer);
 #endif
 
 		if (m_textElement)

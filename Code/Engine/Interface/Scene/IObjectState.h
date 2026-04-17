@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../../GameObjects/GameObject.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <string>
 
 class IObjectState
@@ -10,8 +10,12 @@ public:
     explicit IObjectState(DynamicGameObject* gameObj)
         : m_gameObj(gameObj), m_drawable(nullptr)
     {
-        ENSURE_VALID(m_gameObj);
-        GET_OR_RETURN(m_drawable, m_gameObj->GetDrawable());
+        if (!CheckNotNull(m_gameObj, "Invalid Pointer 'm_gameObj'"))
+            throw std::invalid_argument("IObjectState requires a valid game object");
+
+        m_drawable = m_gameObj->GetDrawable();
+        if (!CheckNotNull(m_drawable, "Invalid Pointer 'm_drawable' from m_gameObj->GetDrawable()"))
+            throw std::runtime_error("IObjectState requires a valid drawable");
     }
 
     virtual ~IObjectState() = default;

@@ -5,7 +5,7 @@
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
 #include "../../Utilities/Traits.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 
 template <typename PlatformCircle>
 class BoundingCircle : public IBoundingCircle, public BoundingVolume<PlatformCircle>
@@ -17,7 +17,10 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCircle requires a valid shape");
+        }
     }
 
     BoundingCircle(float radius)
@@ -26,7 +29,11 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCircle requires a valid shape");
+        }
+
         Reset(radius);
     }
 
@@ -36,20 +43,24 @@ public:
         , BoundingVolume<PlatformCircle>(VolumeType::Circle)
     {
         this->m_shape = std::make_shared<PlatformCircle>();
-        ENSURE_VALID(this->m_shape);
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCircle requires a valid shape");
+        }
+
         Reset(radius);
         Update(pos);
     }
 
     void Reset(float radius)
     {
-        if (this->m_shape)
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
             this->m_shape->Reset(radius);
     }
 
     void Update(const Vector2f& pos) override
     {
-        if (this->m_shape)
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
             this->m_shape->Update(pos);
     }
 
@@ -69,15 +80,20 @@ public:
     void SetScale(const Vector2f& scale) override
     {
         BoundingVolume<PlatformCircle>::SetScale(scale);
-        if (this->m_shape)
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
             Reset(this->m_shape->GetRadius());
     }
 
     float GetRadius() const override
     {
-        ICircleShape* radiusShape = dynamic_cast<ICircleShape*>(this->m_shape.get());
-        if (radiusShape)
-            return radiusShape->GetRadius() * BoundingVolume<PlatformCircle>::GetScale().x;
+        if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            ICircleShape* radiusShape = dynamic_cast<ICircleShape*>(this->m_shape.get());
+
+            if (CheckNotNull(radiusShape, "Invalid Pointer 'radiusShape'"))
+                return radiusShape->GetRadius() * BoundingVolume<PlatformCircle>::GetScale().x;
+        }
+
         return 0.f;
     }
 
@@ -132,7 +148,8 @@ public:
 
     bool Intersects(IBoundingVolume* v) override
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
         switch (v->GetType())
         {
@@ -147,7 +164,8 @@ public:
     bool IntersectsMoving(IBoundingVolume* v, const Vector2f& va, const Vector2f& vb,
         float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(v, false);
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return false;
 
         switch (v->GetType())
         {
@@ -161,7 +179,8 @@ public:
 
     Vector2f GetSeparationVector(IBoundingVolume* v) override
     {
-        ENSURE_VALID_RET(v, Vector2f());
+        if (!CheckNotNull(v, "Invalid Pointer 'v'"))
+            return Vector2f();
 
         switch (v->GetType())
         {
@@ -188,17 +207,18 @@ public:
     }
 
 protected:
-
     bool Intersects(IBoundingBox* box) override
     {
-        ENSURE_VALID_RET(box, false);
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
         return box->Intersects(static_cast<IBoundingVolume*>(this));
     }
 
     bool Intersects(IBoundingCircle* circle) override
     {
-        ENSURE_VALID_RET(circle, false);
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
         // Calculate squared distance between centers
         Vector2f d = this->GetCenter() - circle->GetCenter();
@@ -211,7 +231,8 @@ protected:
 
     bool Intersects(IBoundingCapsule* capsule) override
     {
-        ENSURE_VALID_RET(capsule, false);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
         float r = this->GetRadius() + capsule->GetRadius();
 
@@ -222,14 +243,16 @@ protected:
 
     bool IntersectsMoving(IBoundingBox* box, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(box, false);
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return false;
 
         return box->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
     }
 
     bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(circle, false);
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return false;
 
         Vector2f s = this->GetCenter() - circle->GetCenter();
         float r = circle->GetRadius() + this->GetRadius();
@@ -268,21 +291,24 @@ protected:
 
     bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
     {
-        ENSURE_VALID_RET(capsule, false);
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return false;
 
         return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
     }
 
     Vector2f GetSeparationVector(IBoundingBox* box) override
     {
-        ENSURE_VALID_RET(box, Vector2f());
+        if (!CheckNotNull(box, "Invalid Pointer 'box'"))
+            return Vector2f();
 
         return box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
     }
 
     Vector2f GetSeparationVector(IBoundingCircle* circle) override
     {
-        ENSURE_VALID_RET(circle, Vector2f());
+        if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
+            return Vector2f();
 
         Vector2f displacement = circle->GetPosition() - GetPosition();
         float distance = displacement.Length();
@@ -300,7 +326,8 @@ protected:
 
     Vector2f GetSeparationVector(IBoundingCapsule* capsule) override
     {
-        ENSURE_VALID_RET(capsule, Vector2f());
+        if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
+            return Vector2f();
 
         Vector2f closestPoint = capsule->GetSegment().ClosestPointOnLineSegment(GetPosition());
         Vector2f displacement = GetPosition() - closestPoint;

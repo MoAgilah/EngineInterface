@@ -1,7 +1,7 @@
 #include "Enemy.h"
 
 #include "../Engine/Core/GameManager.h"
-#include "../Utilities/Utils.h"
+#include "../Utilities/Guards.h"
 
 Enemy::Enemy(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, int maxLives)
     : DynamicGameObject(drawable, volume), m_numLives(maxLives), m_maxLives(maxLives),
@@ -35,8 +35,14 @@ void Enemy::Update(float deltaTime)
             m_resetTimer.Update(deltaTime);
             if (m_resetTimer.CheckEnd())
             {
-                DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
-                DECL_GET_OR_RETURN(camera, gameMgr->GetCamera());
+                auto* gameMgr = GameManager::Get();
+                if (!CheckNotNull(gameMgr, "Invalid Pointer 'gameMgr' from GameManager::Get()"))
+                    return;
+
+                auto* camera = gameMgr->GetCamera();
+                if (!CheckNotNull(gameMgr, "Invalid Pointer 'camera' from gameMgr->GetCamera()"))
+                    return;
+
                 if (camera->CheckVerticalBounds(GetVolume()))
                     Reset();
             }

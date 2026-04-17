@@ -2,7 +2,7 @@
 
 #include "Constants.h"
 #include "../Interface/Collisions/ITile.h"
-#include "../../Utilities/Utils.h"
+#include "../../Utilities/Guards.h"
 
 GameManager* GameManager::m_instance = nullptr;
 
@@ -20,16 +20,23 @@ GameManager::~GameManager()
 
 void GameManager::CheckInView()
 {
-	ENSURE_VALID(m_collisionManager);
-	ENSURE_VALID(m_camera);
+	if (!CheckNotNull(m_collisionManager.get(), "Invalid Pointer 'm_collisionManager'"))
+		return;
+
+	if (!CheckNotNull(m_camera.get(), "Invalid Pointer 'm_camera'"))
+		return;
 
 	for (auto& tile : m_collisionManager->GetGrid())
 	{
-		CONTINUE_IF_INVALID(tile);
+		if (!CheckNotNull(tile, "Invalid Pointer 'tile'"))
+			continue;
+
 		tile->SetActive(m_camera->IsInView(tile->GetBoundingBox()));
 	}
 
-	ENSURE_VALID(m_scene);
+	if (!CheckNotNull(m_scene.get(), "Invalid Pointer 'm_scene'"))
+		return;
+
 	m_scene->CheckIsInView();
 }
 

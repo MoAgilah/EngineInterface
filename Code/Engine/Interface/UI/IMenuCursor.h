@@ -3,10 +3,11 @@
 
 #include "../Drawables/ISprite.h"
 #include "../../UI/MenuNavigation.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
 #include <memory>
 #include <string>
 #include <vector>
+#include <exception>
 
 class IMenuCursor
 {
@@ -14,7 +15,8 @@ public:
 	IMenuCursor(ISprite* spr, const MenuNav& menuNav)
 		: m_cursor(spr), m_menuNav(menuNav)
 	{
-		ENSURE_VALID(m_cursor);
+		if (!CheckNotNull(m_cursor.get(), "Invalid Pointer 'm_cursor'"))
+			throw std::invalid_argument("IMenuCursor requires a valid cursor");
 	}
 
 	virtual ~IMenuCursor() = default;
