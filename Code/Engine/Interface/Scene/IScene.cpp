@@ -4,14 +4,22 @@
 #include "../Renderer/ICamera.h"
 #include "../../Core/Constants.h"
 #include "../../Core/GameManager.h"
-#include "../../../Utilities/Utils.h"
+#include "../../../Utilities/Guards.h"
+#include <exception>
 
 bool IScene::Initialise()
 {
-	//THROW_IF_FALSE_MSG(AddEnemies(), "AddEnemies initialization failed");
-	THROW_IF_FALSE_MSG(AddGUI(), "AddGUI initialization failed");
-	//THROW_IF_FALSE_MSG(AddObjects(), "AddObjects initialization failed");
-	THROW_IF_FALSE_MSG(AddForeGroundObjects(), "AddForeGroundObjects initialization failed");
+	if (!AddEnemies())
+		throw std::runtime_error("IScene::Initialise - AddEnemies() failed");
+
+	if (!AddGUI())
+		throw std::runtime_error("IScene::Initialise - AddGUI() failed");
+
+	if (!AddObjects())
+		throw std::runtime_error("IScene::Initialise - AddObjects() failed");
+
+	if (!AddForeGroundObjects())
+		throw std::runtime_error("IScene::Initialise - AddForeGroundObjects() failed");
 
 	return true;
 }
@@ -20,9 +28,11 @@ void IScene::Update(float deltaTime)
 {
 	UpdateGUI(deltaTime);
 
-	for (const auto& [_, enemy] : m_enemies)
+	for (auto& [id, enemy] : m_enemies)
 	{
-		CONTINUE_IF_INVALID(enemy);
+		if (!CheckNotNull(enemy.get(),
+			std::format("Invalid Pointer 'enemy' with key {}", id)))
+			continue;
 
 		if (!enemy->GetActive())
 			continue;
@@ -30,9 +40,11 @@ void IScene::Update(float deltaTime)
 		enemy->Update(deltaTime);
 	}
 
-	for (const auto& [_, object] : m_objects)
+	for (auto& [id, object] : m_objects)
 	{
-		CONTINUE_IF_INVALID(object);
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
 
 		if (!object->GetActive())
 			continue;
@@ -46,9 +58,11 @@ void IScene::Render(IRenderer* renderer)
 	ENSURE_VALID(m_backgroundSpr);
 	m_backgroundSpr->Render(renderer);
 
-	/*for (const auto& [_, enemy] : m_enemies)
+	for (auto& [id, enemy] : m_enemies)
 	{
-		CONTINUE_IF_INVALID(enemy);
+		if (!CheckNotNull(enemy.get(),
+			std::format("Invalid Pointer 'enemy' with key {}", id)))
+			continue;
 
 		if (!enemy->GetActive())
 			continue;
@@ -56,25 +70,32 @@ void IScene::Render(IRenderer* renderer)
 		enemy->Render(renderer);
 	}
 
-	for (const auto& [_, object] : m_objects)
+	for (auto& [id, object] : m_objects)
 	{
-		CONTINUE_IF_INVALID(object);
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
 
 		if (!object->GetActive())
 			continue;
 
 		object->Render(renderer);
-	}*/
+	}
 
-	/*if (GameConstants::DRender)
+	if (GameConstants::DRender)
 	{
-		DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
-		DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+		auto* gameMgr = GameManager::Get();
+		if (!CheckNotNull(gameMgr, "Invalid Pointer 'gameMgr' from GameManager::Get()"))
+			return;
+
+		auto* colMgr = gameMgr->GetCollisionMgr();
+		if (!CheckNotNull(colMgr, "Invalid Pointer 'colMgr' from gameMgr->GetCollisionMgr()"))
+			return;
 
 		colMgr->Render(renderer);
 
 		gameMgr->GetCamera()->RenderDebug(renderer);
-	}*/
+	}
 
 	RenderGUI(renderer);
 }
@@ -86,41 +107,67 @@ void IScene::ResetScene()
 
 	m_spawnedObjKeys.clear();
 
-	for (auto& [_, enemy] : m_enemies)
+	for (auto& [id, enemy] : m_enemies)
 	{
-		CONTINUE_IF_INVALID(enemy);
+		if (!CheckNotNull(enemy.get(),
+			std::format("Invalid Pointer 'enemy' with key {}", id)))
+			continue;
+
 		enemy->Reset();
 	}
 
-	for (auto& [_, object] : m_objects)
+	for (auto& [id, object] : m_objects)
 	{
-		CONTINUE_IF_INVALID(object);
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
+
 		object->Reset();
 	}
 }
 
 void IScene::CheckIsInView()
 {
-	DECL_GET_OR_RETURN(gameMgr, GameManager::Get());
-	DECL_GET_OR_RETURN(camera, gameMgr->GetCamera());
+	auto* gameMgr = GameManager::Get();
+	if (!CheckNotNull(gameMgr, "Invalid Pointer 'gameMgr' from GameManager::Get()"))
+		return;
 
-	for (auto& [_, enemy] : m_enemies)
+	auto* camera = gameMgr->GetCamera();
+	if (!CheckNotNull(camera, "Invalid Pointer 'colMgr' from gameMgr->GetCamera()"))
+		return;
+
+	for (auto& [id, enemy] : m_enemies)
 	{
-		CONTINUE_IF_INVALID(enemy);
+		if (!CheckNotNull(enemy.get(),
+			std::format("Invalid Pointer 'enemy' with key {}", id)))
+			continue;
+
 		enemy->SetActive(camera->IsInView(enemy->GetVolume()));
 	}
 
-	for (auto& [_, object] : m_objects)
+	for (auto& [id, object] : m_objects)
 	{
-		CONTINUE_IF_INVALID(object);
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
+
 		object->SetActive(camera->IsInView(object->GetVolume()));
 	}
 
-	DECL_GET_OR_RETURN(colMgr, gameMgr->GetCollisionMgr());
+	auto* colMgr = gameMgr->GetCollisionMgr();
+	if (!CheckNotNull(colMgr, "Invalid Pointer 'colMgr' from gameMgr->GetCollisionMgr()"))
+		return;
 
-	for (auto tile : colMgr->GetGrid())
+	const auto& grid = colMgr->GetGrid();
+
+	for (size_t i = 0; i < grid.size(); ++i)
 	{
-		CONTINUE_IF_INVALID(tile);
+		auto* tile = grid[i];
+
+		if (!CheckNotNull(tile,
+			std::format("Invalid Pointer 'tile' at index {}", i)))
+			continue;
+
 		tile->SetActive(camera->IsInView(tile->GetBoundingBox()));
 	}
 }
