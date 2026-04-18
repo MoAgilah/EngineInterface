@@ -39,8 +39,8 @@ struct ResourceTraits<FakeLoadableResource>
 {
     static constexpr const char* TypeName = "FakeLoadableResource";
 
-    static std::shared_ptr<FakeLoadableResource> Create()
+    static std::unique_ptr<FakeLoadableResource> Create()
     {
-        return std::make_shared<FakeLoadableResource>();
+        return std::make_unique<FakeLoadableResource>();
     }
 };

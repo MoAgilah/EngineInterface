@@ -38,7 +38,10 @@ public:
 	T* GetResource(const std::string& name);
 	void LoadResources(const fs::path& path);
 
+	size_t GetResourceCount() const { return m_resources.size(); }
+
 private:
+
 	std::unordered_map<std::string, std::unique_ptr<T>> m_resources;
 };
 
@@ -47,13 +50,13 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 {
 	if (!ResourceUtils::IsValidDirectory(path))
 	{
-		Logger::GetDefaultLogger().Log(
+		::Logger::GetDefaultLogger().Log(
 			LogLevel::Info,
 			std::format("Skipping resource directory: {}", path.string()));
 		return;
 	}
 
-	Logger::GetDefaultLogger().Log(
+	::Logger::GetDefaultLogger().Log(
 		LogLevel::Info,
 		std::format("Loading resources from {}", path.string()));
 
@@ -65,7 +68,7 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 		auto resource = ResourceTraits<T>::Create();
 		if (!resource)
 		{
-			Logger::GetDefaultLogger().Log(
+			::Logger::GetDefaultLogger().Log(
 				LogLevel::Warning,
 				std::format("Failed to create {} resource for {}",
 					ResourceTraits<T>::TypeName,
@@ -75,7 +78,7 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 
 		if (!resource->LoadFromFile(entry.path().string()))
 		{
-			Logger::GetDefaultLogger().Log(
+			::Logger::GetDefaultLogger().Log(
 				LogLevel::Warning,
 				std::format("Failed to load {} from {}",
 					ResourceTraits<T>::TypeName,
@@ -89,7 +92,7 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 
 		if (!inserted)
 		{
-			Logger::GetDefaultLogger().Log(
+			::Logger::GetDefaultLogger().Log(
 				LogLevel::Debug,
 				std::format("Skipped duplicate {} '{}' from {}",
 					ResourceTraits<T>::TypeName,
