@@ -16,6 +16,9 @@
     <Filter Include="Header Files\TestHelpers">
       <UniqueIdentifier>{a633ea76-3550-4c8a-8138-1ade1c5a9ef7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes">
+      <UniqueIdentifier>{d22f6505-c02b-413d-8ef8-8d131e0e56c0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -23,6 +26,9 @@
     </ClInclude>
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h">
       <Filter>Header Files\TestHelpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\FakeLoadableResource.h">
+      <Filter>Header Files\Fakes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
