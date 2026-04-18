@@ -12,40 +12,40 @@
 
 namespace fs = std::filesystem;
 
+namespace ResourceUtils
+{
+	inline bool IsValidDirectory(const fs::path& path)
+	{
+		return fs::exists(path) && fs::is_directory(path);
+	}
+
+	inline std::string GetCleanName(const fs::path& path)
+	{
+		auto file = path.filename();
+		file.replace_extension();
+		return file.string();
+	}
+}
+
 template<typename T>
 class ResourceLoader
 {
 public:
 	ResourceLoader() = default;
-	explicit ResourceLoader(const std::string& path) { LoadResources(path); }
+	explicit ResourceLoader(const fs::path& path) { LoadResources(path); }
 	virtual ~ResourceLoader() = default;
 
 	T* GetResource(const std::string& name);
 	void LoadResources(const fs::path& path);
 
 private:
-	bool IsValidDirectory(const fs::path& path) const;
-	std::string GetCleanName(const fs::path& path) const;
-
 	std::unordered_map<std::string, std::unique_ptr<T>> m_resources;
 };
 
 template<typename T>
-bool ResourceLoader<T>::IsValidDirectory(const fs::path& path) const
-{
-	return fs::exists(path) && fs::is_directory(path);
-}
-
-template<typename T>
-std::string ResourceLoader<T>::GetCleanName(const fs::path& path) const
-{
-	return path.filename().replace_extension().string();
-}
-
-template<typename T>
 void ResourceLoader<T>::LoadResources(const fs::path& path)
 {
-	if (!IsValidDirectory(path))
+	if (!ResourceUtils::IsValidDirectory(path))
 		return;
 
 	for (const auto& entry : fs::directory_iterator(path))
@@ -67,7 +67,7 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 			continue;
 		}
 
-		m_resources.emplace(GetCleanName(entry.path()), std::move(resource));
+		m_resources.emplace(ResourceUtils::GetCleanName(entry.path()), std::move(resource));
 	}
 }
 
