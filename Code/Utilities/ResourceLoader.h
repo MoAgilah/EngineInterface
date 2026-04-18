@@ -46,7 +46,16 @@ template<typename T>
 void ResourceLoader<T>::LoadResources(const fs::path& path)
 {
 	if (!ResourceUtils::IsValidDirectory(path))
+	{
+		Logger::GetDefaultLogger().Log(
+			LogLevel::Info,
+			std::format("Skipping resource directory: {}", path.string()));
 		return;
+	}
+
+	Logger::GetDefaultLogger().Log(
+		LogLevel::Info,
+		std::format("Loading resources from {}", path.string()));
 
 	for (const auto& entry : fs::directory_iterator(path))
 	{
@@ -55,7 +64,14 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 
 		auto resource = ResourceTraits<T>::Create();
 		if (!resource)
+		{
+			Logger::GetDefaultLogger().Log(
+				LogLevel::Warning,
+				std::format("Failed to create {} resource for {}",
+					ResourceTraits<T>::TypeName,
+					entry.path().string()));
 			continue;
+		}
 
 		if (!resource->LoadFromFile(entry.path().string()))
 		{
@@ -67,7 +83,19 @@ void ResourceLoader<T>::LoadResources(const fs::path& path)
 			continue;
 		}
 
-		m_resources.emplace(ResourceUtils::GetCleanName(entry.path()), std::move(resource));
+		const auto name = ResourceUtils::GetCleanName(entry.path());
+
+		auto [it, inserted] = m_resources.emplace(name, std::move(resource));
+
+		if (!inserted)
+		{
+			Logger::GetDefaultLogger().Log(
+				LogLevel::Debug,
+				std::format("Skipped duplicate {} '{}' from {}",
+					ResourceTraits<T>::TypeName,
+					name,
+					entry.path().string()));
+		}
 	}
 }
 
