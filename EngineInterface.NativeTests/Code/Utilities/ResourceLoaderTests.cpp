@@ -14,7 +14,7 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Utilities
 {
-	TEST_CLASS(LogRecordTests)
+	TEST_CLASS(ResourceLoaderTests)
 	{
 	public:
 		TEST_METHOD(ResourceLoader_IsValidDirectory_ReturnsFalse_OnNonExistentPath)

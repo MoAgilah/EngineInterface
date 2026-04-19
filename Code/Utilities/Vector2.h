@@ -30,7 +30,7 @@ public:
 		{
 		case 0:		return x;
 		case 1:		return y;
-		default:	throw std::out_of_range("Vector2f subscript out of range");
+		default:	throw std::out_of_range("Vector2 subscript out of range");
 		}
 	}
 
@@ -40,7 +40,7 @@ public:
 		{
 		case 0:		return x;
 		case 1:		return y;
-		default:	throw std::out_of_range("Vector2f subscript out of range");
+		default:	throw std::out_of_range("Vector2 subscript out of range");
 		}
 	}
 
@@ -106,12 +106,19 @@ public:
 		return std::sqrtf(Dot(*this));
 	}
 
+	template <typename U = T>
+		requires std::is_floating_point_v<U>
 	Vector2 Normalize() const
 	{
 		auto len = Length();
 		return Vector2(x / len, y / len);
 	}
 
+	// NOTE:
+	// This implementation only checks whether the projection of the point lies
+	// between a and b using a dot product test.
+	// It does NOT verify collinearity, so points off the line segment may return true.
+	// Additionally, this implementation is unsafe for unsigned types due to underflow.
 	bool  IsBetween(const Vector2& a, const Vector2& b)
 	{
 		// p is between a and b if the dot product of (p - a) and (p - b) is non-positive.
@@ -150,6 +157,17 @@ inline Vector2<T> operator*(Vector2<T> lhs, const Vector2<T>& rhs) { lhs *= rhs;
 template <typename T>
 inline Vector2<T> operator/(Vector2<T> lhs, const Vector2<T>& rhs) { lhs /= rhs; return lhs; }
 
+// type aliases
 using Vector2i = Vector2<int>;
 using Vector2u = Vector2<unsigned int>;
 using Vector2f = Vector2<float>;
+
+template <typename V>
+concept HasNormalize = requires(const V & v)
+{
+	{ v.Normalize() } -> std::same_as<V>;
+};
+
+static_assert(HasNormalize<Vector2f>, "Vector2f should have Normalize()");
+static_assert(!HasNormalize<Vector2i>, "Vector2i should NOT have Normalize()");
+static_assert(!HasNormalize<Vector2u>, "Vector2u should NOT have Normalize()");
