@@ -177,6 +177,7 @@
     <ClCompile Include="Code\Utilities\ResourceLoaderTests.cpp" />
     <ClCompile Include="Code\Utilities\ThreadContextTests.cpp" />
     <ClCompile Include="Code\Utilities\Vector2Tests.cpp" />
+    <ClCompile Include="Code\Utilities\Vector3Tests.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

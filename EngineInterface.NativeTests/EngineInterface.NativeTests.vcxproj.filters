@@ -51,5 +51,8 @@
     <ClCompile Include="Code\Utilities\Vector2Tests.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Utilities\Vector3Tests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

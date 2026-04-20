@@ -1024,6 +1024,15 @@ namespace Utilities
 			Assert::IsFalse(vec.IsBetween(min, max));
 		}
 
+		TEST_METHOD(Vector2i_IsBetween_NonCollinear_ReturnsFalse)
+		{
+			Vector2i a(2, 2);
+			Vector2i b(4, 4);
+			Vector2i vec(1, 4);
+
+			Assert::IsFalse(vec.IsBetween(a, b));
+		}
+
 		TEST_METHOD(Vector2i_IsBetween_NonCollinear_MayReturnTrue)
 		{
 			Vector2i a(2, 2);
