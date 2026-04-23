@@ -60,5 +60,8 @@
     <ClCompile Include="Code\Utilities\Line2Tests.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Utilities\ColourTests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
