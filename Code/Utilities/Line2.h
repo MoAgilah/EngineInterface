@@ -87,11 +87,13 @@ struct Line2
 		Vector2<R> ps = p - s;
 		Vector2<R> pe = p - e;
 
-		auto proj = ps.Dot(es);
+		R proj = ps.Dot(es);
+
 		if (proj <= static_cast<R>(0))
 			return ps.Dot(ps);
 
-		auto segLen2 = es.Dot(es);
+		R segLen2 = es.Dot(es);
+
 		if (proj >= segLen2)
 			return pe.Dot(pe);
 
@@ -127,7 +129,15 @@ struct Line2
 	bool IsPointAboveLine(const Vector2<geometry_type>& p) const
 	{
 		using R = geometry_type;
-		return p.y <= static_cast<R>(start.y) - static_cast<R>(1e-4f);
+
+		Vector2<R> s(static_cast<R>(start.x), static_cast<R>(start.y));
+		Vector2<R> e(static_cast<R>(end.x), static_cast<R>(end.y));
+
+		R cross =
+			(e.x - s.x) * (p.y - s.y) -
+			(e.y - s.y) * (p.x - s.x);
+
+		return cross > static_cast<R>(0);
 	}
 
 	bool IntersectsPoint(const Vector2<geometry_type>& p) const
