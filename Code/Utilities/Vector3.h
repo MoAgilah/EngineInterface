@@ -91,12 +91,19 @@ public:
 		return std::sqrtf(Dot(*this));
 	}
 
+	template <typename U = T>
+		requires std::is_floating_point_v<U>
 	Vector3 Normalize() const
 	{
 		auto len = Length();
 		return Vector3(x / len, y / len, z / len);
 	}
 
+	// NOTE:
+	// This implementation only checks whether the projection of the point lies
+	// between a and b using a dot product test.
+	// It does NOT verify collinearity, so points off the line segment may return true.
+	// Additionally, this implementation is unsafe for unsigned types due to underflow.
 	bool  IsBetween(const Vector3& a, const Vector3& b)
 	{
 		// p is between a and b if the dot product of (p - a) and (p - b) is non-positive.

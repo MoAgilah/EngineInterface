@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Vector2.h"
-#include <algorithm>
 #include <cmath>
 #include <concepts>
 #include <numbers>
-#include <vector>
+#include <type_traits>
 
 namespace
 {
@@ -22,12 +21,18 @@ namespace
 	}
 
 	template <typename T>
+	concept SignedOrFloating = std::signed_integral<T> || std::floating_point<T>;
+
+	template <typename T>
+	using GeometryResult_t = std::conditional_t<std::floating_point<T>, T, float>;
+
+	template <SignedOrFloating T>
 	constexpr T GetXDist(const Vector2<T>& a, const Vector2<T>& b) noexcept
 	{
 		return b.x - a.x;
 	}
 
-	template <typename T>
+	template <SignedOrFloating T>
 	constexpr T GetYDist(const Vector2<T>& a, const Vector2<T>& b) noexcept
 	{
 		return b.y - a.y;
@@ -37,88 +42,132 @@ namespace
 template<typename T>
 struct Line2
 {
+	static_assert(SignedOrFloating<T>, "Line2 requires a signed or floating-point type.");
+
+	using value_type = T;
+	using geometry_type = GeometryResult_t<T>;
+
 	Line2() = default;
+
 	Line2(const Vector2<T>& start, const Vector2<T>& end)
 		: start(start), end(end)
-	{}
-
-	Vector2<T> GetMidPoint() const
 	{
-		T x = (start.x + end.x) / 2.f;
-		T y = (start.y + end.y) / 2.f;
-
-		return Vector2<T>(x, y);
 	}
 
-	// Return angle (degrees). If T is integral, use double to avoid truncation.
-	auto CalculateAngle() const
-		-> std::conditional_t<std::is_floating_point_v<T>, T, double>
+	Vector2<geometry_type> GetMidPoint() const
 	{
-		using R = std::conditional_t<std::is_floating_point_v<T>, T, double>;
+		using R = geometry_type;
+
+		return Vector2<R>(
+			(static_cast<R>(start.x) + static_cast<R>(end.x)) / static_cast<R>(2),
+			(static_cast<R>(start.y) + static_cast<R>(end.y)) / static_cast<R>(2)
+		);
+	}
+
+	geometry_type CalculateAngle() const
+	{
+		using R = geometry_type;
+
 		return static_cast<R>(
 			std::atan2(
 				static_cast<R>(GetYDist(start, end)),
 				static_cast<R>(GetXDist(start, end))
-			) * (180.0 / std::numbers::pi_v<R>)
+			) * (static_cast<R>(180) / std::numbers::pi_v<R>)
 			);
 	}
 
-	T SqDistPointSegment(const Vector2f& p) const
+	geometry_type SqDistPointSegment(const Vector2<geometry_type>& p) const
 	{
-		Vector2<T> es = end - start;
-		Vector2<T> ps = p - start;
-		Vector2<T> pe = p - end;
+		using R = geometry_type;
 
-		auto e = ps.Dot(es);
-		if (e <= static_cast<T>(0)) return ps.Dot(ps);
+		Vector2<R> s(static_cast<R>(start.x), static_cast<R>(start.y));
+		Vector2<R> e(static_cast<R>(end.x), static_cast<R>(end.y));
 
-		auto f = es.Dot(es);
-		if (e >= f)
+		Vector2<R> es = e - s;
+		Vector2<R> ps = p - s;
+		Vector2<R> pe = p - e;
+
+		R proj = ps.Dot(es);
+
+		if (proj <= static_cast<R>(0))
+			return ps.Dot(ps);
+
+		R segLen2 = es.Dot(es);
+
+		if (proj >= segLen2)
 			return pe.Dot(pe);
 
-		// |ps|^2 - (proj length)^2
-		return ps.Dot(ps) - (e * e) / f;
+		return ps.Dot(ps) - (proj * proj) / segLen2;
 	}
 
-	Vector2<T> ClosestPointOnLineSegment(const Vector2<T>& pnt) const
+	Vector2<geometry_type> ClosestPointOnLineSegment(const Vector2<geometry_type>& pnt) const
 	{
-		Vector2<T> seg = end - start;
-		Vector2<T> v = pnt - start;
+		using R = geometry_type;
+
+		Vector2<R> s(static_cast<R>(start.x), static_cast<R>(start.y));
+		Vector2<R> e(static_cast<R>(end.x), static_cast<R>(end.y));
+
+		Vector2<R> seg = e - s;
+		Vector2<R> v = pnt - s;
 
 		auto segLen2 = seg.LengthSquared();
-		if (segLen2 == static_cast<T>(0))
-			return start;
+		if (segLen2 == static_cast<R>(0))
+			return s;
 
 		auto t = v.Dot(seg) / segLen2;
-		if (t < static_cast<T>(0)) t = static_cast<T>(0);
-		if (t > static_cast<T>(1)) t = static_cast<T>(1);
+		if (t < static_cast<R>(0))
+			t = static_cast<R>(0);
+		if (t > static_cast<R>(1))
+			t = static_cast<R>(1);
 
-		return { start.x + t * seg.x, start.y + t * seg.y };
+		return Vector2<R>(
+			s.x + t * seg.x,
+			s.y + t * seg.y
+		);
 	}
 
-	bool IsPointAboveLine(const Vector2<T>& p) const
+	bool IsPointAboveLine(const Vector2<geometry_type>& p) const
 	{
-		return p.y <= start.y + -1e-4f;
+		using R = geometry_type;
+
+		Vector2<R> s(static_cast<R>(start.x), static_cast<R>(start.y));
+		Vector2<R> e(static_cast<R>(end.x), static_cast<R>(end.y));
+
+		R cross =
+			(e.x - s.x) * (p.y - s.y) -
+			(e.y - s.y) * (p.x - s.x);
+
+		return cross > static_cast<R>(0);
 	}
 
-	bool IntersectsPoint(const Vector2<T>& p) const
+	bool IntersectsPoint(const Vector2<geometry_type>& p) const
 	{
-		auto d1 = p.Distance(end);
-		auto d2 = p.Distance(start);
-		auto lineLen = start.Distance(end);
+		using R = geometry_type;
 
-		// small buffer; scale to T
-		auto buffer = static_cast<T>(0.1);
+		Vector2<R> s(static_cast<R>(start.x), static_cast<R>(start.y));
+		Vector2<R> e(static_cast<R>(end.x), static_cast<R>(end.y));
+
+		auto d1 = p.Distance(e);
+		auto d2 = p.Distance(s);
+		auto lineLen = s.Distance(e);
+
+		auto buffer = static_cast<R>(0.1f);
 		return d1 + d2 >= lineLen - buffer && d1 + d2 <= lineLen + buffer;
 	}
 
-	T DistX() const { return end.x - start.x; }
-	T DistY() const { return end.y - start.y; }
+	T DistX() const
+	{
+		return end.x - start.x;
+	}
+
+	T DistY() const
+	{
+		return end.y - start.y;
+	}
 
 	Vector2<T> start;
 	Vector2<T> end;
 };
 
 using Line2i = Line2<int>;
-using Line2u = Line2<unsigned int>;
 using Line2f = Line2<float>;
