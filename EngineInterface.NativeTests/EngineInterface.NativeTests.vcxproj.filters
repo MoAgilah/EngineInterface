@@ -63,5 +63,8 @@
     <ClCompile Include="Code\Utilities\ColourTests.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Utilities\EnumUtilsTests.cpp">
+      <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

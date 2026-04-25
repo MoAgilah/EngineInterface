@@ -392,9 +392,6 @@
     <ClCompile Include="Code\Utilities\MovementController.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Utilities\Utils.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp">
       <Filter>Source Files\Engine\Interface\Collisions</Filter>
     </ClCompile>

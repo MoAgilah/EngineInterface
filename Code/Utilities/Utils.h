@@ -196,18 +196,3 @@ namespace util
             return (retval);                                                          \
         }                                                                             \
     } while (0)
-
-// =========================
-// Utility callable
-// =========================
-
-struct ToIntFn
-{
-    template <typename E>
-    constexpr int operator()(E e) const noexcept
-    {
-        return static_cast<int>(e);
-    }
-};
-
-extern const ToIntFn ToInt;

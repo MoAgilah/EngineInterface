@@ -1,5 +1,7 @@
 #include "MovementController.h"
 
+const ToIntFn ToInt{};
+
 void MovementState::AddVelocity(int ID, float value)
 {
 	m_velocities.insert({ ID,value });

@@ -114,7 +114,6 @@
     <ClCompile Include="Code\Utilities\Colour.cpp" />
     <ClCompile Include="Code\Utilities\Logger.cpp" />
     <ClCompile Include="Code\Utilities\MovementController.cpp" />
-    <ClCompile Include="Code\Utilities\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\Arial.ttf" />
