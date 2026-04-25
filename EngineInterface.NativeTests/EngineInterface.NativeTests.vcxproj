@@ -177,6 +177,8 @@
     <ClCompile Include="Code\Utilities\LogFormatterTests.cpp" />
     <ClCompile Include="Code\Utilities\LoggerTest.cpp" />
     <ClCompile Include="Code\Utilities\LogRecordTests.cpp" />
+    <ClCompile Include="Code\Utilities\MovementControllerTests.cpp" />
+    <ClCompile Include="Code\Utilities\MovementStateTests.cpp" />
     <ClCompile Include="Code\Utilities\RectTests.cpp" />
     <ClCompile Include="Code\Utilities\ResourceLoaderTests.cpp" />
     <ClCompile Include="Code\Utilities\ThreadContextTests.cpp" />
