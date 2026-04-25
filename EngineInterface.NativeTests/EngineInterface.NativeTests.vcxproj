@@ -170,11 +170,15 @@
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\CountdownTimerTests.cpp" />
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
+    <ClCompile Include="Code\Utilities\ColourTests.cpp" />
+    <ClCompile Include="Code\Utilities\EnumUtilsTests.cpp" />
     <ClCompile Include="Code\Utilities\GuardsTests.cpp" />
     <ClCompile Include="Code\Utilities\Line2Tests.cpp" />
     <ClCompile Include="Code\Utilities\LogFormatterTests.cpp" />
     <ClCompile Include="Code\Utilities\LoggerTest.cpp" />
     <ClCompile Include="Code\Utilities\LogRecordTests.cpp" />
+    <ClCompile Include="Code\Utilities\MovementControllerTests.cpp" />
+    <ClCompile Include="Code\Utilities\MovementStateTests.cpp" />
     <ClCompile Include="Code\Utilities\RectTests.cpp" />
     <ClCompile Include="Code\Utilities\ResourceLoaderTests.cpp" />
     <ClCompile Include="Code\Utilities\ThreadContextTests.cpp" />
