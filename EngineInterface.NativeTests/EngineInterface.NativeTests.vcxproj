@@ -168,6 +168,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Engine\AI\DecisionTreeTests.cpp" />
     <ClCompile Include="Code\Engine\Core\CountdownTimerTests.cpp" />
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
     <ClCompile Include="Code\Utilities\ColourTests.cpp" />

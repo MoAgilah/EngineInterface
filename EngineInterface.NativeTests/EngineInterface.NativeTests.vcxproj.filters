@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Utilities">
       <UniqueIdentifier>{05aec86c-b2e8-428d-a3d6-4bd31c0173ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\AI">
+      <UniqueIdentifier>{4629bd76-9e0a-486f-a62d-e47fc58338fd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="Code\Utilities\MovementStateTests.cpp">
       <Filter>Source Files\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\AI\DecisionTreeTests.cpp">
+      <Filter>Source Files\Engine\AI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
