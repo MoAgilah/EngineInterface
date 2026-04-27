@@ -24,11 +24,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Fakes\FakeGameState.h" />
     <ClInclude Include="Code\Fakes\FakeLoadableResource.h" />
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Code\Fakes\FakeGameState.cpp" />
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

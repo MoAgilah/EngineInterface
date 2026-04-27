@@ -19,6 +19,9 @@
     <Filter Include="Header Files\Fakes">
       <UniqueIdentifier>{d22f6505-c02b-413d-8ef8-8d131e0e56c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Fakes">
+      <UniqueIdentifier>{115ad799-e0c1-4426-918a-4d4004f56b49}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -30,10 +33,16 @@
     <ClInclude Include="Code\Fakes\FakeLoadableResource.h">
       <Filter>Header Files\Fakes</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\FakeGameState.h">
+      <Filter>Header Files\Fakes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Fakes\FakeGameState.cpp">
+      <Filter>Source Files\Fakes</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

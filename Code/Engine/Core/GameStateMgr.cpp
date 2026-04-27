@@ -31,8 +31,7 @@ void GameStateMgr<T>::ChangeState(T* state)
 	if (!CheckNotNull(state, "Invalid Pointer 'state'"))
 		return;
 
-	if (!m_vGameStates.empty())
-		m_vGameStates.pop_back();
+	m_vGameStates.clear();
 
 	m_vGameStates.push_back(state);
 
