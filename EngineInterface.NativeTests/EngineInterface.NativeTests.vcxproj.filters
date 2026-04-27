@@ -78,5 +78,8 @@
     <ClCompile Include="Code\Engine\AI\DecisionTreeTests.cpp">
       <Filter>Source Files\Engine\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Core\GameStateMgrTests.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
