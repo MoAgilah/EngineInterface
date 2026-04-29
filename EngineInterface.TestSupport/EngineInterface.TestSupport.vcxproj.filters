@@ -36,6 +36,9 @@
     <ClInclude Include="Code\Fakes\FakeGameState.h">
       <Filter>Header Files\Fakes</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\FakeKeyConverter.h">
+      <Filter>Header Files\Fakes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
