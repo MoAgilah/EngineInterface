@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Engine\AI">
       <UniqueIdentifier>{4629bd76-9e0a-486f-a62d-e47fc58338fd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Input">
+      <UniqueIdentifier>{62372dde-6930-40a5-b6f1-7613ef7332e2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -80,6 +83,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Core\GameStateMgrTests.cpp">
       <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Input\InputManagerTests.cpp">
+      <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
