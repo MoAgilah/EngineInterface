@@ -44,7 +44,7 @@ public:
 	[[nodiscard]] IRenderer* GetRenderer() noexcept { return m_renderer.get(); }
 	[[nodiscard]] IScene* GetScene() { return m_scene.get(); }
 
-	void InitInputManager(IKeyConverter* converter) { m_inputManager = std::make_shared<InputManager>(converter); }
+	void InitInputManager(std::shared_ptr<IKeyConverter> converter) { m_inputManager = std::make_shared<InputManager>(std::move(converter)); }
 
 	// Setters
 	void SetICollisionManager(std::shared_ptr<ICollisionManager> colMgr) { m_collisionManager = std::move(colMgr); }

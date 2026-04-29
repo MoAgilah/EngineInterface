@@ -4,10 +4,13 @@
 #include "../Interface/Input/IKeyConverter.h"
 #include <array>
 #include <chrono>
+#include <memory>
+#include <vector>
 
-class InputManager {
+class InputManager
+{
 public:
-    explicit InputManager(const IKeyConverter* keyConverter);
+    explicit InputManager(std::shared_ptr<IKeyConverter> converter);
 
     void ProcessPlatformKeyPress(int platformKey);
     void ProcessPlatformKeyRelease(int platformKey);
@@ -24,10 +27,13 @@ public:
     KeyCode GetFirstPressedKey(const std::vector<KeyCode>& keys) const;
 
 private:
+
+    bool IsValidKey(KeyCode key) const;
+
     void SetKeyPressed(KeyCode key);
     void SetKeyReleased(KeyCode key);
 
-    const IKeyConverter* m_converter;
+    std::shared_ptr<IKeyConverter> m_converter;
 
     std::array<bool, KeyCount> m_keyStates{};
     std::array<std::chrono::steady_clock::time_point, KeyCount> m_keyPressTimestamps{};
