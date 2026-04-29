@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Fakes\FakeGameState.h" />
+    <ClInclude Include="Code\Fakes\FakeKeyConverter.h" />
     <ClInclude Include="Code\Fakes\FakeLoadableResource.h" />
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />
