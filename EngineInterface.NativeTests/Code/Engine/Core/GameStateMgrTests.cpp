@@ -2,7 +2,7 @@
 
 #include <Engine/Core/GameManager.h>
 #include <Engine/Core/GameStateMgr.h>
-#include <Fakes/FakeGameState.h>
+#include <Fakes/States/FakeGameState.h>
 #include <string_view>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

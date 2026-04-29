@@ -2,7 +2,7 @@
 
 #include <Utilities/ResourceLoader.h>
 #include <TestHelpers/TestFilesystemHelpers.h>
-#include <Fakes/FakeLoadableResource.h>
+#include <Fakes/Resources/FakeLoadableResource.h>
 
 #include <filesystem>
 #include <fstream>

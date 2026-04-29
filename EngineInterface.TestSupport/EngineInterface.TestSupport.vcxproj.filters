@@ -22,6 +22,18 @@
     <Filter Include="Source Files\Fakes">
       <UniqueIdentifier>{115ad799-e0c1-4426-918a-4d4004f56b49}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\Input">
+      <UniqueIdentifier>{5ea9abf8-554b-4a96-a1d6-8378c631fe79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fakes\Resources">
+      <UniqueIdentifier>{34412d80-9a83-4a65-9c76-a0ab8ed8ca01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fakes\States">
+      <UniqueIdentifier>{8481ea94-e6e5-4cb0-b107-3282f8c66b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Fakes\States">
+      <UniqueIdentifier>{95e0f0de-86b5-4bd8-a91e-c4137e8bbbc2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -30,22 +42,22 @@
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h">
       <Filter>Header Files\TestHelpers</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Fakes\FakeLoadableResource.h">
-      <Filter>Header Files\Fakes</Filter>
+    <ClInclude Include="Code\Fakes\Input\FakeKeyConverter.h">
+      <Filter>Header Files\Fakes\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Fakes\FakeGameState.h">
-      <Filter>Header Files\Fakes</Filter>
+    <ClInclude Include="Code\Fakes\Resources\FakeLoadableResource.h">
+      <Filter>Header Files\Fakes\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Fakes\FakeKeyConverter.h">
-      <Filter>Header Files\Fakes</Filter>
+    <ClInclude Include="Code\Fakes\States\FakeGameState.h">
+      <Filter>Header Files\Fakes\States</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Fakes\FakeGameState.cpp">
-      <Filter>Source Files\Fakes</Filter>
+    <ClCompile Include="Code\Fakes\States\FakeGameState.cpp">
+      <Filter>Source Files\Fakes\States</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
