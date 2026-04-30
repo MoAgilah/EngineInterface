@@ -14,10 +14,10 @@ public:
 
 protected:
 
-	bool AddEnemies() override {}
-	bool AddGUI() override {}
-	bool AddObjects() override {}
-	bool AddForeGroundObjects() override {}
+	bool AddEnemies() override { return false; }
+	bool AddGUI() override { return false; }
+	bool AddObjects() override { return false; }
+	bool AddForeGroundObjects() override { return false; }
 
 	void UpdateGUI(float deltaTime) override {}
 

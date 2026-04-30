@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Fakes\Collisions">
       <UniqueIdentifier>{7dc8cf00-c604-496c-ae0f-18721020e0b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\Drawables">
+      <UniqueIdentifier>{9701225e-3194-4f7d-a2d7-dbcc9007c3a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -74,6 +77,12 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\Renderer\FakeRenderer.h">
       <Filter>Header Files\Fakes\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\FakeShape.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\FakeDrawable.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

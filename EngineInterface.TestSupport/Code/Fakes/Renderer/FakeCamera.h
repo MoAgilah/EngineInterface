@@ -2,7 +2,7 @@
 
 #include <Engine/Interface/Renderer/ICamera.h>
 
-class FakeCamera : ICamera
+class FakeCamera : public ICamera
 {
 public:
 
@@ -16,7 +16,7 @@ public:
 		return isInViewResult;
 	}
 
-	bool CheckVerticalBounds(IBoundingVolume* volume) override {}
+	bool CheckVerticalBounds(IBoundingVolume* volume) override { return false; }
 
 public:
 
