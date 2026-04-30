@@ -87,5 +87,8 @@
     <ClCompile Include="Code\Engine\Input\InputManagerTests.cpp">
       <Filter>Source Files\Engine\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Core\GameManagerTests.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
