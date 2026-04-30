@@ -7,16 +7,16 @@ class FakeCamera : ICamera
 public:
 
 	void Update() override {}
-	void Reset(IRenderer* renderer)  override {}
-	void RenderDebug(IRenderer* renderer)  override {}
+	void Reset(IRenderer* renderer) override {}
+	void RenderDebug(IRenderer* renderer) override {}
 
-	bool IsInView(IBoundingVolume* volume)  override
+	bool IsInView(IBoundingVolume* volume) override
 	{
 		isInViewCallCount++;
 		return isInViewResult;
 	}
 
-	bool CheckVerticalBounds(IBoundingVolume* volume)  override {}
+	bool CheckVerticalBounds(IBoundingVolume* volume) override {}
 
 public:
 

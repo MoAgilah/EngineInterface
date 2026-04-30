@@ -72,6 +72,9 @@
     <ClInclude Include="Code\Fakes\Collisions\FakeGrid.h">
       <Filter>Header Files\Fakes\Collisions</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\Renderer\FakeRenderer.h">
+      <Filter>Header Files\Fakes\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
