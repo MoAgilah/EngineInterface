@@ -24,8 +24,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Fakes\Collisions\FakeGrid.h" />
+    <ClInclude Include="Code\Fakes\Collisions\FakeTile.h" />
     <ClInclude Include="Code\Fakes\Input\FakeKeyConverter.h" />
+    <ClInclude Include="Code\Fakes\Renderer\FakeCamera.h" />
     <ClInclude Include="Code\Fakes\Resources\FakeLoadableResource.h" />
+    <ClInclude Include="Code\Fakes\Scenes\FakeScene.h" />
     <ClInclude Include="Code\Fakes\States\FakeGameState.h" />
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />

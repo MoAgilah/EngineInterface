@@ -34,6 +34,15 @@
     <Filter Include="Source Files\Fakes\States">
       <UniqueIdentifier>{95e0f0de-86b5-4bd8-a91e-c4137e8bbbc2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\Scenes">
+      <UniqueIdentifier>{9c5a7f84-3770-42fd-a004-d36211521d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fakes\Renderer">
+      <UniqueIdentifier>{d7be28ae-5634-4470-9288-f4dac5ec4f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Fakes\Collisions">
+      <UniqueIdentifier>{7dc8cf00-c604-496c-ae0f-18721020e0b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -50,6 +59,18 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\States\FakeGameState.h">
       <Filter>Header Files\Fakes\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Scenes\FakeScene.h">
+      <Filter>Header Files\Fakes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Renderer\FakeCamera.h">
+      <Filter>Header Files\Fakes\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Collisions\FakeTile.h">
+      <Filter>Header Files\Fakes\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Collisions\FakeGrid.h">
+      <Filter>Header Files\Fakes\Collisions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
