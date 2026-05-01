@@ -69,6 +69,14 @@ void ICollisionManager::Render(IRenderer* renderer)
 		m_grid->Render(renderer);
 }
 
+void ICollisionManager::AddCollidable(IGameObject* obj)
+{
+	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
+		return;
+
+	m_collidables.emplace_back(obj);
+}
+
 void ICollisionManager::RemoveCollidable(IGameObject* obj)
 {
 	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
