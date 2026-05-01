@@ -11,9 +11,9 @@ public:
 	: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(), nullptr, nullptr)
 	{}
 
-	void SetIntersects(bool intersects)
+	void SetIntersects(bool value)
 	{
-		intersects = intersects;
+		intersects = value;
 	}
 
 	bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast)
@@ -45,6 +45,7 @@ protected:
 	bool ResolveObjectToSlopeDecline(IDynamicGameObject* obj, int start, int end, float tFirst, float tLast) override { return false; }
 	void ResolveObjectToEdgeBounds(IDynamicGameObject* obj) override {}
 
+public:
 	bool intersects = false;
 	bool resolveCollisionCalled = false;
 

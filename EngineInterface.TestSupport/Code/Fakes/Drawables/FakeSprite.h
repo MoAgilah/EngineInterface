@@ -3,7 +3,7 @@
 #include "FakeDrawable.h"
 #include <Engine/Interface/Drawables/ISprite.h>
 
-class FakeSprite : FakeDrawable<FakeSprite>, public ISprite
+class FakeSprite : public FakeDrawable<FakeSprite>, public ISprite
 {
 public:
 	FakeSprite(const std::string& texId)
@@ -22,7 +22,7 @@ public:
 
 	void SetDirection(bool dir) override {}
 
-	virtual Vector2u GetTextureSize() const override {}
+	virtual Vector2u GetTextureSize() const override { return Vector2u(); }
 	virtual void SetTextureRect(const IntRect& rect) override {}
 };
 

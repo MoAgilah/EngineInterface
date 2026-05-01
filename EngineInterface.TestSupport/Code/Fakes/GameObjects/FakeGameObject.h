@@ -1,15 +1,26 @@
 #pragma once
 
 #include <GameObjects/GameObject.h>
+#include <Utilities/Guards.h>
 
 class FakeGameObject : public GameObject
 {
 public:
 	FakeGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)
-		: GameObject(std::move(drawable), std::move(volume))
-	{}
+	{
+		m_drawable = std::move(drawable);
+		m_volume = std::move(volume);
 
-	void SetsIntersects(bool intersects) { intersects = intersects; }
+		if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+			throw std::invalid_argument("FakeGameObject requires a valid drawable");
+
+		if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+			throw std::invalid_argument("FakeGameObject requires a valid volume");
+
+		SetTypeIndex(typeid(FakeGameObject));
+	}
+
+	void SetsIntersects(bool value) { intersects = value; }
 
 	void Update(float deltaTime) override {}
 	void Render(IRenderer* renderer) override {}
@@ -30,10 +41,20 @@ class DynamicFakeGameObject : public DynamicGameObject
 {
 public:
 	DynamicFakeGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)
-		: DynamicGameObject(std::move(drawable), std::move(volume))
-	{}
+	{
+		m_drawable = std::move(drawable);
+		m_volume = std::move(volume);
 
-	void SetsIntersects(bool intersects) { intersects = intersects; }
+		if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+			throw std::invalid_argument("FakeGameObject requires a valid drawable");
+
+		if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+			throw std::invalid_argument("FakeGameObject requires a valid volume");
+
+		SetTypeIndex(typeid(DynamicFakeGameObject));
+	}
+
+	void SetsIntersects(bool value) { intersects = value; }
 
 	void Update(float deltaTime) override {}
 	void Render(IRenderer* renderer) override {}
