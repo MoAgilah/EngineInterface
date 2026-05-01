@@ -25,6 +25,7 @@ class IGameObject
 public:
 	virtual ~IGameObject() = default;
 
+	void SetTypeIndex(const std::type_index& type) { m_dynType = type; }
 	std::type_index GetTypeIndex() { return m_dynType; }
 	int GetObjectNum() const { return m_objectID; }
 	virtual bool IsDynamicObject() { return false; }

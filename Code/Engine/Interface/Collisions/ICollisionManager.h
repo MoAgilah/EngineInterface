@@ -23,8 +23,8 @@ public:
 	void ProcessCollisions(IGameObject* object);
 	void Render(IRenderer* renderer);
 
-	void AddCollidable(IGameObject* ngo) { m_collidables.emplace_back(ngo); }
-	void RemoveCollidable(IGameObject* ngo);
+	void AddCollidable(IGameObject* obj);
+	void RemoveCollidable(IGameObject* obj);
 
 	void RemoveLastAdded();
 	IGameObject* GetLastAdded();

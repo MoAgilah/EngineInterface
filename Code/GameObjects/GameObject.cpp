@@ -5,6 +5,12 @@
 #include "../Engine/Core/GameManager.h"
 #include "../Utilities/Guards.h"
 
+GameObject::GameObject()
+	: m_drawable(nullptr), m_volume(nullptr)
+{
+	m_objectID = s_objectNum++;
+}
+
 GameObject::GameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)
 	: m_drawable(std::move(drawable)), m_volume(std::move(volume))
 {
@@ -103,6 +109,10 @@ void GameObject::SetScale(const Vector2f& scale)
 
 	m_drawable->SetScale(scale);
 	m_volume->SetScale(scale);
+}
+
+DynamicGameObject::DynamicGameObject()
+{
 }
 
 DynamicGameObject::DynamicGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)

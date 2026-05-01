@@ -5,6 +5,7 @@
 class GameObject : public virtual IGameObject
 {
 public:
+	GameObject();
 	GameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume);
 	virtual ~GameObject();
 
@@ -45,6 +46,7 @@ protected:
 class DynamicGameObject : public GameObject, public virtual IDynamicGameObject
 {
 public:
+	DynamicGameObject();
 	DynamicGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume);
 
 	void Render(IRenderer* renderer) override { GameObject::Render(renderer); }
