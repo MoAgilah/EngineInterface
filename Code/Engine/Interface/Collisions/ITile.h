@@ -25,7 +25,7 @@ public:
 
 	virtual void Render(IRenderer* renderer) = 0;
 
-	bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast);
+	virtual bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast);
 
 	virtual void ResolveCollision(IDynamicGameObject* obj, float tFirst, float tLast) = 0;
 

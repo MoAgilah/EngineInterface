@@ -46,6 +46,9 @@
     <Filter Include="Header Files\Fakes\Drawables">
       <UniqueIdentifier>{9701225e-3194-4f7d-a2d7-dbcc9007c3a9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\GameObjects">
+      <UniqueIdentifier>{c8436a4e-592d-4364-81f9-b6bfddb8ce0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -83,6 +86,15 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\Drawables\FakeDrawable.h">
       <Filter>Header Files\Fakes\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\FakeSprite.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Collisions\FakeCollisionManager.h">
+      <Filter>Header Files\Fakes\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\GameObjects\FakeGameObject.h">
+      <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
