@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\AI\DecisionTreeTests.cpp" />
+    <ClCompile Include="Code\Engine\Collisions\BoundingBoxTests.cpp" />
     <ClCompile Include="Code\Engine\Collisions\CollisionManagerTests.cpp" />
     <ClCompile Include="Code\Engine\Core\CountdownTimerTests.cpp" />
     <ClCompile Include="Code\Engine\Core\GameManagerTests.cpp" />
