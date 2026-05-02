@@ -1,5 +1,6 @@
 #pragma once
 
+#include <Engine/Core/Constants.h>
 #include <Engine/Interface/Drawables/IShape.h>
 #include <Utilities/ShapeMath.h>
 #include "FakeDrawable.h"
@@ -30,7 +31,6 @@ class FakeBox : public FakeShape<FakeBox>, public IBoxShape
 public:
 	FakeBox()
 	{
-		SetDrawable(std::make_shared<FakeBox>());
 		SetScale(GameConstants::Scale);
 	}
 
@@ -71,8 +71,8 @@ class FakeCircle : public FakeShape<FakeCircle>, public ICircleShape
 {
 public:
 	FakeCircle()
+		: m_radius(0.0f)
 	{
-		SetDrawable(std::make_shared<FakeCircle>());
 		SetScale(GameConstants::Scale);
 	}
 
@@ -105,7 +105,7 @@ public:
 
 public:
 
-	float m_radius;
+	float m_radius = 0.0f;
 };
 
 class FakeCapsule : public FakeShape<FakeCapsule>, public ICapsuleShape
@@ -205,7 +205,7 @@ public:
 
 	Vector2f GetSize() override
 	{
-		GetBody()->GetSize();
+		return GetBody()->GetSize();
 	}
 
 	void SetSize(const Vector2f& size) override
