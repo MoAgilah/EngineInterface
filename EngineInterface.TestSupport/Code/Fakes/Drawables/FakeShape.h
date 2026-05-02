@@ -1,7 +1,9 @@
 #pragma once
 
 #include <Engine/Interface/Drawables/IShape.h>
+#include <Utilities/ShapeMath.h>
 #include "FakeDrawable.h"
+#include <memory>
 
 template<typename TShape>
 class FakeShape : public FakeDrawable<TShape>, public IShape
@@ -20,17 +22,207 @@ public:
 
 	float GetOutlineThickness() { return 0.0f; }
 	void SetOutlineThickness(float scale) {}
-private:
 
 };
 
 class FakeBox : public FakeShape<FakeBox>, public IBoxShape
 {
 public:
+	FakeBox()
+	{
+		SetDrawable(std::make_shared<FakeBox>());
+		SetScale(GameConstants::Scale);
+	}
+
+	FakeBox(const Vector2f& size, const Vector2f& pos)
+		: FakeBox()
+	{
+		Reset(size);
+		Update(pos);
+	}
+
+	void Update(const Vector2f& pos)
+	{
+		SetPosition(pos);
+		this->SetCenter(GetPosition());
+	}
+
 	void Render(IRenderer* renderer) {}
 
-	void Reset(const Vector2f& size) {}
+	void Reset(const Vector2f& size)
+	{
+		SetSize(size);
+		SetLocalSize(size);
+		SetOrigin(size * 0.5f);
+	}
 
-	Vector2f GetSize() { return Vector2f(); }
-	void SetSize(const Vector2f& size) {}
+	Vector2f GetSize() override
+	{
+		return FakeDrawable<FakeBox>::GetSize();
+	}
+
+	void SetSize(const Vector2f& size) override
+	{
+		FakeDrawable<FakeBox>::SetSize(size);
+	}
+};
+
+class FakeCircle : public FakeShape<FakeCircle>, public ICircleShape
+{
+public:
+	FakeCircle()
+	{
+		SetDrawable(std::make_shared<FakeCircle>());
+		SetScale(GameConstants::Scale);
+	}
+
+	FakeCircle(float radius, const Vector2f& pos)
+		: FakeCircle()
+	{
+		Reset(radius);
+		Update(pos);
+	}
+
+	void Update(const Vector2f& pos) override
+	{
+		SetPosition(pos);
+		this->SetCenter(GetPosition());
+	}
+
+	void Render(IRenderer* renderer) override
+	{
+
+	}
+
+	void Reset(float radius)
+	{
+		SetRadius(radius);
+		SetOrigin(Vector2f(radius, radius));
+	}
+
+	float GetRadius() override { return m_radius; }
+	void SetRadius(float radius) override { m_radius = radius; }
+
+public:
+
+	float m_radius;
+};
+
+class FakeCapsule : public FakeShape<FakeCapsule>, public ICapsuleShape
+{
+public:
+	FakeCapsule()
+	{
+		m_body = std::make_shared<FakeBox>();
+		SetScale(GameConstants::Scale);
+
+		m_endCap1 = std::make_shared<FakeCircle>();
+		m_endCap1->SetScale(GameConstants::Scale);
+
+		m_endCap2 = std::make_shared<FakeCircle>();
+		m_endCap2->SetScale(GameConstants::Scale);
+	}
+
+	FakeCapsule(float radius, float length, float angle, const Vector2f& pos)
+		: FakeCapsule()
+	{
+		Reset(radius, length, angle);
+		Update(pos);
+	}
+
+	void Update(const Vector2f& pos) override
+	{
+		SetPosition(pos);
+		this->SetCenter(pos);
+
+		Vector2f corners[4];
+		auto size = GetSize();
+		auto scale = GetScale();
+		size.x *= scale.x;
+		size.y *= scale.y;
+		ShapeMath::CalculateRotatedRectangleCorners(corners, pos, size, m_angle);
+
+		// Compute endpoints for circles
+		Vector2f end1 = Line2f(corners[3], corners[2]).GetMidPoint(); // top
+		Vector2f end2 = Line2f(corners[1], corners[0]).GetMidPoint(); // bottom
+
+		auto* cap1 = GetEndCap1();
+		if (cap1)
+			cap1->SetPosition(end1);
+
+		auto* cap2 = GetEndCap2();
+		if (cap2)
+			cap2->SetPosition(end2);
+
+		m_segment.start = end1;
+		m_segment.end = end2;
+	}
+
+	void Render(IRenderer* renderer) override
+	{
+
+	}
+
+	void Reset(float radius, float length, float angle)
+	{
+		m_angle = angle;
+		m_radius = radius;
+		m_length = length;
+
+		SetSize(Vector2f(radius * 2.f, length));
+		SetOrigin({ radius, length / 2.f });
+		SetRotation(angle);
+
+		auto* cap1 = GetEndCap1();
+		if (cap1)
+		{
+			cap1->SetRadius(radius);
+			cap1->SetOrigin({ radius, radius });
+		}
+
+		auto* cap2 = GetEndCap2();
+		if (cap2)
+		{
+			cap2->SetRadius(radius);
+			cap2->SetOrigin({ radius, radius });
+		}
+	}
+
+	FakeBox* GetBody()
+	{
+		return m_body.get();
+	}
+
+	FakeCircle* GetEndCap1()
+	{
+		return m_endCap1.get();
+	}
+
+	FakeCircle* GetEndCap2()
+	{
+		return m_endCap2.get();
+	}
+
+	Vector2f GetSize() override
+	{
+		GetBody()->GetSize();
+	}
+
+	void SetSize(const Vector2f& size) override
+	{
+		GetBody()->SetSize(size);
+	}
+
+private:
+
+	std::shared_ptr<FakeBox> m_body;
+	std::shared_ptr<FakeCircle> m_endCap1;
+	std::shared_ptr<FakeCircle> m_endCap2;
+};
+
+template <>
+struct CapsuleTraits<FakeCapsule>
+{
+	using CircleType = FakeCircle;
+	using BoxType = FakeBox;
 };

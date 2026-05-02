@@ -11,27 +11,31 @@ public:
     void Render(IRenderer* renderer) {}
     void Render(IRenderer* renderer, IShader* shader) {}
 
-    void SetPosition(const Vector2f& pos) {}
+    void SetPosition(const Vector2f& pos) { m_position = pos; }
 
-    virtual void OffsetPosition(const Vector2f& delta) {}
+    Vector2f GetPosition() override { return m_position; }
 
-    Vector2f GetPosition() override { return Vector2f(); }
+    void SetScale(const Vector2f& scl) override { m_scale = scl; }
 
-    void SetScale(const Vector2f& scl) override {}
+    Vector2f GetScale() override { return m_scale; }
 
-    Vector2f GetScale() override { return Vector2f(); }
+    Vector2f GetOrigin() override { return m_origin; }
 
-    Vector2f GetOrigin() override { return Vector2f(); }
+    void SetOrigin(const Vector2f& ori) override { m_origin = ori; }
 
-    void SetOrigin(const Vector2f& ori) override {}
+    Vector2f GetSize() override { return m_size; }
 
-    Vector2f GetSize() override { return Vector2f(); }
+    void SetSize(const Vector2f& size) override { m_size = size; }
 
-    void SetSize(const Vector2f& size) override {}
+    Vector2f GetGlobalSize() override { return { m_size.x * m_scale.x, m_size.y * m_scale.y }; }
 
-    Vector2f GetGlobalSize() override { return Vector2f(); }
+    Vector2f GetLocalSize() override { return m_size; }
+    void SetLocalSize(const Vector2f& size) override { m_size = size; }
 
-    Vector2f GetLocalSize() override { return Vector2f(); }
-    void SetLocalSize(const Vector2f& size) override {}
+protected:
+
+    Vector2f m_position;
+    Vector2f m_origin;
+    Vector2f m_size;
 };
 
