@@ -294,31 +294,39 @@ protected:
             return Intersects(circle);
 
         float r = circle->GetRadius();
+
         Vector2f boxMin = GetMin() - Vector2f(r, r);
         Vector2f boxMax = GetMax() + Vector2f(r, r);
 
-        Vector2f invVelocity = {
-            std::abs(relativeVelocity.x) > ICollisionManager::EPSILON ? 1.f / relativeVelocity.x : 0.f,
-            std::abs(relativeVelocity.y) > ICollisionManager::EPSILON ? 1.f / relativeVelocity.y : 0.f
-        };
+        Vector2f circlePos = circle->GetPosition();
 
-        float tEnterX = (boxMin.x - circle->GetPosition().x) * invVelocity.x;
-        float tExitX = (boxMax.x - circle->GetPosition().x) * invVelocity.x;
-        if (invVelocity.x < 0.f) std::swap(tEnterX, tExitX);
+        tfirst = 0.0f;
+        tlast = 1.0f;
 
-        float tEnterY = (boxMin.y - circle->GetPosition().y) * invVelocity.y;
-        float tExitY = (boxMax.y - circle->GetPosition().y) * invVelocity.y;
-        if (invVelocity.y < 0.f) std::swap(tEnterY, tExitY);
+        for (int i = 0; i < 2; i++)
+        {
+            if (std::abs(relativeVelocity[i]) < ICollisionManager::EPSILON)
+            {
+                if (circlePos[i] < boxMin[i] || circlePos[i] > boxMax[i])
+                    return false;
 
-        float entryTime = std::max(tEnterX, tEnterY);
-        float exitTime = std::min(tExitX, tExitY);
+                continue;
+            }
 
-        if (entryTime > exitTime || exitTime < -ICollisionManager::EPSILON || entryTime > 1.0f)
-            return false;
+            float tEnter = (boxMin[i] - circlePos[i]) / relativeVelocity[i];
+            float tExit = (boxMax[i] - circlePos[i]) / relativeVelocity[i];
 
-        tfirst = std::max(0.f, entryTime);
-        tlast = std::min(1.f, exitTime);
-        return true;
+            if (tEnter > tExit)
+                std::swap(tEnter, tExit);
+
+            tfirst = std::max(tfirst, tEnter);
+            tlast = std::min(tlast, tExit);
+
+            if (tfirst > tlast)
+                return false;
+        }
+
+        return tfirst <= tlast;
     }
 
     bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb,
@@ -336,19 +344,21 @@ protected:
             return Vector2f();
 
         Vector2f delta = box->GetPosition() - GetPosition();
-        delta = { std::abs(delta.x), std::abs(delta.y) };
-        Vector2f overlap = (box->GetExtents() + m_extents) - delta;
 
-        if (overlap.x < overlap.y)
+        float overlapX = (box->GetExtents().x + m_extents.x) - std::abs(delta.x);
+        float overlapY = (box->GetExtents().y + m_extents.y) - std::abs(delta.y);
+
+        if (overlapX <= 0.0f || overlapY <= 0.0f)
+            return Vector2f();
+
+        if (overlapX < overlapY)
         {
-            float direction = (box->GetPosition().x < GetPosition().x) ? -1.0f : 1.0f;
-            return { (overlap.x + ICollisionManager::BUFFER) * direction, 0 };
+            float direction = delta.x < 0.0f ? -1.0f : 1.0f;
+            return Vector2f((overlapX + ICollisionManager::BUFFER) * direction, 0.0f);
         }
-        else
-        {
-            float direction = (box->GetPosition().y < GetPosition().y) ? -1.0f : 1.0f;
-            return { 0, (overlap.y + ICollisionManager::BUFFER) * direction };
-        }
+
+        float direction = delta.y < 0.0f ? -1.0f : 1.0f;
+        return Vector2f(0.0f, (overlapY + ICollisionManager::BUFFER) * direction);
     }
 
     Vector2f GetSeparationVector(IBoundingCircle* circle) override
