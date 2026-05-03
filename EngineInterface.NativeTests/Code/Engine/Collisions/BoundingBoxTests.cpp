@@ -327,27 +327,7 @@ namespace Engine
                 Assert::AreEqual(0.f, side.end.y);
             }
 
-            TEST_METHOD(BoundingBox_GetPoint_Top_ReturnsTopPoint)
-            {
-                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
-
-                auto pnt = aabb.GetPoint(Side::Top);
-
-                Assert::AreEqual(16.f, pnt.x);
-                Assert::AreEqual(8.f, pnt.y);
-            }
-
-            TEST_METHOD(BoundingBox_GetPoint_Bottom_ReturnsBottomPoint)
-            {
-                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
-
-                auto pnt = aabb.GetPoint(Side::Bottom);
-
-                Assert::AreEqual(16.f, pnt.x);
-                Assert::AreEqual(24.f, pnt.y);
-            }
-
-            TEST_METHOD(BoundingBox_GetPoint_Left_ReturnsLeftPoint)
+            TEST_METHOD(BoundingBox_GetPoint_Left_ReturnsCorrectPoint)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
 
@@ -357,7 +337,7 @@ namespace Engine
                 Assert::AreEqual(16.f, pnt.y);
             }
 
-            TEST_METHOD(BoundingBox_GetPoint_Right_ReturnsRightPoint)
+            TEST_METHOD(BoundingBox_GetPoint_Right_ReturnsCorrectPoint)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
 
@@ -365,6 +345,26 @@ namespace Engine
 
                 Assert::AreEqual(24.f, pnt.x);
                 Assert::AreEqual(16.f, pnt.y);
+            }
+
+            TEST_METHOD(BoundingBox_GetPoint_Top_ReturnsCorrectPoint)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
+
+                auto pnt = aabb.GetPoint(Side::Top);
+
+                Assert::AreEqual(16.f, pnt.x);
+                Assert::AreEqual(8.f, pnt.y);
+            }
+
+            TEST_METHOD(BoundingBox_GetPoint_Bottom_ReturnsCorrectPoint)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
+
+                auto pnt = aabb.GetPoint(Side::Bottom);
+
+                Assert::AreEqual(16.f, pnt.x);
+                Assert::AreEqual(24.f, pnt.y);
             }
 
             TEST_METHOD(BoundingBox_GetPoint_Unknown_ReturnsDefault)
