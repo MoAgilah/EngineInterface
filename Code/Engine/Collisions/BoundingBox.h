@@ -335,7 +335,7 @@ protected:
         if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
             return false;
 
-        return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
+        return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), vb, va, tfirst, tlast);
     }
 
     Vector2f GetSeparationVector(IBoundingBox* box) override

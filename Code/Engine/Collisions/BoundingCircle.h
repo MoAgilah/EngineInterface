@@ -220,13 +220,12 @@ protected:
         if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
             return false;
 
-        // Calculate squared distance between centers
-        Vector2f d = this->GetCenter() - circle->GetCenter();
-        float dist2 = d.Dot(d);
+        Vector2f displacement = circle->GetCenter() - this->GetCenter();
+        float distanceSquared = displacement.Dot(displacement);
 
-        // Spheres intersect if squared distance is less than squared sum of radii
         float radiusSum = this->GetRadius() + circle->GetRadius();
-        return dist2 <= radiusSum * radiusSum;
+
+        return distanceSquared <= radiusSum * radiusSum;
     }
 
     bool Intersects(IBoundingCapsule* capsule) override
@@ -246,7 +245,7 @@ protected:
         if (!CheckNotNull(box, "Invalid Pointer 'box'"))
             return false;
 
-        return box->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
+        return box->IntersectsMoving(static_cast<IBoundingVolume*>(this), vb, va, tfirst, tlast);
     }
 
     bool IntersectsMoving(IBoundingCircle* circle, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
@@ -254,39 +253,42 @@ protected:
         if (!CheckNotNull(circle, "Invalid Pointer 'circle'"))
             return false;
 
-        Vector2f s = this->GetCenter() - circle->GetCenter();
+        Vector2f s = circle->GetCenter() - this->GetCenter();
         float r = circle->GetRadius() + this->GetRadius();
 
-        Vector2f v = vb - va; // Relative motion
+        Vector2f v = vb - va;
         float a = v.Dot(v);
 
-        if (a < ICollisionManager::EPSILON) return false; // No relative motion
+        if (a < ICollisionManager::EPSILON)
+            return Intersects(circle);
 
         float b = v.Dot(s);
-        if (b >= 0.0f) return false; // Moving away
+        if (b >= 0.0f)
+            return false;
 
         float c = s.Dot(s) - r * r;
-        if (c < -ICollisionManager::EPSILON) // Initial overlap case
+        if (c <= 0.0f)
         {
-            tfirst = tlast = 0.0f;
+            tfirst = 0.0f;
+            tlast = 0.0f;
             return true;
         }
 
         float d = b * b - a * c;
-        if (d < 0.0f) return false; // No real solution
+        if (d < 0.0f)
+            return false;
 
         float sqrtD = std::sqrt(d);
         tfirst = (-b - sqrtD) / a;
         tlast = (-b + sqrtD) / a;
 
-        if (tlast < 0.0f || tfirst > 1.0f) return false;
-        if (tfirst > tlast) return false;
+        if (tlast < 0.0f || tfirst > 1.0f)
+            return false;
 
-        // If tfirst is negative, clamp to zero
-        if (tfirst < 0.0f && tlast >= 0.0f)
+        if (tfirst < 0.0f)
             tfirst = 0.0f;
 
-        return true;
+        return tfirst <= tlast;
     }
 
     bool IntersectsMoving(IBoundingCapsule* capsule, const Vector2f& va, const Vector2f& vb, float& tfirst, float& tlast) override
@@ -294,7 +296,7 @@ protected:
         if (!CheckNotNull(capsule, "Invalid Pointer 'capsule'"))
             return false;
 
-        return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), va, vb, tfirst, tlast);
+        return capsule->IntersectsMoving(static_cast<IBoundingVolume*>(this), vb, va, tfirst, tlast);
     }
 
     Vector2f GetSeparationVector(IBoundingBox* box) override
@@ -302,7 +304,8 @@ protected:
         if (!CheckNotNull(box, "Invalid Pointer 'box'"))
             return Vector2f();
 
-        return box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
+        auto sep = box->GetSeparationVector(static_cast<IBoundingVolume*>(this));
+        return Vector2f(-sep.x, -sep.y);
     }
 
     Vector2f GetSeparationVector(IBoundingCircle* circle) override
