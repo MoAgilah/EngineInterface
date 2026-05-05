@@ -96,5 +96,14 @@
     <ClCompile Include="Code\Engine\Collisions\CollisionManagerTests.cpp">
       <Filter>Source Files\Engine\Collisions</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Collisions\BoundingBoxTests.cpp">
+      <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Collisions\BoundingCircleTests.cpp">
+      <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Collisions\BoundingCapsuleTests.cpp">
+      <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

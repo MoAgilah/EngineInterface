@@ -861,7 +861,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::EMPTY));
+                    tile->SetType(static_cast<int>(Types::GRND));
                 }
 
                 FakeCollisionManager cm(grid);

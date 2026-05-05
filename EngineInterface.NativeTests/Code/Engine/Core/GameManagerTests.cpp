@@ -154,9 +154,9 @@ namespace Engine
 
                 gm.CheckInView();
 
-                for (size_t i = 0; i < 2; i++)
+                for (int i = 0; i < 2; i++)
                 {
-                    for (size_t j = 0; j < 10; j ++)
+                    for (int j = 0; j < 10; j ++)
                     {
                         ITile* t = grid->GetTile(i, j);
                         if (t)
