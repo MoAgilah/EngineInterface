@@ -63,7 +63,7 @@ public:
 
 protected:
 
-	Vector2f GetSeperationVector(IDynamicGameObject* obj);
+	Vector2f GetSeparationVector(IDynamicGameObject* obj);
 
 	void ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, float time);
 

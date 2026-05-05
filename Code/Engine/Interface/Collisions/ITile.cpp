@@ -78,7 +78,7 @@ float ITile::GetTileWidth()
 	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
 		return float();
 
-	return m_aabb->GetExtents().x;
+	return m_aabb->GetExtents().x * 2.f;
 }
 
 float ITile::GetTileHeight()
@@ -86,10 +86,10 @@ float ITile::GetTileHeight()
 	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
 		return float();
 
-	return m_aabb->GetExtents().y;
+	return m_aabb->GetExtents().y * 2.f;
 }
 
-Vector2f ITile::GetSeperationVector(IDynamicGameObject* obj)
+Vector2f ITile::GetSeparationVector(IDynamicGameObject* obj)
 {
 	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
 		return Vector2f();
@@ -114,39 +114,27 @@ void ITile::ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, fl
 	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume()'"))
 		return;
 
-	const Vector2f sep = GetSeperationVector(obj);
-	const float fracAfterTOI = std::clamp(1.0f - time, 0.0f, 1.0f);
+	const Vector2f vel = obj->GetVelocity();
+	const float remainingTime = std::clamp(1.0f - time, 0.0f, 1.0f);
 
-	Vector2f rewind(0.f, 0.f);
+	// rewind using velocity, not separation
+	obj->Move(
+		-vel.x * remainingTime,
+		-vel.y * remainingTime
+	);
 
-	switch (tileSide)
-	{
-	case Side::Left:
-		rewind.x = -sep.x * fracAfterTOI;
-		break;
-	case Side::Right:
-		rewind.x = sep.x * fracAfterTOI;
-		break;
-	case Side::Top:
-		rewind.y = -sep.y * fracAfterTOI;
-		break;
-	case Side::Bottom:
-		rewind.y = sep.y * fracAfterTOI;
-		break;
-	}
-
-	obj->Move(rewind.x, rewind.y);
-
+	// snap using volume geometry
 	const Line2f tileEdge = m_aabb->GetSide(tileSide);
 	const Vector2f objOppPt = obj->GetVolume()->GetPoint(OppositeSide(tileSide));
 
 	Vector2f snap(0.f, 0.f);
+
 	if (tileSide == Side::Top || tileSide == Side::Bottom)
 		snap.y = tileEdge.start.y - objOppPt.y;
 	else
 		snap.x = tileEdge.start.x - objOppPt.x;
 
-	obj->Move(snap.x, snap.y);
+	obj->Move(snap);
 }
 
 void ITile::ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float tLast)
@@ -155,6 +143,11 @@ void ITile::ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float t
 		return;
 
 	ResolveToObjectToTileSide(obj, Side::Top, tFirst);
+
+	auto v = obj->GetVelocity();
+	if (v.y > 0.f)
+		v.y = 0.f;
+	obj->SetVelocity(v);
 
 	obj->SetOnGround(true);
 	obj->SetOnSlope(false);
@@ -166,6 +159,11 @@ void ITile::ResolveObjectToBoxBottom(IDynamicGameObject* obj, float tFirst, floa
 		return;
 
 	ResolveToObjectToTileSide(obj, Side::Bottom, tFirst);
+
+	auto v = obj->GetVelocity();
+	if (v.y < 0.f)
+		v.y = 0.f;
+	obj->SetVelocity(v);
 }
 
 void ITile::ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst, float tLast)
@@ -173,5 +171,15 @@ void ITile::ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst
 	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
 		return;
 
-	ResolveToObjectToTileSide(obj, obj->GetDirection() ? Side::Right : Side::Left, tFirst);
+	const Vector2f sep = GetSeparationVector(obj);
+
+	if (sep.x > 0.f)
+		ResolveToObjectToTileSide(obj, Side::Right, tFirst);
+	else
+		ResolveToObjectToTileSide(obj, Side::Left, tFirst);
+
+	// kill horizontal velocity
+	auto v = obj->GetVelocity();
+	v.x = 0.f;
+	obj->SetVelocity(v);
 }

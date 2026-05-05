@@ -180,43 +180,50 @@ void ICollisionManager::DynamicObjectToTileCollisions(IDynamicGameObject* obj)
 	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
 		return;
 
-	std::vector<ITile*> collidedWith;
-	for (size_t i = 0; i < m_tiles.size(); ++i)
+	obj->SetOnGround(false);
+	obj->SetOnSlope(false);
+
+	struct TileHit
 	{
-		auto* tile = m_tiles[i];
-
-		if (!CheckNotNull(tile,
-			std::format("Invalid Pointer 'tile' at index {}", i)))
-			continue;
-
-		if (!tile->GetActive())
-			continue;
-
+		ITile* tile;
 		float tFirst;
 		float tLast;
+	};
+
+	std::vector<TileHit> hits;
+
+	for (auto* tile : m_tiles)
+	{
+		if (!tile || !tile->GetActive())
+			continue;
+
+		float tFirst = 0.f;
+		float tLast = 0.f;
 
 		if (tile->Intersects(obj, tFirst, tLast))
-			collidedWith.push_back(tile);
-	}
-
-	if (!collidedWith.empty())
-	{
-		if (obj->GetDirection())
-			SortCollidedTiles(collidedWith);
-
-		for (const auto& tile : collidedWith)
 		{
-			float tFirst;
-			float tLast;
-
-			if (tile->Intersects(obj, tFirst, tLast))
-				tile->ResolveCollision(obj, tFirst, tLast);
+			hits.push_back({ tile, tFirst, tLast });
 		}
 	}
-	else
+
+	std::ranges::sort(hits, [](const TileHit& a, const TileHit& b)
+		{
+			return a.tFirst < b.tFirst;
+		});
+
+	for (const auto& hit : hits)
 	{
-		obj->SetOnGround(false);
-		obj->SetOnSlope(false);
+		if (!hit.tile)
+			continue;
+
+		float tFirst = 0.f;
+		float tLast = 0.f;
+
+		// Re-check after earlier resolutions may have moved the object
+		if (hit.tile->Intersects(obj, tFirst, tLast))
+		{
+			hit.tile->ResolveCollision(obj, tFirst, tLast);
+		}
 	}
 }
 

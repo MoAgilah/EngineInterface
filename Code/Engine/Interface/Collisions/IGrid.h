@@ -78,39 +78,42 @@ protected:
 
 	void ArrangeTilePositions()
 	{
-		int x = 0;
-		int begin = x;
+		if (m_grid.empty())
+			return;
 
-		Vector2f pos(m_grid.front()->GetBoundingBox()->GetExtents());
-		m_grid[x]->SetPosition(pos);
+		auto* firstTile = m_grid.front().get();
 
-		for (x = x + 1; x < 313; x++)
+		if (!CheckNotNull(firstTile, "Invalid Pointer 'firstTile'"))
+			return;
+
+		const float tileWidth = firstTile->GetTileWidth();
+		const float tileHeight = firstTile->GetTileHeight();
+
+		if (m_grid.size() != static_cast<size_t>(m_rows * m_columns))
+			throw std::runtime_error("Grid size does not match rows * columns.");
+
+		for (int row = 0; row < m_rows; ++row)
 		{
-			pos = Vector2f(pos.x + (m_grid.front()->GetBoundingBox()->GetExtents().x * 2), pos.y);
-			m_grid[x]->SetPosition(pos);
-		}
-
-		//remaining rows
-		for (int i = 0; i < 14; i++)
-		{
-			pos = Vector2f(m_grid[begin]->GetPosition().x, m_grid[begin]->GetPosition().y + (m_grid.front()->GetBoundingBox()->GetExtents().y * 2));
-			m_grid[x]->SetPosition(pos);
-			begin = x;
-
-			int val = 2 + i;
-
-			for (x = x + 1; x < 313 * val; x++)
+			for (int col = 0; col < m_columns; ++col)
 			{
-				pos = Vector2f(pos.x + (m_grid.front()->GetBoundingBox()->GetExtents().x * 2), pos.y);
-				m_grid[x]->SetPosition(pos);
+				const size_t index = static_cast<size_t>(row * m_columns + col);
+
+				auto* tile = m_grid[index].get();
+
+				if (!tile)
+					continue;
+
+				Vector2f pos(
+					(tileWidth * 0.5f) + col * tileWidth,
+					(tileHeight * 0.5f) + row * tileHeight
+				);
+
+				tile->SetPosition(pos);
+
+				if (auto* box = tile->GetBoundingBox())
+					box->Update(pos);
 			}
 		}
-
-		for (auto tile : m_grid)
-		{
-			tile->GetBoundingBox()->Update(tile->GetPosition());
-		}
-
 	}
 
 	int m_rows = 0;
