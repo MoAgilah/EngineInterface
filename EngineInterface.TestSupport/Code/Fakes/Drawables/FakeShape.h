@@ -135,23 +135,25 @@ public:
 		SetPosition(pos);
 		this->SetCenter(pos);
 
-		Vector2f corners[4];
-		auto size = GetSize();
+		float radians = m_angle * std::numbers::pi_v<float> / 180.0f;
+
+		Vector2f dir(
+			std::cos(radians),
+			std::sin(radians)
+		);
+
 		auto scale = GetScale();
-		size.x *= scale.x;
-		size.y *= scale.y;
-		ShapeMath::CalculateRotatedRectangleCorners(corners, pos, size, m_angle);
+		float scaledLength = m_length * scale.x;
 
-		// Compute endpoints for circles
-		Vector2f end1 = Line2f(corners[3], corners[2]).GetMidPoint(); // top
-		Vector2f end2 = Line2f(corners[1], corners[0]).GetMidPoint(); // bottom
+		Vector2f half = dir * (scaledLength * 0.5f);
 
-		auto* cap1 = GetEndCap1();
-		if (cap1)
+		Vector2f end1 = pos - half;
+		Vector2f end2 = pos + half;
+
+		if (auto* cap1 = GetEndCap1())
 			cap1->SetPosition(end1);
 
-		auto* cap2 = GetEndCap2();
-		if (cap2)
+		if (auto* cap2 = GetEndCap2())
 			cap2->SetPosition(end2);
 
 		m_segment.start = end1;
@@ -169,8 +171,8 @@ public:
 		m_radius = radius;
 		m_length = length;
 
-		SetSize(Vector2f(radius * 2.f, length));
-		SetOrigin({ radius, length / 2.f });
+		SetSize(Vector2f(length, radius * 2.f));
+		SetOrigin({ length / 2.f, radius });
 		SetRotation(angle);
 
 		auto* cap1 = GetEndCap1();
