@@ -19,6 +19,18 @@ public:
     using PlatformCircle = typename CapsuleTraits<PlatformCapsule>::CircleType;
     using PlatformBox = typename CapsuleTraits<PlatformCapsule>::BoxType;
 
+    BoundingCapsule()
+        : IBoundingVolume(VolumeType::Capsule)
+        , IBoundingCapsule()
+        , BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+    {
+        this->m_shape = std::make_shared<PlatformCapsule>();
+        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
+        {
+            throw std::invalid_argument("BoundingCapsule requires a valid shape");
+        }
+    }
+
     BoundingCapsule(float radius, float length, float angle)
         : IBoundingVolume(VolumeType::Capsule)
         , IBoundingCapsule()
@@ -49,18 +61,13 @@ public:
     }
 
     BoundingCapsule(float radius, const Line2f& segment)
-        : IBoundingVolume(VolumeType::Capsule)
-        , IBoundingCapsule()
-        , BoundingVolume<PlatformCapsule>(VolumeType::Capsule)
+        : BoundingCapsule(
+            radius,
+            segment.start.Distance(segment.end),
+            segment.CalculateAngle(),
+            segment.GetMidPoint()
+        )
     {
-        this->m_shape = std::make_shared<PlatformCapsule>();
-        if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
-        {
-            throw std::invalid_argument("BoundingCapsule requires a valid shape");
-        }
-
-        Reset(radius, segment.start.Distance(segment.end), segment.CalculateAngle());
-        Update(segment.GetMidPoint());
     }
 
     BoundingBox<PlatformBox> ToBoundingBox() const
@@ -213,7 +220,7 @@ public:
         case Side::Left:   return center - Vector2f(this->GetLength() * 0.5f, 0);
         case Side::Right:  return center + Vector2f(this->GetLength() * 0.5f, 0);
         }
-        return center;
+        return Vector2f();
     }
 
 protected:
