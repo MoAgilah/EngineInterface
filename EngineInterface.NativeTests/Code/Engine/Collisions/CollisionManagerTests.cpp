@@ -19,6 +19,11 @@ namespace Engine
         TEST_CLASS(CollisionManagerTests)
         {
         public:
+
+            // ======================================================
+            // Constructor
+            // ======================================================
+
             TEST_METHOD(CollisionManager_Constructor_AssignsGrid)
             {
                 auto grid = std::make_shared<FakeGrid>(2, 10);
@@ -29,6 +34,10 @@ namespace Engine
 
                 Assert::AreEqual(size_t{ 20 }, result.size());
             }
+
+            // ======================================================
+            // Add / Store
+            // ======================================================
 
             TEST_METHOD(CollisionManager_AddCollidable_DoesNothingIfNull)
             {
@@ -56,6 +65,10 @@ namespace Engine
 
                 Assert::AreEqual(size_t{ 1 }, result.size());
             }
+
+            // ======================================================
+            // Last Added Access
+            // ======================================================
 
             TEST_METHOD(CollisionManager_GetLastAdded_ReturnsNull)
             {
@@ -106,6 +119,10 @@ namespace Engine
 
                 Assert::IsNull(cm.GetLastAdded());
             }
+
+            // ======================================================
+            // Remove
+            // ======================================================
 
             TEST_METHOD(CollisionManager_RemoveCollidable_DoesNothingIfEmpty)
             {
@@ -223,6 +240,10 @@ namespace Engine
                 Assert::AreEqual(size_t{ 0 }, cm.GetCollidables().size());
             }
 
+            // ======================================================
+            // Tile Access
+            // ======================================================
+
             TEST_METHOD(CollisionManager_GetTile_IfEmptyReturnsNull)
             {
                 FakeCollisionManager cm(nullptr);
@@ -248,6 +269,10 @@ namespace Engine
                 Assert::IsNotNull(cm.GetTile(0, 0));
             }
 
+            // ======================================================
+            // Grid Access
+            // ======================================================
+
             TEST_METHOD(CollisionManager_GetGrid_ReturnsEmptyContainerIfEmpty)
             {
                 FakeCollisionManager cm(nullptr);
@@ -264,6 +289,10 @@ namespace Engine
                 for (auto* tile : cm.GetGrid())
                     Assert::IsNotNull(tile);
             }
+
+            // ======================================================
+            // Collidables Access
+            // ======================================================
 
             TEST_METHOD(CollisionManager_GetCollidables_ReturnsEmptyContainerIfEmpty)
             {
@@ -291,6 +320,10 @@ namespace Engine
                 for (auto* obj : cm.GetCollidables())
                     Assert::IsNotNull(obj);
             }
+
+            // ======================================================
+            // Intersects / Collision
+            // ======================================================
 
             TEST_METHOD(CollisionManager_GetCollisionDirection_WhenSeparationXPositive_ReturnsRDIR)
             {

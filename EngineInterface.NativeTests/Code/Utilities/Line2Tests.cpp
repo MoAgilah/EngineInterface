@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(Line2Tests)
 	{
 	public:
+
+		// ======================================================
+		// Constructor
+		// ======================================================
+
 		TEST_METHOD(Line2i_Constructor_PopulatesValues)
 		{
 			Line2i line({ 1, 2 }, { 3, 4 });
@@ -28,6 +33,10 @@ namespace Utilities
 			Assert::AreEqual(3.f, line.end.x);
 			Assert::AreEqual(4.f, line.end.y);
 		}
+
+		// ======================================================
+		// Mid Point Access
+		// ======================================================
 
 		TEST_METHOD(Line2i_GetMidPoint_ReturnsCorrectValue)
 		{
@@ -49,12 +58,20 @@ namespace Utilities
 			Assert::AreEqual(midpoint.y, 3.f);
 		}
 
+		// ======================================================
+		// Dist X
+		// ======================================================
+
 		TEST_METHOD(Line2i_DistX_ReturnsCorrectValue)
 		{
 			Line2i line({ 1, 2 }, { 3, 4 });
 
 			Assert::AreEqual(2, line.DistX());
 		}
+
+		// ======================================================
+		// Dist Y
+		// ======================================================
 
 		TEST_METHOD(Line2i_DistY_ReturnsCorrectValue)
 		{
@@ -63,6 +80,10 @@ namespace Utilities
 			Assert::AreEqual(2, line.DistX());
 		}
 
+		// ======================================================
+		// Dist X
+		// ======================================================
+
 		TEST_METHOD(Line2f_DistX_ReturnsCorrectValue)
 		{
 			Line2f line({ 1.f, 2.f }, { 3.f, 4.f });
@@ -70,12 +91,20 @@ namespace Utilities
 			Assert::AreEqual(2.f, line.DistX());
 		}
 
+		// ======================================================
+		// Dist Y
+		// ======================================================
+
 		TEST_METHOD(Line2f_DistY_ReturnsCorrectValue)
 		{
 			Line2f line({ 1.f, 2.f }, { 3.f, 4.f });
 
 			Assert::AreEqual(2.f, line.DistX());
 		}
+
+		// ======================================================
+		// Geometry Access
+		// ======================================================
 
 		TEST_METHOD(Line2i_CalculateAngle_ReturnsCorrectValue)
 		{
@@ -161,6 +190,10 @@ namespace Utilities
 			Assert::IsFalse(line.IsPointAboveLine(point));
 		}
 
+		// ======================================================
+		// Intersects / Collision
+		// ======================================================
+
 		TEST_METHOD(Line2i_IntersectsPoint_PointOnLine_ReturnsTrue)
 		{
 			Line2i line({ 1, 2 }, { 3, 4 });
@@ -192,6 +225,10 @@ namespace Utilities
 
 			Assert::IsFalse(line.IntersectsPoint(point));
 		}
+
+		// ======================================================
+		// Tree Structure / Evaluation
+		// ======================================================
 
 		TEST_METHOD(SolveQuadratic_ValidCoefficients_ReturnsCorrectRoots)
 		{
@@ -229,6 +266,10 @@ namespace Utilities
 			Assert::IsFalse(result);
 		}
 
+		// ======================================================
+		// X Dist Access
+		// ======================================================
+
 		TEST_METHOD(Line2i_GetXDist_ReturnsCorrectValue)
 		{
 			Line2i line({ 1, 2 }, { 3, 4 });
@@ -242,6 +283,10 @@ namespace Utilities
 
 			Assert::AreEqual(2.f, GetXDist(line.start, line.end));
 		}
+
+		// ======================================================
+		// Y Dist Access
+		// ======================================================
 
 		TEST_METHOD(Line2i_GetYDist_ReturnsCorrectValue)
 		{

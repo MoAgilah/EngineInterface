@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(ColourTests)
 	{
 	public:
+
+		// ======================================================
+		// Constructor
+		// ======================================================
+
 		TEST_METHOD(Colour_Constructor_SetsRGBValuesCorrectly)
 		{
 			Colour c(10, 20, 30);
@@ -33,6 +38,10 @@ namespace Utilities
 			Assert::AreEqual((uint8_t)30, c.b);
 			Assert::AreEqual((uint8_t)40, c.a);
 		}
+
+		// ======================================================
+		// Named Colours
+		// ======================================================
 
 		TEST_METHOD(Colour_Black_IsCorrect)
 		{

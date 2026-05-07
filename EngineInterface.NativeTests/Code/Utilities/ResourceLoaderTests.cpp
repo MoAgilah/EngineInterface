@@ -17,6 +17,11 @@ namespace Utilities
 	TEST_CLASS(ResourceLoaderTests)
 	{
 	public:
+
+		// ======================================================
+		// Resource Loading
+		// ======================================================
+
 		TEST_METHOD(ResourceLoader_IsValidDirectory_ReturnsFalse_OnNonExistentPath)
 		{
 			auto path = std::filesystem::temp_directory_path() / "nonexistent_dir_test";
@@ -43,6 +48,10 @@ namespace Utilities
 			Assert::IsTrue(ResourceUtils::IsValidDirectory(temp.path));
 		}
 
+		// ======================================================
+		// Clean Name Access
+		// ======================================================
+
 		TEST_METHOD(ResourceLoader_GetCleanName_RemovesExtension_OnValidFile)
 		{
 			TestHelpers::TempDirGuard temp;
@@ -65,6 +74,10 @@ namespace Utilities
 
 			Assert::AreEqual(std::string("test"), name);
 		}
+
+		// ======================================================
+		// Resource Loading
+		// ======================================================
 
 		TEST_METHOD(ResourceLoader_LoadResources_FailsGracefully_OnInvalidPath)
 		{
@@ -121,6 +134,10 @@ namespace Utilities
 			Assert::IsNotNull(loader.GetResource("one"));
 			Assert::IsNull(loader.GetResource("two"));
 		}
+
+		// ======================================================
+		// Resource Access
+		// ======================================================
 
 		TEST_METHOD(ResourceLoader_GetResource_ReturnsNull_OnInvalidName)
 		{

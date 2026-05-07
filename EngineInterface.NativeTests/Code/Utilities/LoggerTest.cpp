@@ -16,6 +16,11 @@ namespace Utilities
 	TEST_CLASS(LoggerTests)
 	{
 	public:
+
+		// ======================================================
+		// Logger Lifecycle
+		// ======================================================
+
 		TEST_METHOD(Logger_Start_CreatesLogFile)
 		{
 			::Logger logger;
@@ -27,6 +32,10 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 		}
+
+		// ======================================================
+		// Resource Loading
+		// ======================================================
 
 		TEST_METHOD(Logger_DefaultDirectory_GetsLogFileOnCreate)
 		{
@@ -40,6 +49,10 @@ namespace Utilities
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 		}
 
+		// ======================================================
+		// Default Logger Access
+		// ======================================================
+
 		TEST_METHOD(Logger_GetDefaultLogger_GetsLogFileOnCreate)
 		{
 			TestHelpers::ResetLoggerDefaultsForTests();
@@ -52,6 +65,10 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard.path));
 		}
+
+		// ======================================================
+		// Logger Lifecycle
+		// ======================================================
 
 		TEST_METHOD(Logger_Start_WhenAlreadyRunning_DoesNothing)
 		{
@@ -151,6 +168,10 @@ namespace Utilities
 
 			Assert::IsTrue(std::filesystem::exists(guard2.path));
 		}
+
+		// ======================================================
+		// Logging
+		// ======================================================
 
 		TEST_METHOD(Logger_Log_AfterStart_WritesMessage)
 		{
@@ -308,6 +329,10 @@ namespace Utilities
 			Assert::IsTrue(contents.find("test2") != std::string::npos);
 		}
 
+		// ======================================================
+		// Logger Lifecycle
+		// ======================================================
+
 		TEST_METHOD(Logger_Stop_DrainsQueuedMessagesBeforeExit)
 		{
 			::Logger logger;
@@ -365,6 +390,10 @@ namespace Utilities
 			Assert::IsTrue(contents.find("test5") != std::string::npos);
 			Assert::IsTrue(contents.find("test6") != std::string::npos);
 		}
+
+		// ======================================================
+		// Logging
+		// ======================================================
 
 		TEST_METHOD(Logger_Log_CapturesThreadContextInOutput)
 		{

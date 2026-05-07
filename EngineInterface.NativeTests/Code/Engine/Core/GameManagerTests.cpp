@@ -19,6 +19,11 @@ namespace Engine
         TEST_CLASS(GameManagerTests)
         {
         public:
+
+            // ======================================================
+            // Constructor
+            // ======================================================
+
             TEST_METHOD(GameManager_ConstructsValidSingleton)
             {
                 GameManager gm;
@@ -26,12 +31,20 @@ namespace Engine
                 Assert::IsTrue(&gm == GameManager::Get());
             }
 
+            // ======================================================
+            // Accessors
+            // ======================================================
+
             TEST_METHOD(GameManager_Get_ReturnsValidSelf)
             {
                 GameManager gm;
 
                 Assert::IsTrue(&gm == GameManager::Get());
             }
+
+            // ======================================================
+            // Camera Access
+            // ======================================================
 
             TEST_METHOD(GameManager_GetCamera_WhenNotSetReturnsNull)
             {
@@ -48,6 +61,10 @@ namespace Engine
 
                 Assert::IsNotNull(gm.GetCamera());
             }
+
+            // ======================================================
+            // Scene Access
+            // ======================================================
 
             TEST_METHOD(GameManager_GetScene_WhenNotSetReturnsNull)
             {
@@ -66,6 +83,10 @@ namespace Engine
 
             }
 
+            // ======================================================
+            // Renderer Access
+            // ======================================================
+
             TEST_METHOD(GameManager_GetRenderer_WhenNotSetReturnsNull)
             {
                 GameManager gm;
@@ -82,6 +103,10 @@ namespace Engine
                 Assert::IsNotNull(gm.GetRenderer());
             }
 
+            // ======================================================
+            // Input Manager Access
+            // ======================================================
+
             TEST_METHOD(GameManager_GetInputManager_WhenNotSetReturnsNull)
             {
                 GameManager gm;
@@ -97,6 +122,10 @@ namespace Engine
 
                 Assert::IsNotNull(gm.GetInputManager());
             }
+
+            // ======================================================
+            // Intersects / Collision
+            // ======================================================
 
             TEST_METHOD(GameManager_GetCollisionManager_WhenNotSetReturnsNull)
             {
@@ -120,6 +149,10 @@ namespace Engine
 
                 gm.CheckInView();
             }
+
+            // ======================================================
+            // Check In View
+            // ======================================================
 
             TEST_METHOD(GameManager_CheckInView_DoesNothingWhenCameraIsNull)
             {
@@ -210,6 +243,10 @@ namespace Engine
                 Assert::IsTrue(fs->CheckIsInViewIsCalled);
             }
 
+            // ======================================================
+            // Update
+            // ======================================================
+
             TEST_METHOD(GameManager_Update_DoesNothingIfNoState)
             {
                 GameManager gm;
@@ -233,6 +270,10 @@ namespace Engine
 
                 Assert::IsTrue(fgs.updateCalled);
             }
+
+            // ======================================================
+            // Render
+            // ======================================================
 
             TEST_METHOD(GameManager_Render_DoesNothingIfNoState)
             {

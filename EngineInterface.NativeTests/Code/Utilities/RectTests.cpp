@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(RectTests)
 	{
 	public:
+
+		// ======================================================
+		// Constructor
+		// ======================================================
+
 		TEST_METHOD(FloatRect_Constructor_PopulatesValues)
 		{
 			FloatRect rect(1.f, 2.f, 3.f, 4.f);
@@ -28,6 +33,10 @@ namespace Utilities
 			Assert::AreEqual(3, rect.m_width);
 			Assert::AreEqual(4, rect.m_height);
 		}
+
+		// ======================================================
+		// Geometry Access
+		// ======================================================
 
 		TEST_METHOD(FloatRect_Min_ReturnsCorrectValue)
 		{
@@ -68,6 +77,10 @@ namespace Utilities
 			Assert::AreEqual(4, max.x);
 			Assert::AreEqual(6, max.y);
 		}
+
+		// ======================================================
+		// Centre Access
+		// ======================================================
 
 		TEST_METHOD(FloatRect_GetCentre_ReturnsCorrectValue)
 		{
