@@ -37,8 +37,10 @@ void ITile::SetPosition(const Vector2f& pos)
 
 Vector2f ITile::GetPosition()
 {
-	if (CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
-		return m_aabb->GetPosition();
+	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return Vector2f();
+
+	return m_aabb->GetPosition();
 }
 
 void ITile::SetOrigin(const Vector2f& origin)
