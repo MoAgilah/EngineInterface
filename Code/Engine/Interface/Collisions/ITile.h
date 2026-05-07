@@ -40,7 +40,7 @@ public:
 	bool GetActive() const { return m_visible; }
 	void SetActive(bool vis) { m_visible = vis; }
 
-	virtual void SetPosition(const Vector2f& pos) = 0;
+	void SetPosition(const Vector2f& pos);
 	Vector2f GetPosition();
 
 	void SetOrigin(const Vector2f& origin);

@@ -33,8 +33,6 @@ public:
 		resolvedTLast = tLast;
 	}
 
-	void SetPosition(const Vector2f& pos) override {}
-
 	void SetFillColour(Colour col) override {}
 	void SetOutlineColour(Colour col) override {}
 

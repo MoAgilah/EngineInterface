@@ -27,12 +27,18 @@ bool ITile::Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast)
 	return m_aabb->IntersectsMoving(obj->GetVolume(), Vector2f(0, 0), obj->GetVelocity(), tFirst, tLast);
 }
 
-Vector2f ITile::GetPosition()
+void ITile::SetPosition(const Vector2f& pos)
 {
 	if (!CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
-		return Vector2f();
+		return;
 
-	return m_aabb->GetPosition();
+	m_aabb->SetPosition(pos);
+}
+
+Vector2f ITile::GetPosition()
+{
+	if (CheckNotNull(m_aabb.get(), "Invalid Pointer 'm_aabb'"))
+		return m_aabb->GetPosition();
 }
 
 void ITile::SetOrigin(const Vector2f& origin)
