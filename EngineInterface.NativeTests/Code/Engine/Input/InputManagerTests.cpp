@@ -14,6 +14,11 @@ namespace Engine
 		TEST_CLASS(InputManagerTests)
 		{
 		public:
+
+			// ======================================================
+			// Constructor
+			// ======================================================
+
 			TEST_METHOD(InputManager_Constructor_AssignsKeyStatesFalse)
 			{
 				std::shared_ptr<IKeyConverter> converter = std::make_shared<FakeKeyConverter>();
@@ -37,6 +42,10 @@ namespace Engine
 					Assert::IsTrue(im.GetKeyPressTimestamp(static_cast<KeyCode>(i)) == min);
 				}
 			}
+
+			// ======================================================
+			// Processing
+			// ======================================================
 
 			TEST_METHOD(InputManager_ProcessPlatformKeyPress_AssignsTrue)
 			{
@@ -108,6 +117,10 @@ namespace Engine
 				Assert::IsTrue(im.GetKeyPressTimestamp(KeyCode::A) == min);
 			}
 
+			// ======================================================
+			// Is Any Key Pressed
+			// ======================================================
+
 			TEST_METHOD(InputManager_IsAnyKeyPressed_ReturnsFalse)
 			{
 				std::shared_ptr<IKeyConverter> converter = std::make_shared<FakeKeyConverter>();
@@ -125,6 +138,10 @@ namespace Engine
 
 				Assert::IsTrue(im.IsAnyKeyPressed());
 			}
+
+			// ======================================================
+			// First Pressed Key Access
+			// ======================================================
 
 			TEST_METHOD(InputManager_GetFirstPressedKey_ReturnsKeyCodeUnknown)
 			{

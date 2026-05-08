@@ -11,7 +11,7 @@
 #include <vector>
 #include <format>
 
-enum class Types
+enum class TileTypes
 {
 	EMPTY, GRND, WALL, DIAGU, DIAGD, LCRN, RCRN, OWAY
 };
@@ -34,13 +34,13 @@ public:
 	int GetRowNum() const { return m_rowNum; }
 	int GetColNum() const { return m_colNum; }
 
-	void SetType(int type) { m_type = (Types)type; };
-	Types GetType() const { return m_type; }
+	void SetType(int type) { m_type = (TileTypes)type; };
+	TileTypes GetType() const { return m_type; }
 
 	bool GetActive() const { return m_visible; }
 	void SetActive(bool vis) { m_visible = vis; }
 
-	virtual void SetPosition(const Vector2f& pos) = 0;
+	void SetPosition(const Vector2f& pos);
 	Vector2f GetPosition();
 
 	void SetOrigin(const Vector2f& origin);
@@ -63,7 +63,7 @@ public:
 
 protected:
 
-	Vector2f GetSeperationVector(IDynamicGameObject* obj);
+	Vector2f GetSeparationVector(IDynamicGameObject* obj);
 
 	void ResolveToObjectToTileSide(IDynamicGameObject* obj, Side tileSide, float time);
 
@@ -82,7 +82,7 @@ protected:
 	int m_rowNum = -1;
 	bool m_visible = false;
 	bool m_hasFont = false;
-	Types m_type = Types::EMPTY;
+	TileTypes m_type = TileTypes::EMPTY;
 	std::string m_id;
 	Line2f m_edge;
 	std::shared_ptr<IDrawable> m_text;

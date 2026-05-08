@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(EnumUtilsTests)
 	{
 	public:
+
+		// ======================================================
+		// Enum Value
+		// ======================================================
+
 		TEST_METHOD(ToInt_EnumValue_ReturnsUnderlyingInt)
 		{
 			enum class TestMovement

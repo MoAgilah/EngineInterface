@@ -34,6 +34,10 @@ namespace Utilities
 	{
 	public:
 
+        // ======================================================
+        // Format Timestamp
+        // ======================================================
+
         TEST_METHOD(FormatTimestamp)
         {
             std::string expected = "[ 1970-01-01 00:00:00.0000000 ]";
@@ -44,6 +48,10 @@ namespace Utilities
 
             Assert::AreEqual(expected, res);
         }
+
+        // ======================================================
+        // Format Filename Timestamp
+        // ======================================================
 
         TEST_METHOD(FormatFilenameTimestamp)
         {
@@ -56,6 +64,10 @@ namespace Utilities
             Assert::AreEqual(expected, res);
         }
 
+        // ======================================================
+        // Format Log Level
+        // ======================================================
+
         TEST_METHOD(FormatLogLevel)
         {
             std::string expected = "[ DEBUG ]";
@@ -66,6 +78,10 @@ namespace Utilities
 
             Assert::AreEqual(expected, res);
         }
+
+        // ======================================================
+        // Format Source Location
+        // ======================================================
 
         TEST_METHOD(FormatSourceLocation)
         {
@@ -84,6 +100,10 @@ namespace Utilities
             Assert::AreEqual(expected, res);
         }
 
+        // ======================================================
+        // Thread Context
+        // ======================================================
+
         TEST_METHOD(FormatThreadInfo)
         {
             ThreadInfo ti;
@@ -99,6 +119,10 @@ namespace Utilities
             Assert::AreEqual(expected, res);
         }
 
+        // ======================================================
+        // Format Sequence I D
+        // ======================================================
+
         TEST_METHOD(FormatSequenceID)
         {
             std::string expected = "[#42]";
@@ -109,6 +133,10 @@ namespace Utilities
 
             Assert::AreEqual(expected, res);
         }
+
+        // ======================================================
+        // Format Record When Show Source Is False
+        // ======================================================
 
         TEST_METHOD(FormatRecordWhenShowSourceIsFalse)
         {
@@ -127,6 +155,10 @@ namespace Utilities
 
             Assert::AreEqual(expected, res);
         }
+
+        // ======================================================
+        // Format Record When Show Source Is True
+        // ======================================================
 
         TEST_METHOD(FormatRecordWhenShowSourceIsTrue)
         {

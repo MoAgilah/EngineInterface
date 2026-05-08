@@ -37,10 +37,10 @@ public:
 	bool intersects = false;
 };
 
-class DynamicFakeGameObject : public DynamicGameObject
+class FakeDynamicGameObject : public DynamicGameObject
 {
 public:
-	DynamicFakeGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)
+	FakeDynamicGameObject(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume)
 	{
 		m_drawable = std::move(drawable);
 		m_volume = std::move(volume);
@@ -51,7 +51,7 @@ public:
 		if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
 			throw std::invalid_argument("FakeGameObject requires a valid volume");
 
-		SetTypeIndex(typeid(DynamicFakeGameObject));
+		SetTypeIndex(typeid(FakeDynamicGameObject));
 	}
 
 	void SetsIntersects(bool value) { intersects = value; }

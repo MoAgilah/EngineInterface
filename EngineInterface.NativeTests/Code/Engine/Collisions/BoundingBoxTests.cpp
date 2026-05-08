@@ -14,6 +14,11 @@ namespace Engine
         TEST_CLASS(BoundingBoxTests)
         {
         public:
+
+            // ======================================================
+            // Constructor
+            // ======================================================
+
             TEST_METHOD(BoundingBox_DefaultConstructor_DoesNotThrow)
             {
                 BoundingBox<FakeBox> aabb;
@@ -110,6 +115,10 @@ namespace Engine
                 Assert::AreEqual(16.f, cen.y);
             }
 
+            // ======================================================
+            // Native Shape Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetNativeShape_CanBeCastToFakeBox)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
@@ -118,6 +127,10 @@ namespace Engine
 
                 Assert::IsNotNull(box);
             }
+
+            // ======================================================
+            // Center Access
+            // ======================================================
 
             TEST_METHOD(BoundingBox_GetCenter_ReturnsDefault)
             {
@@ -141,6 +154,10 @@ namespace Engine
                 Assert::AreEqual(32.f, cen.y);
             }
 
+            // ======================================================
+            // Position Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetPosition_ReturnsDefault)
             {
                 BoundingBox<FakeBox> aabb;
@@ -162,6 +179,10 @@ namespace Engine
                 Assert::AreEqual(32.f, pos.x);
                 Assert::AreEqual(32.f, pos.y);
             }
+
+            // ======================================================
+            // Origin Access
+            // ======================================================
 
             TEST_METHOD(BoundingBox_GetOrigin_ReturnsDefault)
             {
@@ -185,6 +206,10 @@ namespace Engine
                 Assert::AreEqual(0.f, ori.y);
             }
 
+            // ======================================================
+            // Scale Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetScale_ReturnsDefault)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
@@ -207,6 +232,10 @@ namespace Engine
                 Assert::AreEqual(2.f, scl.y);
             }
 
+            // ======================================================
+            // Min Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetMin_ReturnsDefault)
             {
                 BoundingBox<FakeBox> aabb;
@@ -226,6 +255,10 @@ namespace Engine
                 Assert::AreEqual(8.f, min.x);
                 Assert::AreEqual(8.f, min.y);
             }
+
+            // ======================================================
+            // Max Access
+            // ======================================================
 
             TEST_METHOD(BoundingBox_GetMax_ReturnsDefault)
             {
@@ -247,6 +280,10 @@ namespace Engine
                 Assert::AreEqual(24.f, max.y);
             }
 
+            // ======================================================
+            // Extents Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetExtents_ReturnsDefault)
             {
                 BoundingBox<FakeBox> aabb;
@@ -266,6 +303,10 @@ namespace Engine
                 Assert::AreEqual(8.f, ext.x);
                 Assert::AreEqual(8.f, ext.y);
             }
+
+            // ======================================================
+            // Side Access
+            // ======================================================
 
             TEST_METHOD(BoundingBox_GetSide_Top_ReturnsTopSide)
             {
@@ -327,6 +368,10 @@ namespace Engine
                 Assert::AreEqual(0.f, side.end.y);
             }
 
+            // ======================================================
+            // Point Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_GetPoint_Left_ReturnsCorrectPoint)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
@@ -377,6 +422,10 @@ namespace Engine
                 Assert::AreEqual(0.f, pnt.y);
             }
 
+            // ======================================================
+            // Geometry Access
+            // ======================================================
+
             TEST_METHOD(BoundingBox_SqDistPoint_ReturnsResult)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16.0f, 16.0f), Vector2f(16.0f, 16.0f));
@@ -394,6 +443,10 @@ namespace Engine
 
                 Assert::AreEqual(0.0f, result);
             }
+
+            // ======================================================
+            // Intersects / Collision
+            // ======================================================
 
             TEST_METHOD(BoundingBox_Intersects_Point_ReturnsTrue)
             {

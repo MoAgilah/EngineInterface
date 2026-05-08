@@ -1,27 +1,14 @@
 #pragma once
 
-#include "../Drawables/FakeShape.h"
+#include "FakeBoundingBox.h"
 #include <Engine/Interface/Collisions/ITile.h>
-#include <Engine/Collisions/BoundingBox.h>
 
-class FakeTile : public ITile
+class TestableTile : public ITile
 {
 public:
-	FakeTile(int gX, int gY)
-	: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(), nullptr, nullptr)
+	TestableTile(int gX, int gY, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<ITriangleShape> slope)
+		: ITile(gX, gY, std::move(aabb), nullptr, std::move(slope))
 	{}
-
-	void SetIntersects(bool value)
-	{
-		intersects = value;
-	}
-
-	bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast)
-	{
-		tFirst = 0.1f;
-		tLast = 0.9f;
-		return intersects;
-	}
 
 	void Render(IRenderer* renderer) override {}
 
@@ -36,6 +23,26 @@ public:
 	void SetFillColour(Colour col) override {}
 	void SetOutlineColour(Colour col) override {}
 
+	Vector2f Test_GetSeparationVector(IDynamicGameObject* obj)
+	{
+		return GetSeparationVector(obj);
+	}
+
+	void Test_ResolveObjectToBoxTop(IDynamicGameObject* obj, float tFirst, float tLast)
+	{
+		ResolveObjectToBoxTop(obj, tFirst, tLast);
+	}
+
+	void Test_ResolveObjectToBoxBottom(IDynamicGameObject* obj, float tFirst, float tLast)
+	{
+		ResolveObjectToBoxBottom(obj, tFirst, tLast);
+	}
+
+	void Test_ResolveObjectToBoxHorizontally(IDynamicGameObject* obj, float tFirst, float tLast)
+	{
+		ResolveObjectToBoxHorizontally(obj, tFirst, tLast);
+	}
+
 protected:
 
 	bool ResolveObjectToSlopeTop(IDynamicGameObject* obj, float tFirst, float tLast) override { return false; }
@@ -44,7 +51,7 @@ protected:
 	void ResolveObjectToEdgeBounds(IDynamicGameObject* obj) override {}
 
 public:
-	bool intersects = false;
+
 	bool resolveCollisionCalled = false;
 
 	IDynamicGameObject* resolvedObject = nullptr;

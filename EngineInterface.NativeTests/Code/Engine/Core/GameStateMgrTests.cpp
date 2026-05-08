@@ -14,6 +14,11 @@ namespace Engine
         TEST_CLASS(GameStateMgrTests)
         {
         public:
+
+            // ======================================================
+            // State Name Access
+            // ======================================================
+
             TEST_METHOD(GameStateMgr_GetStateName_WhenEmpty_ReturnsEmpty)
             {
                 GameStateMgr<IGameState> gsm;
@@ -53,6 +58,10 @@ namespace Engine
 
                 Assert::AreEqual(std::string_view("State1"), gsm.GetStateName());
             }
+
+            // ======================================================
+            // Change State
+            // ======================================================
 
             TEST_METHOD(GameStateMgr_ChangeState_CallsGameStateInitialisation)
             {
@@ -114,6 +123,10 @@ namespace Engine
 
                 Assert::IsFalse(state1.resumeCalled);
             }
+
+            // ======================================================
+            // State Stack
+            // ======================================================
 
             TEST_METHOD(GameStateMgr_PushState_PausesPreviousState)
             {
@@ -326,6 +339,10 @@ namespace Engine
                 Assert::AreEqual(std::string_view(""), gsm.GetStateName());
             }
 
+            // ======================================================
+            // Processing
+            // ======================================================
+
             TEST_METHOD(GameStateMgr_ProcessInputs_WhenNoState_DoesNothing)
             {
                 GameStateMgr<IGameState> gsm;
@@ -364,6 +381,10 @@ namespace Engine
                 Assert::IsTrue(state2.processInputCalled);
             }
 
+            // ======================================================
+            // Update
+            // ======================================================
+
             TEST_METHOD(GameStateMgr_Update_WhenNoState_DoesNothing)
             {
                 GameStateMgr<IGameState> gsm;
@@ -401,6 +422,10 @@ namespace Engine
                 Assert::IsFalse(state1.updateCalled);
                 Assert::IsTrue(state2.updateCalled);
             }
+
+            // ======================================================
+            // Render
+            // ======================================================
 
             TEST_METHOD(GameStateMgr_Render_WhenNoState_DoesNothing)
             {

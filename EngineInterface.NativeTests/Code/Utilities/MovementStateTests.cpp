@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(MovementStateTests)
 	{
 	public:
+
+		// ======================================================
+		// Movement Values
+		// ======================================================
+
 		TEST_METHOD(MovementState_AddVelocity_StoresVelocity)
 		{
 			MovementState ms;

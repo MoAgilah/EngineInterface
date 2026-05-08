@@ -9,9 +9,10 @@ namespace Utilities
 	TEST_CLASS(Vector3Tests)
 	{
 	public:
-		// =======================
-		// Constructors
-		// =======================
+
+		// ======================================================
+		// Constructor
+		// ======================================================
 
 		TEST_METHOD(Vector3i_DefaultConstruction_DefaultsValues)
 		{
@@ -84,9 +85,6 @@ namespace Utilities
 			Assert::AreEqual(static_cast<unsigned int>(-1), vec.z);
 		}
 
-		// =======================
-		// Copy
-		// =======================
 
 		TEST_METHOD(Vector3i_CopyConstruction_CopiesValues)
 		{
@@ -118,9 +116,10 @@ namespace Utilities
 			Assert::AreEqual(vec1.z, vec2.z);
 		}
 
-		// =======================
-		// Equality
-		// =======================
+
+		// ======================================================
+		// Operators
+		// ======================================================
 
 		TEST_METHOD(Vector3i_EqualityOperator_AreEqual)
 		{
@@ -194,9 +193,6 @@ namespace Utilities
 			Assert::IsTrue(vec1 != vec2);
 		}
 
-		// =======================
-		// Indexing
-		// =======================
 
 		TEST_METHOD(Vector3i_IndexOperator_GetsCorrectComponent)
 		{
@@ -267,9 +263,6 @@ namespace Utilities
 				});
 		}
 
-		// =======================
-		// Compound assignment (vector)
-		// =======================
 
 		TEST_METHOD(Vector3i_AddAssignVector_PopulatesValues)
 		{
@@ -451,9 +444,6 @@ namespace Utilities
 			Assert::AreEqual(0.f, vec1.z);
 		}
 
-		// =======================
-		// Compound assignment (scalar)
-		// =======================
 
 		TEST_METHOD(Vector3i_MulAssignScalar_PopulatesValues)
 		{
@@ -554,9 +544,6 @@ namespace Utilities
 			Assert::AreEqual(0.f, vec.z);
 		}
 
-		// =======================
-		// Operators (vector)
-		// =======================
 
 		TEST_METHOD(Vector3i_AddVector_PopulatesValues)
 		{
@@ -810,9 +797,6 @@ namespace Utilities
 			Assert::AreEqual(2, vec3.z);
 		}
 
-		// =======================
-		// Operators (scalar)
-		// =======================
 
 		TEST_METHOD(Vector3i_MulScalar_PopulatesValues)
 		{
@@ -941,9 +925,10 @@ namespace Utilities
 			Assert::AreEqual(2, vec2.z);
 		}
 
-		// =======================
-		// Member functions
-		// =======================
+
+		// ======================================================
+		// Vector Maths
+		// ======================================================
 
 		TEST_METHOD(Vector3i_Clamp_WhenBelowLowerBound_ClampsUp)
 		{
@@ -1151,6 +1136,10 @@ namespace Utilities
 
 			Assert::IsFalse(vec.IsBetween(min, max));
 		}
+
+		// ======================================================
+		// Normalize
+		// ======================================================
 
 		TEST_METHOD(Vector3f_Normalize_ReturnsUnitVector)
 		{

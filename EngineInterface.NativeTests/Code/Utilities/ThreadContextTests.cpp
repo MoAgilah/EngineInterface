@@ -11,6 +11,11 @@ namespace Utilities
 	TEST_CLASS(ThreadContextTests)
 	{
 	public:
+
+		// ======================================================
+		// State Stack
+		// ======================================================
+
 		TEST_METHOD(ThreadContext_ClearLabel_WhenAlreadyEmpty_RemainsEmpty)
 		{
 			logger::ThreadContext::ClearLabel();
@@ -26,6 +31,10 @@ namespace Utilities
 
 			Assert::AreEqual(std::string(""), logger::ThreadContext::GetLabel());
 		}
+
+		// ======================================================
+		// Label Access
+		// ======================================================
 
 		TEST_METHOD(ThreadContext_SetLabel_UpdatesCurrentThreadLabel)
 		{
@@ -51,12 +60,20 @@ namespace Utilities
 			Assert::AreEqual(name, logger::ThreadContext::GetLabel());
 		}
 
+		// ======================================================
+		// ID Access
+		// ======================================================
+
 		TEST_METHOD(ThreadContext_GetId_ReturnsCurrentThreadId)
 		{
 			std::thread::id id = std::this_thread::get_id();
 
 			Assert::IsTrue(id == logger::ThreadContext::GetId());
 		}
+
+		// ======================================================
+		// Info Access
+		// ======================================================
 
 		TEST_METHOD(ThreadContext_GetInfo_ReturnsCurrentThreadInfo)
 		{
@@ -86,6 +103,10 @@ namespace Utilities
 			Assert::AreEqual(name, ti.optional_thread_label);
 			Assert::IsTrue(id == ti.id);
 		}
+
+		// ======================================================
+		// Thread Context
+		// ======================================================
 
 		TEST_METHOD(ThreadContext_NewThread_DoesNotInheritParentLabel)
 		{

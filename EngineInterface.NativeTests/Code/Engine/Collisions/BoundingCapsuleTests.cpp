@@ -14,10 +14,19 @@ namespace Engine
         TEST_CLASS(BoundingCapsuleTests)
         {
         public:
+
+            // ======================================================
+            // Constructor
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_DefaultConstructor_DoesNotThrow)
             {
                 BoundingCapsule<FakeCapsule> bc;
             }
+
+            // ======================================================
+            // Vector Maths
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_WithRadiusAndLengthAndAngle_SetsAngle)
             {
@@ -118,6 +127,10 @@ namespace Engine
                 Assert::AreEqual(16.f, seg.end.y);
             }
 
+            // ======================================================
+            // Geometry Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_WithRadiusAndSegment_SetsAngle)
             {
                 BoundingCapsule<FakeCapsule> bc(16.0f,
@@ -142,6 +155,10 @@ namespace Engine
                 Assert::AreEqual(16.f, bc.GetRadius());
             }
 
+            // ======================================================
+            // Vector Maths
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_WithRadiusAndSegment_SetsLength)
             {
                 BoundingCapsule<FakeCapsule> bc(16.0f,
@@ -153,6 +170,10 @@ namespace Engine
 
                 Assert::AreEqual(16.f, bc.GetLength());
             }
+
+            // ======================================================
+            // Geometry Access
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_WithRadiusAndSegment_SetsOrigin)
             {
@@ -216,6 +237,10 @@ namespace Engine
                 Assert::AreEqual(16.f, seg.end.y);
             }
 
+            // ======================================================
+            // To Bounding Box
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_ToBoundingBox_ProducesBoundingBox)
             {
                 BoundingCapsule<FakeCapsule> bc(16.0f, 16.0f, 0.0f, Vector2f(16.0f, 16.0f));
@@ -231,6 +256,10 @@ namespace Engine
                 Assert::AreEqual(32.0f, box->GetSize().y);
             }
 
+            // ======================================================
+            // Native Shape Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_GetNativeShape_CanBeCastToFakeCapsule)
             {
                 BoundingCapsule<FakeCapsule> bc(16.0f, 16.0f, 0.0f, Vector2f(16.0f, 16.0f));
@@ -240,12 +269,20 @@ namespace Engine
                 Assert::IsNotNull(cap);
             }
 
+            // ======================================================
+            // Radius Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_GetRadius_ReturnsDefault)
             {
                 BoundingCapsule<FakeCapsule> bc;
 
                 Assert::AreEqual(0.f, bc.GetRadius());
             }
+
+            // ======================================================
+            // Vector Maths
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_GetLength_ReturnsDefault)
             {
@@ -254,12 +291,20 @@ namespace Engine
                 Assert::AreEqual(0.f, bc.GetLength());
             }
 
+            // ======================================================
+            // Angle Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_GetAngle_ReturnsDefault)
             {
                 BoundingCapsule<FakeCapsule> bc;
 
                 Assert::AreEqual(0.f, bc.GetAngle());
             }
+
+            // ======================================================
+            // Segment Access
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_GetSegment_ReturnsDefault)
             {
@@ -272,6 +317,10 @@ namespace Engine
                 Assert::AreEqual(0.f, seg.end.x);
                 Assert::AreEqual(0.f, seg.end.x);
             }
+
+            // ======================================================
+            // Center Access
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_GetCenter_ReturnsDefault)
             {
@@ -295,6 +344,10 @@ namespace Engine
                 Assert::AreEqual(32.f, cen.y);
             }
 
+            // ======================================================
+            // Position Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_GetPosition_ReturnsDefault)
             {
                 BoundingCapsule<FakeCapsule> bc;
@@ -311,6 +364,10 @@ namespace Engine
                 Assert::AreEqual(32.f, pos.x);
                 Assert::AreEqual(32.f, pos.y);
             }
+
+            // ======================================================
+            // Origin Access
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_GetOrigin_ReturnsDefault)
             {
@@ -334,6 +391,10 @@ namespace Engine
                 Assert::AreEqual(32.f, ori.y);
             }
 
+            // ======================================================
+            // Scale Access
+            // ======================================================
+
             TEST_METHOD(BoundingCapsule_GetScale_ReturnsDefault)
             {
                 BoundingCapsule<FakeCapsule> bc;
@@ -355,6 +416,10 @@ namespace Engine
                 Assert::AreEqual(2.f, scl.x);
                 Assert::AreEqual(2.f, scl.y);
             }
+
+            // ======================================================
+            // Point Access
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_GetPoint_Top_ReturnsTopSide)
             {
@@ -405,6 +470,10 @@ namespace Engine
                 Assert::AreEqual(0.f, pnt.x);
                 Assert::AreEqual(0.f, pnt.y);
             }
+
+            // ======================================================
+            // Intersects / Collision
+            // ======================================================
 
             TEST_METHOD(BoundingCapsule_Intersects_Point_AtCentre_ReturnsTrue)
             {

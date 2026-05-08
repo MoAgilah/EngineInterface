@@ -96,6 +96,12 @@
     <ClInclude Include="Code\Fakes\GameObjects\FakeGameObject.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\Collisions\FakeBoundingBox.h">
+      <Filter>Header Files\Fakes\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Collisions\TestableTile.h">
+      <Filter>Header Files\Fakes\Collisions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">

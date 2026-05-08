@@ -14,10 +14,19 @@ namespace Engine
         TEST_CLASS(BoundingCircleTests)
         {
         public:
+
+            // ======================================================
+            // Constructor
+            // ======================================================
+
             TEST_METHOD(BoundingCircle_DefaultConstructor_DoesNotThrow)
             {
                 BoundingCircle<FakeCircle> bc;
             }
+
+            // ======================================================
+            // Radius Access
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_GetRadius_ReturnsDefault)
             {
@@ -25,6 +34,10 @@ namespace Engine
 
                 Assert::AreEqual(0.0f, bc.GetRadius());
             }
+
+            // ======================================================
+            // Constructor
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_Constructor_WithRadius_DoesNotThrow)
             {
@@ -80,6 +93,10 @@ namespace Engine
                 Assert::AreEqual(16.f, cen.y);
             }
 
+            // ======================================================
+            // Native Shape Access
+            // ======================================================
+
             TEST_METHOD(BoundingCircle_GetNativeShape_CanBeCastToRealShape)
             {
                 BoundingCircle<FakeCircle> bc(16.f, Vector2f(16.f, 16.f));
@@ -88,6 +105,10 @@ namespace Engine
 
                 Assert::IsNotNull(circle);
             }
+
+            // ======================================================
+            // Center Access
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_GetCenter_ReturnsDefault)
             {
@@ -111,6 +132,10 @@ namespace Engine
                 Assert::AreEqual(32.f, cen.y);
             }
 
+            // ======================================================
+            // Position Access
+            // ======================================================
+
             TEST_METHOD(BoundingCircle_GetPosition_ReturnsDefault)
             {
                 BoundingCircle<FakeCircle> bc;
@@ -132,6 +157,10 @@ namespace Engine
                 Assert::AreEqual(32.f, pos.x);
                 Assert::AreEqual(32.f, pos.y);
             }
+
+            // ======================================================
+            // Origin Access
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_GetOrigin_ReturnsDefault)
             {
@@ -155,6 +184,10 @@ namespace Engine
                 Assert::AreEqual(32.f, ori.y);
             }
 
+            // ======================================================
+            // Scale Access
+            // ======================================================
+
             TEST_METHOD(BoundingCircle_GetScale_ReturnsDefault)
             {
                 BoundingCircle<FakeCircle> bc(16.f, Vector2f(16.f, 16.f));
@@ -176,6 +209,10 @@ namespace Engine
                 Assert::AreEqual(2.f, scl.x);
                 Assert::AreEqual(2.f, scl.y);
             }
+
+            // ======================================================
+            // Point Access
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_GetPoint_Left_ReturnsCorrectPoint)
             {
@@ -226,6 +263,10 @@ namespace Engine
                 Assert::AreEqual(0.f, pnt.x);
                 Assert::AreEqual(0.f, pnt.y);
             }
+
+            // ======================================================
+            // Intersects / Collision
+            // ======================================================
 
             TEST_METHOD(BoundingCircle_Intersects_Point_ReturnsTrue)
             {

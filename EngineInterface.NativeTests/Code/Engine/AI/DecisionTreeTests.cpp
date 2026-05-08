@@ -19,6 +19,11 @@ namespace AI
 	TEST_CLASS(DecisionTreeTests)
 	{
 	public:
+
+		// ======================================================
+		// Constructor
+		// ======================================================
+
 		TEST_METHOD(DecisionTree_Constructor_WithNullRoot_Throws)
 		{
 			Assert::ExpectException<std::invalid_argument>([]
@@ -26,6 +31,10 @@ namespace AI
 					DecisionTree<TestDecisionResult, bool, int> tree(nullptr);
 				});
 		}
+
+		// ======================================================
+		// Root Access
+		// ======================================================
 
 		TEST_METHOD(DecisionTree_GetRoot_ReturnsRoot)
 		{
@@ -44,6 +53,10 @@ namespace AI
 			Assert::IsNotNull(result.get());
 			Assert::IsTrue(root.get() == result.get());
 		}
+
+		// ======================================================
+		// Add / Store
+		// ======================================================
 
 		TEST_METHOD(DecisionTree_AddBranch_WithValidBranch_StoresBranch)
 		{
@@ -117,6 +130,10 @@ namespace AI
 			Assert::IsNull(tree.GetBranchNode("Other").get());
 		}
 
+		// ======================================================
+		// Branch Node Access
+		// ======================================================
+
 		TEST_METHOD(DecisionTree_GetBranchNode_WithMissingId_ReturnsNull)
 		{
 			auto root = std::make_shared<DecisionNode<TestDecisionResult, bool, int>>(
@@ -131,6 +148,10 @@ namespace AI
 
 			Assert::IsNull(tree.GetBranchNode("Other").get());
 		}
+
+		// ======================================================
+		// Add / Store
+		// ======================================================
 
 		TEST_METHOD(DecisionTree_AddNode_WithNullParent_ReturnsNullPtr)
 		{
@@ -219,6 +240,10 @@ namespace AI
 
 			Assert::IsNotNull(root->m_false.get());
 		}
+
+		// ======================================================
+		// Tree Structure / Evaluation
+		// ======================================================
 
 		TEST_METHOD(DecisionTree_Evaluate_NodeWithNoCondition_ReturnsOwnResult)
 		{

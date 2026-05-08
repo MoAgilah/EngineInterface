@@ -14,6 +14,10 @@ namespace Engine
         {
         public:
 
+            // ======================================================
+            // Timer Updates
+            // ======================================================
+
             TEST_METHOD(Reset_ShouldStartTimerInUsableState)
             {
                 Timer timer;
@@ -39,6 +43,10 @@ namespace Engine
                 Assert::IsTrue(afterReset >= 0.0 && afterReset <= 0.05);
             }
 
+            // ======================================================
+            // Behaviour
+            // ======================================================
+
             TEST_METHOD(TimeElapsed_ShouldIncreaseOverTime)
             {
                 Timer timer;
@@ -50,6 +58,10 @@ namespace Engine
 
                 Assert::IsTrue(second > first);
             }
+
+            // ======================================================
+            // Timer Updates
+            // ======================================================
 
             TEST_METHOD(Tick_ShouldReturnPositiveDeltaAfterDelay)
             {

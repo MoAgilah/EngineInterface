@@ -12,12 +12,21 @@ namespace Utilities
 	TEST_CLASS(LogRecordTests)
 	{
 	public:
+
+		// ======================================================
+		// Debug Returns D E B U G
+		// ======================================================
+
 		TEST_METHOD(LogLeveltoString_DebugReturnsDEBUG)
 		{
 			LogLevel lvl = LogLevel::Debug;
 
 			Assert::AreEqual("DEBUG", toString(lvl));
 		}
+
+		// ======================================================
+		// Thread Context
+		// ======================================================
 
 		TEST_METHOD(LogLeveltoString_InfoReturnsINFO)
 		{
@@ -26,12 +35,20 @@ namespace Utilities
 			Assert::AreEqual("INFO", toString(lvl));
 		}
 
+		// ======================================================
+		// Warning Returns W A R N I N G
+		// ======================================================
+
 		TEST_METHOD(LogLeveltoString_WarningReturnsWARNING)
 		{
 			LogLevel lvl = LogLevel::Warning;
 
 			Assert::AreEqual("WARNING", toString(lvl));
 		}
+
+		// ======================================================
+		// Error Returns E R R O R
+		// ======================================================
 
 		TEST_METHOD(LogLeveltoString_ErrorReturnsERROR)
 		{
@@ -40,6 +57,10 @@ namespace Utilities
 			Assert::AreEqual("ERROR", toString(lvl));
 		}
 
+		// ======================================================
+		// Fatal Returns F A T A L
+		// ======================================================
+
 		TEST_METHOD(LogLeveltoString_FatalReturnsFATAL)
 		{
 			LogLevel lvl = LogLevel::Fatal;
@@ -47,12 +68,20 @@ namespace Utilities
 			Assert::AreEqual("FATAL", toString(lvl));
 		}
 
+		// ======================================================
+		// Unknown Value Returns U N K N O W N
+		// ======================================================
+
 		TEST_METHOD(LogLeveltoString_UnknownValueReturnsUNKNOWN)
 		{
 			LogLevel lvl = static_cast<LogLevel>(999);
 
 			Assert::AreEqual("UNKNOWN", toString(lvl));
 		}
+
+		// ======================================================
+		// State Stack
+		// ======================================================
 
 		TEST_METHOD(SourceInfoConstructor_PopulatesFileLineColumnAndFunction)
 		{
@@ -88,12 +117,20 @@ namespace Utilities
 			Assert::AreEqual(std::string(sl.function_name()), rec.sourceInfo.function);
 		}
 
+		// ======================================================
+		// Defaults Sequence ID To Zero
+		// ======================================================
+
 		TEST_METHOD(LogRecordConstructor_DefaultsSequenceIdToZero)
 		{
 			LogRecord rec(LogLevel::Debug, "msg", std::source_location::current());
 
 			Assert::IsTrue(0 == rec.sequenceId);
 		}
+
+		// ======================================================
+		// Thread Context
+		// ======================================================
 
 		TEST_METHOD(LogRecordConstructor_DefaultInitialisesThreadInfo)
 		{

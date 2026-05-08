@@ -9,6 +9,11 @@ namespace Utilities
 	TEST_CLASS(MovementControllerTests)
 	{
 	public:
+
+		// ======================================================
+		// Current X State Access
+		// ======================================================
+
 		TEST_METHOD(MovementController_GetCurrentXState_ReturnsDefaultMovementXStateWhenNotAssigned)
 		{
 			MovementController mc;
@@ -16,12 +21,20 @@ namespace Utilities
 			Assert::AreEqual(0.0f, mc.GetCurrentXState().GetCurrentVelLimit(), 0.001f);
 		}
 
+		// ======================================================
+		// Current Y State Access
+		// ======================================================
+
 		TEST_METHOD(MovementController_GetCurrentYState_ReturnsDefaultMovementYStateWhenNotAssigned)
 		{
 			MovementController mc;
 
 			Assert::AreEqual(0.0f, mc.GetCurrentYState().GetCurrentVelLimit(), 0.001f);
 		}
+
+		// ======================================================
+		// Add / Store
+		// ======================================================
 
 		TEST_METHOD(MovementController_AddMovementXState_CanAddMovementXState)
 		{
@@ -48,6 +61,10 @@ namespace Utilities
 
 			Assert::AreEqual(1.5f, mc.GetCurrentYState().GetCurrentVelLimit(), 0.001f);
 		}
+
+		// ======================================================
+		// Change State
+		// ======================================================
 
 		TEST_METHOD(MovementController_ChangeMovementXState_CanChangeMovementXState)
 		{
@@ -93,6 +110,10 @@ namespace Utilities
 			Assert::AreEqual(2.5f, mc.GetCurrentYState().GetCurrentVelLimit(), 0.001f);
 		}
 
+		// ======================================================
+		// Current X State Access
+		// ======================================================
+
 		TEST_METHOD(MovementController_GetCurrentXState_ReturnsAssignedMovementXState)
 		{
 			MovementState msX;
@@ -106,6 +127,10 @@ namespace Utilities
 			Assert::AreEqual(1.5f, mc.GetCurrentXState().GetCurrentVelLimit(), 0.001f);
 		}
 
+		// ======================================================
+		// Current Y State Access
+		// ======================================================
+
 		TEST_METHOD(MovementController_GetCurrentYState_ReturnsAssignedMovementYState)
 		{
 			MovementState msY;
@@ -118,6 +143,10 @@ namespace Utilities
 
 			Assert::AreEqual(1.5f, mc.GetCurrentYState().GetCurrentVelLimit(), 0.001f);
 		}
+
+		// ======================================================
+		// Movement Values
+		// ======================================================
 
 		TEST_METHOD(MovementController_SetCurrentVelLimitForXState_UpdatesCurrentVelocity)
 		{

@@ -5,6 +5,7 @@
 #include <Utilities/ShapeMath.h>
 #include "FakeDrawable.h"
 #include <memory>
+#include <array>
 
 template<typename TShape>
 class FakeShape : public FakeDrawable<TShape>, public IShape
@@ -24,6 +25,54 @@ public:
 	float GetOutlineThickness() { return 0.0f; }
 	void SetOutlineThickness(float scale) {}
 
+};
+
+class FakeTriangle : public FakeShape<FakeTriangle>, public ITriangleShape
+{
+public:
+	FakeTriangle()
+	{
+		SetScale(GameConstants::Scale);
+	}
+
+	FakeTriangle(const std::array<Vector2f, 3>& points, const Vector2f& pos)
+
+	{
+		Reset(points);
+		Update(pos);
+	}
+
+	void Update(const Vector2f& pos) override {}
+	void Render(IRenderer* renderer) override {}
+
+	void Reset(const std::array<Vector2f, 3>& points)
+	{
+		SetPoints(points);
+	}
+
+	Vector2f GetPoint(int idx) override
+	{
+		return m_points[idx];
+	}
+
+	Line2f GetLine(int start, int end) override
+	{
+		return Line2f(m_points[start], m_points[end]);
+	}
+
+	std::array<Vector2f, 3> GetPoints() const override
+	{
+		return m_points;
+	}
+
+	void SetPoints(const std::array<Vector2f, 3>& points) override
+	{
+		m_points = points;
+	}
+
+private:
+
+	std::array<Vector2f, 3> m_points;
 };
 
 class FakeBox : public FakeShape<FakeBox>, public IBoxShape

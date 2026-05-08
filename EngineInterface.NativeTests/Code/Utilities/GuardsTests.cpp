@@ -15,6 +15,11 @@ namespace Utilities
 	TEST_CLASS(GuardsTests)
 	{
 	public:
+
+		// ======================================================
+		// Behaviour
+		// ======================================================
+
 		TEST_METHOD(CheckNotNull_WhenPtrIsNotNullDoesNotLog)
 		{
 			TestHelpers::ResetLoggerDefaultsForTests();
