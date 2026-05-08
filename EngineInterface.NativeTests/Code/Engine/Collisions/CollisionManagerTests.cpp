@@ -524,7 +524,7 @@ namespace Engine
                 obj2.SetsIntersects(true);
                 obj2.SetActive(true);
 
-                DynamicFakeGameObject dynObj1(
+                FakeDynamicGameObject dynObj1(
                     std::make_shared<FakeSprite>("dynObj1"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -532,7 +532,7 @@ namespace Engine
                 dynObj1.SetsIntersects(true);
                 dynObj1.SetActive(true);
 
-                DynamicFakeGameObject dynObj2(
+                FakeDynamicGameObject dynObj2(
                     std::make_shared<FakeSprite>("dynObj2"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -592,7 +592,7 @@ namespace Engine
             {
                 FakeCollisionManager cm(nullptr);
 
-                DynamicFakeGameObject testObj(
+                FakeDynamicGameObject testObj(
                     std::make_shared<FakeSprite>("otherObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -616,7 +616,7 @@ namespace Engine
                 obj2.SetsIntersects(true);
                 obj2.SetActive(true);
 
-                DynamicFakeGameObject dynObj1(
+                FakeDynamicGameObject dynObj1(
                     std::make_shared<FakeSprite>("dynObj1"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -624,7 +624,7 @@ namespace Engine
                 dynObj1.SetsIntersects(true);
                 dynObj1.SetActive(true);
 
-                DynamicFakeGameObject dynObj2(
+                FakeDynamicGameObject dynObj2(
                     std::make_shared<FakeSprite>("dynObj2"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -653,7 +653,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -680,7 +680,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -707,7 +707,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -729,12 +729,12 @@ namespace Engine
             {
                 FakeCollisionManager cm(nullptr);
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                DynamicFakeGameObject other(
+                FakeDynamicGameObject other(
                     std::make_shared<FakeSprite>("other"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -756,12 +756,12 @@ namespace Engine
             {
                 FakeCollisionManager cm(nullptr);
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                DynamicFakeGameObject other(
+                FakeDynamicGameObject other(
                     std::make_shared<FakeSprite>("other"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -785,7 +785,7 @@ namespace Engine
 
                 FakeCollisionManager cm(grid);
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -818,7 +818,7 @@ namespace Engine
 
             TEST_METHOD(CollisionManager_ProcessCollisions_WithGridAndCollidesWithTiles)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
@@ -836,7 +836,7 @@ namespace Engine
                     fakeTile->SetIntersects(true);
                 }
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -868,7 +868,7 @@ namespace Engine
 
                 FakeCollisionManager cm(grid);
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -888,7 +888,7 @@ namespace Engine
 
             TEST_METHOD(CollisionManager_ProcessCollisions_WithGridAndTileDoesNotIntersect_DoesNotResolveTile)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
@@ -906,7 +906,7 @@ namespace Engine
                     fakeTile->SetIntersects(false);
                 }
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -926,7 +926,7 @@ namespace Engine
 
             TEST_METHOD(CollisionManager_ProcessCollisions_WithGridAndMultipleTiles_OnlyResolvesIntersectingTiles)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
@@ -946,7 +946,7 @@ namespace Engine
                     fakeTile->SetIntersects(i % 2 == 0); // every other tile intersects
                 }
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -972,7 +972,7 @@ namespace Engine
 
             TEST_METHOD(CollisionManager_ProcessCollisions_WithGrid_ForwardsTFirstAndTLastToTileResolution)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
@@ -997,7 +997,7 @@ namespace Engine
                     fakeTile->SetIntersects(false);
                 }
 
-                DynamicFakeGameObject dynObj(
+                FakeDynamicGameObject dynObj(
                     std::make_shared<FakeSprite>("dynObj"),
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
@@ -1016,18 +1016,18 @@ namespace Engine
 
             TEST_METHOD(CollisionManager_CanCollideWithTile_WhenTypeRegistered_ReturnsTrue)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 FakeCollisionManager cm(nullptr);
 
-                Assert::IsTrue(cm.CanCollideWithTile(typeid(DynamicFakeGameObject)));
+                Assert::IsTrue(cm.CanCollideWithTile(typeid(FakeDynamicGameObject)));
 
                 ICollisionManager::s_canCollideWithTile.clear();
             }
 
             TEST_METHOD(CollisionManager_CanCollideWithTile_WhenTypeNotRegistered_ReturnsFalse)
             {
-                ICollisionManager::s_canCollideWithTile = { typeid(DynamicFakeGameObject) };
+                ICollisionManager::s_canCollideWithTile = { typeid(FakeDynamicGameObject) };
 
                 FakeCollisionManager cm(nullptr);
 
