@@ -24,9 +24,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Code\Fakes\Collisions\FakeBoundingBox.h" />
     <ClInclude Include="Code\Fakes\Collisions\FakeCollisionManager.h" />
     <ClInclude Include="Code\Fakes\Collisions\FakeGrid.h" />
     <ClInclude Include="Code\Fakes\Collisions\FakeTile.h" />
+    <ClInclude Include="Code\Fakes\Collisions\TestableTile.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeDrawable.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeShape.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeSprite.h" />
