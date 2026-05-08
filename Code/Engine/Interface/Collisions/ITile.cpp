@@ -5,6 +5,11 @@
 ITile::ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope)
 	: m_text(std::move(text)), m_slope(std::move(slope)), m_aabb(std::move(aabb))
 {
+	if (x < 0 || y < 0)
+	{
+		throw std::invalid_argument("ITile coordinates cannot be negative");
+	}
+
 	m_colNum = x;
 	m_rowNum = y;
 
