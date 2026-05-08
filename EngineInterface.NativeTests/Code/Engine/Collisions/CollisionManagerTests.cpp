@@ -824,7 +824,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::GRND));
+                    tile->SetType(static_cast<int>(TileTypes::GRND));
                 }
 
                 FakeCollisionManager cm(grid);
@@ -863,7 +863,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::EMPTY));
+                    tile->SetType(static_cast<int>(TileTypes::EMPTY));
                 }
 
                 FakeCollisionManager cm(grid);
@@ -881,7 +881,7 @@ namespace Engine
                 {
                     auto* fakeTile = static_cast<FakeTile*>(tile);
 
-                    Assert::IsTrue(Types::EMPTY == fakeTile->GetType());
+                    Assert::IsTrue(TileTypes::EMPTY == fakeTile->GetType());
                     Assert::IsFalse(fakeTile->resolveCollisionCalled);
                 }
             }
@@ -894,7 +894,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::GRND));
+                    tile->SetType(static_cast<int>(TileTypes::GRND));
                 }
 
                 FakeCollisionManager cm(grid);
@@ -932,7 +932,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::GRND));
+                    tile->SetType(static_cast<int>(TileTypes::GRND));
                 }
 
                 FakeCollisionManager cm(grid);
@@ -978,7 +978,7 @@ namespace Engine
 
                 for (auto& tile : grid->GetGrid())
                 {
-                    tile->SetType(static_cast<int>(Types::GRND));
+                    tile->SetType(static_cast<int>(TileTypes::GRND));
                 }
 
                 FakeCollisionManager cm(grid);

@@ -22,7 +22,7 @@ ICollisionManager::ICollisionManager(std::shared_ptr<IGrid> grid)
 	{
 		for (auto& tile : m_grid->GetGrid())
 		{
-			if (tile->GetType() != Types::EMPTY)
+			if (tile->GetType() != TileTypes::EMPTY)
 				m_tiles.push_back(tile.get());
 		}
 	}
