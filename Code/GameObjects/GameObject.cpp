@@ -112,6 +112,7 @@ void GameObject::SetScale(const Vector2f& scale)
 }
 
 DynamicGameObject::DynamicGameObject()
+	: GameObject()
 {
 }
 

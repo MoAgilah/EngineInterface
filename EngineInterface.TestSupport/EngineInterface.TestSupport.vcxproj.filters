@@ -49,6 +49,9 @@
     <Filter Include="Header Files\Fakes\GameObjects">
       <UniqueIdentifier>{c8436a4e-592d-4364-81f9-b6bfddb8ce0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\UI">
+      <UniqueIdentifier>{01c45db6-12d6-4cff-bdb8-42a55fb2a3c1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -101,6 +104,12 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\Collisions\TestableTile.h">
       <Filter>Header Files\Fakes\Collisions</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\GameObjects\FakeEnemy.h">
+      <Filter>Header Files\Fakes\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\UI\FakeText.h">
+      <Filter>Header Files\Fakes\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

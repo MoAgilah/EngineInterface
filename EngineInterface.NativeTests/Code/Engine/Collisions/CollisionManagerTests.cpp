@@ -456,9 +456,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj.SetsIntersects(true);
+                obj.SetIntersects(true);
                 obj.SetActive(true);
-                other.SetsIntersects(true);
+                other.SetIntersects(true);
                 other.SetActive(true);
 
                 cm.AddCollidable(&obj);
@@ -483,9 +483,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj.SetsIntersects(false);
+                obj.SetIntersects(false);
                 obj.SetActive(true);
-                other.SetsIntersects(false);
+                other.SetIntersects(false);
                 other.SetActive(true);
 
                 cm.AddCollidable(&obj);
@@ -505,7 +505,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                testObj.SetsIntersects(true);
+                testObj.SetIntersects(true);
                 testObj.SetActive(true);
 
                 FakeGameObject obj1(
@@ -513,7 +513,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj1.SetsIntersects(true);
+                obj1.SetIntersects(true);
                 obj1.SetActive(false);
 
                 FakeGameObject obj2(
@@ -521,7 +521,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj2.SetsIntersects(true);
+                obj2.SetIntersects(true);
                 obj2.SetActive(true);
 
                 FakeDynamicGameObject dynObj1(
@@ -529,7 +529,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj1.SetsIntersects(true);
+                dynObj1.SetIntersects(true);
                 dynObj1.SetActive(true);
 
                 FakeDynamicGameObject dynObj2(
@@ -537,7 +537,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj2.SetsIntersects(true);
+                dynObj2.SetIntersects(true);
                 dynObj2.SetActive(false);
 
                 cm.AddCollidable(&testObj);
@@ -571,11 +571,11 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                testObj.SetsIntersects(true);
+                testObj.SetIntersects(true);
                 testObj.SetActive(true);
-                obj1.SetsIntersects(true);
+                obj1.SetIntersects(true);
                 obj1.SetActive(true);
-                obj2.SetsIntersects(true);
+                obj2.SetIntersects(true);
                 obj2.SetActive(true);
 
                 cm.AddCollidable(&testObj);
@@ -597,7 +597,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                testObj.SetsIntersects(true);
+                testObj.SetIntersects(true);
                 testObj.SetActive(true);
 
                 FakeGameObject obj1(
@@ -605,7 +605,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj1.SetsIntersects(true);
+                obj1.SetIntersects(true);
                 obj1.SetActive(true);
 
                 FakeGameObject obj2(
@@ -613,7 +613,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj2.SetsIntersects(true);
+                obj2.SetIntersects(true);
                 obj2.SetActive(true);
 
                 FakeDynamicGameObject dynObj1(
@@ -621,7 +621,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj1.SetsIntersects(true);
+                dynObj1.SetIntersects(true);
                 dynObj1.SetActive(true);
 
                 FakeDynamicGameObject dynObj2(
@@ -629,7 +629,7 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj2.SetsIntersects(true);
+                dynObj2.SetIntersects(true);
                 dynObj2.SetActive(true);
 
                 cm.AddCollidable(&testObj);
@@ -658,9 +658,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj.SetsIntersects(true);
+                obj.SetIntersects(true);
                 obj.SetActive(true);
-                dynObj.SetsIntersects(true);
+                dynObj.SetIntersects(true);
                 dynObj.SetActive(true);
 
                 cm.AddCollidable(&obj);
@@ -685,9 +685,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj.SetsIntersects(false);
+                obj.SetIntersects(false);
                 obj.SetActive(true);
-                dynObj.SetsIntersects(false);
+                dynObj.SetIntersects(false);
                 dynObj.SetActive(true);
 
                 cm.AddCollidable(&obj);
@@ -712,9 +712,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                obj.SetsIntersects(true);
+                obj.SetIntersects(true);
                 obj.SetActive(true);
-                dynObj.SetsIntersects(true);
+                dynObj.SetIntersects(true);
                 dynObj.SetActive(true);
 
                 cm.AddCollidable(&obj);
@@ -739,9 +739,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj.SetsIntersects(true);
+                dynObj.SetIntersects(true);
                 dynObj.SetActive(true);
-                other.SetsIntersects(true);
+                other.SetIntersects(true);
                 other.SetActive(true);
 
                 cm.AddCollidable(&dynObj);
@@ -766,9 +766,9 @@ namespace Engine
                     std::make_shared<BoundingBox<FakeBox>>()
                 );
 
-                dynObj.SetsIntersects(false);
+                dynObj.SetIntersects(false);
                 dynObj.SetActive(true);
-                other.SetsIntersects(false);
+                other.SetIntersects(false);
                 other.SetActive(true);
 
                 cm.AddCollidable(&dynObj);
@@ -842,7 +842,7 @@ namespace Engine
                 );
 
                 dynObj.SetActive(true);
-                dynObj.SetsIntersects(true);
+                dynObj.SetIntersects(true);
 
                 cm.AddCollidable(&dynObj);
 

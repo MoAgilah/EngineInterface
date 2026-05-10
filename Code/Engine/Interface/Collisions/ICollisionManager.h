@@ -21,7 +21,7 @@ public:
 	virtual ~ICollisionManager() = default;
 
 	void ProcessCollisions(IGameObject* object);
-	void Render(IRenderer* renderer);
+	virtual void Render(IRenderer* renderer);
 
 	void AddCollidable(IGameObject* obj);
 	void RemoveCollidable(IGameObject* obj);

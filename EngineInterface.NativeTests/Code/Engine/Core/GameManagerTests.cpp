@@ -240,7 +240,7 @@ namespace Engine
 
                 gm.CheckInView(); // missing line
 
-                Assert::IsTrue(fs->CheckIsInViewIsCalled);
+                Assert::IsTrue(fs->checkIsInViewIsCalled);
             }
 
             // ======================================================

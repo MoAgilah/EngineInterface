@@ -9,10 +9,24 @@ public:
 	FakeSprite(const std::string& texId)
 	{
 		SetTexture(texId);
+        renderId = texId;
 	}
 
-	void Update(float dt) override {}
-	void Render(IRenderer* renderer) override {}
+    void Update(float deltaTime) override
+    {
+        updateCount++;
+        lastDeltaTime = deltaTime;
+    }
+
+    void Render(IRenderer* renderer) override
+    {
+        renderCount++;
+
+        if (renderLog)
+        {
+            renderLog->push_back(renderId);
+        }
+    }
 
 	bool SetTexture(const std::string& texId)
 	{
@@ -24,5 +38,15 @@ public:
 
 	virtual Vector2u GetTextureSize() const override { return Vector2u(); }
 	virtual void SetTextureRect(const IntRect& rect) override {}
+
+public:
+
+    int renderCount = 0;
+    int updateCount = 0;
+
+    float lastDeltaTime = 0.0f;
+
+    std::vector<std::string>* renderLog = nullptr;
+    std::string renderId = "sprite";
 };
 

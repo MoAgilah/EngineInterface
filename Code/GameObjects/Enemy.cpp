@@ -3,6 +3,12 @@
 #include "../Engine/Core/GameManager.h"
 #include "../Utilities/Guards.h"
 
+Enemy::Enemy(int maxLives)
+    : DynamicGameObject(), m_numLives(maxLives), m_maxLives(maxLives),
+    m_airTimer(0), m_resetTimer(0), m_activationTimer(0)
+{
+}
+
 Enemy::Enemy(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, int maxLives)
     : DynamicGameObject(drawable, volume), m_numLives(maxLives), m_maxLives(maxLives),
     m_airTimer(0), m_resetTimer(0), m_activationTimer(0)
