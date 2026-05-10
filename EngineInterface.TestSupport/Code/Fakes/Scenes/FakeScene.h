@@ -10,6 +10,17 @@
 class FakeScene : public IScene
 {
 public:
+	using IScene::m_objects;
+	using IScene::m_enemies;
+	using IScene::m_sprites;
+	using IScene::m_texts;
+	using IScene::m_spawnedObjKeys;
+
+	using IScene::EmplaceEnemyOrThrow;
+	using IScene::EmplaceObjectOrThrow;
+	using IScene::EmplaceGUISpriteOrThrow;
+	using IScene::EmplaceGUITextOrThrow;
+
 	void CheckIsInView() override
 	{
 		checkIsInViewIsCalled = true;
