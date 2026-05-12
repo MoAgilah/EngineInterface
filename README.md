@@ -1,5 +1,3 @@
-EngineInterface README Rewrite – STEM Returners Focus
-
 # EngineInterface
 
 A lightweight, reusable C++ interface layer for backend-agnostic application and engine architecture.
