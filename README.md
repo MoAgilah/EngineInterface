@@ -8,12 +8,12 @@ EngineInterface separates application logic from backend-specific systems such a
 
 This project was developed as a software architecture exercise focused on:
 
-• backend abstraction
-• dependency inversion
-• modular C++ design
-• testable system architecture
-• reusable engine components
-• reduced coupling between application logic and external libraries
+- backend abstraction
+- dependency inversion
+- modular C++ design
+- testable system architecture
+- reusable engine components
+- reduced coupling between application logic and external libraries
 
 Although the project is demonstrated through game and visual application systems, the underlying design principles are transferable to wider STEM software contexts including simulation, tooling, embedded systems, robotics, technical platforms, and interactive applications.
 
@@ -27,34 +27,34 @@ Application code communicates with stable interfaces, while backend-specific ada
 
 This allows:
 
-• core logic to remain independent of backend libraries
-• new backends to be added with minimal disruption
-• mock systems to be used for testing
-• external dependencies to be isolated
-• architecture to remain maintainable as the project grows
+- core logic to remain independent of backend libraries
+- new backends to be added with minimal disruption
+- mock systems to be used for testing
+- external dependencies to be isolated
+- architecture to remain maintainable as the project grows
 
 ## Key Features
 
-• Backend-agnostic C++ interface layer
-• Unified abstractions for rendering, input, audio, timing, and resources
-• Separation of application logic from platform/library-specific code
-• Swappable backend implementations
-• Test-friendly architecture using mock or headless systems
-• Modular structure designed for extension and maintainability
-• Suitable for game, simulation, and visual application architecture
+- Backend-agnostic C++ interface layer
+- Unified abstractions for rendering, input, audio, timing, and resources
+- Separation of application logic from platform/library-specific code
+- Swappable backend implementations
+- Test-friendly architecture using mock or headless systems
+- Modular structure designed for extension and maintainability
+- Suitable for game, simulation, and visual application architecture
 
 ## Design Goals
 
-• keep systems loosely coupled
-• support dependency inversion
-• make backend replacement easier
-• improve testability
-• reduce framework lock-in
-• encourage reusable architecture
-• keep interfaces clear and focused
+- keep systems loosely coupled
+- support dependency inversion
+- make backend replacement easier
+- improve testability
+- reduce framework lock-in
+- encourage reusable architecture
+- keep interfaces clear and focused
 
 ## Repository Layout
-
+```
 EngineInterface/
 ├─ Code/
 ├─ EngineInterface.NativeTests/
@@ -62,23 +62,23 @@ EngineInterface/
 ├─ Resources/
 ├─ EngineInterface.sln
 └─ README.md
-
+```
 ## Related Project
 
-SFMLEngine demonstrates how EngineInterface can be implemented against a specific multimedia backend while preserving separation between core logic and backend code.
+[SFMLEngine](https://github.com/MoAgilah/SFMLEngine) demonstrates how EngineInterface can be implemented against a specific multimedia backend while preserving separation between core logic and backend code.
 
 ## Technical Skills Demonstrated
 
-• Modern C++ development
-• Object-oriented design
-• Interface-driven architecture
-• Dependency inversion
-• Backend abstraction
-• Testable system design
-• Software modularity
-• Engine architecture
-• Technical documentation
-• Git version control
+- Modern C++ development
+- Object-oriented design
+- Interface-driven architecture
+- Dependency inversion
+- Backend abstraction
+- Testable system design
+- Software modularity
+- Engine architecture
+- Technical documentation
+- Git version control
 
 ## STEM Returners Context
 
