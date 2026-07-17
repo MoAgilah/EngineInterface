@@ -1,86 +1,90 @@
 # EngineInterface
 
-A lightweight, reusable C++ interface layer for backend-agnostic application and engine architecture.
+A modern C++ software architecture that demonstrates interface-driven design, backend abstraction and modular system composition.
 
-EngineInterface separates application logic from backend-specific systems such as rendering, input, audio, timing, and resource management. The goal is to create a stable set of C++ interfaces that allow different backend implementations, such as SFML, DirectX, mock systems, or future rendering APIs, to be integrated without rewriting core application code.
+EngineInterface separates engine systems from backend implementations through stable interface contracts. Rather than depending on a specific graphics library or platform, application code communicates exclusively with abstract interfaces, allowing rendering, input, resources and other services to evolve independently of the technologies used beneath them.
 
-## Purpose
+The project focuses on software architecture rather than rendering features, providing a reusable foundation that supports multiple backend implementations while remaining maintainable, extensible and testable.
 
-This project was developed as a software architecture exercise focused on:
+---
 
-- backend abstraction
-- dependency inversion
-- modular C++ design
-- testable system architecture
-- reusable engine components
-- reduced coupling between application logic and external libraries
+## The Engineering Problem
 
-Although the project is demonstrated through game and visual application systems, the underlying design principles are transferable to wider STEM software contexts including simulation, tooling, embedded systems, robotics, technical platforms, and interactive applications.
+Many graphics applications become tightly coupled to the frameworks they use. Rendering, input handling, resource management and window creation often depend directly on a single backend, making future changes increasingly difficult as projects grow.
 
-## Why This Project Matters
+EngineInterface addresses this challenge by introducing a stable abstraction layer between engine systems and their implementations. High-level modules depend on interfaces rather than concrete classes, allowing backend technologies to be replaced without affecting application logic.
 
-Many visual or game applications become tightly coupled to a specific framework or multimedia library. This makes future changes difficult, especially when moving from one backend to another or when introducing automated testing.
+---
 
-EngineInterface addresses this by introducing a clean interface layer between core logic and backend implementation.
+## Framework Architecture
 
-Application code communicates with stable interfaces, while backend-specific adapters handle the details of frameworks such as SFML or DirectX.
+<p align="center">
+  <img alt="EngineInterfaceArchitecture2" src="https://github.com/user-attachments/assets/17fc0ceb-f855-4d62-afee-9d6df5180244" width="600">
+</p>
 
-This allows:
+The framework is organised into distinct architectural layers that separate responsibilities and minimise coupling between systems. Engine systems depend only on abstract interfaces, while shared infrastructure provides reusable functionality without introducing backend dependencies. Dedicated testing projects support isolated validation of framework components.
 
-- core logic to remain independent of backend libraries
-- new backends to be added with minimal disruption
-- mock systems to be used for testing
-- external dependencies to be isolated
-- architecture to remain maintainable as the project grows
+---
+
+## Architecture Goals
+
+The project was designed to demonstrate:
+
+- Interface-driven architecture
+- Backend abstraction
+- Dependency inversion
+- Modular system design
+- Layered architecture
+- Native testing support
+- Reusable C++ components
+
+Although demonstrated through engine development, these architectural principles apply equally to simulation software, technical tooling, robotics, embedded systems and other STEM software applications.
+
+---
 
 ## Key Features
 
-- Backend-agnostic C++ interface layer
-- Unified abstractions for rendering, input, audio, timing, and resources
-- Separation of application logic from platform/library-specific code
-- Swappable backend implementations
-- Test-friendly architecture using mock or headless systems
-- Modular structure designed for extension and maintainability
-- Suitable for game, simulation, and visual application architecture
+- Backend-agnostic C++ interface framework
+- Stable abstractions for rendering, input, resources and engine systems
+- Clear separation between application logic and backend implementations
+- Swappable backend integrations
+- Native testing and test-support projects
+- Modular architecture designed for extension and long-term maintainability
 
-## Design Goals
+---
 
-- keep systems loosely coupled
-- support dependency inversion
-- make backend replacement easier
-- improve testability
-- reduce framework lock-in
-- encourage reusable architecture
-- keep interfaces clear and focused
+## Technologies & Engineering Practices
 
-## Repository Layout
-```
-EngineInterface/
-├─ Code/
-├─ EngineInterface.NativeTests/
-├─ EngineInterface.TestSupport/
-├─ Resources/
-├─ EngineInterface.sln
-└─ README.md
-```
-## Related Project
+### Development
 
-[SFMLEngine](https://github.com/MoAgilah/SFMLEngine) demonstrates how EngineInterface can be implemented against a specific multimedia backend while preserving separation between core logic and backend code.
+- Modern C++
+- Visual Studio
+- Git
 
-## Technical Skills Demonstrated
+### Engineering Practices
 
-- Modern C++ development
-- Object-oriented design
-- Interface-driven architecture
-- Dependency inversion
-- Backend abstraction
-- Testable system design
-- Software modularity
-- Engine architecture
-- Technical documentation
-- Git version control
+- Interface-Driven Architecture
+- Dependency Inversion
+- Backend Abstraction
+- Modular Architecture
+- Layered Architecture
+- RAII
+- Native Testing
 
-## STEM Returners Context
+## Architecture Highlights
 
-This project forms part of my continued technical development as a software engineer returning to STEM. It demonstrates practical C++ engineering, architectural thinking, problem-solving, and maintainable system design beyond a single game or framework.
+- Backend-agnostic interface layer
+- Stable contracts between engine systems and implementations
+- Modular subsystem organisation
+- Native testing support
+- Reusable architectural foundation
 
+---
+
+## Engineering Outcome
+
+EngineInterface demonstrates how interface-driven architecture and dependency inversion can be applied to build flexible, maintainable C++ software.
+
+The framework establishes stable contracts across rendering, input, resources and engine systems while isolating backend implementations from higher-level application code. This separation improves maintainability, supports testing and provides a reusable architectural foundation that can evolve alongside future technologies.
+
+---
