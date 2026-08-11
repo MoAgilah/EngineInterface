@@ -1,7 +1,9 @@
 #pragma once
 
+#include <Engine/Collisions/BoundingBox.h>
 #include <GameObjects/Enemy.h>
 #include <Utilities/Guards.h>
+#include "../Drawables/FakeShape.h"
 
 class FakeEnemy : public Enemy
 {

@@ -1,16 +1,20 @@
 #pragma once
 
+#include <Engine/Collisions/BoundingBox.h>
 #include <Engine/Interface/Scene/IScene.h>
 #include <Utilities/Guards.h>
 #include "../GameObjects/FakeGameObject.h"
 #include "../GameObjects/FakeEnemy.h"
 #include "../Drawables/FakeSprite.h"
+#include "../Drawables/FakeShape.h"
 #include "../UI/FakeText.h"
 
 class FakeScene : public IScene
 {
 public:
+	using IScene::m_backgroundSpr;
 	using IScene::m_objects;
+	using IScene::m_foregroundObjects;
 	using IScene::m_enemies;
 	using IScene::m_sprites;
 	using IScene::m_texts;
@@ -18,8 +22,64 @@ public:
 
 	using IScene::EmplaceEnemyOrThrow;
 	using IScene::EmplaceObjectOrThrow;
+	using IScene::EmplaceForegroundObjectOrThrow;
 	using IScene::EmplaceGUISpriteOrThrow;
 	using IScene::EmplaceGUITextOrThrow;
+
+	FakeScene()
+	{
+		m_backgroundSpr = std::make_shared<FakeSprite>("BkgSpr");
+	}
+
+	void SetRenderLog(std::vector<std::string>& log)
+	{
+		renderLog = &log;
+
+		if (auto bg = std::dynamic_pointer_cast<FakeSprite>(m_backgroundSpr))
+		{
+			bg->renderLog = &log;
+		}
+
+		for (auto& [_, obj] : m_objects)
+		{
+			if (auto fakeObj = std::dynamic_pointer_cast<IFakeObject>(obj))
+			{
+				fakeObj->renderLog = &log;
+			}
+		}
+
+		for (auto& [_, enemy] : m_enemies)
+		{
+			if (auto fakeEnemy = std::dynamic_pointer_cast<FakeEnemy>(enemy))
+			{
+				fakeEnemy->renderLog = &log;
+			}
+		}
+
+		for (auto& [_, obj] : m_foregroundObjects)
+		{
+			if (auto fakeObj = std::dynamic_pointer_cast<IFakeObject>(obj))
+			{
+				fakeObj->renderLog = &log;
+			}
+		}
+
+		for (auto& [_, sprite] : m_sprites)
+		{
+			if (auto fakeSprite = std::dynamic_pointer_cast<FakeSprite>(sprite))
+			{
+				fakeSprite->renderLog = &log;
+			}
+		}
+
+		for (auto& [_, text] : m_texts)
+		{
+			if (auto fakeText = std::dynamic_pointer_cast<FakeText>(text))
+			{
+				fakeText->renderLog = &log;
+			}
+		}
+	}
 
 	void CheckIsInView() override
 	{
@@ -65,7 +125,6 @@ protected:
 			return false;
 
 		EmplaceGUISpriteOrThrow<FakeSprite>("Sprite1", "Spr1");
-
 		EmplaceGUISpriteOrThrow<FakeSprite>("Sprite2", "Spr2");
 
 		EmplaceGUITextOrThrow<FakeText>(
@@ -88,8 +147,8 @@ protected:
 		if (!addObjectsResult)
 			return false;
 
-		EmplaceObjectOrThrow<FakeDynamicGameObject>("DynamicGameObject1", std::make_shared<FakeSprite>("DynObj1"), std::make_shared<BoundingBox<FakeBox>>(), true);
-		EmplaceObjectOrThrow<FakeDynamicGameObject>("DynamicGameObject2", std::make_shared<FakeSprite>("DynObj2"), std::make_shared<BoundingBox<FakeBox>>(), false);
+		EmplaceObjectOrThrow<FakeDynamicGameObject>("Object1", std::make_shared<FakeSprite>("Obj1"), std::make_shared<BoundingBox<FakeBox>>(), true);
+		EmplaceObjectOrThrow<FakeDynamicGameObject>("Object2", std::make_shared<FakeSprite>("Obj2"), std::make_shared<BoundingBox<FakeBox>>(), false);
 
 		return true;
 	}
@@ -99,8 +158,8 @@ protected:
 		if (!addForeGroundObjectsResult)
 			return false;
 
-		EmplaceObjectOrThrow<FakeGameObject>("GameObject1", std::make_shared<FakeSprite>("Obj1"), std::make_shared<BoundingBox<FakeBox>>(), false);
-		EmplaceObjectOrThrow<FakeGameObject>("GameObject2", std::make_shared<FakeSprite>("Obj2"), std::make_shared<BoundingBox<FakeBox>>(), true);
+		EmplaceForegroundObjectOrThrow<FakeGameObject>("ForeGroundObjects1", std::make_shared<FakeSprite>("FgObj1"), std::make_shared<BoundingBox<FakeBox>>(), false);
+		EmplaceForegroundObjectOrThrow<FakeGameObject>("ForeGroundObjects2", std::make_shared<FakeSprite>("FgObj2"), std::make_shared<BoundingBox<FakeBox>>(), true);
 
 		return true;
 	}

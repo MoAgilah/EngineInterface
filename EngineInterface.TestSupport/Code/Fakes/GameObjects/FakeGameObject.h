@@ -4,8 +4,26 @@
 #include <GameObjects/GameObject.h>
 #include <Utilities/Guards.h>
 
+class IFakeObject
+{
+public:
+	virtual ~IFakeObject() = default;
+
+public:
+	bool intersects = false;
+
+	int updateCount = 0;
+	int renderCount = 0;
+	int resetCount = 0;
+
+	float lastDeltaTime = 0.0f;
+
+	std::vector<std::string>* renderLog = nullptr;
+	std::string renderId;
+};
+
 template <typename Base>
-class FakeObjectBase : public Base
+class FakeObjectBase : public Base, public IFakeObject
 {
 public:
 	FakeObjectBase(std::shared_ptr<IDrawable> drawable,
@@ -57,25 +75,13 @@ public:
 
 	void ResolveCollisions(float time,
 		const Vector2f& separationVector,
-		float relativeHitPosition) override {
-	}
+		float relativeHitPosition) override
+	{}
 
 	void Reset() override
 	{
 		resetCount++;
 	}
-
-public:
-	bool intersects = false;
-
-	int updateCount = 0;
-	int renderCount = 0;
-	int resetCount = 0;
-
-	float lastDeltaTime = 0.0f;
-
-	std::vector<std::string>* renderLog = nullptr;
-	std::string renderId;
 };
 
 class FakeGameObject : public FakeObjectBase<GameObject>
@@ -125,4 +131,3 @@ public:
 		this->SetActive(active);
 	}
 };
-
