@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Engine\Collisions">
       <UniqueIdentifier>{0fdae6de-57ec-4251-84a2-f386a45f10da}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Scene">
+      <UniqueIdentifier>{e6983c94-5cf4-41e9-accb-3403593f6e9c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -107,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Collisions\TileTests.cpp">
       <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Scene\SceneTests.cpp">
+      <Filter>Source Files\Engine\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
