@@ -13,6 +13,14 @@ public:
 		: ICollisionManager(std::move(grid))
 	{}
 
+	void Render(IRenderer* renderer) override
+	{
+		renderCalled = true;
+
+		if (renderLog)
+			renderLog->push_back(renderId);
+	}
+
 protected:
 
 	void ObjectToObjectResolution(IGameObject* obj1, IGameObject* obj2) override
@@ -35,4 +43,9 @@ public:
 	int objectToObjectCalls = 0;
 	int dynamicToObjectCalls = 0;
 	int dynamicToDynamicCalls = 0;
+
+	bool renderCalled = false;
+
+	std::vector<std::string>* renderLog = nullptr;
+	std::string renderId = "collision-manager";
 };

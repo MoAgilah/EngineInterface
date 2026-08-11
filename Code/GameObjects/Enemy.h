@@ -3,11 +3,10 @@
 #include "GameObject.h"
 #include "../Engine/Core/CountdownTimer.h"
 
-class Player;
-
 class Enemy : public DynamicGameObject
 {
 public:
+	Enemy(int maxLives = 1);
 	Enemy(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, int maxLives = 1);
 	~Enemy() override = default;
 

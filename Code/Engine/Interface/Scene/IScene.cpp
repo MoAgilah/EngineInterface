@@ -9,24 +9,34 @@
 
 bool IScene::Initialise()
 {
-	if (!AddEnemies())
-		throw std::runtime_error("IScene::Initialise - AddEnemies() failed");
-
-	if (!AddGUI())
-		throw std::runtime_error("IScene::Initialise - AddGUI() failed");
-
 	if (!AddObjects())
 		throw std::runtime_error("IScene::Initialise - AddObjects() failed");
 
+	if (!AddEnemies())
+		throw std::runtime_error("IScene::Initialise - AddEnemies() failed");
+
 	if (!AddForeGroundObjects())
 		throw std::runtime_error("IScene::Initialise - AddForeGroundObjects() failed");
+
+	if (!AddGUI())
+		throw std::runtime_error("IScene::Initialise - AddGUI() failed");
 
 	return true;
 }
 
 void IScene::Update(float deltaTime)
 {
-	UpdateGUI(deltaTime);
+	for (auto& [id, object] : m_objects)
+	{
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
+
+		if (!object->GetActive())
+			continue;
+
+		object->Update(deltaTime);
+	}
 
 	for (auto& [id, enemy] : m_enemies)
 	{
@@ -40,6 +50,28 @@ void IScene::Update(float deltaTime)
 		enemy->Update(deltaTime);
 	}
 
+	for (auto& [id, object] : m_foregroundObjects)
+	{
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'foreground object' with key {}", id)))
+			continue;
+
+		if (!object->GetActive())
+			continue;
+
+		object->Update(deltaTime);
+	}
+
+	UpdateGUI(deltaTime);
+}
+
+void IScene::Render(IRenderer* renderer)
+{
+	if (!CheckNotNull(m_backgroundSpr.get(), "Invalid Pointer 'm_backgroundSpr' from GameManager::Get()"))
+		return;
+
+	m_backgroundSpr->Render(renderer);
+
 	for (auto& [id, object] : m_objects)
 	{
 		if (!CheckNotNull(object.get(),
@@ -49,16 +81,8 @@ void IScene::Update(float deltaTime)
 		if (!object->GetActive())
 			continue;
 
-		object->Update(deltaTime);
+		object->Render(renderer);
 	}
-}
-
-void IScene::Render(IRenderer* renderer)
-{
-	if (!CheckNotNull(m_backgroundSpr.get(), "Invalid Pointer 'm_backgroundSpr' from GameManager::Get()"))
-		return;
-
-	m_backgroundSpr->Render(renderer);
 
 	for (auto& [id, enemy] : m_enemies)
 	{
@@ -72,10 +96,10 @@ void IScene::Render(IRenderer* renderer)
 		enemy->Render(renderer);
 	}
 
-	for (auto& [id, object] : m_objects)
+	for (auto& [id, object] : m_foregroundObjects)
 	{
 		if (!CheckNotNull(object.get(),
-			std::format("Invalid Pointer 'object' with key {}", id)))
+			std::format("Invalid Pointer 'foreground object' with key {}", id)))
 			continue;
 
 		if (!object->GetActive())
@@ -83,6 +107,8 @@ void IScene::Render(IRenderer* renderer)
 
 		object->Render(renderer);
 	}
+
+	RenderGUI(renderer);
 
 	if (GameConstants::DRender)
 	{
@@ -98,8 +124,6 @@ void IScene::Render(IRenderer* renderer)
 
 		gameMgr->GetCamera()->RenderDebug(renderer);
 	}
-
-	RenderGUI(renderer);
 }
 
 void IScene::ResetScene()
@@ -108,6 +132,15 @@ void IScene::ResetScene()
 		m_objects.erase(key);
 
 	m_spawnedObjKeys.clear();
+
+	for (auto& [id, object] : m_objects)
+	{
+		if (!CheckNotNull(object.get(),
+			std::format("Invalid Pointer 'object' with key {}", id)))
+			continue;
+
+		object->Reset();
+	}
 
 	for (auto& [id, enemy] : m_enemies)
 	{
@@ -118,14 +151,16 @@ void IScene::ResetScene()
 		enemy->Reset();
 	}
 
-	for (auto& [id, object] : m_objects)
+	for (auto& [id, object] : m_foregroundObjects)
 	{
 		if (!CheckNotNull(object.get(),
-			std::format("Invalid Pointer 'object' with key {}", id)))
+			std::format("Invalid Pointer 'foreground object' with key {}", id)))
 			continue;
 
 		object->Reset();
 	}
+
+
 }
 
 void IScene::CheckIsInView()
@@ -179,6 +214,16 @@ GameObject* IScene::GetObjectByName(const std::string& name)
 	auto it = m_objects.find(name);
 
 	if (it != m_objects.end())
+		return it->second.get();
+
+	return nullptr;
+}
+
+GameObject* IScene::GetForegroundObjectByName(const std::string& name)
+{
+	auto it = m_foregroundObjects.find(name);
+
+	if (it != m_foregroundObjects.end())
 		return it->second.get();
 
 	return nullptr;

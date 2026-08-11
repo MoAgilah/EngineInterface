@@ -31,6 +31,7 @@ public:
 	virtual void SpawnGameObjectAt(const std::string& id, std::shared_ptr<GameObject> obj, const Vector2f& pos) = 0;
 
 	[[nodiscard]] GameObject* GetObjectByName(const std::string& name);
+	[[nodiscard]] GameObject* GetForegroundObjectByName(const std::string& name);
 	[[nodiscard]] Enemy* GetEnemyByName(const std::string& name);
 
 	[[nodiscard]] ISprite* GetGUISpriteByName(const std::string& name);
@@ -53,6 +54,12 @@ protected:
 	void EmplaceObjectOrThrow(const std::string& id, Args&&... args)
 	{
 		EmplaceSharedOrThrow<decltype(m_objects), T>(m_objects, id, std::forward<Args>(args)...);
+	}
+
+	template <class T, class... Args>
+	void EmplaceForegroundObjectOrThrow(const std::string& id, Args&&... args)
+	{
+		EmplaceSharedOrThrow<decltype(m_foregroundObjects), T>(m_foregroundObjects, id, std::forward<Args>(args)...);
 	}
 
 	template <class T, class... Args>
@@ -116,4 +123,5 @@ protected:
 	std::vector<std::string> m_spawnedObjKeys;
 	std::map<std::string, std::shared_ptr<Enemy>> m_enemies;
 	std::map<std::string, std::shared_ptr<GameObject>> m_objects;
+	std::map <std::string, std::shared_ptr<GameObject>> m_foregroundObjects;
 };
