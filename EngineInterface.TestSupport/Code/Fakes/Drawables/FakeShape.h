@@ -11,8 +11,11 @@ template<typename TShape>
 class FakeShape : public FakeDrawable<TShape>, public IShape
 {
 public:
-	void Update(const Vector2f& pos) {}
-	virtual void Render(IRenderer* renderer) {}
+
+	void Render (IRenderer* renderer) override
+	{
+		renderCount++;
+	}
 
 	void SetRotation(float rotation) {}
 
@@ -25,6 +28,9 @@ public:
 	float GetOutlineThickness() { return 0.0f; }
 	void SetOutlineThickness(float scale) {}
 
+public:
+
+	int renderCount = 0;
 };
 
 class FakeTriangle : public FakeShape<FakeTriangle>, public ITriangleShape
@@ -43,7 +49,11 @@ public:
 	}
 
 	void Update(const Vector2f& pos) override {}
-	void Render(IRenderer* renderer) override {}
+
+	void Render(IRenderer* renderer) override
+	{
+		FakeShape<FakeTriangle>::Render(renderer);
+	}
 
 	void Reset(const std::array<Vector2f, 3>& points)
 	{
@@ -96,7 +106,10 @@ public:
 		this->SetCenter(GetPosition());
 	}
 
-	void Render(IRenderer* renderer) {}
+	void Render(IRenderer* renderer) override
+	{
+		FakeShape<FakeBox>::Render(renderer);
+	}
 
 	void Reset(const Vector2f& size)
 	{
@@ -140,7 +153,7 @@ public:
 
 	void Render(IRenderer* renderer) override
 	{
-
+		FakeShape<FakeCircle>::Render(renderer);
 	}
 
 	void Reset(float radius)
@@ -211,7 +224,7 @@ public:
 
 	void Render(IRenderer* renderer) override
 	{
-
+		FakeShape<FakeCapsule>::Render(renderer);
 	}
 
 	void Reset(float radius, float length, float angle)

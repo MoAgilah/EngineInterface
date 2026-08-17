@@ -9,6 +9,10 @@ public:
 	FakeSprite(const std::string& texId)
 	{
 		SetTexture(texId);
+
+        const auto texSize = GetTextureSize();
+        SetOrigin(Vector2f(static_cast<float>(texSize.x), static_cast<float>(texSize.y)) * 0.5f);
+
         renderId = texId;
 	}
 
@@ -36,7 +40,7 @@ public:
 
 	void SetDirection(bool dir) override {}
 
-	virtual Vector2u GetTextureSize() const override { return Vector2u(); }
+	virtual Vector2u GetTextureSize() const override { return Vector2u(16, 16); }
 	virtual void SetTextureRect(const IntRect& rect) override {}
 
 public:
