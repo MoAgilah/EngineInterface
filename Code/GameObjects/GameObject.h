@@ -23,13 +23,15 @@ public:
 	virtual float GetRestitution() { return m_restitution; }
 	virtual void SetRestitution(float restitution) { m_restitution = restitution; }
 
-	Vector2f GetPosition() const { return m_drawable->GetPosition(); }
-	void SetPosition(const Vector2f& pos) { m_drawable->SetPosition(pos); }
-	void SetPosition(float x, float y) { m_drawable->SetPosition({ x, y }); }
-	Vector2f GetOrigin() const { return m_drawable->GetOrigin(); }
+	Vector2f GetPosition() const;
+	void SetPosition(const Vector2f& pos);
+	void SetPosition(float x, float y);
+	Vector2f GetOrigin() const;
 	void SetScale(const Vector2f& scale);
-	Vector2f GetScale() const { return m_drawable->GetScale(); }
+	Vector2f GetScale() const;
 
+	bool GetInitialActive() const { return m_spawnData.initialActive; }
+	void SetInitialActive(bool act) { m_spawnData.initialActive = act; }
 	bool GetInitialDirection() const { return m_spawnData.initialDir; }
 	void SetInitialDirection(bool dir) { m_spawnData.initialDir = dir; }
 	Vector2f GetInitialPosition() const { return m_spawnData.initialPos; }
@@ -81,5 +83,5 @@ public:
 
 protected:
 
-	Vector2f m_previousPos;
+	Vector2f m_previousPos = Vector2f();
 };

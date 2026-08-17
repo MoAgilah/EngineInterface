@@ -43,10 +43,16 @@ void Box::WasJustHit()
 
 void Box::Init(const Vector2f& initPos)
 {
+	SetInitialActive(true);
+	SetActive(GetInitialActive());
 	SetInitialDirection(true);
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
+
+	auto* drawable = GetDrawable();
+	if (!CheckNotNull(drawable, "Invalid Pointer 'drawable' from GetDrawable()"))
+		return;
 
 	auto* volume = GetVolume();
 	if (!CheckNotNull(volume, "Invalid Pointer 'volume' from GetVolume()"))

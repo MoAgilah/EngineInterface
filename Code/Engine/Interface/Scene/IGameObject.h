@@ -6,6 +6,7 @@
 
 struct SpawnData
 {
+	bool initialActive = false;
 	bool initialDir = true;
 	Vector2f initialPos;
 };

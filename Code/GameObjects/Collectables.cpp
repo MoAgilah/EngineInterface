@@ -11,15 +11,22 @@ StaticCollectable::StaticCollectable(std::shared_ptr<IDrawable> drawable, std::s
 
 void StaticCollectable::Init(const Vector2f& initPos)
 {
+	SetInitialActive(true);
+	SetActive(GetInitialActive());
 	SetInitialDirection(true);
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
 
-	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+	auto* drawable = GetDrawable();
+	if (!CheckNotNull(drawable, "Invalid Pointer 'drawable' from GetDrawable()"))
 		return;
 
-	m_volume->Update(GetPosition());
+	auto* volume = GetVolume();
+	if (!CheckNotNull(volume, "Invalid Pointer 'volume' from GetVolume()"))
+		return;
+
+	volume->Update(GetPosition());
 }
 
 void StaticCollectable::OnCollisionEnter(IGameObject* obj)
@@ -49,15 +56,22 @@ DynamicCollectable::DynamicCollectable(std::shared_ptr<IDrawable> drawable, std:
 
 void DynamicCollectable::Init(const Vector2f& initPos)
 {
+	SetInitialActive(true);
+	SetActive(GetInitialActive());
 	SetInitialDirection(true);
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
 
-	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+	auto* drawable = GetDrawable();
+	if (!CheckNotNull(drawable, "Invalid Pointer 'drawable' from GetDrawable()"))
 		return;
 
-	m_volume->Update(GetPosition());
+	auto* volume = GetVolume();
+	if (!CheckNotNull(volume, "Invalid Pointer 'volume' from GetVolume()"))
+		return;
+
+	volume->Update(GetPosition());
 }
 
 void DynamicCollectable::OnCollisionEnter(IGameObject* obj)
