@@ -38,7 +38,10 @@ public:
 		return true;
 	}
 
-	void SetDirection(bool dir) override {}
+	void SetDirection(bool dir) override
+    {
+        direction = dir;
+    }
 
 	virtual Vector2u GetTextureSize() const override { return Vector2u(16, 16); }
 	virtual void SetTextureRect(const IntRect& rect) override {}
@@ -49,6 +52,8 @@ public:
     int updateCount = 0;
 
     float lastDeltaTime = 0.0f;
+
+    bool direction = true;
 
     std::vector<std::string>* renderLog = nullptr;
     std::string renderId = "sprite";

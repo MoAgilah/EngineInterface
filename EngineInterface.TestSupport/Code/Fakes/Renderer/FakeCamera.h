@@ -16,11 +16,12 @@ public:
 		return isInViewResult;
 	}
 
-	bool CheckVerticalBounds(IBoundingVolume* volume) override { return false; }
+	bool CheckVerticalBounds(IBoundingVolume* volume) override { return checkVerticalBounds; }
 
 public:
 
 	bool isInViewResult = true;
+	bool checkVerticalBounds = false;
 	int isInViewCallCount = 0;
 };
 

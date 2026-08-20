@@ -22,6 +22,9 @@ public:
 		SetDirection(GetInitialDirection());
 		SetPosition(GetInitialPosition());
 
+		if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+			throw std::invalid_argument("GameObject requires a valid volume");
+
 		m_volume->Update(GetPosition());
 	}
 
@@ -60,6 +63,9 @@ public:
 		SetActive(GetInitialActive());
 		SetDirection(GetInitialDirection());
 		SetPosition(GetInitialPosition());
+
+		if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+			throw std::invalid_argument("DynamicGameObject requires a valid volume");
 
 		m_volume->Update(GetPosition());
 	}

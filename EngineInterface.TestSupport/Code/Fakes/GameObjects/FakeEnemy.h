@@ -24,7 +24,8 @@ public:
 
 		this->SetTypeIndex(typeid(FakeEnemy));
 
-		SetActive(active);
+		this->SetInitialActive(active);
+		this->SetActive(GetInitialActive());
 
 		this->renderId = id;
 	}
@@ -49,16 +50,11 @@ public:
 		Enemy::Reset();
 	}
 
-	void Die() override
-	{
-		dieCalled = true;
-	}
+	void Die() override {}
 
-	void Animate(float deltaTime) override
-	{
-		animateCount++;
-		lastAnimateDeltaTime = deltaTime;
-	}
+protected:
+
+	void Animate(float deltaTime) override {}
 
 public:
 

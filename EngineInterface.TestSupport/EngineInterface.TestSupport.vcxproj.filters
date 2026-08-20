@@ -114,6 +114,12 @@
     <ClInclude Include="Code\Fakes\GameObjects\TestableGameObject.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\GameObjects\TestableCollectables.h">
+      <Filter>Header Files\Fakes\GameObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\GameObjects\TestableEnemy.h">
+      <Filter>Header Files\Fakes\GameObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
