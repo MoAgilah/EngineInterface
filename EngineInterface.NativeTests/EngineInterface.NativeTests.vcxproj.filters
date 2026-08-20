@@ -120,5 +120,14 @@
     <ClCompile Include="Code\GameObjects\GameObjectTests.cpp">
       <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
+    <ClCompile Include="Code\GameObjects\BoxTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\CollectableTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\EnemyTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

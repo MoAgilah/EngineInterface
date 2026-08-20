@@ -180,6 +180,9 @@
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManagerTests.cpp" />
     <ClCompile Include="Code\Engine\Scene\SceneTests.cpp" />
+    <ClCompile Include="Code\GameObjects\BoxTests.cpp" />
+    <ClCompile Include="Code\GameObjects\CollectableTests.cpp" />
+    <ClCompile Include="Code\GameObjects\EnemyTests.cpp" />
     <ClCompile Include="Code\GameObjects\GameObjectTests.cpp" />
     <ClCompile Include="Code\Utilities\ColourTests.cpp" />
     <ClCompile Include="Code\Utilities\EnumUtilsTests.cpp" />
