@@ -324,6 +324,9 @@
     <ClInclude Include="Code\Utilities\ShapeMath.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Scene\ICollectable.h">
+      <Filter>Header Files\Engine\Interface\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">

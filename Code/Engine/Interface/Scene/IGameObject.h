@@ -27,7 +27,7 @@ public:
 	virtual ~IGameObject() = default;
 
 	void SetTypeIndex(const std::type_index& type) { m_dynType = type; }
-	std::type_index GetTypeIndex() { return m_dynType; }
+	std::type_index GetTypeIndex() const { return m_dynType; }
 	int GetObjectNum() const { return m_objectID; }
 	virtual bool IsDynamicObject() { return false; }
 
@@ -50,6 +50,16 @@ public:
 	virtual bool GetDirection() const { return m_direction; }
 	virtual void SetDirection(bool dir) { m_direction = dir; }
 
+	virtual Vector2f GetPosition() const = 0;
+	virtual void SetPosition(const Vector2f& pos) = 0;
+
+	bool GetInitialActive() const { return m_spawnData.initialActive; }
+	void SetInitialActive(bool act) { m_spawnData.initialActive = act; }
+	bool GetInitialDirection() const { return m_spawnData.initialDir; }
+	void SetInitialDirection(bool dir) { m_spawnData.initialDir = dir; }
+	Vector2f GetInitialPosition() const { return m_spawnData.initialPos; }
+	void SetInitialPosition(const Vector2f& pos) { m_spawnData.initialPos = pos; }
+
 protected:
 
 	int m_objectID = 0;
@@ -57,6 +67,7 @@ protected:
 	std::string m_typeID;
 	bool m_active = false;
 	bool m_direction = true;
+	SpawnData m_spawnData;
 	std::type_index m_dynType = typeid(*this);
 };
 

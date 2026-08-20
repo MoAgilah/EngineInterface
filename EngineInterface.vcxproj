@@ -49,6 +49,7 @@
     <ClInclude Include="Code\Engine\Interface\Resources\IShader.h" />
     <ClInclude Include="Code\Engine\Interface\Resources\ISound.h" />
     <ClInclude Include="Code\Engine\Interface\Resources\ITexture.h" />
+    <ClInclude Include="Code\Engine\Interface\Scene\ICollectable.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IGameObject.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IGameState.h" />
     <ClInclude Include="Code\Engine\Interface\Scene\IScene.h" />

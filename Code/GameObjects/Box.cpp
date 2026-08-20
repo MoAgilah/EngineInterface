@@ -1,5 +1,6 @@
 #include "Box.h"
 
+#include "../Engine/Core/CountdownTimer.h"
 #include "../Engine/Core/GameManager.h"
 #include "../Utilities/Guards.h"
 
@@ -7,6 +8,10 @@ Box::Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> v
 	: GameObject(std::move(drawable), std::move(volume))
 {
 	Init(initPos);
+}
+
+void Box::Update(float deltaTime)
+{
 }
 
 void Box::OnCollisionEnter(IGameObject* obj)
