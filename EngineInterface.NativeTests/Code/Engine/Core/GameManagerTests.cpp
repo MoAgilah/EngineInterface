@@ -118,7 +118,7 @@ namespace Engine
             {
                 GameManager gm;
 
-                gm.InitInputManager(std::make_shared<FakeKeyConverter>());
+                gm.SetInputManager(std::make_shared<InputManager>(std::make_shared<FakeKeyConverter>()));
 
                 Assert::IsNotNull(gm.GetInputManager());
             }
@@ -138,7 +138,7 @@ namespace Engine
             {
                 GameManager gm;
 
-                gm.SetICollisionManager(std::make_shared<ICollisionManager>(nullptr));
+                gm.SetCollisionManager(std::make_shared<ICollisionManager>(nullptr));
 
                 Assert::IsNotNull(gm.GetCollisionMgr());
             }
@@ -158,7 +158,7 @@ namespace Engine
             {
                 GameManager gm;
 
-                gm.SetICollisionManager(std::make_shared<ICollisionManager>(nullptr));
+                gm.SetCollisionManager(std::make_shared<ICollisionManager>(nullptr));
 
                 gm.CheckInView();
             }
@@ -168,7 +168,7 @@ namespace Engine
                 GameManager gm;
 
                 gm.SetCamera(std::make_shared<FakeCamera>());
-                gm.SetICollisionManager(std::make_shared<ICollisionManager>(nullptr));
+                gm.SetCollisionManager(std::make_shared<ICollisionManager>(nullptr));
 
                 gm.CheckInView();
             }
@@ -181,7 +181,7 @@ namespace Engine
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
-                gm.SetICollisionManager(
+                gm.SetCollisionManager(
                     std::make_shared<ICollisionManager>(grid)
                 );
 
@@ -208,7 +208,7 @@ namespace Engine
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
-                gm.SetICollisionManager(
+                gm.SetCollisionManager(
                     std::make_shared<ICollisionManager>(grid)
                 );
 
@@ -224,7 +224,7 @@ namespace Engine
 
                 auto grid = std::make_shared<FakeGrid>(2, 10);
 
-                gm.SetICollisionManager(
+                gm.SetCollisionManager(
                     std::make_shared<ICollisionManager>(grid)
                 );
 

@@ -24,7 +24,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Constructor_SetsLivesToMaxLives)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			int maxLives = 1;
 
@@ -40,7 +40,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetActive_WhenAliveAndBaseActive_ReturnsTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool active = true;
 
@@ -52,7 +52,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetActive_WhenDead_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool active = true;
 
@@ -70,7 +70,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetActive_WhenBaseInactive_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool active = true;
 
@@ -90,7 +90,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_HasLifes_WhenLivesRemain_ReturnsTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -100,7 +100,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_DecrementLife_DecrementsLives)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -114,7 +114,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_DecrementLife_WhenLivesRemain_DoesNotCallDie)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 2);
 
@@ -128,7 +128,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_DecrementLife_WhenLivesReachZero_CallsDie)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -142,7 +142,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_DecrementLife_WhenAlreadyZero_DoesNotCallDieAgain)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -160,7 +160,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_HasLifes_WhenLivesReachZero_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -178,7 +178,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetIsAlive_ReturnsDefaultTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -192,7 +192,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetAirbourne_ReturnsDefaultFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -202,7 +202,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetAirbourne_UpdatesAirbourne)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -220,7 +220,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetInvulnerable_ReturnsDefaultFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -230,7 +230,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetInvulnerability_UpdatesInvulnerability)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -248,7 +248,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetSpeedX_ReturnsDefault)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -258,7 +258,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetSpeedX_UpdatesSpeedX)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -270,7 +270,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetSpeedY_ReturnsDefault)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -280,7 +280,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetSpeedY_UpdatesSpeedY)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -296,7 +296,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetDirection_ReturnsDefault)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -308,7 +308,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetDirection_UpdatesDirection)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -322,7 +322,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetDirectionTrue_SetsPositiveXVelocity)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = false;
 
@@ -342,7 +342,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetDirectionFalse_SetsNegativeXVelocity)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -362,7 +362,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetDirection_WithSprite_UpdatesSpriteDirection)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -386,7 +386,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetDirection_WithNonSpriteDrawable_DoesNotThrow)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -403,7 +403,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_GetAirTimer_ReturnsTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -413,7 +413,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetAirTime_UpdatesAirTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -435,7 +435,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_SetTimeLeftActive_UpdatesActivationTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -457,7 +457,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_PerformsDynamicGameObjectReset)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -478,7 +478,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_SetsAliveTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -496,7 +496,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_RestoresLivesToMaxLives)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -512,7 +512,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_SetsResetAllowedFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -528,7 +528,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_SetsInvulnerableFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -544,7 +544,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_RestartsResetTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -569,7 +569,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Reset_RestartsActivationTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -598,7 +598,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenActive_CallsAnimate)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -612,7 +612,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenActive_PassesDeltaTimeToAnimate)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -626,7 +626,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenActiveAndHasLives_DoesNotKillEnemy)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -639,7 +639,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenActiveAndNoLives_UpdatesActivationTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -659,7 +659,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenActivationTimerEnds_SetsAliveFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -683,7 +683,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenInactive_FirstEnablesReset)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -699,7 +699,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenInactive_UpdatesResetTimer)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -721,7 +721,7 @@ namespace GameObjects
 
 			{
 				GameManager gm;
-				gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+				gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 				enmy = std::make_shared<TestableEnemy>(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 			}
@@ -745,7 +745,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenResetTimerEnds_WithoutCamera_DoesNothing)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableEnemy enmy(std::make_shared<FakeBox>(), std::make_shared<FakeBoundingBox>(), true, true, Vector2f(16.f, 16.f), 1);
 
@@ -766,7 +766,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenResetTimerEndsAndCameraBoundsTrue_CallsReset)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto cam = std::make_shared<FakeCamera>();
 			cam->checkVerticalBounds = true;
@@ -794,7 +794,7 @@ namespace GameObjects
 		TEST_METHOD(Enemy_Update_WhenResetTimerEndsAndCameraBoundsFalse_DoesNotReset)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto cam = std::make_shared<FakeCamera>();
 			cam->checkVerticalBounds = false;

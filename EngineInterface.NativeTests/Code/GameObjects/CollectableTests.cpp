@@ -24,7 +24,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsInitialActiveTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -34,7 +34,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsActiveTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -44,7 +44,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsInitialDirectionTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -54,7 +54,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsDirectionTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -64,7 +64,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsInitialPosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -77,7 +77,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_SetsPosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -90,7 +90,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Constructor_UpdatesVolumePosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -109,7 +109,7 @@ namespace GameObjects
 		TEST_METHOD(ICollectable_InitCollectable_WithNullObject_DoesNothing)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -121,7 +121,7 @@ namespace GameObjects
 		TEST_METHOD(ICollectable_InitCollectable_WithNullVolume_DoesNotThrow)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -137,7 +137,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_GetActive_WhenNotCollectedAndBaseActive_ReturnsTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -148,7 +148,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_GetActive_WhenCollected_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -160,7 +160,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_GetActive_WhenBaseInactive_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -177,7 +177,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Collect_SetsCollectedTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -191,7 +191,7 @@ namespace GameObjects
 		TEST_METHOD(StaticCollectable_Collect_ReceivesCollectingObject)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableStaticCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -209,7 +209,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_Constructor_DoesNotThrow)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 		}
@@ -217,7 +217,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_Constructor_InitialisesPosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -230,7 +230,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_Constructor_UpdatesVolumePosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -250,7 +250,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_GetActive_WhenNotCollectedAndBaseActive_ReturnsTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -261,7 +261,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_GetActive_WhenCollected_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -273,7 +273,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_GetActive_WhenBaseInactive_ReturnsFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -290,7 +290,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_Collect_SetsCollectedTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -304,7 +304,7 @@ namespace GameObjects
 		TEST_METHOD(DynamicCollectable_Collect_ReceivesCollectingObject)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicCollectable col(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 

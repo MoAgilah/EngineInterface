@@ -79,7 +79,7 @@ namespace GameObjects
 			TestableGameObject::s_objectNum = 0;
 
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go1(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableGameObject go2(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -91,7 +91,7 @@ namespace GameObjects
 		TEST_METHOD(GameObject_Constructor_AppliesGameScale)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -105,7 +105,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 			auto colMgr = std::make_shared<FakeCollisionManager>(nullptr);
-			gm.SetICollisionManager(colMgr);
+			gm.SetCollisionManager(colMgr);
 
 			Assert::IsTrue(colMgr->GetCollidables().empty());
 
@@ -126,7 +126,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 			auto colMgr = std::make_shared<FakeCollisionManager>(nullptr);
-			gm.SetICollisionManager(colMgr);
+			gm.SetCollisionManager(colMgr);
 
 			Assert::IsTrue(colMgr->GetCollidables().empty());
 
@@ -153,7 +153,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -179,7 +179,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 			gm.SetRenderer(std::make_shared<FakeRenderer>());
 
 			auto spr = std::make_shared<FakeSprite>("Obj1");
@@ -198,7 +198,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 			gm.SetRenderer(std::make_shared<FakeRenderer>());
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
@@ -212,7 +212,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 			gm.SetRenderer(std::make_shared<FakeRenderer>());
 
 			auto box = std::make_shared<FakeBoundingBox>();
@@ -239,7 +239,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -250,7 +250,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go1(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableGameObject go2(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -264,7 +264,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go1(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableGameObject go2(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -278,7 +278,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -294,7 +294,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go1(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -323,7 +323,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -336,7 +336,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -352,7 +352,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -368,7 +368,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -386,7 +386,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -405,7 +405,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -426,7 +426,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -459,7 +459,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -484,7 +484,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -516,7 +516,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -546,7 +546,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -565,7 +565,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -602,7 +602,7 @@ namespace GameObjects
 		TEST_METHOD(GameObject_GetDrawable_ReturnsDrawable)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -623,7 +623,7 @@ namespace GameObjects
 		TEST_METHOD(GameObject_GetVolume_ReturnsVolume)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -648,7 +648,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -680,7 +680,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -702,7 +702,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -738,7 +738,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -772,7 +772,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -804,7 +804,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(
+			gm.SetCollisionManager(
 				std::make_shared<FakeCollisionManager>(nullptr)
 			);
 
@@ -847,7 +847,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -869,7 +869,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -899,7 +899,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -916,7 +916,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -939,7 +939,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -958,7 +958,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool dir = true;
 
@@ -983,7 +983,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Vector2f pos = Vector2f(16.f, 32.f);
 
@@ -1005,7 +1005,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Vector2f pos = Vector2f(16.f, 32.f);
 
@@ -1033,7 +1033,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool act = false;
 
@@ -1052,7 +1052,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			bool act = false;
 
@@ -1082,7 +1082,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1112,7 +1112,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -1123,7 +1123,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -1137,7 +1137,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableGameObject go(std::make_shared<FakeSprite>("Obj2"), std::make_shared<FakeBoundingBox>());
@@ -1151,7 +1151,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box1 = std::make_shared<FakeBoundingBox>();
 			auto box2 = std::make_shared<FakeBoundingBox>();
@@ -1171,7 +1171,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(
 				std::make_shared<FakeSprite>("Obj2"),
@@ -1202,7 +1202,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 
@@ -1215,7 +1215,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo1(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableDynamicGameObject dgo2(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
@@ -1231,7 +1231,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo1(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
 			TestableDynamicGameObject dgo2(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>());
@@ -1247,7 +1247,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -1265,7 +1265,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -1286,7 +1286,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			auto box = std::make_shared<FakeBoundingBox>();
 
@@ -1307,7 +1307,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject dgo1(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1341,7 +1341,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1383,7 +1383,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1412,7 +1412,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1451,7 +1451,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(
+			gm.SetCollisionManager(
 				std::make_shared<FakeCollisionManager>(nullptr)
 			);
 
@@ -1489,7 +1489,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1511,7 +1511,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1533,7 +1533,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1559,7 +1559,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1594,7 +1594,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1614,7 +1614,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1636,7 +1636,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(
+			gm.SetCollisionManager(
 				std::make_shared<FakeCollisionManager>(nullptr)
 			);
 
@@ -1666,7 +1666,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1683,7 +1683,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1702,7 +1702,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1723,7 +1723,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1748,7 +1748,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1765,7 +1765,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1785,7 +1785,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
@@ -1806,7 +1806,7 @@ namespace GameObjects
 		{
 			GameManager gm;
 
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			TestableDynamicGameObject go(
 				std::make_shared<FakeSprite>("Obj1"),
