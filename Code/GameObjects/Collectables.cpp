@@ -11,15 +11,7 @@ StaticCollectable::StaticCollectable(std::shared_ptr<IDrawable> drawable, std::s
 
 void StaticCollectable::Init(const Vector2f& initPos)
 {
-	SetInitialDirection(true);
-	SetDirection(GetInitialDirection());
-	SetInitialPosition(initPos);
-	SetPosition(GetInitialPosition());
-
-	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
-		return;
-
-	m_volume->Update(GetPosition());
+	InitCollectable(this, initPos);
 }
 
 void StaticCollectable::OnCollisionEnter(IGameObject* obj)
@@ -49,15 +41,7 @@ DynamicCollectable::DynamicCollectable(std::shared_ptr<IDrawable> drawable, std:
 
 void DynamicCollectable::Init(const Vector2f& initPos)
 {
-	SetInitialDirection(true);
-	SetDirection(GetInitialDirection());
-	SetInitialPosition(initPos);
-	SetPosition(GetInitialPosition());
-
-	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
-		return;
-
-	m_volume->Update(GetPosition());
+	InitCollectable(this, initPos);
 }
 
 void DynamicCollectable::OnCollisionEnter(IGameObject* obj)

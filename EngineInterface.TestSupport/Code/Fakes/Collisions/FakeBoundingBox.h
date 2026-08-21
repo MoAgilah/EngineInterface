@@ -18,6 +18,16 @@ public:
     {
     }
 
+    bool Intersects(IBoundingVolume* v) override
+    {
+        if (!v)
+            return false;
+
+        intersectsCalled = true;
+
+        return true;
+    }
+
     bool IntersectsMoving(
         IBoundingVolume* v,
         const Vector2f& va,
@@ -27,6 +37,9 @@ public:
     {
         if (!v)
             return false;
+
+        testerVel = va;
+        testeeVel = vb;
 
         intersectsMovingCalled = true;
 
@@ -38,5 +51,8 @@ public:
 
 public:
 
+    bool intersectsCalled = false;
     bool intersectsMovingCalled = false;
+    Vector2f testerVel;
+    Vector2f testeeVel;
 };

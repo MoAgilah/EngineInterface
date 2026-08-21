@@ -1,5 +1,6 @@
 #include "Box.h"
 
+#include "../Engine/Core/CountdownTimer.h"
 #include "../Engine/Core/GameManager.h"
 #include "../Utilities/Guards.h"
 
@@ -7,6 +8,10 @@ Box::Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> v
 	: GameObject(std::move(drawable), std::move(volume))
 {
 	Init(initPos);
+}
+
+void Box::Update(float deltaTime)
+{
 }
 
 void Box::OnCollisionEnter(IGameObject* obj)
@@ -43,10 +48,16 @@ void Box::WasJustHit()
 
 void Box::Init(const Vector2f& initPos)
 {
+	SetInitialActive(true);
+	SetActive(GetInitialActive());
 	SetInitialDirection(true);
 	SetDirection(GetInitialDirection());
 	SetInitialPosition(initPos);
 	SetPosition(GetInitialPosition());
+
+	auto* drawable = GetDrawable();
+	if (!CheckNotNull(drawable, "Invalid Pointer 'drawable' from GetDrawable()"))
+		return;
 
 	auto* volume = GetVolume();
 	if (!CheckNotNull(volume, "Invalid Pointer 'volume' from GetVolume()"))

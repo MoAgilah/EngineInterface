@@ -1,13 +1,15 @@
 #pragma once
 
 #include "GameObject.h"
-#include "../Engine/Core/CountdownTimer.h"
+
 
 class Box : public GameObject
 {
 public:
 	Box(std::shared_ptr<IDrawable> drawable, std::shared_ptr<IBoundingVolume> volume, const Vector2f& initPos);
 	~Box() override = default;
+
+	void Update(float deltaTime) override;
 
 	void OnCollisionEnter(IGameObject* obj);
 	void OnCollisionStay(IGameObject* obj);

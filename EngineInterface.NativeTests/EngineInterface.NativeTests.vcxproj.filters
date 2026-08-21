@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Engine\Scene">
       <UniqueIdentifier>{e6983c94-5cf4-41e9-accb-3403593f6e9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GameObjects">
+      <UniqueIdentifier>{a4e841df-6e0d-45e0-80a0-8cf619f69e01}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -113,6 +116,18 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Scene\SceneTests.cpp">
       <Filter>Source Files\Engine\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\GameObjectTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\BoxTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\CollectableTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\GameObjects\EnemyTests.cpp">
+      <Filter>Source Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -44,7 +44,7 @@ public:
 	float GetSpeedX() { return m_speed.x; }
 	float GetSpeedY() { return m_speed.y; }
 
-private:
+protected:
 
 	virtual void Animate(float deltaTime) = 0;
 

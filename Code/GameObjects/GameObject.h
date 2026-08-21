@@ -23,22 +23,16 @@ public:
 	virtual float GetRestitution() { return m_restitution; }
 	virtual void SetRestitution(float restitution) { m_restitution = restitution; }
 
-	Vector2f GetPosition() const { return m_drawable->GetPosition(); }
-	void SetPosition(const Vector2f& pos) { m_drawable->SetPosition(pos); }
-	void SetPosition(float x, float y) { m_drawable->SetPosition({ x, y }); }
-	Vector2f GetOrigin() const { return m_drawable->GetOrigin(); }
+	Vector2f GetPosition() const override;
+	void SetPosition(const Vector2f& pos) override;
+	void SetPosition(float x, float y);
+	Vector2f GetOrigin() const;
 	void SetScale(const Vector2f& scale);
-	Vector2f GetScale() const { return m_drawable->GetScale(); }
-
-	bool GetInitialDirection() const { return m_spawnData.initialDir; }
-	void SetInitialDirection(bool dir) { m_spawnData.initialDir = dir; }
-	Vector2f GetInitialPosition() const { return m_spawnData.initialPos; }
-	void SetInitialPosition(const Vector2f& pos) { m_spawnData.initialPos = pos; }
+	Vector2f GetScale() const;
 
 protected:
 
 	float m_restitution = 1;
-	SpawnData m_spawnData;
 	std::shared_ptr<IDrawable> m_drawable;
 	std::shared_ptr<IBoundingVolume> m_volume;
 };
@@ -65,6 +59,16 @@ public:
 	void Move(float x, float y) override;
 	void Move(const Vector2f& mov) override;
 
+	Vector2f GetPosition() const override
+	{
+		return GameObject::GetPosition();
+	}
+
+	void SetPosition(const Vector2f& pos) override
+	{
+		GameObject::SetPosition(pos);
+	}
+
 	void SetPrevPosition(Vector2f pos) { m_previousPos = pos; }
 	void SetPrevPosition(float x, float y) { m_previousPos = Vector2f(x, y); }
 	Vector2f GetPrevPosition() const { return m_previousPos; }
@@ -81,5 +85,5 @@ public:
 
 protected:
 
-	Vector2f m_previousPos;
+	Vector2f m_previousPos = Vector2f();
 };

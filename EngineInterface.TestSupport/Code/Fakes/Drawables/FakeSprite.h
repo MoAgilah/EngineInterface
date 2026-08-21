@@ -9,6 +9,10 @@ public:
 	FakeSprite(const std::string& texId)
 	{
 		SetTexture(texId);
+
+        const auto texSize = GetTextureSize();
+        SetOrigin(Vector2f(static_cast<float>(texSize.x), static_cast<float>(texSize.y)) * 0.5f);
+
         renderId = texId;
 	}
 
@@ -34,9 +38,12 @@ public:
 		return true;
 	}
 
-	void SetDirection(bool dir) override {}
+	void SetDirection(bool dir) override
+    {
+        direction = dir;
+    }
 
-	virtual Vector2u GetTextureSize() const override { return Vector2u(); }
+	virtual Vector2u GetTextureSize() const override { return Vector2u(16, 16); }
 	virtual void SetTextureRect(const IntRect& rect) override {}
 
 public:
@@ -45,6 +52,8 @@ public:
     int updateCount = 0;
 
     float lastDeltaTime = 0.0f;
+
+    bool direction = true;
 
     std::vector<std::string>* renderLog = nullptr;
     std::string renderId = "sprite";

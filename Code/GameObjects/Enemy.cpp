@@ -32,7 +32,7 @@ void Enemy::Update(float deltaTime)
     {
         if (!m_resetAllowed)
         {
-            m_resetTimer.SetCurrTime(1);
+            m_resetTimer.RestartTimer();
             m_resetAllowed = true;
         }
 
@@ -46,7 +46,7 @@ void Enemy::Update(float deltaTime)
                     return;
 
                 auto* camera = gameMgr->GetCamera();
-                if (!CheckNotNull(gameMgr, "Invalid Pointer 'camera' from gameMgr->GetCamera()"))
+                if (!CheckNotNull(camera, "Invalid Pointer 'camera' from gameMgr->GetCamera()"))
                     return;
 
                 if (camera->CheckVerticalBounds(GetVolume()))
@@ -107,16 +107,23 @@ void Enemy::SetDirection(bool dir)
 
 void Enemy::DecrementLife()
 {
-    if (--m_numLives == 0)
+    if (!HasLifes())
+        return;
+
+    --m_numLives;
+
+    if (!HasLifes())
         Die();
 }
 
 void Enemy::SetAirTime(float time)
 {
-    m_airTimer.SetCurrTime(time);
+    m_airTimer.SetMaxTime(time);
+    m_airTimer.RestartTimer();
 }
 
 void Enemy::SetTimeLeftActive(float time)
 {
-    m_activationTimer.SetCurrTime(time);
+    m_activationTimer.SetMaxTime(time);
+    m_activationTimer.RestartTimer();
 }

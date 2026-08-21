@@ -56,6 +56,7 @@ void GameObject::Render(IRenderer* renderer)
 		return;
 
 	m_drawable->Render(renderer);
+
 #if defined _DEBUG
 
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
@@ -73,6 +74,9 @@ bool GameObject::Intersects(IGameObject* obj)
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
 		return false;
 
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume'"))
+		return false;
+
 	return m_volume->Intersects(obj->GetVolume());
 }
 
@@ -84,19 +88,58 @@ bool GameObject::Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
 		return false;
 
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume'"))
+		return false;
+
 	return m_volume->IntersectsMoving(obj->GetVolume(), Vector2f(0, 0), obj->GetVelocity(), tFirst, tLast);
 }
 
 void GameObject::Reset()
 {
-	SetActive(m_active);
+	SetActive(GetInitialActive());
 	SetDirection(GetInitialDirection());
+
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return;
+
 	SetPosition(GetInitialPosition());
 
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
 		return;
 
 	m_volume->Update(GetPosition());
+}
+
+Vector2f GameObject::GetPosition() const
+{
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return Vector2f();
+
+	return m_drawable->GetPosition();
+}
+
+void GameObject::SetPosition(const Vector2f& pos)
+{
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return;
+
+	m_drawable->SetPosition(pos);
+}
+
+void GameObject::SetPosition(float x, float y)
+{
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return;
+
+	m_drawable->SetPosition({ x, y });
+}
+
+Vector2f GameObject::GetOrigin() const
+{
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return Vector2f();
+
+	return m_drawable->GetOrigin();
 }
 
 void GameObject::SetScale(const Vector2f& scale)
@@ -109,6 +152,14 @@ void GameObject::SetScale(const Vector2f& scale)
 
 	m_drawable->SetScale(scale);
 	m_volume->SetScale(scale);
+}
+
+Vector2f GameObject::GetScale() const
+{
+	if (!CheckNotNull(m_drawable.get(), "Invalid Pointer 'm_drawable'"))
+		return Vector2f();
+
+	return m_drawable->GetScale();
 }
 
 DynamicGameObject::DynamicGameObject()
@@ -125,6 +176,12 @@ bool DynamicGameObject::Intersects(IGameObject * obj)
 	if (!CheckNotNull(obj, "Invalid Pointer 'obj'"))
 		return false;
 
+	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+		return false;
+
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume'"))
+		return false;
+
 	float tFirst, tLast;
 	return obj->Intersects(this, tFirst, tLast);
 }
@@ -135,6 +192,9 @@ bool DynamicGameObject::Intersects(IDynamicGameObject* obj, float& tFirst, float
 		return false;
 
 	if (!CheckNotNull(m_volume.get(), "Invalid Pointer 'm_volume'"))
+		return false;
+
+	if (!CheckNotNull(obj->GetVolume(), "Invalid Pointer 'obj->GetVolume'"))
 		return false;
 
 	return m_volume->IntersectsMoving(obj->GetVolume(), GetVelocity(), obj->GetVelocity(), tFirst, tLast);

@@ -81,6 +81,7 @@ public:
 	void Reset() override
 	{
 		resetCount++;
+		Base::Reset();
 	}
 };
 
@@ -104,7 +105,8 @@ public:
 
 		this->SetTypeIndex(typeid(FakeGameObject));
 
-		this->SetActive(active);
+		this->SetInitialActive(active);
+		this->SetActive(GetInitialActive());
 	}
 };
 
@@ -128,6 +130,7 @@ public:
 
 		this->SetTypeIndex(typeid(FakeDynamicGameObject));
 
-		this->SetActive(active);
+		this->SetInitialActive(active);
+		this->SetActive(GetInitialActive());
 	}
 };
