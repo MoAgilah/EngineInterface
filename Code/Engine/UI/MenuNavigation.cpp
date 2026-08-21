@@ -31,11 +31,25 @@ void MenuNav::ChangeNavKeys(KeyCode ascKey, KeyCode desKey)
 void MenuNav::SetCursorRange(const std::vector<int>& cursorRange)
 {
 	m_cursorRange = cursorRange;
+
+	if (m_cursorRange.empty())
+	{
+		m_currCursorPos = s_InvalidPos;
+		m_prevCursorPos = s_InvalidPos;
+		return;
+	}
+
+	m_currCursorPos = m_cursorRange.front();
+	m_prevCursorPos = m_currCursorPos;
 }
 
 void MenuNav::SetCurrCursorPos(int currPos)
 {
-	if (currPos >= *(m_cursorRange.begin()) && currPos <= *(m_cursorRange.rbegin()))
+	if (m_cursorRange.empty())
+		return;
+
+	if (currPos >= *(m_cursorRange.begin()) &&
+		currPos <= *(m_cursorRange.rbegin()))
 	{
 		m_currCursorPos = currPos;
 	}
