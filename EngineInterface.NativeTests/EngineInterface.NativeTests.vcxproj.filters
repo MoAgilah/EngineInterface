@@ -37,6 +37,9 @@
     <Filter Include="Source Files\GameObjects">
       <UniqueIdentifier>{a4e841df-6e0d-45e0-80a0-8cf619f69e01}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\UI">
+      <UniqueIdentifier>{4265c925-659f-449a-a465-da97a626f577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -128,6 +131,9 @@
     </ClCompile>
     <ClCompile Include="Code\GameObjects\EnemyTests.cpp">
       <Filter>Source Files\GameObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\UI\MenuNavigationTests.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
