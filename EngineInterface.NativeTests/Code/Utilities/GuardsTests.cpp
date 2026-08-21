@@ -2,11 +2,11 @@
 
 #include <Utilities/Guards.h>
 #include <Utilities/Logger.h>
-#include <TestHelpers/TestFilesystemHelpers.h>
 #include <TestHelpers/TestDefaultLoggerHelper.h>
+#include <TestHelpers/TestFilesystemHelpers.h>
+#include <filesystem>
 #include <memory>
 #include <string>
-#include <filesystem>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
 
 #include <Engine/Collisions/BoundingBox.h>
-#include <Engine/Collisions/BoundingCircle.h>
 #include <Engine/Collisions/BoundingCapsule.h>
+#include <Engine/Collisions/BoundingCircle.h>
 #include <Fakes/Drawables/FakeShape.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

@@ -1,14 +1,14 @@
 #include "CppUnitTest.h"
 
-#include <Engine/Core/GameManager.h>
 #include <Engine/Collisions/BoundingBox.h>
+#include <Engine/Core/GameManager.h>
 #include <Fakes/Collisions/FakeBoundingBox.h>
+#include <Fakes/Collisions/FakeCollisionManager.h>
+#include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Drawables/FakeSprite.h>
+#include <Fakes/GameObjects/TestableGameObject.h>
 #include <Fakes/Renderer/FakeCamera.h>
 #include <Fakes/Renderer/FakeRenderer.h>
-#include <Fakes/Drawables/FakeShape.h>
-#include <Fakes/Collisions/FakeCollisionManager.h>
-#include <Fakes/GameObjects/TestableGameObject.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

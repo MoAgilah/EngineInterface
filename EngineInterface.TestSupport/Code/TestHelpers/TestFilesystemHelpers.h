@@ -1,7 +1,12 @@
 #pragma once
 
+#include <chrono>
+#include <cstdlib>
 #include <filesystem>
 #include <fstream>
+#include <iterator>
+#include <string>
+#include <utility>
 
 namespace TestHelpers
 {

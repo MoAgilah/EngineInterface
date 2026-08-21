@@ -1,11 +1,11 @@
 #include "CppUnitTest.h"
 
+#include <Engine/Core/GameManager.h>
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/Renderer/FakeRenderer.h>
 #include <Fakes/Scenes/FakeScene.h>
-#include <Engine/Core/GameManager.h>
-#include <memory>
 #include <algorithm>
+#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

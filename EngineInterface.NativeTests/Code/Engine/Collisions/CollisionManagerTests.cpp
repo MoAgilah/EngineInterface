@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
 
+#include <Engine/Collisions/BoundingBox.h>
 #include <Engine/Interface/Collisions/ICollisionManager.h>
 #include <Engine/Interface/Collisions/ITile.h>
-#include <Engine/Collisions/BoundingBox.h>
 #include <Fakes/Collisions/FakeCollisionManager.h>
 #include <Fakes/Collisions/FakeGrid.h>
 #include <Fakes/Collisions/FakeTile.h>

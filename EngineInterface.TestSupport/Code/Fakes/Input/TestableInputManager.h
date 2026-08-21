@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Input/InputManager.h>
+#include <memory>
 
 class TestableInputManager : public InputManager
 {

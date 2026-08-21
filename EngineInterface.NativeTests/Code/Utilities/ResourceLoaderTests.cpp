@@ -1,14 +1,13 @@
 #include "CppUnitTest.h"
 
 #include <Utilities/ResourceLoader.h>
-#include <TestHelpers/TestFilesystemHelpers.h>
 #include <Fakes/Resources/FakeLoadableResource.h>
-
+#include <TestHelpers/TestFilesystemHelpers.h>
 #include <filesystem>
 #include <fstream>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

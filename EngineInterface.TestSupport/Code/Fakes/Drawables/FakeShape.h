@@ -1,11 +1,11 @@
 #pragma once
 
+#include "FakeDrawable.h"
 #include <Engine/Core/Constants.h>
 #include <Engine/Interface/Drawables/IShape.h>
 #include <Utilities/ShapeMath.h>
-#include "FakeDrawable.h"
-#include <memory>
 #include <array>
+#include <memory>
 
 template<typename TShape>
 class FakeShape : public FakeDrawable<TShape>, public IShape

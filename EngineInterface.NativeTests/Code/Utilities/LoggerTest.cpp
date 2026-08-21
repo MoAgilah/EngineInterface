@@ -3,11 +3,11 @@
 #include <Engine/Core/Constants.h>
 #include <Utilities/Logger.h>
 #include <Utilities/ThreadContext.h>
-#include <TestHelpers/TestFilesystemHelpers.h>
 #include <TestHelpers/TestDefaultLoggerHelper.h>
+#include <TestHelpers/TestFilesystemHelpers.h>
+#include <filesystem>
 #include <string>
 #include <thread>
-#include <filesystem>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

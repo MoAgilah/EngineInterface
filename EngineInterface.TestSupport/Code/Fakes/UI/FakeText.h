@@ -1,7 +1,8 @@
 #pragma once
 
-#include <Engine/Interface/UI/IText.h>
+#include <Engine/Interface/Scene/IGameState.h>
 #include <string>
+#include <string_view>
 
 class FakeText : public IText
 {

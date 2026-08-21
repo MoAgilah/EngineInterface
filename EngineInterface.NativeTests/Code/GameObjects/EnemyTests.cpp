@@ -2,9 +2,9 @@
 
 #include <Engine/Core/GameManager.h>
 #include <Fakes/Collisions/FakeBoundingBox.h>
-#include <Fakes/Drawables/FakeSprite.h>
-#include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Collisions/FakeCollisionManager.h>
+#include <Fakes/Drawables/FakeShape.h>
+#include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/TestableEnemy.h>
 #include <Fakes/Renderer/FakeCamera.h>
 #include <memory>

@@ -1,8 +1,8 @@
 #include "CppUnitTest.h"
 
-#include <Fakes/Drawables/FakeSprite.h>
-#include <Fakes/Collisions/TestableTile.h>
 #include <Fakes/Collisions/FakeBoundingBox.h>
+#include <Fakes/Collisions/TestableTile.h>
+#include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/FakeGameObject.h>
 #include <memory>
 
