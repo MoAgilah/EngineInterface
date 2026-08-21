@@ -120,6 +120,12 @@
     <ClInclude Include="Code\Fakes\GameObjects\TestableEnemy.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\Input\TestableInputManager.h">
+      <Filter>Header Files\Fakes\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\UI\TestableMenuNav.h">
+      <Filter>Header Files\Fakes\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\TestHelpers\TestSupport.cpp">

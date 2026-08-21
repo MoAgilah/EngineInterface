@@ -21,14 +21,16 @@ public:
 
 	bool HasMoved() const { return m_currCursorPos != m_prevCursorPos; }
 
-private:
+	static constexpr int s_InvalidPos = -1;
+
+protected:
 
 	void HandleDirection(bool isPressed, bool& canMove, int direction);
 
-	bool m_canAsc = false;
+	bool m_canAsc = true;
 	bool m_canDes = true;
-	int m_currCursorPos = 0;
-	int m_prevCursorPos = -1;
+	int m_currCursorPos = s_InvalidPos;
+	int m_prevCursorPos = s_InvalidPos;
 	KeyCode m_ascKey;
 	KeyCode m_desKey;
 	std::vector<int> m_cursorRange;

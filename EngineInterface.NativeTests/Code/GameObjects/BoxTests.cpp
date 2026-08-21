@@ -22,7 +22,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsInitialActiveTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -32,7 +32,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsActiveTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -42,7 +42,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsInitialDirectionTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -52,7 +52,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsDirectionTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -62,7 +62,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsInitialPosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -75,7 +75,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_SetsPosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -88,7 +88,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Constructor_UpdatesVolumePosition)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -109,7 +109,7 @@ namespace GameObjects
 		TEST_METHOD(Box_GetCanHit_ReturnsDefaultTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -119,7 +119,7 @@ namespace GameObjects
 		TEST_METHOD(Box_SetCanHit_UpdatesCanHit)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -131,7 +131,7 @@ namespace GameObjects
 		TEST_METHOD(Box_GetJustHit_ReturnsDefaultFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -141,7 +141,7 @@ namespace GameObjects
 		TEST_METHOD(Box_SetJustHit_UpdatesJustHit)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -153,7 +153,7 @@ namespace GameObjects
 		TEST_METHOD(Box_WasJustHit_WhenCanHit_SetsJustHitTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -168,7 +168,7 @@ namespace GameObjects
 		TEST_METHOD(Box_WasJustHit_WhenCannotHit_DoesNotSetJustHit)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -188,7 +188,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Reset_SetsCanHitTrue)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -202,7 +202,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Reset_SetsJustHitFalse)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 
@@ -216,7 +216,7 @@ namespace GameObjects
 		TEST_METHOD(Box_Reset_PerformsGameObjectReset)
 		{
 			GameManager gm;
-			gm.SetICollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
+			gm.SetCollisionManager(std::make_shared<FakeCollisionManager>(nullptr));
 
 			Box box(std::make_shared<FakeSprite>("Obj1"), std::make_shared<FakeBoundingBox>(), Vector2f(16.f, 16.f));
 

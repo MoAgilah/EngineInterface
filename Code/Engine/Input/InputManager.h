@@ -26,7 +26,7 @@ public:
 
     KeyCode GetFirstPressedKey(const std::vector<KeyCode>& keys) const;
 
-private:
+protected:
 
     bool IsValidKey(KeyCode key) const;
 
