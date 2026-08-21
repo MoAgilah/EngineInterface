@@ -303,7 +303,7 @@ namespace Engine
             // Lookup behaviour
             // ======================================================
 
-            TEST_METHOD(Scene_GetObjectByNane_ReturnsCorrectObject)
+            TEST_METHOD(Scene_GetObjectByName_ReturnsCorrectObject)
             {
                 FakeScene scene;
 
@@ -327,7 +327,7 @@ namespace Engine
                 Assert::IsTrue(expected == actual);
             }
 
-            TEST_METHOD(Scene_GetEnemyByNane_ReturnsCorrectEnemy)
+            TEST_METHOD(Scene_GetEnemyByName_ReturnsCorrectEnemy)
             {
                 FakeScene scene;
 
@@ -341,7 +341,7 @@ namespace Engine
                 Assert::IsTrue(expected == actual);
             }
 
-            TEST_METHOD(Scene_GetForegroundObjectByNane_ReturnsCorrectForegroundObject)
+            TEST_METHOD(Scene_GetForegroundObjectByName_ReturnsCorrectForegroundObject)
             {
                 FakeScene scene;
 
@@ -363,7 +363,7 @@ namespace Engine
                 Assert::IsTrue(expected == actual);
             }
 
-            TEST_METHOD(Scene_GetGUISpriteByNane_ReturnsCorrectGUISprite)
+            TEST_METHOD(Scene_GetGUISpriteByName_ReturnsCorrectGUISprite)
             {
                 FakeScene scene;
 
@@ -377,7 +377,7 @@ namespace Engine
                 Assert::IsTrue(expected == actual);
             }
 
-            TEST_METHOD(Scene_GetGUITextByNane_ReturnsCorrectGUIText)
+            TEST_METHOD(Scene_GetGUITextByName_ReturnsCorrectGUIText)
             {
                 FakeScene scene;
 
@@ -399,35 +399,35 @@ namespace Engine
                 Assert::IsTrue(expected == actual);
             }
 
-            TEST_METHOD(Scene_GetObjectByNane_ReturnsNull)
+            TEST_METHOD(Scene_GetObjectByName_ReturnsNull)
             {
                 FakeScene scene;
 
                 Assert::IsNull(scene.GetObjectByName("AName"));
             }
 
-            TEST_METHOD(Scene_GetEnemyByNane_ReturnsNull)
+            TEST_METHOD(Scene_GetEnemyByName_ReturnsNull)
             {
                 FakeScene scene;
 
                 Assert::IsNull(scene.GetEnemyByName("AName"));
             }
 
-            TEST_METHOD(Scene_GetForegroundObjectByNane_ReturnsNull)
+            TEST_METHOD(Scene_GetForegroundObjectByName_ReturnsNull)
             {
                 FakeScene scene;
 
                 Assert::IsNull(scene.GetForegroundObjectByName("AName"));
             }
 
-            TEST_METHOD(Scene_GetGUISpriteByNane_ReturnsNull)
+            TEST_METHOD(Scene_GetGUISpriteByName_ReturnsNull)
             {
                 FakeScene scene;
 
                 Assert::IsNull(scene.GetGUISpriteByName("AName"));
             }
 
-            TEST_METHOD(Scene_GetGUITextByNane_ReturnsNull)
+            TEST_METHOD(Scene_GetGUITextByName_ReturnsNull)
             {
                 FakeScene scene;
 
@@ -654,7 +654,7 @@ namespace Engine
                     if (!enemy)
                         continue;
 
-                    if (!enemy->GetActive())
+                    if (enemy->GetActive())
                         continue;
 
                     auto* fo = dynamic_cast<IFakeObject*>(enemy.get());
@@ -1190,58 +1190,144 @@ namespace Engine
 
             TEST_METHOD(Scene_ResetScene_ResetsObjects)
             {
-               /* FakeScene scene;
+                FakeScene scene;
+                scene.addEnemiesResult = true;
+                scene.addGUIResult = true;
+                scene.addObjectsResult = true;
+                scene.addForeGroundObjectsResult = true;
 
-                scene.EmplaceObjectOrThrow<FakeDynamicGameObject>("Object1", std::make_shared<FakeSprite>("Obj1"), std::make_shared<BoundingBox<FakeBox>>(), true);
+                Assert::IsTrue(scene.Initialise());
 
-                Assert::AreEqual(std::size_t(1), scene.m_objects.size());
+                auto obj1 = scene.GetObjectByName("Object1");
 
-                scene.m_objects*/
+                Assert::IsNotNull(obj1);
+                obj1->SetActive(false);
+                Assert::IsFalse(obj1->GetActive());
+
+                auto obj2 = scene.GetObjectByName("Object2");
+
+                Assert::IsNotNull(obj1);
+                obj2->SetActive(true);
+                Assert::IsTrue(obj2->GetActive());
+
+                scene.ResetScene();
+
+                Assert::IsTrue(obj1->GetActive());
+                Assert::IsFalse(obj2->GetActive());
+            }
+
+            TEST_METHOD(Scene_ResetScene_ResetsForegroundObjects)
+            {
+                FakeScene scene;
+                scene.addEnemiesResult = true;
+                scene.addGUIResult = true;
+                scene.addObjectsResult = true;
+                scene.addForeGroundObjectsResult = true;
+
+                Assert::IsTrue(scene.Initialise());
+
+                auto obj1 = scene.GetForegroundObjectByName("ForeGroundObjects1");
+
+                Assert::IsNotNull(obj1);
+                obj1->SetActive(true);
+                Assert::IsTrue(obj1->GetActive());
+
+                auto obj2 = scene.GetForegroundObjectByName("ForeGroundObjects2");
+
+                Assert::IsNotNull(obj1);
+                obj2->SetActive(false);
+                Assert::IsFalse(obj2->GetActive());
+
+                scene.ResetScene();
+
+                Assert::IsFalse(obj1->GetActive());
+                Assert::IsTrue(obj2->GetActive());
             }
 
             TEST_METHOD(Scene_ResetScene_ResetsEnemies)
             {
+                FakeScene scene;
+                scene.addEnemiesResult = true;
+                scene.addGUIResult = true;
+                scene.addObjectsResult = true;
+                scene.addForeGroundObjectsResult = true;
 
+                Assert::IsTrue(scene.Initialise());
+
+                auto obj1 = scene.GetEnemyByName("Enemy1");
+
+                Assert::IsNotNull(obj1);
+                obj1->SetActive(true);
+                Assert::IsTrue(obj1->GetActive());
+
+                auto obj2 = scene.GetEnemyByName("Enemy2");
+
+                Assert::IsNotNull(obj1);
+                obj2->SetActive(false);
+                Assert::IsFalse(obj2->GetActive());
+
+                scene.ResetScene();
+
+                Assert::IsFalse(obj1->GetActive());
+                Assert::IsTrue(obj2->GetActive());
             }
 
             TEST_METHOD(Scene_ResetScene_RemovesSpawnedObjects)
             {
+                FakeScene scene;
 
+                scene.SpawnGameObjectAt(
+                    "Object1",
+                    std::make_shared<FakeDynamicGameObject>(std::make_shared<FakeSprite>("Obj1"), std::make_shared<BoundingBox<FakeBox>>(), true),
+                    Vector2f(16.f, 16.f));
+
+                Assert::AreEqual(std::size_t(1), scene.m_objects.size());
+
+                scene.ResetScene();
+
+                Assert::AreEqual(std::size_t(0), scene.m_objects.size());
             }
 
             TEST_METHOD(Scene_ResetScene_ClearsSpawnedObjectKeyList)
             {
+                FakeScene scene;
 
+                scene.SpawnGameObjectAt(
+                    "Object1",
+                    std::make_shared<FakeDynamicGameObject>(std::make_shared<FakeSprite>("Obj1"), std::make_shared<BoundingBox<FakeBox>>(), true),
+                    Vector2f(16.f, 16.f));
+
+                Assert::AreEqual(std::size_t(1), scene.m_objects.size());
+                Assert::AreEqual(std::size_t(1), scene.m_spawnedObjKeys.size());
+                Assert::AreEqual(std::string("Object1"), scene.m_spawnedObjKeys.front());
+
+                scene.ResetScene();
+
+                Assert::IsTrue(scene.m_spawnedObjKeys.empty());
             }
 
             TEST_METHOD(Scene_ResetScene_DoesNotRemoveNonSpawnedObjects)
             {
+                FakeScene scene;
+                scene.addEnemiesResult = true;
+                scene.addGUIResult = true;
+                scene.addObjectsResult = true;
+                scene.addForeGroundObjectsResult = true;
 
-            }
+                Assert::IsTrue(scene.Initialise());
 
+                Assert::AreEqual(std::size_t(2), scene.m_objects.size());
 
-            // ======================================================
-            // GetByName behaviour
-            // ======================================================
+                scene.SpawnGameObjectAt(
+                    "Object3",
+                    std::make_shared<FakeDynamicGameObject>(std::make_shared<FakeSprite>("Obj3"), std::make_shared<BoundingBox<FakeBox>>(), true),
+                    Vector2f(16.f, 16.f));
 
-            TEST_METHOD(Scene_GetObjectByName_WhenObjectExists_ReturnsObject)
-            {
+                Assert::AreEqual(std::size_t(3), scene.m_objects.size());
 
-            }
+                scene.ResetScene();
 
-            TEST_METHOD(Scene_GetObjectByName_WhenObjectDoesNotExist_ReturnsNullptr)
-            {
-
-            }
-
-            TEST_METHOD(Scene_GetEnemyByName_WhenEnemyExists_ReturnsEnemy)
-            {
-
-            }
-
-            TEST_METHOD(Scene_GetEnemyByName_WhenEnemyDoesNotExist_ReturnsNullptr)
-            {
-
+                Assert::AreEqual(std::size_t(2), scene.m_objects.size());
             }
         };
     }
