@@ -1,6 +1,10 @@
 #pragma once
 
 #include <Engine/Interface/Collisions/ICollisionManager.h>
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 class FakeCollisionManager : public ICollisionManager
 {

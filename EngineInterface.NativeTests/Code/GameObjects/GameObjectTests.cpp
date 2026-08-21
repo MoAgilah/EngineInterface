@@ -1,14 +1,14 @@
 #include "CppUnitTest.h"
 
-#include <Engine/Core/GameManager.h>
 #include <Engine/Collisions/BoundingBox.h>
+#include <Engine/Core/GameManager.h>
 #include <Fakes/Collisions/FakeBoundingBox.h>
+#include <Fakes/Collisions/FakeCollisionManager.h>
+#include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Drawables/FakeSprite.h>
+#include <Fakes/GameObjects/TestableGameObject.h>
 #include <Fakes/Renderer/FakeCamera.h>
 #include <Fakes/Renderer/FakeRenderer.h>
-#include <Fakes/Drawables/FakeShape.h>
-#include <Fakes/Collisions/FakeCollisionManager.h>
-#include <Fakes/GameObjects/TestableGameObject.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -1821,6 +1821,184 @@ namespace GameObjects
 			go.DecrementYVelocity(1.f);
 
 			Assert::AreEqual(15.f, go.GetYVelocity());
+		}
+
+		// ======================================================
+		// IDynamicGameObject State Logic
+		// ======================================================
+
+		TEST_METHOD(IDynamicGameObject_SetOnSlopeTrue_SetsOnGroundTrue)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetOnSlope(true);
+
+			Assert::IsTrue(go.GetOnSlope());
+			Assert::IsTrue(go.GetOnGround());
+		}
+
+		TEST_METHOD(IDynamicGameObject_SetShouldSlideLeftTrue_ClearsShouldSlideRight)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetShouldSlideRight(true);
+
+			Assert::IsTrue(go.GetShouldSlideRight());
+
+			go.SetShouldSlideLeft(true);
+
+			Assert::IsTrue(go.GetShouldSlideLeft());
+			Assert::IsFalse(go.GetShouldSlideRight());
+		}
+
+		TEST_METHOD(IDynamicGameObject_SetShouldSlideRightTrue_ClearsShouldSlideLeft)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetShouldSlideLeft(true);
+
+			Assert::IsTrue(go.GetShouldSlideLeft());
+
+			go.SetShouldSlideRight(true);
+
+			Assert::IsTrue(go.GetShouldSlideRight());
+			Assert::IsFalse(go.GetShouldSlideLeft());
+		}
+
+		TEST_METHOD(IDynamicGameObject_SetSlideLeftTrue_ClearsSlideRight)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetSlideRight(true);
+
+			Assert::IsTrue(go.GetSlideRight());
+
+			go.SetSlideLeft(true);
+
+			Assert::IsTrue(go.GetSlideLeft());
+			Assert::IsFalse(go.GetSlideRight());
+		}
+
+		TEST_METHOD(IDynamicGameObject_SetSlideRightTrue_ClearsSlideLeft)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetSlideLeft(true);
+
+			Assert::IsTrue(go.GetSlideLeft());
+
+			go.SetSlideRight(true);
+
+			Assert::IsTrue(go.GetSlideRight());
+			Assert::IsFalse(go.GetSlideLeft());
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WithZeroVelocity_ReturnsDown)
+		{
+			TestableDynamicGameObject go;
+
+			auto vel = go.GetVelocity();
+
+			Assert::AreEqual(0.f, vel.x);
+			Assert::AreEqual(0.f, vel.y);
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::DDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WithPositiveX_ReturnsRight)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetXVelocity(1.f);
+
+			auto vel = go.GetVelocity();
+
+			Assert::AreEqual(1.f, vel.x);
+			Assert::AreEqual(0.f, vel.y);
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::RDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WithNegativeX_ReturnsLeft)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetXVelocity(-1.f);
+
+			auto vel = go.GetVelocity();
+
+			Assert::AreEqual(-1.f, vel.x);
+			Assert::AreEqual(0.f, vel.y);
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::LDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WithPositiveY_ReturnsDown)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetYVelocity(1.f);
+
+			auto vel = go.GetVelocity();
+
+			Assert::AreEqual(0.f, vel.x);
+			Assert::AreEqual(1.f, vel.y);
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::DDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WithNegativeY_ReturnsUp)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetYVelocity(-1.f);
+
+			auto vel = go.GetVelocity();
+
+			Assert::AreEqual(0.f, vel.x);
+			Assert::AreEqual(-1.f, vel.y);
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::UDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WhenHorizontalVelocityDominates_UsesHorizontal)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetVelocity(Vector2f(-2.f, 1.f));
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::LDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
+		}
+
+		TEST_METHOD(IDynamicGameObject_GetFacingDirection_WhenVerticalVelocityDominates_UsesVertical)
+		{
+			TestableDynamicGameObject go;
+
+			go.SetVelocity(Vector2f(1.f, -2.f));
+
+			Assert::AreEqual(
+				static_cast<int>(Direction::UDIR),
+				static_cast<int>(go.GetFacingDirection())
+			);
 		}
 	};
 }

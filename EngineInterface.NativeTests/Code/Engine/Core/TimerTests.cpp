@@ -1,8 +1,14 @@
 #include "CppUnitTest.h"
 
-#include <Engine/Core/Timer.h>
-#include <thread>
-#include <chrono>
+#include <Engine/Core/GameManager.h>
+#include <Fakes/Collisions/FakeGrid.h>
+#include <Fakes/Collisions/FakeTile.h>
+#include <Fakes/Input/FakeKeyConverter.h>
+#include <Fakes/Renderer/FakeCamera.h>
+#include <Fakes/Renderer/FakeRenderer.h>
+#include <Fakes/Scenes/FakeScene.h>
+#include <Fakes/States/FakeGameState.h>
+#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 

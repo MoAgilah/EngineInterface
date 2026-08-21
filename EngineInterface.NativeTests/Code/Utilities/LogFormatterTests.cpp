@@ -2,8 +2,8 @@
 
 #include <Utilities/LogFormatter.h>
 #include <Utilities/LogRecord.h>
-#include <string>
 #include <source_location>
+#include <string>
 #include <thread>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

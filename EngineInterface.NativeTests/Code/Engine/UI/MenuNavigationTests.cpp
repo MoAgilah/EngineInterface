@@ -1,9 +1,9 @@
 #include "CppUnitTest.h"
 
 #include <Engine/Core/GameManager.h>
-#include <Fakes/UI/TestableMenuNav.h>
 #include <Fakes/Input/FakeKeyConverter.h>
 #include <Fakes/Input/TestableInputManager.h>
+#include <Fakes/UI/TestableMenuNav.h>
 #include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
