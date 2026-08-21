@@ -3,6 +3,7 @@
 #include <Engine/Core/GameManager.h>
 #include <Engine/Interface/Scene/IGameState.h>
 #include <string>
+#include <string_view>
 
 class FakeGameState : public IGameState
 {

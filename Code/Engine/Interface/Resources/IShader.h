@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string>
-#include <optional>
 #include <algorithm>
+#include <optional>
+#include <string>
 
 enum class ShaderType
 {

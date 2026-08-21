@@ -1,10 +1,9 @@
 #pragma once
 
-
 #include "../../Utilities/Colour.h"
 #include "../../Utilities/Vector2.h"
-#include <string>
 #include <filesystem>
+#include <string>
 
 class GameConstants
 {

@@ -2,8 +2,8 @@
 
 #include "IMenu.h"
 #include "../../../Utilities/Guards.h"
-#include <vector>
 #include <format>
+#include <vector>
 
 class IPaginatedMenu
 {

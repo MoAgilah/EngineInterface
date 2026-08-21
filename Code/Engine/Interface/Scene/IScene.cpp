@@ -1,5 +1,6 @@
 #include "IScene.h"
 
+#include "../Collisions/ICollisionManager.h"
 #include "../Collisions/ITile.h"
 #include "../Renderer/ICamera.h"
 #include "../../Core/Constants.h"

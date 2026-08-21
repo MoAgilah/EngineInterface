@@ -1,13 +1,13 @@
 ﻿#pragma once
 
+#include "../Interface/Collisions/IBoundingVolume.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
-#include "../Interface/Collisions/IBoundingVolume.h"
-#include "../../Utilities/Traits.h"
 #include "../../Utilities/Guards.h"
+#include "../../Utilities/Traits.h"
 #include <algorithm>
-#include <stdexcept>
 #include <limits>
+#include <stdexcept>
 
 template <typename PlatformBox>
 class BoundingBox : public IBoundingBox, public BoundingVolume<PlatformBox>

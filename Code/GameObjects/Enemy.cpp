@@ -1,6 +1,8 @@
 #include "Enemy.h"
 
 #include "../Engine/Core/GameManager.h"
+#include "../Engine/Interface/Renderer/ICamera.h"
+#include "../Engine/Interface/Drawables/ISprite.h"
 #include "../Utilities/Guards.h"
 
 Enemy::Enemy(int maxLives)

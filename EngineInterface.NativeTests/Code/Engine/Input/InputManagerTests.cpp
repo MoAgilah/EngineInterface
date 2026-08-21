@@ -4,7 +4,6 @@
 #include <Fakes/Input/FakeKeyConverter.h>
 #include <memory>
 
-
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Engine

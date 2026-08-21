@@ -1,7 +1,10 @@
 #include "GameManager.h"
 
 #include "Constants.h"
-#include "../Interface/Collisions/ITile.h"
+#include "../Interface/Collisions/ICollisionManager.h"
+#include "../Interface/Renderer/ICamera.h"
+#include "../Interface/Renderer/IRenderer.h"
+#include "../Interface/Scene/IScene.h"
 #include "../../Utilities/Guards.h"
 
 GameManager* GameManager::m_instance = nullptr;
