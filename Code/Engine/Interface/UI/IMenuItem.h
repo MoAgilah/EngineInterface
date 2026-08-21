@@ -3,8 +3,8 @@
 #include "../Drawables/IShape.h"
 #include "../Drawables/ISprite.h"
 #include "../UI/IText.h"
-#include "../../../Utilities/Vector2.h"
 #include "../../../Utilities/Guards.h"
+#include "../../../Utilities/Vector2.h"
 #include <memory>
 
 class IMenuItem

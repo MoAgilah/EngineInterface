@@ -6,10 +6,10 @@
 #include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
 #include <algorithm>
+#include <format>
 #include <memory>
 #include <string>
 #include <vector>
-#include <format>
 
 enum class TileTypes
 {

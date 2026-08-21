@@ -5,12 +5,12 @@
 #include "../Interface/Collisions/IBoundingVolume.h"
 #include "../Interface/Collisions/ICollisionManager.h"
 #include "../Interface/Drawables/IShape.h"
-#include "../../Utilities/Traits.h"
 #include "../../Utilities/Guards.h"
+#include "../../Utilities/Traits.h"
 #include <algorithm>
+#include <limits>
 #include <numbers>
 #include <stdexcept>
-#include <limits>
 
 template <typename PlatformCapsule>
 class BoundingCapsule : public IBoundingCapsule, public BoundingVolume<PlatformCapsule>

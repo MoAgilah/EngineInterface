@@ -2,18 +2,18 @@
 
 #include "../Collisions/IBoundingVolume.h"
 #include "../Drawables/ISprite.h"
-#include "../UI/IText.h"
 #include "../Renderer/IRenderer.h"
+#include "../UI/IText.h"
 #include "../../../GameObjects/Enemy.h"
 #include "../../../GameObjects/GameObject.h"
 #include <array>
+#include <format>
 #include <map>
 #include <memory>
-#include <vector>
 #include <string>
 #include <type_traits>
 #include <utility>
-#include <format>
+#include <vector>
 
 class IScene
 {

@@ -1,13 +1,12 @@
 #pragma once
 
-
 #include "../Drawables/ISprite.h"
 #include "../../UI/MenuNavigation.h"
 #include "../../../Utilities/Guards.h"
+#include <exception>
 #include <memory>
 #include <string>
 #include <vector>
-#include <exception>
 
 class IMenuCursor
 {

@@ -2,6 +2,7 @@
 
 #include "FakeTile.h"
 #include <Engine/Interface/Collisions/IGrid.h>
+#include <memory>
 
 class FakeGrid : public IGrid
 {

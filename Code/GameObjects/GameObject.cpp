@@ -1,5 +1,6 @@
 #include "GameObject.h"
 
+#include "../Engine/Interface/Collisions/ICollisionManager.h"
 #include "../Engine/Interface/Scene/IGameObject.h"
 #include "../Engine/Core/Constants.h"
 #include "../Engine/Core/GameManager.h"

@@ -1,11 +1,18 @@
 #pragma once
 
+#include "ICollisionManager.h"
+#include "IBoundingVolume.h"
+#include "IGrid.h"
+#include "ITile.h"
+#include "../Renderer/IRenderable.h"
+#include "../Scene/IGameObject.h"
+#include "../../../Utilities/Guards.h"
+#include "../../../Utilities/Logger.h"
 #include "../../../Utilities/Vector2.h"
-#include <limits>
-#include <memory>
-#include <string>
-#include <typeindex>
-#include <vector>
+#include <algorithm>
+#include <format>
+#include <ranges>
+#include <utility>
 
 class IDynamicGameObject;
 class IGameObject;
