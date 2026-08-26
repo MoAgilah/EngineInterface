@@ -392,9 +392,6 @@
     <ClCompile Include="Code\Engine\Core\GameStateMgr.cpp">
       <Filter>Source Files\Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Utilities\ActiveTypesFwd.cpp">
-      <Filter>Source Files\Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Utilities\MovementController.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>

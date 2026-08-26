@@ -52,6 +52,9 @@
     <Filter Include="Header Files\Fakes\UI">
       <UniqueIdentifier>{01c45db6-12d6-4cff-bdb8-42a55fb2a3c1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\TestHelpers">
+      <UniqueIdentifier>{9916e7d2-5fe7-47e9-a51c-d6fac1291b3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -128,11 +131,14 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Fakes\States\FakeGameState.cpp">
       <Filter>Source Files\Fakes\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TestHelpers\TestActiveTypes.cpp">
+      <Filter>Source Files\TestHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\TestHelpers\TestSupport.cpp">
+      <Filter>Source Files\TestHelpers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
