@@ -1,6 +1,7 @@
 #include "CppUnitTest.h"
 
 #include <Engine/AI/DecisionTree.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -19,6 +20,11 @@ namespace AI
 	TEST_CLASS(DecisionTreeTests)
 	{
 	public:
+
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// Constructor

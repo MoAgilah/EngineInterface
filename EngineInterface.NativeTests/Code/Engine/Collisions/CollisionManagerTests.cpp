@@ -9,6 +9,7 @@
 #include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/FakeGameObject.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -19,6 +20,10 @@ namespace Engine
         TEST_CLASS(CollisionManagerTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
 
             // ======================================================
             // Constructor

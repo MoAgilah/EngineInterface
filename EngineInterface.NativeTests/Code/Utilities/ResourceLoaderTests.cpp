@@ -16,6 +16,10 @@ namespace Utilities
 	TEST_CLASS(ResourceLoaderTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// Resource Loading

@@ -6,6 +6,7 @@
 #include <Fakes/Collisions/FakeCollisionManager.h>
 #include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Drawables/FakeSprite.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -15,6 +16,11 @@ namespace GameObjects
 	TEST_CLASS(BoxTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
+
 		// ======================================================
 		// Constructor / Initialisation
 		// ======================================================

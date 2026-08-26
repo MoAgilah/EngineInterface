@@ -9,6 +9,7 @@
 #include <Fakes/GameObjects/TestableGameObject.h>
 #include <Fakes/Renderer/FakeCamera.h>
 #include <Fakes/Renderer/FakeRenderer.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -18,6 +19,10 @@ namespace GameObjects
 	TEST_CLASS(GameObjectTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// GameObject Constructor
