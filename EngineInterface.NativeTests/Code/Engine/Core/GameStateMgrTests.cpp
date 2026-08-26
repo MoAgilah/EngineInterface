@@ -3,6 +3,7 @@
 #include <Engine/Core/GameManager.h>
 #include <Engine/Core/GameStateMgr.h>
 #include <Fakes/States/FakeGameState.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <string_view>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -14,6 +15,10 @@ namespace Engine
         TEST_CLASS(GameStateMgrTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
 
             // ======================================================
             // State Name Access

@@ -2,8 +2,8 @@
 
 #include "LogFormatter.h"
 #include "ThreadContext.h"
-#include "../Engine/Core/Constants.h"
 
+#include <filesystem>
 #include <thread>
 #include <stop_token>
 
@@ -18,7 +18,24 @@ Logger::~Logger()
 const std::string& Logger::GetDefaultLogPath()
 {
 	if (s_defaultLogPath.empty())
-		s_defaultLogPath = GameConstants::GetDefaultLogPath().string();
+	{
+		auto logDir =
+			std::filesystem::current_path()
+			/ ".."
+			/ ".."
+			/ "Logs";
+
+		logDir = std::filesystem::weakly_canonical(logDir);
+
+		std::filesystem::create_directories(logDir);
+
+		s_defaultLogPath =
+			(logDir /
+				std::format(
+					"engine_{}.log",
+					logger::FormatFilenameTimestamp()))
+			.string();
+	}
 
 	return s_defaultLogPath;
 }

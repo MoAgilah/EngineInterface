@@ -4,6 +4,7 @@
 #include <Fakes/Collisions/TestableTile.h>
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/FakeGameObject.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -15,6 +16,11 @@ namespace Engine
         TEST_CLASS(TileTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
+
             // ======================================================
             // Constructor
             // ======================================================

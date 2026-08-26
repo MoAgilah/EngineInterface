@@ -7,6 +7,7 @@
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/TestableCollectables.h>
 #include <Fakes/GameObjects/TestableGameObject.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -16,6 +17,10 @@ namespace GameObjects
 	TEST_CLASS(CollectableTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// StaticCollectable Constructor

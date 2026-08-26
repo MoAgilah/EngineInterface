@@ -8,6 +8,7 @@
 #include <Fakes/Renderer/FakeRenderer.h>
 #include <Fakes/Scenes/FakeScene.h>
 #include <Fakes/States/FakeGameState.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -19,6 +20,10 @@ namespace Engine
         TEST_CLASS(GameManagerTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
 
             // ======================================================
             // Constructor

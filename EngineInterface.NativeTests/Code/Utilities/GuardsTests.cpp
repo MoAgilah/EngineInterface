@@ -15,6 +15,10 @@ namespace Utilities
 	TEST_CLASS(GuardsTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// Behaviour
@@ -22,13 +26,9 @@ namespace Utilities
 
 		TEST_METHOD(CheckNotNull_WhenPtrIsNotNullDoesNotLog)
 		{
-			TestHelpers::ResetLoggerDefaultsForTests();
-
 			std::unique_ptr<int> ptr = std::make_unique<int>(7);
 
 			::Logger::GetDefaultLogger();
-
-			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
 
 			std::string msg = "ptr is null";
 
@@ -37,22 +37,18 @@ namespace Utilities
 			::Logger::GetDefaultLogger().Stop();
 
 			// First file should contain output
-			Assert::IsTrue(std::filesystem::exists(guard.path));
+			Assert::IsTrue(std::filesystem::exists(::Logger::GetDefaultLogPath()));
 
-			std::string contents = TestHelpers::ReadFile(guard.path);
+			std::string contents = TestHelpers::ReadFile(::Logger::GetDefaultLogPath());
 
 			Assert::IsTrue(contents.find(msg) == std::string::npos);
 		}
 
 		TEST_METHOD(CheckNotNull_WhenPtrIsNullDoesLog)
 		{
-			TestHelpers::ResetLoggerDefaultsForTests();
-
 			std::unique_ptr<int> ptr = nullptr;
 
 			::Logger::GetDefaultLogger();
-
-			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
 
 			std::string msg = "ptr is null";
 
@@ -61,9 +57,9 @@ namespace Utilities
 			::Logger::GetDefaultLogger().Stop();
 
 			// First file should contain output
-			Assert::IsTrue(std::filesystem::exists(guard.path));
+			Assert::IsTrue(std::filesystem::exists(::Logger::GetDefaultLogPath()));
 
-			std::string contents = TestHelpers::ReadFile(guard.path);
+			std::string contents = TestHelpers::ReadFile(::Logger::GetDefaultLogPath());
 
 			Assert::IsTrue(contents.find(msg) != std::string::npos);
 		}

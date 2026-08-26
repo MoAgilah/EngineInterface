@@ -4,6 +4,7 @@
 #include <Engine/Collisions/BoundingCapsule.h>
 #include <Engine/Collisions/BoundingCircle.h>
 #include <Fakes/Drawables/FakeShape.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -14,6 +15,10 @@ namespace Engine
         TEST_CLASS(BoundingBoxTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
 
             // ======================================================
             // Constructor

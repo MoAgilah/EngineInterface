@@ -50,12 +50,3 @@ Vector2f GameConstants::ScaleScreenDim(float x, float y)
 {
 	return { ScreenDim.x * x,ScreenDim.y * y };
 }
-
-std::filesystem::path GameConstants::GetDefaultLogPath()
-{
-	auto outputDir = std::filesystem::current_path() / ".." / ".." / "Resources" / "Outputs";
-	outputDir = std::filesystem::weakly_canonical(outputDir);
-
-	return outputDir /
-		std::format("engine_{}.log", logger::FormatFilenameTimestamp());
-}

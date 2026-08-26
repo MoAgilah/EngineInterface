@@ -7,6 +7,7 @@
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/GameObjects/TestableEnemy.h>
 #include <Fakes/Renderer/FakeCamera.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -16,6 +17,10 @@ namespace GameObjects
 	TEST_CLASS(EnemyTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// Constructor

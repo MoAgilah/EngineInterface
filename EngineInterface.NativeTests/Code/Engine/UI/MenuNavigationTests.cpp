@@ -4,17 +4,23 @@
 #include <Fakes/Input/FakeKeyConverter.h>
 #include <Fakes/Input/TestableInputManager.h>
 #include <Fakes/UI/TestableMenuNav.h>
+#include <TestHelpers/TestDefaultLoggerHelper.h>
 #include <vector>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace Engine
 {
-    namespace Scene
+    namespace UI
     {
         TEST_CLASS(MenuNavigationTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
+
             // ======================================================
             // Constructor
             // ======================================================

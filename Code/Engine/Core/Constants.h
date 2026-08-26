@@ -10,7 +10,6 @@ class GameConstants
 public:
 	static void Init();
 	static Vector2f ScaleScreenDim(float x, float y);
-	static std::filesystem::path GetDefaultLogPath();
 
 	static bool DRender;
 	static bool GameIsReady;

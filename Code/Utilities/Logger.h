@@ -11,7 +11,7 @@
 
 namespace TestHelpers
 {
-	void ResetLoggerDefaultsForTests();
+	void CleanupDefaultLoggerForTests();
 }
 
 class Logger
@@ -29,6 +29,7 @@ public:
 	void Log(LogLevel logLevel, std::string message, const std::source_location& loc = std::source_location::current());
 
 private:
+
 	void ProcessQueue(std::stop_token stopToken);
 
 	static std::string s_defaultLogPath;
@@ -44,5 +45,5 @@ private:
 	std::ofstream m_logStream;
 	std::atomic<uint64_t> m_nextSequenceId{ 0 };
 
-	friend void TestHelpers::ResetLoggerDefaultsForTests();
+	friend void TestHelpers::CleanupDefaultLoggerForTests();
 };

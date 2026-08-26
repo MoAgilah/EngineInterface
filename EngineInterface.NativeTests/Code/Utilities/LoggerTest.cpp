@@ -16,6 +16,10 @@ namespace Utilities
 	TEST_CLASS(LoggerTests)
 	{
 	public:
+		TEST_METHOD_CLEANUP(TestCleanup)
+		{
+			TestHelpers::CleanupDefaultLoggerForTests();
+		}
 
 		// ======================================================
 		// Logger Lifecycle
@@ -41,7 +45,7 @@ namespace Utilities
 		{
 			::Logger logger;
 
-			TestHelpers::TempFileGuard guard{ GameConstants::GetDefaultLogPath() };
+			TestHelpers::TempFileGuard guard{ logger.GetDefaultLogPath() };
 
 			logger.Start(guard.path.string());
 			logger.Stop();
@@ -55,15 +59,11 @@ namespace Utilities
 
 		TEST_METHOD(Logger_GetDefaultLogger_GetsLogFileOnCreate)
 		{
-			TestHelpers::ResetLoggerDefaultsForTests();
-
 			::Logger::GetDefaultLogger();
-
-			TestHelpers::TempFileGuard guard{ ::Logger::GetDefaultLogPath() };
 
 			::Logger::GetDefaultLogger().Stop();
 
-			Assert::IsTrue(std::filesystem::exists(guard.path));
+			Assert::IsTrue(std::filesystem::exists(::Logger::GetDefaultLogPath()));
 		}
 
 		// ======================================================
