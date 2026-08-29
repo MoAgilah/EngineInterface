@@ -294,12 +294,6 @@
     <ClInclude Include="Code\Engine\Collisions\BoundingHalfCapsule.h">
       <Filter>Header Files\Engine\Collisions</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Utilities\Utils.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Code\Utilities\ErrorUtils.h">
-      <Filter>Header Files\Utilities</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Utilities\Vector3.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
