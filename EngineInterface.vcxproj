@@ -73,7 +73,6 @@
     <ClInclude Include="Code\Utilities\ActiveTypesFwd.h" />
     <ClInclude Include="Code\Utilities\Colour.h" />
     <ClInclude Include="Code\Utilities\Defines.h" />
-    <ClInclude Include="Code\Utilities\ErrorUtils.h" />
     <ClInclude Include="Code\Utilities\Guards.h" />
     <ClInclude Include="Code\Utilities\HRGuards.h" />
     <ClInclude Include="Code\Utilities\LogFormatter.h" />
@@ -83,7 +82,6 @@
     <ClInclude Include="Code\Utilities\Rect.h" />
     <ClInclude Include="Code\Utilities\ShapeMath.h" />
     <ClInclude Include="Code\Utilities\ThreadContext.h" />
-    <ClInclude Include="Code\Utilities\Utils.h" />
     <ClInclude Include="Code\Utilities\Vector2.h" />
     <ClInclude Include="Code\Utilities\ResourceLoader.h" />
     <ClInclude Include="Code\Utilities\Traits.h" />
