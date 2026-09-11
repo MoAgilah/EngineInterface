@@ -22,8 +22,6 @@ public:
 	static Vector2f ViewDim;
 	static Vector2f Scale;
 	static std::string WindowTitle;
-	static std::string DefaultOutputPath;
-	static std::string TileFilePaths;
 	static std::string FontFilePaths;
 	static std::string ShaderFilePaths;
 	static std::string SoundFilePaths;
