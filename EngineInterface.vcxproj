@@ -121,6 +121,13 @@
   <ItemGroup>
     <None Include="Resources\Shaders\FadeInOutShader.frag" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Textures\DefaultTexture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Music\DefaultMusic.wav" />
+    <Media Include="Resources\Sounds\DefaultSound.wav" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
