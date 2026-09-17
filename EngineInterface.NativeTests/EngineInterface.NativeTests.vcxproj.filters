@@ -135,5 +135,8 @@
     <ClCompile Include="Code\Engine\UI\MenuNavigationTests.cpp">
       <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Collisions\GridTests.cpp">
+      <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
