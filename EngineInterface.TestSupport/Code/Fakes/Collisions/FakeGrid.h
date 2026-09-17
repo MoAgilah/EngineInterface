@@ -13,6 +13,14 @@ public:
 		Init("", "");
 	}
 
+	FakeGrid(int rows, int columns, const std::string& tileFilePath)
+		: IGrid(rows, columns), fullInitialisation(true)
+	{
+		Init("", tileFilePath);
+
+
+	}
+
 	void Init(const std::string& fontName, const std::string& tileFilePath) override
 	{
 		m_grid.reserve(m_rows * m_columns);
@@ -22,5 +30,18 @@ public:
 			for (int x = 0; x < m_columns; ++x)
 				m_grid.emplace_back(std::make_shared<FakeTile>(x, y));
 		}
+
+		if (!fullInitialisation)
+			return;
+
+		if (!m_grid.empty())
+		{
+			LoadTileTypes(tileFilePath);
+			ArrangeTilePositions();
+		}
 	}
+
+private:
+
+	bool fullInitialisation = false;
 };
