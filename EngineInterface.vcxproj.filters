@@ -425,4 +425,9 @@
       <Filter>Resource Files\Musics</Filter>
     </Media>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\TileTypes_Test.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

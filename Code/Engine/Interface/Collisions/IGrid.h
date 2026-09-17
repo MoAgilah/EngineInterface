@@ -14,7 +14,10 @@ class IGrid
 public:
 	IGrid(int rows, int columns)
 		: m_rows(rows), m_columns(columns)
-	{}
+	{
+		if (rows <= 0 || columns <= 0)
+			throw std::invalid_argument("Grid dimensions must be positive");
+	}
 
 	virtual ~IGrid() = default;
 
@@ -81,10 +84,17 @@ protected:
 		if (m_grid.empty())
 			return;
 
-		auto* firstTile = m_grid.front().get();
+		const auto validateTile = [this](std::size_t i)
+			{
+				const auto message = std::format("Null tile at grid index {}", i);
 
-		if (!CheckNotNull(firstTile, "Invalid Pointer 'firstTile'"))
-			return;
+				if (!CheckNotNull(m_grid[i].get(), message))
+					throw std::runtime_error(message);
+			};
+
+		validateTile(0);
+
+		auto* firstTile = m_grid[0].get();
 
 		const float tileWidth = firstTile->GetTileWidth();
 		const float tileHeight = firstTile->GetTileHeight();
@@ -98,10 +108,9 @@ protected:
 			{
 				const size_t index = static_cast<size_t>(row * m_columns + col);
 
-				auto* tile = m_grid[index].get();
+				validateTile(index);
 
-				if (!tile)
-					continue;
+				auto* tile = m_grid[index].get();
 
 				Vector2f pos(
 					(tileWidth * 0.5f) + col * tileWidth,

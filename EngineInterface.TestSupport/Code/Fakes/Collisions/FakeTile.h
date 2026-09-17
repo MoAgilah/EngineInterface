@@ -9,7 +9,7 @@ class FakeTile : public ITile
 {
 public:
 	FakeTile(int gX, int gY)
-	: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(), nullptr, nullptr)
+		: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(Vector2f(16.f, 16.f)), nullptr, nullptr)
 	{}
 
 	void SetIntersects(bool value)
@@ -24,7 +24,10 @@ public:
 		return intersects;
 	}
 
-	void Render(IRenderer* renderer) override {}
+	void Render(IRenderer* renderer) override
+	{
+		renderCalled = true;
+	}
 
 	void ResolveCollision(IDynamicGameObject* obj, float tFirst, float tLast) override
 	{
@@ -46,6 +49,7 @@ protected:
 
 public:
 	bool intersects = false;
+	bool renderCalled = false;
 	bool resolveCollisionCalled = false;
 
 	IDynamicGameObject* resolvedObject = nullptr;
