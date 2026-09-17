@@ -128,6 +128,9 @@
     <Media Include="Resources\Music\DefaultMusic.wav" />
     <Media Include="Resources\Sounds\DefaultSound.wav" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\TileTypes_Test.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
