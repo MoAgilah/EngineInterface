@@ -4,6 +4,7 @@
 #include <Engine/Core/Constants.h>
 #include <Engine/Interface/Drawables/IShape.h>
 #include <Utilities/ShapeMath.h>
+#include <Utilities/Traits.h>
 #include <array>
 #include <memory>
 

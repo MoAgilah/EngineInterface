@@ -9,7 +9,7 @@ class FakeTile : public ITile
 {
 public:
 	FakeTile(int gX, int gY)
-	: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(), nullptr, nullptr)
+		: ITile(gX, gY, std::make_shared<BoundingBox<FakeBox>>(Vector2f(16.f, 16.f)), nullptr, nullptr)
 	{}
 
 	void SetIntersects(bool value)

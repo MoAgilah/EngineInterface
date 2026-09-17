@@ -24,6 +24,16 @@ public:
 
 	}
 
+	void SetTileNull(std::size_t index)
+	{
+		m_grid.at(index) = nullptr;
+	}
+
+	void SetTileActive(std::size_t index, bool active)
+	{
+		m_grid.at(index)->SetActive(active);
+	}
+
 	void Init(const std::string& fontName, const std::string& tileFilePath) override
 	{
 		m_grid.reserve(m_rows * m_columns);
