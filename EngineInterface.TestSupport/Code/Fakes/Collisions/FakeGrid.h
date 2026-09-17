@@ -7,6 +7,9 @@
 class FakeGrid : public IGrid
 {
 public:
+	using IGrid::LoadTileTypes;
+	using IGrid::ArrangeTilePositions;
+
 	FakeGrid(int rows, int columns)
 		: IGrid(rows, columns)
 	{
@@ -34,11 +37,8 @@ public:
 		if (!fullInitialisation)
 			return;
 
-		if (!m_grid.empty())
-		{
-			LoadTileTypes(tileFilePath);
-			ArrangeTilePositions();
-		}
+		LoadTileTypes(tileFilePath);
+		ArrangeTilePositions();
 	}
 
 private:

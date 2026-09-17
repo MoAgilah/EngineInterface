@@ -24,7 +24,10 @@ public:
 		return intersects;
 	}
 
-	void Render(IRenderer* renderer) override {}
+	void Render(IRenderer* renderer) override
+	{
+		renderCalled = true;
+	}
 
 	void ResolveCollision(IDynamicGameObject* obj, float tFirst, float tLast) override
 	{
@@ -46,6 +49,7 @@ protected:
 
 public:
 	bool intersects = false;
+	bool renderCalled = false;
 	bool resolveCollisionCalled = false;
 
 	IDynamicGameObject* resolvedObject = nullptr;

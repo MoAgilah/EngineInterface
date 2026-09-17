@@ -14,7 +14,13 @@ class IGrid
 public:
 	IGrid(int rows, int columns)
 		: m_rows(rows), m_columns(columns)
-	{}
+	{
+		if (m_rows < 0 || m_columns < 0)
+			throw std::invalid_argument("Grid dimensions cannot be negative.");
+
+		if (m_rows == 0 && m_columns == 0)
+			throw std::invalid_argument("Grid dimensions cannot both be zero.");
+	}
 
 	virtual ~IGrid() = default;
 
