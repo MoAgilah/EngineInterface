@@ -78,6 +78,8 @@ public:
 
 	bool IsDynamicObject() override { return true; }
 
+	virtual Vector2f GetPrevPosition() const = 0;
+
 	virtual bool GetOnGround() const { return m_onGround; }
 	virtual void SetOnGround(bool grnd) { m_onGround = grnd; }
 
