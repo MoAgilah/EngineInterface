@@ -28,6 +28,8 @@ namespace Engine
             TEST_METHOD(Tile_Constructor_WithValidBoundingBox_DoesNotThrow)
             {
                 TestableTile tile(0, 0, std::make_shared<FakeBoundingBox>(), nullptr);
+
+                Assert::IsFalse(tile.GetHasFont());
             }
 
             TEST_METHOD(Tile_Constructor_ThrowsWithoutValidBoundingBox)

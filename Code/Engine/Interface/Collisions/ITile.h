@@ -23,6 +23,8 @@ public:
 	ITile(int x, int y, std::shared_ptr<IBoundingBox> aabb, std::shared_ptr<IDrawable> text, std::shared_ptr<ITriangleShape> slope);
 	virtual ~ITile() = default;
 
+	bool GetHasFont() const { return m_hasFont; }
+
 	virtual void Render(IRenderer* renderer) = 0;
 
 	virtual bool Intersects(IDynamicGameObject* obj, float& tFirst, float& tLast);
