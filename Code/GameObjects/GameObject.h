@@ -71,7 +71,7 @@ public:
 
 	void SetPrevPosition(Vector2f pos) { m_previousPos = pos; }
 	void SetPrevPosition(float x, float y) { m_previousPos = Vector2f(x, y); }
-	Vector2f GetPrevPosition() const { return m_previousPos; }
+	Vector2f GetPrevPosition() const override { return m_previousPos; }
 
 	float GetXVelocity() const { return m_velocity.x; }
 	void SetXVelocity(float x) { m_velocity.x = x; }
