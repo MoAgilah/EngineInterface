@@ -6,6 +6,7 @@
 bool  GameConstants::DRender = false;
 bool  GameConstants::GameIsReady = false;
 float GameConstants::FPS = 60.f;
+float GameConstants::AnimationFrameDurationMS = 60.f;
 float GameConstants::CountdownDuration = 300.f;
 float GameConstants::ObjectSpeed = 2.f;
 float GameConstants::Gravity = 9.81f;
