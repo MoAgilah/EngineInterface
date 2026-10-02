@@ -401,6 +401,9 @@
     <ClCompile Include="Code\Utilities\Logger.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Interface\Drawables\ISprite.cpp">
+      <Filter>Source Files\Engine\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Resources\Fonts\Arial.ttf">
