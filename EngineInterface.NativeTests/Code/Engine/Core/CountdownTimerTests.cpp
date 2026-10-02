@@ -13,10 +13,10 @@ namespace Engine
         public:
 
             // ======================================================
-            // Max Time
+            // Construction
             // ======================================================
 
-            TEST_METHOD(Constructor_ShouldSetMaxTimeBeforeCountdown)
+            TEST_METHOD(CountdownTimer_Constructor_ShouldSetMaxTimeBeforeCountdown)
             {
                 CountdownTimer timer(3.0f);
 
@@ -25,7 +25,7 @@ namespace Engine
                 Assert::AreEqual(3.0f, maxTime);
             }
 
-            TEST_METHOD(Constructor_WhenMaxTimeIsZero_TimerStartsAtZero)
+            TEST_METHOD(CountdownTimer_Constructor_WhenMaxTimeIsZero_TimerStartsAtZero)
             {
                 CountdownTimer timer(0.0f);
 
@@ -34,7 +34,7 @@ namespace Engine
                 Assert::AreEqual(0.0f, currTime);
             }
 
-            TEST_METHOD(Constructor_WhenMaxTimeIsZero_CheckEndReturnsTrue)
+            TEST_METHOD(CountdownTimer_Constructor_WhenMaxTimeIsZero_CheckEndReturnsTrue)
             {
                 CountdownTimer timer(0.0f);
 
@@ -43,11 +43,7 @@ namespace Engine
                 Assert::IsTrue(res);
             }
 
-            // ======================================================
-            // Vector Maths
-            // ======================================================
-
-            TEST_METHOD(Constructor_WhenMaxTimeIsNegative_ClampsMaxTimeToZero)
+            TEST_METHOD(CountdownTimer_Constructor_WhenMaxTimeIsNegative_ClampsMaxTimeToZero)
             {
                 CountdownTimer timer(-1.0f);
 
@@ -55,10 +51,6 @@ namespace Engine
 
                 Assert::AreEqual(0.0f, maxTime);
             }
-
-            // ======================================================
-            // Max Time
-            // ======================================================
 
             TEST_METHOD(Constructor_WhenMaxTimeIsNegative_StartsAtZero)
             {
@@ -69,11 +61,12 @@ namespace Engine
                 Assert::AreEqual(0.0f, currTime);
             }
 
+
             // ======================================================
             // Timer Updates
             // ======================================================
 
-            TEST_METHOD(Update_SingleStep_DecreasesTimeCorrectly)
+            TEST_METHOD(CountdownTimer_Update_SingleStep_DecreasesTimeCorrectly)
             {
                 CountdownTimer timer(3.0f);
 
@@ -82,7 +75,7 @@ namespace Engine
                 Assert::AreEqual(2.0f, timer.GetCurrTime(), 0.001f);
             }
 
-            TEST_METHOD(Update_MultipleStep_DecreasesTimeCorrectly)
+            TEST_METHOD(CountdownTimer_Update_MultipleStep_DecreasesTimeCorrectly)
             {
                 CountdownTimer timer(3.0f);
 
@@ -92,11 +85,7 @@ namespace Engine
                 Assert::IsTrue(timer.GetCurrTime() <= 0.001f);
             }
 
-            // ======================================================
-            // Vector Maths
-            // ======================================================
-
-            TEST_METHOD(Update_WhenDeltaTimeExceedsRemainingTime_ClampsToZero)
+            TEST_METHOD(CountdownTimer_Update_WhenDeltaTimeExceedsRemainingTime_ClampsToZero)
             {
                 CountdownTimer timer(3.0f);
 
@@ -107,11 +96,7 @@ namespace Engine
                 Assert::AreEqual(0.0f, timer.GetCurrTime(), 0.001f);
             }
 
-            // ======================================================
-            // Current Time
-            // ======================================================
-
-            TEST_METHOD(Update_WhenTimerAlreadyEnded_DoesNotChangeCurrTime)
+            TEST_METHOD(CountdownTimer_Update_WhenTimerAlreadyEnded_DoesNotChangeCurrTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -125,11 +110,52 @@ namespace Engine
                 Assert::AreEqual(0.0f, timer.GetCurrTime(), 0.001f);
             }
 
+            TEST_METHOD(CountdownTimer_Update_WhenDeltaTimeIsZero_DoesNotChangeCurrTime)
+            {
+                CountdownTimer timer(3.0f);
+
+                auto currTime = timer.GetCurrTime();
+
+                Assert::IsFalse(timer.CheckEnd());
+
+                timer.Update(0.0f);
+
+                Assert::AreEqual(currTime, timer.GetCurrTime(), 0.001f);
+                Assert::IsFalse(timer.CheckEnd());
+            }
+
+            TEST_METHOD(CountdownTimer_Update_WhenDeltaTimeIsNegative_DoesNotIncreaseCurrTime)
+            {
+                CountdownTimer timer(3.0f);
+
+                auto currTime = timer.GetCurrTime();
+
+                Assert::IsFalse(timer.CheckEnd());
+
+                timer.Update(-0.01f);
+
+                Assert::AreEqual(currTime, timer.GetCurrTime(), 0.001f);
+                Assert::IsFalse(timer.CheckEnd());
+            }
+
+            TEST_METHOD(CountdownTimer_GetCurrTime_UpdateChangesCurrTime)
+            {
+                CountdownTimer timer(3.0f);
+
+                auto currTime = timer.GetCurrTime();
+
+                timer.Update(1.0f);
+
+                Assert::AreNotEqual(currTime, timer.GetCurrTime(), 0.001f);
+                Assert::AreEqual(2.0f, timer.GetCurrTime(), 0.001f);
+            }
+
+
             // ======================================================
             // Pause / Resume
             // ======================================================
 
-            TEST_METHOD(Update_WhenTimerIsPaused_DoesNothing)
+            TEST_METHOD(CountdownTimer_Update_WhenTimerIsPaused_DoesNothing)
             {
                 CountdownTimer timer(3.0f);
 
@@ -144,7 +170,7 @@ namespace Engine
                 Assert::AreEqual(currTime, timer.GetCurrTime(), 0.001f);
             }
 
-            TEST_METHOD(Update_WhenTimerIsResumed_DecreasesCurrTime)
+            TEST_METHOD(CountdownTimer_Update_WhenTimerIsResumed_DecreasesCurrTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -163,59 +189,12 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
+
             // ======================================================
             // Current Time
             // ======================================================
 
-            TEST_METHOD(Update_WhenDeltaTimeIsZero_DoesNotChangeCurrTime)
-            {
-                CountdownTimer timer(3.0f);
-
-                auto currTime = timer.GetCurrTime();
-
-                Assert::IsFalse(timer.CheckEnd());
-
-                timer.Update(0.0f);
-
-                Assert::AreEqual(currTime, timer.GetCurrTime(), 0.001f);
-                Assert::IsFalse(timer.CheckEnd());
-            }
-
-            TEST_METHOD(Update_WhenDeltaTimeIsNegative_DoesNotIncreaseCurrTime)
-            {
-                CountdownTimer timer(3.0f);
-
-                auto currTime = timer.GetCurrTime();
-
-                Assert::IsFalse(timer.CheckEnd());
-
-                timer.Update(-0.01f);
-
-                Assert::AreEqual(currTime, timer.GetCurrTime(), 0.001f);
-                Assert::IsFalse(timer.CheckEnd());
-            }
-
-            // ======================================================
-            // Update
-            // ======================================================
-
-            TEST_METHOD(GetCurrTime_UpdateChangesCurrTime)
-            {
-                CountdownTimer timer(3.0f);
-
-                auto currTime = timer.GetCurrTime();
-
-                timer.Update(1.0f);
-
-                Assert::AreNotEqual(currTime, timer.GetCurrTime(), 0.001f);
-                Assert::AreEqual(2.0f, timer.GetCurrTime(), 0.001f);
-            }
-
-            // ======================================================
-            // Change State
-            // ======================================================
-
-            TEST_METHOD(SetCurrTime_ChangesValueOfCurrTime)
+            TEST_METHOD(CountdownTimer_SetCurrTime_ChangesValueOfCurrTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -227,11 +206,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Vector Maths
-            // ======================================================
-
-            TEST_METHOD(SetCurrTime_WhenSetAboveMax_ClampsToMaxTime)
+            TEST_METHOD(CountdownTimer_SetCurrTime_WhenSetAboveMax_ClampsToMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -243,7 +218,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            TEST_METHOD(SetCurrTime_WhenSetBelowZero_ClampsToZero)
+            TEST_METHOD(CountdownTimer_SetCurrTime_WhenSetBelowZero_ClampsToZero)
             {
                 CountdownTimer timer(3.0f);
 
@@ -253,11 +228,7 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Behaviour
-            // ======================================================
-
-            TEST_METHOD(SetCurrTime_WhenSetToZero_CheckEndReturnsTrue)
+            TEST_METHOD(CountdownTimer_SetCurrTime_WhenSetToZero_CheckEndReturnsTrue)
             {
                 CountdownTimer timer(3.0f);
 
@@ -269,11 +240,7 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Max Time
-            // ======================================================
-
-            TEST_METHOD(SetCurrTime_WhenSetToMaxTime_SetsToMaxTime)
+            TEST_METHOD(CountdownTimer_SetCurrTime_WhenSetToMaxTime_SetsToMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -287,18 +254,19 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
+
             // ======================================================
             // Finished State
             // ======================================================
 
-            TEST_METHOD(CheckEnd_ReturnsFalseBeforeTimerIsFinished)
+            TEST_METHOD(CountdownTimer_CheckEnd_ReturnsFalseBeforeTimerIsFinished)
             {
                 CountdownTimer timer(3.0f);
 
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            TEST_METHOD(CheckEnd_ReturnsTrueWhenTimerIsFinished)
+            TEST_METHOD(CountdownTimer_CheckEnd_ReturnsTrueWhenTimerIsFinished)
             {
                 CountdownTimer timer(3.0f);
 
@@ -307,11 +275,12 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
+
             // ======================================================
-            // Max Time
+            // Restart
             // ======================================================
 
-            TEST_METHOD(RestartTimer_RestartsTimeToThatOfMaxTime)
+            TEST_METHOD(CountdownTimer_RestartTimer_RestartsTimeToThatOfMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -327,11 +296,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Pause / Resume
-            // ======================================================
-
-            TEST_METHOD(RestartTimer_AfterPause_ResetsCurrTimeToMaxTime)
+            TEST_METHOD(CountdownTimer_RestartTimer_AfterPause_ResetsCurrTimeToMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -348,12 +313,11 @@ namespace Engine
 
                 timer.RestartTimer();
 
-
                 Assert::AreEqual(max, timer.GetCurrTime(), 0.001f);
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            TEST_METHOD(RestartTimer_AfterPause_ResumesTimer)
+            TEST_METHOD(CountdownTimer_RestartTimer_AfterPause_ResumesTimer)
             {
                 CountdownTimer timer(3.0f);
 
@@ -368,11 +332,12 @@ namespace Engine
                 Assert::AreEqual(2.0f, timer.GetCurrTime(), 0.001f);
             }
 
+
             // ======================================================
-            // Change State
+            // Max Time
             // ======================================================
 
-            TEST_METHOD(SetMaxTime_ChangesTheMaxTime)
+            TEST_METHOD(CountdownTimer_SetMaxTime_ChangesTheMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -382,11 +347,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Max Time
-            // ======================================================
-
-            TEST_METHOD(GetMaxTime_ReturnsCurrMaxTime)
+            TEST_METHOD(CountdownTimer_GetMaxTime_ReturnsCurrMaxTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -394,11 +355,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Current Time
-            // ======================================================
-
-            TEST_METHOD(SetMaxTime_WhenSetHigherThanCurrTime_DoesNotChangeCurrTime)
+            TEST_METHOD(CountdownTimer_SetMaxTime_WhenSetHigherThanCurrTime_DoesNotChangeCurrTime)
             {
                 CountdownTimer timer(3.0f);
 
@@ -410,11 +367,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Vector Maths
-            // ======================================================
-
-            TEST_METHOD(SetMaxTime_WhenSetLowerThanCurrTime_ClampsCurrTimeToNewMax)
+            TEST_METHOD(CountdownTimer_SetMaxTime_WhenSetLowerThanCurrTime_ClampsCurrTimeToNewMax)
             {
                 CountdownTimer timer(4.0f);
 
@@ -426,11 +379,7 @@ namespace Engine
                 Assert::IsFalse(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Current Time
-            // ======================================================
-
-            TEST_METHOD(SetMaxTime_WhenSetToZero_SetsCurrTimeToZero)
+            TEST_METHOD(CountdownTimer_SetMaxTime_WhenSetToZero_SetsCurrTimeToZero)
             {
                 CountdownTimer timer(3.0f);
 
@@ -441,11 +390,7 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Vector Maths
-            // ======================================================
-
-            TEST_METHOD(SetMaxTime_WhenSetNegative_ClampsMaxTimeAndCurrTimeToZero)
+            TEST_METHOD(CountdownTimer_SetMaxTime_WhenSetNegative_ClampsMaxTimeAndCurrTimeToZero)
             {
                 CountdownTimer timer(3.0f);
 
@@ -456,11 +401,12 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
+
             // ======================================================
-            // s Curr Time To Zero Access
+            // Force End
             // ======================================================
 
-            TEST_METHOD(ForceEnd_SetsCurrTimeToZero_AndTimerIsEnded)
+            TEST_METHOD(CountdownTimer_ForceEnd_SetsCurrTimeToZero_AndTimerIsEnded)
             {
                 CountdownTimer timer(3.0f);
 
@@ -470,11 +416,7 @@ namespace Engine
                 Assert::IsTrue(timer.CheckEnd());
             }
 
-            // ======================================================
-            // Update
-            // ======================================================
-
-            TEST_METHOD(ForceEnd_UpdateDoesNotMakeCurrTimeNegative)
+            TEST_METHOD(CountdownTimer_ForceEnd_UpdateDoesNotMakeCurrTimeNegative)
             {
                 CountdownTimer timer(3.0f);
 

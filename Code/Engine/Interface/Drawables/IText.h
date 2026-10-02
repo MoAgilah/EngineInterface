@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Core/CountdownTimer.h"
 #include "../Effects/IShaderEffect.h"
 #include "../Renderer/IRenderer.h"
 #include "../../../Utilities/Colour.h"
@@ -77,4 +78,30 @@ protected:
 
 	TextConfig m_config;
 	std::unique_ptr<IShaderEffect> m_shaderEffect;
+};
+
+class ICountdownText
+{
+public:
+	ICountdownText(float countdownInterval, int startFrom, const std::string& countDownMessage);
+	virtual ~ICountdownText() = default;
+
+	void Update(float deltaTime);
+
+	int GetCount() const { return m_count; }
+
+	void SetMaxCount(int startFrom);
+	bool CountHasEnded() const { return m_countEnded; }
+
+	std::string_view GetCountDownMsg() const { return m_countdownMsg; }
+	void SetCountDownMsg(const std::string& msg) { m_countdownMsg = msg; }
+
+protected:
+
+	int m_count = 0;
+	int m_maxCount = 0;
+	bool m_countEnded = false;
+	float m_countdownInterval;
+	std::string m_countdownMsg;
+	CountdownTimer m_timer;
 };

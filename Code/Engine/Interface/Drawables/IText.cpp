@@ -18,5 +18,49 @@ TextConfig::TextConfig(const TextConfig& config)
 
 IText::IText(const TextConfig& config)
 	: m_config(config)
+{}
+
+ICountdownText::ICountdownText(float countdownInterval, int startFrom, const std::string& countDownMessage)
+    : m_countdownInterval(countdownInterval), m_timer(m_countdownInterval)
 {
+    ThrowIfFalse(
+        countdownInterval > 0.f,
+        "Flash duration must be greater than zero"
+    );
+
+    SetMaxCount(startFrom);
+    SetCountDownMsg(countDownMessage);
+}
+
+void ICountdownText::Update(float deltaTime)
+{
+    if (m_countEnded)
+        return;
+
+    m_timer.Update(deltaTime);
+
+    if (!m_timer.CheckEnd())
+        return;
+
+    --m_count;
+
+    if (m_count <= 0)
+    {
+        m_count = 0;
+        m_countEnded = true;
+        return;
+    }
+
+    m_timer.RestartTimer();
+}
+
+void ICountdownText::SetMaxCount(int startFrom)
+{
+    ThrowIfFalse(
+        startFrom > 0,
+        "Countdown start value must be greater than zero."
+    );
+
+    m_count = m_maxCount = startFrom;
+    m_countEnded = false;
 }
