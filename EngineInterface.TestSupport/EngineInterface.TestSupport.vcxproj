@@ -32,6 +32,8 @@
     <ClInclude Include="Code\Fakes\Drawables\FakeDrawable.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeShape.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeSprite.h" />
+    <ClInclude Include="Code\Fakes\Drawables\FakeText.h" />
+    <ClInclude Include="Code\Fakes\Effects\FakeShaderEffect.h" />
     <ClInclude Include="Code\Fakes\GameObjects\FakeEnemy.h" />
     <ClInclude Include="Code\Fakes\GameObjects\FakeGameObject.h" />
     <ClInclude Include="Code\Fakes\GameObjects\TestableCollectables.h" />
@@ -42,9 +44,9 @@
     <ClInclude Include="Code\Fakes\Renderer\FakeCamera.h" />
     <ClInclude Include="Code\Fakes\Renderer\FakeRenderer.h" />
     <ClInclude Include="Code\Fakes\Resources\FakeLoadableResource.h" />
+    <ClInclude Include="Code\Fakes\Resources\FakeShader.h" />
     <ClInclude Include="Code\Fakes\Scenes\FakeScene.h" />
     <ClInclude Include="Code\Fakes\States\FakeGameState.h" />
-    <ClInclude Include="Code\Fakes\UI\FakeText.h" />
     <ClInclude Include="Code\Fakes\UI\TestableMenuNav.h" />
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />

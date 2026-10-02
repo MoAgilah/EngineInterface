@@ -2,9 +2,9 @@
 
 #include "../Drawables/FakeShape.h"
 #include "../Drawables/FakeSprite.h"
+#include "../Drawables/FakeText.h"
 #include "../GameObjects/FakeEnemy.h"
 #include "../GameObjects/FakeGameObject.h"
-#include "../UI/FakeText.h"
 #include <Engine/Collisions/BoundingBox.h>
 #include <Engine/Interface/Scene/IScene.h>
 #include <Utilities/Guards.h>
@@ -134,13 +134,13 @@ protected:
 
 		EmplaceGUITextOrThrow<FakeText>(
 			"Text1",
-			TextConfig("fontName", 12, Vector2f(), TextAnimType::Static),
+			TextConfig("fontName", 12, Vector2f()),
 			"Txt1"
 		);
 
 		EmplaceGUITextOrThrow<FakeText>(
 			"Text2",
-			TextConfig("fontName", 12, Vector2f(), TextAnimType::Static),
+			TextConfig("fontName", 12, Vector2f()),
 			"Txt2"
 		);
 

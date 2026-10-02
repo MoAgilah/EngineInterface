@@ -40,6 +40,12 @@
     <Filter Include="Source Files\Engine\UI">
       <UniqueIdentifier>{4265c925-659f-449a-a465-da97a626f577}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Effects">
+      <UniqueIdentifier>{7847db53-3df1-4ea0-801d-dd9d4905ff0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Drawables">
+      <UniqueIdentifier>{2b6fab80-c65f-4179-b97b-07dc323a8ef4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -137,6 +143,15 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Collisions\GridTests.cpp">
       <Filter>Source Files\Engine\Collisions</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Effects\IShaderEffectTests.cpp">
+      <Filter>Source Files\Engine\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Effects\IFlashingEffectTests.cpp">
+      <Filter>Source Files\Engine\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Drawables\ICountdownTextTests.cpp">
+      <Filter>Source Files\Engine\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

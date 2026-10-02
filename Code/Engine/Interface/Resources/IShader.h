@@ -17,6 +17,10 @@ public:
     virtual ~IShader() = default;
     virtual bool LoadFromFile(const std::string& filepath) = 0;
 
+    virtual void SetUniform(
+        const std::string& name,
+        float value) = 0;
+
 protected:
     inline std::optional<ShaderType> ShaderTypeFromExtension(std::string ext)
     {

@@ -55,6 +55,9 @@
     <Filter Include="Source Files\TestHelpers">
       <UniqueIdentifier>{9916e7d2-5fe7-47e9-a51c-d6fac1291b3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Fakes\Effects">
+      <UniqueIdentifier>{44c9d008-5fa9-4f07-a67e-6d8399725fde}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h">
@@ -111,9 +114,6 @@
     <ClInclude Include="Code\Fakes\GameObjects\FakeEnemy.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Fakes\UI\FakeText.h">
-      <Filter>Header Files\Fakes\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Fakes\GameObjects\TestableGameObject.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
@@ -128,6 +128,15 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\UI\TestableMenuNav.h">
       <Filter>Header Files\Fakes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\FakeText.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Resources\FakeShader.h">
+      <Filter>Header Files\Fakes\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Effects\FakeShaderEffect.h">
+      <Filter>Header Files\Fakes\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
