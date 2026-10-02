@@ -7,11 +7,6 @@
 #include <functional>
 #include <string>
 
-enum class TextAnimType
-{
-	Unassigned, Static, Flashing, Countdown, Custom
-};
-
 enum class TextAlignment
 {
 	None, LeftHand, Center, RightHand
@@ -23,7 +18,7 @@ struct TextConfig
 
 	TextConfig(const std::string& fontName);
 
-	TextConfig(const std::string& fontName, unsigned int charSize, const Vector2f& position, TextAnimType textAnimType, Colour colour = Colour::Black, TextAlignment alignment = TextAlignment::Center);
+	TextConfig(const std::string& fontName, unsigned int charSize, const Vector2f& position, Colour colour = Colour::Black, TextAlignment alignment = TextAlignment::Center);
 
 	TextConfig(const TextConfig& config);
 
@@ -31,7 +26,6 @@ struct TextConfig
 	unsigned int m_charSize;
 	Vector2f m_position;
 	Colour m_colour;
-	TextAnimType m_animType;
 	TextAlignment m_alignment;
 };
 
@@ -69,7 +63,6 @@ public:
 	virtual float GetOutlineThickness() = 0;
 	virtual void SetOutlineThickness(float thickness) = 0;
 
-	bool IsAnimated() const { return m_config.m_animType > TextAnimType::Static; }
 	const Colour& GetDefaultColour() const { return m_config.m_colour; }
 
 protected:
@@ -84,17 +77,4 @@ protected:
 
 	TextConfig m_config;
 	std::unique_ptr<IShaderEffect> m_shaderEffect;
-};
-
-using UpdateFunc = std::function<void(float)>;
-using RenderFunc = std::function<void(IRenderer* renderer)>;
-
-struct CustomTextConfig
-{
-	CustomTextConfig(const TextConfig& config, UpdateFunc updateFunc, RenderFunc renderFunc, const std::string& shaderName = "");
-
-	TextConfig m_config;
-	UpdateFunc m_updateFunc;
-	RenderFunc m_renderFunc;
-	std::string m_shaderName;
 };

@@ -134,13 +134,13 @@ protected:
 
 		EmplaceGUITextOrThrow<FakeText>(
 			"Text1",
-			TextConfig("fontName", 12, Vector2f(), TextAnimType::Static),
+			TextConfig("fontName", 12, Vector2f()),
 			"Txt1"
 		);
 
 		EmplaceGUITextOrThrow<FakeText>(
 			"Text2",
-			TextConfig("fontName", 12, Vector2f(), TextAnimType::Static),
+			TextConfig("fontName", 12, Vector2f()),
 			"Txt2"
 		);
 
