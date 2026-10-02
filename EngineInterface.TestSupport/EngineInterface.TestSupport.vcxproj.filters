@@ -138,6 +138,9 @@
     <ClInclude Include="Code\Fakes\Effects\FakeShaderEffect.h">
       <Filter>Header Files\Fakes\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\TestableAnimatedSprite.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Fakes\States\FakeGameState.cpp">
