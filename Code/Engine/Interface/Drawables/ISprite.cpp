@@ -85,6 +85,7 @@ void IAnimatedSprite::SetFrames(const std::vector<int>& numFrames)
 	m_numFrames.assign(numFrames.begin(), numFrames.end());
 
 	m_currentTime = 0.0f;
+	m_animCycles = 0;
 
 	m_animation.m_current = 0;
 	m_animation.m_max = static_cast<int>(m_numFrames.size());

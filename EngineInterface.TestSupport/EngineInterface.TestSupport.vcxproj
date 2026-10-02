@@ -33,6 +33,7 @@
     <ClInclude Include="Code\Fakes\Drawables\FakeShape.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeSprite.h" />
     <ClInclude Include="Code\Fakes\Drawables\FakeText.h" />
+    <ClInclude Include="Code\Fakes\Drawables\TestableAnimatedSprite.h" />
     <ClInclude Include="Code\Fakes\Effects\FakeShaderEffect.h" />
     <ClInclude Include="Code\Fakes\GameObjects\FakeEnemy.h" />
     <ClInclude Include="Code\Fakes\GameObjects\FakeGameObject.h" />

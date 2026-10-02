@@ -2,6 +2,7 @@
 
 #include "../../../Utilities/Vector2.h"
 #include "../../../Utilities/Rect.h"
+#include "../../../Utilities/Guards.h"
 #include <string_view>
 #include <vector>
 
@@ -40,7 +41,17 @@ class IAnimatedSprite
 public:
 	IAnimatedSprite(float animSpeed, float frameDurationMs)
 		: m_animSpeed(animSpeed), m_frameDuration(frameDurationMs / 1000.0f)
-	{}
+	{
+		ThrowIfFalse(
+			frameDurationMs > 0.0f,
+			"Animation frame duration must be greater than zero."
+		);
+
+		ThrowIfFalse(
+			m_animSpeed >= 0.0f,
+			"Animation speed cannot be negative."
+		);
+	}
 
 	virtual ~IAnimatedSprite() = default;
 

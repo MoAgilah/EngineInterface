@@ -153,5 +153,8 @@
     <ClCompile Include="Code\Engine\Drawables\ICountdownTextTests.cpp">
       <Filter>Source Files\Engine\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Drawables\IAnimatedSpriteTests.cpp">
+      <Filter>Source Files\Engine\Drawables</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

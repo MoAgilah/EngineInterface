@@ -179,6 +179,7 @@
     <ClCompile Include="Code\Engine\Core\GameManagerTests.cpp" />
     <ClCompile Include="Code\Engine\Core\GameStateMgrTests.cpp" />
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
+    <ClCompile Include="Code\Engine\Drawables\IAnimatedSpriteTests.cpp" />
     <ClCompile Include="Code\Engine\Drawables\ICountdownTextTests.cpp" />
     <ClCompile Include="Code\Engine\Effects\IFlashingEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Effects\IShaderEffectTests.cpp" />
