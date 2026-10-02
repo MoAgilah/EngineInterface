@@ -121,6 +121,9 @@
     <Filter Include="Source Files\Engine\Interface\Drawables">
       <UniqueIdentifier>{dac79712-1c25-43d4-bb0c-548ffd673fac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Interface\Effects">
+      <UniqueIdentifier>{8e76ed92-a0bd-44fd-963e-6914bbab1b21}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h">
@@ -326,6 +329,9 @@
     </ClInclude>
     <ClInclude Include="Code\Engine\Interface\Drawables\IText.h">
       <Filter>Header Files\Engine\Interface\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Effects\IShaderEffect.h">
+      <Filter>Header Files\Engine\Interface\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
