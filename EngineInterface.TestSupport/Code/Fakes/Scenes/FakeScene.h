@@ -2,9 +2,9 @@
 
 #include "../Drawables/FakeShape.h"
 #include "../Drawables/FakeSprite.h"
+#include "../Drawables/FakeText.h"
 #include "../GameObjects/FakeEnemy.h"
 #include "../GameObjects/FakeGameObject.h"
-#include "../UI/FakeText.h"
 #include <Engine/Collisions/BoundingBox.h>
 #include <Engine/Interface/Scene/IScene.h>
 #include <Utilities/Guards.h>

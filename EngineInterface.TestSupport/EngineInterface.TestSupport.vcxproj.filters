@@ -111,9 +111,6 @@
     <ClInclude Include="Code\Fakes\GameObjects\FakeEnemy.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Fakes\UI\FakeText.h">
-      <Filter>Header Files\Fakes\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Fakes\GameObjects\TestableGameObject.h">
       <Filter>Header Files\Fakes\GameObjects</Filter>
     </ClInclude>
@@ -128,6 +125,9 @@
     </ClInclude>
     <ClInclude Include="Code\Fakes\UI\TestableMenuNav.h">
       <Filter>Header Files\Fakes\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Fakes\Drawables\FakeText.h">
+      <Filter>Header Files\Fakes\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

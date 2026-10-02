@@ -118,6 +118,9 @@
     <Filter Include="Resource Files\Fonts">
       <UniqueIdentifier>{3090dac1-0273-420e-bac5-dade54d59574}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Interface\Drawables">
+      <UniqueIdentifier>{dac79712-1c25-43d4-bb0c-548ffd673fac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h">
@@ -270,9 +273,6 @@
     <ClInclude Include="Code\Engine\Interface\UI\IPaginatedMenu.h">
       <Filter>Header Files\Engine\Interface\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Interface\UI\IText.h">
-      <Filter>Header Files\Engine\Interface\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Engine\UI\MenuNavigation.h">
       <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
@@ -323,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="Code\Utilities\HRGuards.h">
       <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Drawables\IText.h">
+      <Filter>Header Files\Engine\Interface\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -377,9 +380,6 @@
     <ClCompile Include="Code\Utilities\Colour.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Code\Engine\Interface\UI\IText.cpp">
-      <Filter>Source Files\Engine\Interface\UI</Filter>
-    </ClCompile>
     <ClCompile Include="Code\Engine\Interface\UI\IMenu.cpp">
       <Filter>Source Files\Engine\Interface\UI</Filter>
     </ClCompile>
@@ -401,8 +401,11 @@
     <ClCompile Include="Code\Utilities\Logger.cpp">
       <Filter>Source Files\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Interface\Drawables\IText.cpp">
+      <Filter>Source Files\Engine\Interface\Drawables</Filter>
+    </ClCompile>
     <ClCompile Include="Code\Engine\Interface\Drawables\ISprite.cpp">
-      <Filter>Source Files\Engine\Interface</Filter>
+      <Filter>Source Files\Engine\Interface\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

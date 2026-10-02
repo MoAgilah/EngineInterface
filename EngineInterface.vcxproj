@@ -39,6 +39,7 @@
     <ClInclude Include="Code\Engine\Interface\Drawables\IDrawable.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\IShape.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\ISprite.h" />
+    <ClInclude Include="Code\Engine\Interface\Drawables\IText.h" />
     <ClInclude Include="Code\Engine\Interface\Input\IKeyConverter.h" />
     <ClInclude Include="Code\Engine\Interface\Renderer\ICamera.h" />
     <ClInclude Include="Code\Engine\Interface\Renderer\IRenderable.h" />
@@ -60,7 +61,6 @@
     <ClInclude Include="Code\Engine\Interface\UI\IMenuCursor.h" />
     <ClInclude Include="Code\Engine\Interface\UI\IMenuItem.h" />
     <ClInclude Include="Code\Engine\Interface\UI\IPaginatedMenu.h" />
-    <ClInclude Include="Code\Engine\Interface\UI\IText.h" />
     <ClInclude Include="Code\Engine\Resources\FontManager.h" />
     <ClInclude Include="Code\Engine\Resources\ShaderManager.h" />
     <ClInclude Include="Code\Engine\Resources\SoundManager.h" />
@@ -99,10 +99,10 @@
     <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp" />
     <ClCompile Include="Code\Engine\Interface\Core\IFramework.cpp" />
     <ClCompile Include="Code\Engine\Interface\Drawables\ISprite.cpp" />
+    <ClCompile Include="Code\Engine\Interface\Drawables\IText.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IGameObject.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IScene.cpp" />
     <ClCompile Include="Code\Engine\Interface\UI\IMenu.cpp" />
-    <ClCompile Include="Code\Engine\Interface\UI\IText.cpp" />
     <ClCompile Include="Code\Engine\Resources\FontManager.cpp" />
     <ClCompile Include="Code\Engine\Resources\ShaderManager.cpp" />
     <ClCompile Include="Code\Engine\Resources\SoundManager.cpp" />

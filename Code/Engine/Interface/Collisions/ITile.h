@@ -2,8 +2,8 @@
 
 #include "../Collisions/IBoundingVolume.h"
 #include "../Drawables/IShape.h"
+#include "../Drawables/IText.h"
 #include "../Scene/IGameObject.h"
-#include "../UI/IText.h"
 #include "../../../Utilities/Colour.h"
 #include <algorithm>
 #include <format>

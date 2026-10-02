@@ -2,7 +2,7 @@
 
 #include "../Drawables/IShape.h"
 #include "../Drawables/ISprite.h"
-#include "../UI/IText.h"
+#include "../Drawables/IText.h"
 #include "../../../Utilities/Guards.h"
 #include "../../../Utilities/Vector2.h"
 #include <memory>

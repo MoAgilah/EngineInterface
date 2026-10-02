@@ -2,8 +2,8 @@
 
 #include "../Collisions/IBoundingVolume.h"
 #include "../Drawables/ISprite.h"
+#include "../Drawables/IText.h"
 #include "../Renderer/IRenderer.h"
-#include "../UI/IText.h"
 #include "../../../GameObjects/Enemy.h"
 #include "../../../GameObjects/GameObject.h"
 #include <array>
