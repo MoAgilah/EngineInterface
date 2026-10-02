@@ -124,6 +124,9 @@
     <Filter Include="Header Files\Engine\Interface\Effects">
       <UniqueIdentifier>{8e76ed92-a0bd-44fd-963e-6914bbab1b21}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Interface\Effects">
+      <UniqueIdentifier>{0ebeb4c9-ae70-4ce8-92e6-1cf2acd73a51}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h">
@@ -333,6 +336,9 @@
     <ClInclude Include="Code\Engine\Interface\Effects\IShaderEffect.h">
       <Filter>Header Files\Engine\Interface\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Effects\IFlashingEffect.h">
+      <Filter>Header Files\Engine\Interface\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">
@@ -412,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Interface\Drawables\ISprite.cpp">
       <Filter>Source Files\Engine\Interface\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Interface\Effects\IFlashingEffect.cpp">
+      <Filter>Source Files\Engine\Interface\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

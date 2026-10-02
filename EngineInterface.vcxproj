@@ -40,6 +40,7 @@
     <ClInclude Include="Code\Engine\Interface\Drawables\IShape.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\ISprite.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\IText.h" />
+    <ClInclude Include="Code\Engine\Interface\Effects\IFlashingEffect.h" />
     <ClInclude Include="Code\Engine\Interface\Effects\IShaderEffect.h" />
     <ClInclude Include="Code\Engine\Interface\Input\IKeyConverter.h" />
     <ClInclude Include="Code\Engine\Interface\Renderer\ICamera.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="Code\Engine\Interface\Core\IFramework.cpp" />
     <ClCompile Include="Code\Engine\Interface\Drawables\ISprite.cpp" />
     <ClCompile Include="Code\Engine\Interface\Drawables\IText.cpp" />
+    <ClCompile Include="Code\Engine\Interface\Effects\IFlashingEffect.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IGameObject.cpp" />
     <ClCompile Include="Code\Engine\Interface\Scene\IScene.cpp" />
     <ClCompile Include="Code\Engine\Interface\UI\IMenu.cpp" />
