@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Effects/IShaderEffect.h"
 #include "../Renderer/IRenderer.h"
 #include "../../../Utilities/Colour.h"
 #include "../../../Utilities/Vector2.h"
@@ -46,6 +47,16 @@ public:
 
 	virtual void SetText(const std::string& text) = 0;
 
+	void SetEffect(std::unique_ptr<IShaderEffect> shaderEffect)
+	{
+		m_shaderEffect = std::move(shaderEffect);
+	}
+
+	IShaderEffect* GetEffect() const
+	{
+		return m_shaderEffect.get();
+	}
+
 	virtual unsigned int GetCharSize() = 0;
 	virtual void SetCharSize(unsigned int charSize) = 0;
 
@@ -65,7 +76,14 @@ protected:
 
 	virtual bool Init() = 0;
 
+	void UpdateEffect(float deltaTime)
+	{
+		if (m_shaderEffect)
+			m_shaderEffect->Update(deltaTime);
+	}
+
 	TextConfig m_config;
+	std::unique_ptr<IShaderEffect> m_shaderEffect;
 };
 
 using UpdateFunc = std::function<void(float)>;
