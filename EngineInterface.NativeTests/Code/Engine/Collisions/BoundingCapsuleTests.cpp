@@ -133,6 +133,70 @@ namespace Engine
             }
 
             // ======================================================
+            // GetWorldBounds
+            // ======================================================
+
+            TEST_METHOD(BoundingCapsule_GetWorldBounds_DefaultConstructor)
+            {
+                BoundingCapsule<FakeCapsule> bc;
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(0.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(0.f, bounds.m_width);
+                Assert::AreEqual(0.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingCapsule_GetWorldBounds__WithRadiusLengthAndAngle)
+            {
+                BoundingCapsule<FakeCapsule> bc(16.0f, 16.0f, 0.0f);
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(-24.f, bounds.m_left);
+                Assert::AreEqual(-16.f, bounds.m_top);
+                Assert::AreEqual(48.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingCapsule_GetWorldBounds_WithRadiusLengthAngleAndPos)
+            {
+                BoundingCapsule<FakeCapsule> bc(
+                    16.0f,
+                    16.0f,
+                    0.0f,
+                    Vector2f(16.0f, 16.0f)
+                );
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(-8.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(48.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingCapsule_GetWorldBounds_AfterUpdate)
+            {
+                BoundingCapsule<FakeCapsule> bc(
+                    16.0f,
+                    16.0f,
+                    0.0f,
+                    Vector2f(16.0f, 16.0f)
+                );
+
+                bc.Update(Vector2f(32.f, 16.f));
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(8.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(48.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            // ======================================================
             // Geometry Access
             // ======================================================
 

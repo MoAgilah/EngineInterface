@@ -2,6 +2,7 @@
 
 #include "../Drawables/IDrawable.h"
 #include "../../../Utilities/Line2.h"
+#include "../../../Utilities/Rect.h"
 #include "../../../Utilities/Vector2.h"
 #include <memory>
 
@@ -52,6 +53,8 @@ public:
 
     virtual Vector2f GetScale() const = 0;
     virtual void SetScale(const Vector2f& scl) = 0;
+
+    virtual FloatRect GetWorldBounds() const = 0;
 
     virtual void* GetNativeShape() = 0;
 
@@ -152,12 +155,30 @@ public:
     IBoundingBox() : IBoundingVolume(VolumeType::Box) {}
     virtual ~IBoundingBox() = default;
 
+    FloatRect GetWorldBounds() const override
+    {
+        return FloatRect(
+            m_min.x,
+            m_min.y,
+            m_max.x - m_min.x,
+            m_max.y - m_min.y
+        );
+    }
+
     virtual const Vector2f& GetMin() const { return m_min; }
     virtual const Vector2f& GetMax() const { return m_max; }
     virtual const Vector2f& GetExtents() const { return m_extents; }
     virtual Line2f GetSide(Side side) = 0;
 
 protected:
+
+    void RecalculateBounds()
+    {
+        const auto center = GetCenter();
+
+        m_min = center - m_extents;
+        m_max = center + m_extents;
+    }
 
     Vector2f m_min;
     Vector2f m_max;
@@ -168,6 +189,19 @@ class IBoundingCircle : public virtual IBoundingVolume {
 public:
     IBoundingCircle() : IBoundingVolume(VolumeType::Circle) {}
     virtual ~IBoundingCircle() = default;
+
+    FloatRect GetWorldBounds() const override
+    {
+        const auto center = GetCenter();
+        const float radius = GetRadius();
+
+        return FloatRect(
+            center.x - radius,
+            center.y - radius,
+            radius * 2.f,
+            radius * 2.f
+        );
+    }
 
     virtual float GetRadius() const = 0;
 
@@ -182,6 +216,25 @@ class IBoundingCapsule : public virtual IBoundingVolume {
 public:
     IBoundingCapsule() : IBoundingVolume(VolumeType::Capsule) {}
     virtual ~IBoundingCapsule() = default;
+
+    FloatRect GetWorldBounds() const override
+    {
+        const auto& seg = GetSegment();
+        const float radius = GetRadius();
+
+        const float minX = std::min(seg.start.x, seg.end.x) - radius;
+        const float maxX = std::max(seg.start.x, seg.end.x) + radius;
+
+        const float minY = std::min(seg.start.y, seg.end.y) - radius;
+        const float maxY = std::max(seg.start.y, seg.end.y) + radius;
+
+        return FloatRect(
+            minX,
+            minY,
+            maxX - minX,
+            maxY - minY
+        );
+    }
 
     virtual float GetRadius() const = 0;
     virtual float GetLength() const = 0;

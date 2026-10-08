@@ -54,11 +54,30 @@ namespace Engine
                 Assert::AreEqual(8.f, ori.y);
             }
 
+            TEST_METHOD(BoundingBox_Constructor_WithSize_SetsMin)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16));
+
+                auto min = aabb.GetMin();
+
+                Assert::AreEqual(-8.f, min.x);
+                Assert::AreEqual(-8.f, min.y);
+            }
+
+            TEST_METHOD(BoundingBox_Constructor_WithSize_SetsMax)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16));
+
+                auto max = aabb.GetMax();
+
+                Assert::AreEqual(8.f, max.x);
+                Assert::AreEqual(8.f, max.y);
+            }
+
             TEST_METHOD(BoundingBox_Constructor_WithSizeAndPos_DoesNotThrow)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
             }
-
 
             TEST_METHOD(BoundingBox_Constructor_WithSizeAndPos_SetsExtents)
             {
@@ -118,6 +137,60 @@ namespace Engine
 
                 Assert::AreEqual(16.f, cen.x);
                 Assert::AreEqual(16.f, cen.y);
+            }
+
+            // ======================================================
+            // GetWorldBounds
+            // ======================================================
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_DefaultConstructor)
+            {
+                BoundingBox<FakeBox> aabb;
+
+                auto bounds = aabb.GetWorldBounds();
+
+                Assert::AreEqual(0.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(0.f, bounds.m_width);
+                Assert::AreEqual(0.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_WithSize)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16.f, 16.f));
+
+                auto bounds = aabb.GetWorldBounds();
+
+                Assert::AreEqual(-8.f, bounds.m_left);
+                Assert::AreEqual(-8.f, bounds.m_top);
+                Assert::AreEqual(16.f, bounds.m_width);
+                Assert::AreEqual(16.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_WithSizeAndPosition)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
+
+                auto bounds = aabb.GetWorldBounds();
+
+                Assert::AreEqual(8.f, bounds.m_left);
+                Assert::AreEqual(8.f, bounds.m_top);
+                Assert::AreEqual(16.f, bounds.m_width);
+                Assert::AreEqual(16.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_AfterUpdate)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
+
+                aabb.Update(Vector2f(32.f, 16));
+
+                auto bounds = aabb.GetWorldBounds();
+
+                Assert::AreEqual(24.f, bounds.m_left);
+                Assert::AreEqual(8.f, bounds.m_top);
+                Assert::AreEqual(16.f, bounds.m_width);
+                Assert::AreEqual(16.f, bounds.m_height);
             }
 
             // ======================================================
@@ -251,7 +324,17 @@ namespace Engine
                 Assert::AreEqual(0.f, min.y);
             }
 
-            TEST_METHOD(BoundingBox_GetMin_ReturnsMin)
+            TEST_METHOD(BoundingBox_GetMin_WithSize_ReturnsMin)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16));
+
+                auto min = aabb.GetMin();
+
+                Assert::AreEqual(-8.f, min.x);
+                Assert::AreEqual(-8.f, min.y);
+            }
+
+            TEST_METHOD(BoundingBox_GetMin_WithSizeAndPos_ReturnsMin)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
 
@@ -275,7 +358,17 @@ namespace Engine
                 Assert::AreEqual(0.f, max.y);
             }
 
-            TEST_METHOD(BoundingBox_GetMax_ReturnsMax)
+            TEST_METHOD(BoundingBox_GetMax_WithSize_ReturnsMax)
+            {
+                BoundingBox<FakeBox> aabb(Vector2f(16, 16));
+
+                auto max = aabb.GetMax();
+
+                Assert::AreEqual(8.f, max.x);
+                Assert::AreEqual(8.f, max.y);
+            }
+
+            TEST_METHOD(BoundingBox_GetMax_WithSizeAndPos_ReturnsMax)
             {
                 BoundingBox<FakeBox> aabb(Vector2f(16, 16), Vector2f(16, 16));
 
