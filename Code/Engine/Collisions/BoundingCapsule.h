@@ -43,6 +43,7 @@ public:
         }
 
         Reset(radius, length, angle);
+        Update(GetPosition());
     }
 
     BoundingCapsule(float radius, float length, float angle, const Vector2f& pos)
@@ -73,17 +74,21 @@ public:
     BoundingBox<PlatformBox> ToBoundingBox() const
     {
         BoundingBox<PlatformBox> out;
-        const float r = GetRadius();
-        const auto& seg = GetSegment();
 
-        const float minX = std::min(seg.start.x, seg.end.x) - r;
-        const float maxX = std::max(seg.start.x, seg.end.x) + r;
-        const float minY = std::min(seg.start.y, seg.end.y) - r;
-        const float maxY = std::max(seg.start.y, seg.end.y) + r;
+        auto bounds = GetWorldBounds();
 
-        out.Reset({ maxX - minX, maxY - minY });
-        out.Update(seg.GetMidPoint());
+        auto min = bounds.Min();
+        auto max = bounds.Max();
+
+        out.Reset({ max.x - min.x, max.y - min.y });
+        out.Update(bounds.GetCentre());
+
         return out;
+    }
+
+    FloatRect GetWorldBounds() const override
+    {
+        return IBoundingCapsule::GetWorldBounds();
     }
 
     void Reset(float radius, float length, float angle)

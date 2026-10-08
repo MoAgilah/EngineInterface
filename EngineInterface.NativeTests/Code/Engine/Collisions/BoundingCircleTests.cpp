@@ -99,6 +99,60 @@ namespace Engine
             }
 
             // ======================================================
+            // GetWorldBounds
+            // ======================================================
+
+            TEST_METHOD(BoundingCircle_GetWorldBounds_DefaultConstructor)
+            {
+                BoundingCircle<FakeCircle> bc;
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(0.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(0.f, bounds.m_width);
+                Assert::AreEqual(0.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_WithRadius)
+            {
+                BoundingCircle<FakeCircle> bc(16.f);
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(-16.f, bounds.m_left);
+                Assert::AreEqual(-16.f, bounds.m_top);
+                Assert::AreEqual(32.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_WithRadiusAndPos)
+            {
+                BoundingCircle<FakeCircle> bc(16.f, Vector2f(16.f, 16.f));
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(0.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(32.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            TEST_METHOD(BoundingBox_GetWorldBounds_AfterUpdate)
+            {
+                BoundingCircle<FakeCircle> bc(16.f, Vector2f(16.f, 16.f));
+
+                bc.Update(Vector2f(32.f, 16));
+
+                auto bounds = bc.GetWorldBounds();
+
+                Assert::AreEqual(16.f, bounds.m_left);
+                Assert::AreEqual(0.f, bounds.m_top);
+                Assert::AreEqual(32.f, bounds.m_width);
+                Assert::AreEqual(32.f, bounds.m_height);
+            }
+
+            // ======================================================
             // Native Shape Access
             // ======================================================
 

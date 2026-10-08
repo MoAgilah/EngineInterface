@@ -52,6 +52,11 @@ public:
         Update(pos);
     }
 
+    FloatRect GetWorldBounds() const override
+    {
+        return IBoundingCircle::GetWorldBounds();
+    }
+
     void Reset(float radius)
     {
         if (CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))

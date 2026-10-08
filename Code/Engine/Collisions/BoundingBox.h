@@ -55,6 +55,11 @@ public:
         Update(pos);
     }
 
+    FloatRect GetWorldBounds() const override
+    {
+        return IBoundingBox::GetWorldBounds();
+    }
+
     void Reset(const Vector2f& size)
     {
         if (!CheckNotNull(this->m_shape.get(), "Invalid Pointer 'this->m_shape'"))
@@ -63,6 +68,7 @@ public:
         this->m_shape->Reset(size);
         auto scale = GetScale();
         m_extents = { size.x * 0.5f * scale.x, size.y * 0.5f * scale.y };
+        RecalculateBounds();
     }
 
     void Update(const Vector2f& pos) override
@@ -71,9 +77,7 @@ public:
             return;
 
         this->m_shape->Update(pos);
-        auto center = BoundingVolume<PlatformBox>::GetCenter();
-        m_min = center - m_extents;
-        m_max = center + m_extents;
+        RecalculateBounds();
     }
 
     void Render(IRenderer* r) override { BoundingVolume<PlatformBox>::Render(r); }
