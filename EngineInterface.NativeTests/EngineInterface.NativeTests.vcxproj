@@ -184,6 +184,7 @@
     <ClCompile Include="Code\Engine\Effects\IFlashingEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Effects\IShaderEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManagerTests.cpp" />
+    <ClCompile Include="Code\Engine\Renderer\ICameraTests.cpp" />
     <ClCompile Include="Code\Engine\Scene\SceneTests.cpp" />
     <ClCompile Include="Code\Engine\UI\MenuNavigationTests.cpp" />
     <ClCompile Include="Code\GameObjects\BoxTests.cpp" />

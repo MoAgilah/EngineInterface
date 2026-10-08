@@ -46,6 +46,9 @@
     <Filter Include="Source Files\Engine\Drawables">
       <UniqueIdentifier>{2b6fab80-c65f-4179-b97b-07dc323a8ef4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Renderer">
+      <UniqueIdentifier>{c9286a01-c801-4793-be98-af0a2fb60dc0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp">
@@ -155,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Drawables\IAnimatedSpriteTests.cpp">
       <Filter>Source Files\Engine\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Renderer\ICameraTests.cpp">
+      <Filter>Source Files\Engine\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
