@@ -20,6 +20,11 @@ public:
     }
     virtual ~ICamera() = default;
 
+    const IBoundingVolume* GetViewBox() const
+    {
+        return m_viewBox.get();
+    }
+
     void SetObjectToFollow(std::shared_ptr<GameObject> obj)
     {
         m_toFollow = std::move(obj);
