@@ -167,7 +167,7 @@ IMenuCursor* IMenu::GetCursor(unsigned int cursorNumber)
 	return nullptr;
 }
 
-IMenuItem* IMenu::GetCell(const std::pair<int, int>& rowCol)
+MenuItem* IMenu::GetCell(const std::pair<int, int>& rowCol)
 {
 	const auto [row, col] = rowCol;
 
@@ -186,7 +186,7 @@ IMenuItem* IMenu::GetCell(const std::pair<int, int>& rowCol)
 	return m_cells[index].get();
 }
 
-IMenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
+MenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
 {
 	for (const size_t index : m_activeCells)
 	{
@@ -200,6 +200,63 @@ IMenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
 	}
 
 	return nullptr;
+}
+
+void IMenu::BuildMenuSpace()
+{
+	if (!CheckNotNull(m_menuSpace.get(), "Invalid menu space"))
+	{
+		throw std::runtime_error("Failed to initialise menu space");
+	}
+
+	const auto size = m_menuSpace->GetSize();
+
+	m_menuSpace->SetOrigin(size / 2.f);
+
+	switch (m_menuPositionData.m_positionMode)
+	{
+	case MenuPositionMode::Centered:
+		m_menuSpace->SetPosition(*m_menuPositionData.m_centerPoint);
+		break;
+
+	case MenuPositionMode::Anchored:
+		m_menuSpace->SetPosition(
+			(*m_menuPositionData.m_anchorBounds - size) / 2.f
+			+ m_menuSpace->GetOrigin()
+		);
+		break;
+	}
+
+	CalculateCellSize(size);
+
+	CalculateMenuTopLeft(
+		m_menuSpace->GetPosition(),
+		m_menuSpace->GetOrigin()
+	);
+}
+
+void IMenu::BuildCells(const CellFactory& factory)
+{
+	m_cells.clear();
+
+	m_cells.reserve(
+		static_cast<size_t>(m_dimensions.x) * m_dimensions.y
+	);
+
+	for (size_t row = 0; row < m_dimensions.y; ++row)
+	{
+		for (size_t col = 0; col < m_dimensions.x; ++col)
+		{
+			auto cell = factory(m_cellsSize, m_outlineThickness);
+
+			if (!CheckNotNull(cell.get(), "Invalid Pointer 'cell'"))
+				continue;
+
+			cell->SetPosition(CalculateCellPosition(row, col));
+
+			m_cells.emplace_back(std::move(cell));
+		}
+	}
 }
 
 void IMenu::ProcessInput()
