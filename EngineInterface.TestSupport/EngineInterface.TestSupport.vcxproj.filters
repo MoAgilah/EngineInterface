@@ -144,6 +144,9 @@
     <ClInclude Include="Code\Fakes\Renderer\TestableCamera.h">
       <Filter>Header Files\Fakes\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\UI\TestableMenu.h">
+      <Filter>Header Files\Fakes\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Fakes\States\FakeGameState.cpp">
