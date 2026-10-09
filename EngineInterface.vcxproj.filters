@@ -276,9 +276,6 @@
     <ClInclude Include="Code\Engine\Interface\UI\IMenuItem.h">
       <Filter>Header Files\Engine\Interface\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Interface\UI\IPaginatedMenu.h">
-      <Filter>Header Files\Engine\Interface\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Engine\UI\MenuNavigation.h">
       <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
@@ -338,6 +335,9 @@
     </ClInclude>
     <ClInclude Include="Code\Engine\Interface\Effects\IFlashingEffect.h">
       <Filter>Header Files\Engine\Interface\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\UI\PaginatedMenu.h">
+      <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -421,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\Interface\Effects\IFlashingEffect.cpp">
       <Filter>Source Files\Engine\Interface\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\UI\PaginatedMenu.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

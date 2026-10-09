@@ -54,7 +54,7 @@ public:
 
 	Vector2f GetCellSize() const { return m_cellsSize; }
 
-	virtual void AddCursor(ISprite* spr, const MenuNav& menuNav) = 0;
+	virtual void AddCursor(std::shared_ptr<ISprite> spr, const MenuNav& menuNav) = 0;
 	IMenuCursor* GetCursor(unsigned int cursorNumber);
 
 	void SetPassiveColour(const Colour& colour) { m_passiveColour = colour; }
