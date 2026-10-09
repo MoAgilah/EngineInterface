@@ -426,7 +426,7 @@
       <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
     <ClCompile Include="Code\Engine\UI\MenuItem.cpp">
-      <Filter>Header Files\Engine\UI</Filter>
+      <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
