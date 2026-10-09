@@ -11,11 +11,11 @@
 class IMenuCursor
 {
 public:
-	IMenuCursor(ISprite* spr, const MenuNav& menuNav)
-		: m_cursor(spr), m_menuNav(menuNav)
+	IMenuCursor(std::shared_ptr<ISprite> spr, const MenuNav& menuNav)
+		: m_cursor(std::move(spr)), m_menuNav(menuNav)
 	{
 		if (!CheckNotNull(m_cursor.get(), "Invalid Pointer 'm_cursor'"))
-			throw std::invalid_argument("IMenuCursor requires a valid cursor");
+			throw std::invalid_argument("IMenuCursor requires a valid cursor sprite");
 	}
 
 	virtual ~IMenuCursor() = default;
