@@ -47,13 +47,13 @@ public:
 		}
 	}
 
-	IMenu* AddMenu(IMenu* menu)
+	IMenu* AddMenu(std::shared_ptr<IMenu> menu)
 	{
-		if (!CheckNotNull(menu, "Invalid Pointer 'menu'"))
-			return __nullptr;
+		if (!CheckNotNull(menu.get(), "Invalid Pointer 'menu'"))
+			return nullptr;
 
-		m_menuPages.push_back(std::shared_ptr<IMenu>(menu));
-		return GetMenuByNumber(static_cast<int>(m_menuPages.size() - 1));
+		m_menuPages.push_back(std::move(menu));
+		return m_menuPages.back().get();
 	}
 
 	IMenu* GetMenuByNumber(int menuNo)
@@ -72,6 +72,5 @@ public:
 protected:
 
 	unsigned int m_currentMenuNum = 0;
-	unsigned int m_previousMenuNum = -1;
 	std::vector<std::shared_ptr<IMenu>> m_menuPages;
 };

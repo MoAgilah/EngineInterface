@@ -3,14 +3,22 @@
 #include "../../../Utilities/Guards.h"
 #include "../../../Utilities/Logger.h"
 #include <format>
+#include <unordered_set>
+#include <utility>
 
-IMenu::IMenu(float outlineThickness, const Vector2f& dimensions, const MenuPositionData& menuPositionData)
+IMenu::IMenu(float outlineThickness, const Vector2u& dimensions, const MenuPositionData& menuPositionData)
 	: m_outlineThickness(outlineThickness), m_dimensions(dimensions), m_menuPositionData(menuPositionData), m_menuNavigation(KeyCode::Up, KeyCode::Down)
 {
+	ThrowIfFalse(
+		dimensions.x > 0 && dimensions.y > 0,
+		"Menu must have at least one column and one row."
+	);
 }
+
 
 void IMenu::Update(float dt)
 {
+	// Process navigation input
 	ProcessInput();
 
 	if (!m_cursors.empty())
@@ -18,56 +26,64 @@ void IMenu::Update(float dt)
 		for (size_t i = 0; i < m_cursors.size(); ++i)
 		{
 			auto* cursor = m_cursors[i].get();
+
 			if (!CheckNotNull(cursor,
 				std::format("Invalid Pointer 'cursor' at index {}", i)))
 				continue;
 
-			auto* menuNav = cursor->GetMenuNav();
-			if (!CheckNotNull(menuNav, "Invalid Pointer 'menuNav' from cursor->GetMenuNav()"))
-				continue;
+			auto& menuNav = cursor->GetMenuNav();
 
-			if (menuNav->HasMoved())
+			if (menuNav.HasMoved())
 			{
-				int cellNo = menuNav->GetCurrCursorPos();
+				const int cellNo = menuNav.GetCurrCursorPos();
 
-				auto* cell = GetCellByCellNumber(cellNo);
-				if (!cell)
+				if (cellNo >= 0)
 				{
-					Logger::GetDefaultLogger().Log(
-						LogLevel::Error,
-						std::format("Invalid Pointer 'cell' from GetCellByCellNumber({})", cellNo));
-					continue;
-				}
+					auto* cell = GetCellByCellNumber(
+						static_cast<unsigned int>(cellNo));
 
-				cursor->SetPosition(cell->GetPosition());
-				menuNav->SetPrevCursorPos(cellNo);
+					if (!cell)
+					{
+						Logger::GetDefaultLogger().Log(
+							LogLevel::Error,
+							std::format(
+								"Invalid Pointer 'cell' from GetCellByCellNumber({})",
+								cellNo));
+					}
+					else
+					{
+						cursor->SetPosition(cell->GetPosition());
+						menuNav.SetPrevCursorPos(cellNo);
+					}
+				}
 			}
+
+			// Update cursor visuals every frame
+			cursor->Update(dt);
 		}
 	}
 	else
 	{
 		if (m_menuNavigation.HasMoved())
-		{
 			SetActiveTextElement();
-		}
 	}
 
-	for (const auto& [col, row] : m_activeCells)
+	// Update active menu cells
+	for (const size_t index : m_activeCells)
 	{
-		auto* cell = GetCell({ col, row });
-
-		if (!cell)
-		{
-			Logger::GetDefaultLogger().Log(
-				LogLevel::Error,
-				std::format("Invalid Pointer 'cell' from GetCell({}, {})",
-					col, row));
+		if (index >= m_cells.size())
 			continue;
-		}
+
+		auto* cell = m_cells[index].get();
+
+		if (!CheckNotNull(cell,
+			std::format("Invalid Pointer 'cell' at index {}", index)))
+			continue;
 
 		cell->Update(dt);
 	}
 }
+
 
 void IMenu::Render(IRenderer* renderer)
 {
@@ -75,102 +91,113 @@ void IMenu::Render(IRenderer* renderer)
 		return;
 
 #if defined _DEBUG
-
 	if (!CheckNotNull(m_menuSpace.get(), "Invalid Pointer 'm_menuSpace'"))
 		return;
 
 	m_menuSpace->Render(renderer);
-
-	for (size_t i = 0; i < m_columns.size(); ++i)
-	{
-		auto* col = m_columns[i].get();
-		if (!CheckNotNull(col,
-			std::format("Invalid Pointer 'col' at index {}", i)))
-			continue;
-
-		col->Render(renderer);
-	}
 #endif
 
-	for (size_t i = 0; i < m_rows.size(); ++i)
+	for (size_t i = 0; i < m_cells.size(); ++i)
 	{
-		for (size_t j = 0; j < m_rows[i].size(); ++j)
-		{
-			auto* cell = m_rows[i][j].get();
+		auto* cell = m_cells[i].get();
 
-			if (!cell)
-			{
-				Logger::GetDefaultLogger().Log(
-					LogLevel::Error,
-					std::format("Invalid Pointer 'cell' at ({}, {})", i, j));
-				continue;
-			}
+		if (!CheckNotNull(cell,
+			std::format("Invalid Pointer 'cell' at index {}", i)))
+			continue;
 
-			cell->Render(renderer);
-		}
+		cell->Render(renderer);
 	}
 
-	if (!m_cursors.empty())
+	for (size_t i = 0; i < m_cursors.size(); ++i)
 	{
-		for (size_t i = 0; i < m_cursors.size(); ++i)
-		{
-			auto* cursor = m_cursors[i].get();
-			if (!CheckNotNull(cursor,
-				std::format("Invalid Pointer 'cursor' at index {}", i)))
-				continue;
+		auto* cursor = m_cursors[i].get();
 
-			cursor->Render(renderer);
-		}
+		if (!CheckNotNull(cursor,
+			std::format("Invalid Pointer 'cursor' at index {}", i)))
+			continue;
+
+		cursor->Render(renderer);
 	}
 }
 
 void IMenu::SetActiveCells()
 {
-	for (size_t i = 0; i < m_rows.size(); i++)
+	std::unordered_set<int> usedSlotNumbers;
+	std::vector<size_t> activeCells;
+
+	for (size_t i = 0; i < m_cells.size(); ++i)
 	{
-		for (size_t j = 0; j < m_rows[i].size(); j++)
-		{
-			auto* cell = m_rows[i][j].get();
+		auto* cell = m_cells[i].get();
 
-			if (!cell)
-			{
-				Logger::GetDefaultLogger().Log(
-					LogLevel::Error,
-					std::format("Invalid Pointer 'cell' at ({}, {})", i, j));
-				continue;
-			}
+		if (!CheckNotNull(cell,
+			std::format("Invalid Pointer 'cell' at index {}", i)))
+			continue;
 
-			if (m_rows[i][j]->GetMenuSlotNumber() >= 0)
-			{
-				m_activeCells.emplace_back(static_cast<int>(i), static_cast<int>(j));
-			}
-		}
+		const int slotNumber = cell->GetMenuSlotNumber();
+
+		if (slotNumber < 0)
+			continue;
+
+		ThrowIfFalse(
+			usedSlotNumbers.insert(slotNumber).second,
+			std::format("Duplicate menu slot number {} at index {}",
+				slotNumber, i)
+		);
+
+		activeCells.emplace_back(i);
 	}
+
+	// Validate that slot numbers are consecutive from zero
+	for (size_t slot = 0; slot < usedSlotNumbers.size(); ++slot)
+	{
+		ThrowIfFalse(
+			usedSlotNumbers.contains(static_cast<int>(slot)),
+			std::format("Missing menu slot number {}", slot)
+		);
+	}
+
+	m_activeCells = std::move(activeCells);
 }
 
 IMenuCursor* IMenu::GetCursor(unsigned int cursorNumber)
 {
-	if (cursorNumber >= 0 && cursorNumber < m_cursors.size())
+	if (cursorNumber < m_cursors.size())
 		return m_cursors[cursorNumber].get();
 
 	return nullptr;
 }
 
-IMenuItem* IMenu::GetCell(const std::pair<int, int>& colRow)
+IMenuItem* IMenu::GetCell(const std::pair<int, int>& rowCol)
 {
-	if (colRow.first >= 0 && colRow.first < m_rows.size())
-	{
-		if (colRow.second >= 0 && colRow.second < m_rows[colRow.first].size())
-			return m_rows[colRow.first][colRow.second].get();
-	}
+	const auto [row, col] = rowCol;
 
-	return nullptr;
+	if (row < 0 || col < 0)
+		return nullptr;
+
+	if (static_cast<unsigned int>(row) >= m_dimensions.y ||
+		static_cast<unsigned int>(col) >= m_dimensions.x)
+		return nullptr;
+
+	const size_t index = CalculateCellIndex(row, col);
+
+	if (index >= m_cells.size())
+		return nullptr;
+
+	return m_cells[index].get();
 }
 
 IMenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
 {
-	if (cellNumber >= 0 && cellNumber < m_activeCells.size())
-		return GetCell(m_activeCells[cellNumber]);
+	for (const size_t index : m_activeCells)
+	{
+		if (index >= m_cells.size())
+			continue;
+
+		auto* cell = m_cells[index].get();
+
+		if (cell && cell->GetMenuSlotNumber() == cellNumber)
+			return cell;
+	}
 
 	return nullptr;
 }
@@ -186,15 +213,75 @@ void IMenu::ProcessInput()
 				std::format("Invalid Pointer 'cursor' at index {}", i)))
 				continue;
 
-			auto* menuNav = cursor->GetMenuNav();
-			if (!CheckNotNull(menuNav, "Invalid Pointer 'menuNav' from cursor->GetMenuNav()"))
-				continue;
+			auto& menuNav = cursor->GetMenuNav();
 
-			menuNav->HandleNavigation();
+			menuNav.HandleNavigation();
 		}
 	}
 	else
 	{
 		m_menuNavigation.HandleNavigation();
 	}
+}
+
+void IMenu::SetActiveTextElement()
+{
+	if (!m_passiveColour)
+		return;
+
+	for (const size_t index : m_activeCells)
+	{
+		if (index >= m_cells.size())
+			continue;
+
+		auto* cell = m_cells[index].get();
+
+		if (!CheckNotNull(cell,
+			std::format("Invalid Pointer 'cell' at index {}", index)))
+			continue;
+
+		auto* text = cell->GetTextElement();
+
+		if (!text)
+			continue;
+
+		if (cell->GetMenuSlotNumber() ==
+			m_menuNavigation.GetCurrCursorPos())
+		{
+			text->SetOutlineColour(text->GetDefaultColour());
+		}
+		else
+		{
+			text->SetOutlineColour(*m_passiveColour);
+		}
+	}
+}
+
+size_t IMenu::CalculateCellIndex(size_t row, size_t col) const
+{
+	return row * m_dimensions.x + col;
+}
+
+void IMenu::CalculateCellSize(const Vector2f& menuSize)
+{
+	m_cellsSize = {
+	   menuSize.x / static_cast<float>(m_dimensions.x),
+	   menuSize.y / static_cast<float>(m_dimensions.y)
+	};
+}
+
+void IMenu::CalculateMenuTopLeft(const Vector2f& menuPosition, const Vector2f& menuOrigin)
+{
+	m_menuSpaceTopLeft = menuPosition - menuOrigin;
+}
+
+Vector2f IMenu::CalculateCellPosition(size_t row, size_t col) const
+{
+	return {
+		m_menuSpaceTopLeft.x +
+			(static_cast<float>(col) + 0.5f) * m_cellsSize.x,
+
+		m_menuSpaceTopLeft.y +
+			(static_cast<float>(row) + 0.5f) * m_cellsSize.y
+	};
 }
