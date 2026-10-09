@@ -1,11 +1,12 @@
 #pragma once
 
 #include "IMenuCursor.h"
-#include "IMenuItem.h"
-#include "../Drawables/IShape.h"
+#include "../Drawables/IDrawable.h"
 #include "../Drawables/ISprite.h"
+#include "../../UI/MenuItem.h"
 #include "../../UI/MenuNavigation.h"
 #include "../../../Utilities/Vector2.h"
+#include <functional>
 #include <memory>
 #include <optional>
 #include <vector>
@@ -59,13 +60,17 @@ public:
 
 	void SetPassiveColour(const Colour& colour) { m_passiveColour = colour; }
 
-	IMenuItem* GetCell(const std::pair<int, int>& rowCol);
-	IMenuItem* GetCellByCellNumber(unsigned int cellNumber);
+	MenuItem* GetCell(const std::pair<int, int>& rowCol);
+	MenuItem* GetCellByCellNumber(unsigned int cellNumber);
 
 protected:
 
-	virtual void BuildMenuSpace() = 0;
-	virtual void BuildCells() = 0;
+	using CellFactory = std::function<
+		std::shared_ptr<MenuItem>(const Vector2f&, float)
+	>;
+
+	void BuildMenuSpace();
+	void BuildCells(const CellFactory& factory);
 
 	void ProcessInput();
 
@@ -81,10 +86,10 @@ protected:
 	Vector2f m_menuSpaceTopLeft;
 	float m_outlineThickness;
 	MenuNav m_menuNavigation;
-	std::shared_ptr<IBoxShape> m_menuSpace;
+	std::shared_ptr<IDrawable> m_menuSpace;
 	MenuPositionData m_menuPositionData;
 	std::optional<Colour> m_passiveColour;
-	std::vector<std::shared_ptr<IMenuItem>> m_cells;
+	std::vector<std::shared_ptr<MenuItem>> m_cells;
 	std::vector<size_t> m_activeCells;
 	std::vector<std::shared_ptr<IMenuCursor>> m_cursors;
 };

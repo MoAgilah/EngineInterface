@@ -273,9 +273,6 @@
     <ClInclude Include="Code\Engine\Interface\UI\IMenuCursor.h">
       <Filter>Header Files\Engine\Interface\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Code\Engine\Interface\UI\IMenuItem.h">
-      <Filter>Header Files\Engine\Interface\UI</Filter>
-    </ClInclude>
     <ClInclude Include="Code\Engine\UI\MenuNavigation.h">
       <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
       <Filter>Header Files\Engine\Interface\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Code\Engine\UI\PaginatedMenu.h">
+      <Filter>Header Files\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\UI\MenuItem.h">
       <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
   </ItemGroup>
@@ -424,6 +424,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\UI\PaginatedMenu.cpp">
       <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\UI\MenuItem.cpp">
+      <Filter>Header Files\Engine\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

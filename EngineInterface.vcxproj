@@ -61,11 +61,11 @@
     <ClInclude Include="Code\Engine\Interface\Scene\IUpdatable.h" />
     <ClInclude Include="Code\Engine\Interface\UI\IMenu.h" />
     <ClInclude Include="Code\Engine\Interface\UI\IMenuCursor.h" />
-    <ClInclude Include="Code\Engine\Interface\UI\IMenuItem.h" />
     <ClInclude Include="Code\Engine\Resources\FontManager.h" />
     <ClInclude Include="Code\Engine\Resources\ShaderManager.h" />
     <ClInclude Include="Code\Engine\Resources\SoundManager.h" />
     <ClInclude Include="Code\Engine\Resources\TextureManager.h" />
+    <ClInclude Include="Code\Engine\UI\MenuItem.h" />
     <ClInclude Include="Code\Engine\UI\MenuNavigation.h" />
     <ClInclude Include="Code\Engine\UI\PaginatedMenu.h" />
     <ClInclude Include="Code\GameObjects\Box.h" />
@@ -110,6 +110,7 @@
     <ClCompile Include="Code\Engine\Resources\ShaderManager.cpp" />
     <ClCompile Include="Code\Engine\Resources\SoundManager.cpp" />
     <ClCompile Include="Code\Engine\Resources\TextureManager.cpp" />
+    <ClCompile Include="Code\Engine\UI\MenuItem.cpp" />
     <ClCompile Include="Code\Engine\UI\MenuNavigation.cpp" />
     <ClCompile Include="Code\Engine\UI\PaginatedMenu.cpp" />
     <ClCompile Include="Code\GameObjects\Box.cpp" />

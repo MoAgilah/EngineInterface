@@ -49,6 +49,7 @@
     <ClInclude Include="Code\Fakes\Resources\FakeShader.h" />
     <ClInclude Include="Code\Fakes\Scenes\FakeScene.h" />
     <ClInclude Include="Code\Fakes\States\FakeGameState.h" />
+    <ClInclude Include="Code\Fakes\UI\TestableMenu.h" />
     <ClInclude Include="Code\Fakes\UI\TestableMenuNav.h" />
     <ClInclude Include="Code\TestHelpers\TestDefaultLoggerHelper.h" />
     <ClInclude Include="Code\TestHelpers\TestFilesystemHelpers.h" />
