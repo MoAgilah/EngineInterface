@@ -8,7 +8,6 @@
 #include "../../../Utilities/Vector2.h"
 #include <memory>
 #include <optional>
-#include <tuple>
 #include <vector>
 
 enum MenuPositionMode
@@ -43,7 +42,7 @@ struct MenuPositionData
 class IMenu
 {
 public:
-	IMenu(float outlineThickness, const Vector2f& dimensions, const MenuPositionData& menuPositionData);
+	IMenu(float outlineThickness, const Vector2u& dimensions, const MenuPositionData& menuPositionData);
 	virtual ~IMenu() = default;
 
 	virtual void Update(float dt);
@@ -60,32 +59,32 @@ public:
 
 	void SetPassiveColour(const Colour& colour) { m_passiveColour = colour; }
 
-	IMenuItem* GetCell(const std::pair<int, int>& colRow);
+	IMenuItem* GetCell(const std::pair<int, int>& rowCol);
 	IMenuItem* GetCellByCellNumber(unsigned int cellNumber);
 
 protected:
 
 	virtual void BuildMenuSpace() = 0;
-	virtual void BuildColumns() = 0;
-	virtual void BuildRows() = 0;
+	virtual void BuildCells() = 0;
 
 	void ProcessInput();
 
-	virtual void SetActiveTextElement() = 0;
+	void SetActiveTextElement();
+
+	size_t CalculateCellIndex(size_t row, size_t col) const;
+	void CalculateCellSize(const Vector2f& menuSize);
+	void CalculateMenuTopLeft(const Vector2f& menuPosition, const Vector2f& menuOrigin);
+	Vector2f CalculateCellPosition(size_t row, size_t col) const;
 
 	Vector2f m_cellsSize;
-	Vector2f m_dimensions;
-	Vector2f m_columnsSize;
-	Vector2f m_menuSpaceCenter;
+	Vector2u m_dimensions;
 	Vector2f m_menuSpaceTopLeft;
 	float m_outlineThickness;
-	unsigned int m_prevCellNumber = -1;
 	MenuNav m_menuNavigation;
 	std::shared_ptr<IBoxShape> m_menuSpace;
 	MenuPositionData m_menuPositionData;
 	std::optional<Colour> m_passiveColour;
-	std::vector<std::shared_ptr<IBoxShape>> m_columns;
-	std::vector<std::vector<std::shared_ptr<IMenuItem>>> m_rows;
-	std::vector<std::pair<int, int>> m_activeCells;
+	std::vector<std::shared_ptr<IMenuItem>> m_cells;
+	std::vector<size_t> m_activeCells;
 	std::vector<std::shared_ptr<IMenuCursor>> m_cursors;
 };

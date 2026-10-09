@@ -22,8 +22,6 @@ public:
 
 	virtual void Update(float deltaTime)
 	{
-		m_menuNav.HandleNavigation();
-
 		if (m_cursor)
 			m_cursor->Update(deltaTime);
 	}
@@ -37,7 +35,7 @@ public:
 	virtual void SetPosition(const Vector2f& pos) = 0;
 	virtual void SetScale(const Vector2f& cellSize) = 0;
 
-	MenuNav* GetMenuNav() { return &m_menuNav; }
+	MenuNav& GetMenuNav() { return m_menuNav; }
 	ISprite* GetSprite() { return m_cursor.get(); }
 
 protected:

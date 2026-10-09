@@ -53,7 +53,12 @@ public:
 	virtual Vector2f GetOrigin() const = 0;
 	virtual Vector2f GetSize() const = 0;
 
-	virtual IText* AddTextElement(std::shared_ptr<IText> text) = 0;
+	IText* AddTextElement(std::shared_ptr<IText> text)
+	{
+		m_textElement = std::move(text);
+		return m_textElement.get();
+	}
+
 	IText* GetTextElement()
 	{
 		if (m_textElement)
@@ -62,7 +67,12 @@ public:
 		return nullptr;
 	}
 
-	virtual ISprite* AddSpriteElement(std::shared_ptr<ISprite> spr) = 0;
+	ISprite* AddSpriteElement(std::shared_ptr<ISprite> spr)
+	{
+		m_spriteElement = std::move(spr);
+		return m_spriteElement.get();
+	}
+
 	ISprite* GetSpriteElement()
 	{
 		if (m_spriteElement)
