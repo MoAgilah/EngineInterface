@@ -13,6 +13,12 @@ class FakeShape : public FakeDrawable<TShape>, public IShape
 {
 public:
 
+	void Update(float deltaTime) override
+	{
+		updateCount++;
+		lastDeltaTime = deltaTime;
+	}
+
 	void Render (IRenderer* renderer) override
 	{
 		renderCount++;
@@ -32,6 +38,9 @@ public:
 public:
 
 	int renderCount = 0;
+	int updateCount = 0;
+
+	float lastDeltaTime = 0.0f;
 };
 
 class FakeTriangle : public FakeShape<FakeTriangle>, public ITriangleShape

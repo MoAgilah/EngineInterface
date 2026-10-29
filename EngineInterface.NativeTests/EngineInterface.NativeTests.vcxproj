@@ -187,6 +187,7 @@
     <ClCompile Include="Code\Engine\Renderer\ICameraTests.cpp" />
     <ClCompile Include="Code\Engine\Scene\SceneTests.cpp" />
     <ClCompile Include="Code\Engine\UI\MenuNavigationTests.cpp" />
+    <ClCompile Include="Code\Engine\UI\MenuItemTests.cpp" />
     <ClCompile Include="Code\GameObjects\BoxTests.cpp" />
     <ClCompile Include="Code\GameObjects\CollectableTests.cpp" />
     <ClCompile Include="Code\GameObjects\EnemyTests.cpp" />

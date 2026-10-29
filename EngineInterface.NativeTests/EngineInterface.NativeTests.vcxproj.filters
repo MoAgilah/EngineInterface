@@ -162,5 +162,8 @@
     <ClCompile Include="Code\Engine\Renderer\ICameraTests.cpp">
       <Filter>Source Files\Engine\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\UI\MenuItemTests.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
