@@ -16,6 +16,11 @@ namespace Engine
         TEST_CLASS(MenuItemTests)
         {
         public:
+            TEST_METHOD_CLEANUP(TestCleanup)
+            {
+                TestHelpers::CleanupDefaultLoggerForTests();
+            }
+
             // ======================================================
             // Constructor
             // ======================================================
