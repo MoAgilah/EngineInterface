@@ -40,7 +40,7 @@ void MenuNav::SetCursorRange(const std::vector<int>& cursorRange)
 	}
 
 	m_currCursorPos = m_cursorRange.front();
-	m_prevCursorPos = m_currCursorPos;
+	m_prevCursorPos = s_InvalidPos;
 }
 
 void MenuNav::SetCurrCursorPos(int currPos)

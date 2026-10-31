@@ -22,14 +22,15 @@ public:
 
 	virtual void Update(float deltaTime)
 	{
-		if (m_cursor)
-			m_cursor->Update(deltaTime);
+		m_cursor->Update(deltaTime);
 	}
 
 	virtual void Render(IRenderer* renderer)
 	{
-		if (m_cursor)
-			m_cursor->Render(renderer);
+		if (!CheckNotNull(renderer, "Invalid Pointer 'renderer'"))
+			return;
+
+		m_cursor->Render(renderer);
 	}
 
 	virtual void SetPosition(const Vector2f& pos) = 0;

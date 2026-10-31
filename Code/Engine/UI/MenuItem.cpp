@@ -9,7 +9,7 @@ MenuItem::MenuItem(std::shared_ptr<IDrawable> cellSpace)
 	m_textElement(nullptr),
 	m_spriteElement(nullptr)
 {
-	if (!m_cellSpace)
+	if (!CheckNotNull(m_cellSpace.get(), "Invalid Pointer 'm_cellSpace'"))
 		throw std::invalid_argument("MenuItem requires a valid drawable");
 }
 
@@ -28,9 +28,6 @@ void MenuItem::Render(IRenderer* renderer)
 		return;
 
 #if defined _DEBUG
-	if (!CheckNotNull(m_cellSpace.get(), "Invalid Pointer 'm_cellSpace'"))
-		return;
-
 	m_cellSpace->Render(renderer);
 #endif
 
