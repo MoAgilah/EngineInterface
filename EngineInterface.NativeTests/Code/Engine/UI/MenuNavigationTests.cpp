@@ -134,7 +134,7 @@ namespace Engine
                 Assert::AreEqual(rng[0], menuNav.GetCurrCursorPos());
             }
 
-            TEST_METHOD(MenuNav_SetCursorRange_WithValidRange_SetsPreviousToFirstPosition)
+            TEST_METHOD(MenuNav_SetCursorRange_WithValidRange_SetsPreviousInvalidPosition)
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
@@ -142,10 +142,10 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::AreEqual(menuNav.GetCurrCursorPos(), menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCurrCursorPosForTesting());
             }
 
-            TEST_METHOD(MenuNav_SetCursorRange_WithValidRange_HasMovedReturnsFalse)
+            TEST_METHOD(MenuNav_SetCursorRange_WithValidRange_HasMovedReturnsTrue)
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
@@ -153,7 +153,7 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::IsFalse(menuNav.HasMoved());
+                Assert::IsTrue(menuNav.HasMoved());
             }
 
             TEST_METHOD(MenuNav_SetCursorRange_ReplacingRange_ResetsCurrentToNewFirstPosition)
@@ -175,13 +175,15 @@ namespace Engine
                 Assert::AreEqual(rng[0], menuNav.GetCurrCursorPos());
             }
 
-            TEST_METHOD(MenuNav_SetCursorRange_ReplacingRange_ResetsPreviousToNewFirstPosition)
+            TEST_METHOD(MenuNav_SetCursorRange_ReplacingRange_ResetsPreviousToInvalidPos)
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
                 std::vector<int> rng{ 0,1,2 };
 
                 menuNav.SetCursorRange(rng);
+
+                menuNav.SetPrevCursorPos(0);
 
                 Assert::AreEqual(rng[0], menuNav.GetPrevCurrCursorPosForTesting());
 
@@ -191,7 +193,7 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::AreEqual(rng[0], menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCurrCursorPosForTesting());
             }
 
             // ======================================================
@@ -213,7 +215,11 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::AreEqual(rng[0], menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(rng[0], menuNav.GetCurrCursorPos());
+
+                menuNav.SetCurrCursorPos(1);
+
+                Assert::AreEqual(rng[1], menuNav.GetCurrCursorPos());
             }
 
             TEST_METHOD(MenuNav_SetCurrCursorPos_WhenBelowRange_DoesNotUpdatePosition)
@@ -463,6 +469,8 @@ namespace Engine
                 std::vector<int> rng{ 0,1,2 };
 
                 menuNav.SetCursorRange(rng);
+
+                menuNav.SetPrevCursorPos(menuNav.GetCurrCursorPos());
 
                 Assert::IsFalse(menuNav.HasMoved());
             }

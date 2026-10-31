@@ -55,13 +55,14 @@ public:
 
 	Vector2f GetCellSize() const { return m_cellsSize; }
 
-	virtual void AddCursor(std::shared_ptr<ISprite> spr, const MenuNav& menuNav) = 0;
+	virtual IMenuCursor* AddCursor(std::shared_ptr<ISprite> spr, const MenuNav& menuNav) = 0;
 	IMenuCursor* GetCursor(unsigned int cursorNumber);
 
 	void SetPassiveColour(const Colour& colour) { m_passiveColour = colour; }
 
 	MenuItem* GetCell(const std::pair<int, int>& rowCol);
-	MenuItem* GetCellByCellNumber(unsigned int cellNumber);
+	MenuItem* GetCellByIndex(size_t index);
+	MenuItem* GetCellBySlotNumber(unsigned int slotNumber);
 
 protected:
 

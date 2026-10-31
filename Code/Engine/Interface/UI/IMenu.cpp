@@ -39,7 +39,7 @@ void IMenu::Update(float dt)
 
 				if (cellNo >= 0)
 				{
-					auto* cell = GetCellByCellNumber(
+					auto* cell = GetCellBySlotNumber(
 						static_cast<unsigned int>(cellNo));
 
 					if (!cell)
@@ -47,7 +47,7 @@ void IMenu::Update(float dt)
 						Logger::GetDefaultLogger().Log(
 							LogLevel::Error,
 							std::format(
-								"Invalid Pointer 'cell' from GetCellByCellNumber({})",
+								"Invalid Pointer 'cell' from GetCellBySlotNumber({})",
 								cellNo));
 					}
 					else
@@ -65,7 +65,11 @@ void IMenu::Update(float dt)
 	else
 	{
 		if (m_menuNavigation.HasMoved())
+		{
 			SetActiveTextElement();
+
+			m_menuNavigation.SetPrevCursorPos(m_menuNavigation.GetCurrCursorPos());
+		}
 	}
 
 	// Update active menu cells
@@ -91,9 +95,6 @@ void IMenu::Render(IRenderer* renderer)
 		return;
 
 #if defined _DEBUG
-	if (!CheckNotNull(m_menuSpace.get(), "Invalid Pointer 'm_menuSpace'"))
-		return;
-
 	m_menuSpace->Render(renderer);
 #endif
 
@@ -180,13 +181,18 @@ MenuItem* IMenu::GetCell(const std::pair<int, int>& rowCol)
 
 	const size_t index = CalculateCellIndex(row, col);
 
+	return GetCellByIndex(index);
+}
+
+MenuItem* IMenu::GetCellByIndex(size_t index)
+{
 	if (index >= m_cells.size())
 		return nullptr;
 
 	return m_cells[index].get();
 }
 
-MenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
+MenuItem* IMenu::GetCellBySlotNumber(unsigned int slotNumber)
 {
 	for (const size_t index : m_activeCells)
 	{
@@ -195,7 +201,7 @@ MenuItem* IMenu::GetCellByCellNumber(unsigned int cellNumber)
 
 		auto* cell = m_cells[index].get();
 
-		if (cell && cell->GetMenuSlotNumber() == cellNumber)
+		if (cell && cell->GetMenuSlotNumber() == slotNumber)
 			return cell;
 	}
 
@@ -237,6 +243,7 @@ void IMenu::BuildMenuSpace()
 
 void IMenu::BuildCells(const CellFactory& factory)
 {
+	m_activeCells.clear();
 	m_cells.clear();
 
 	m_cells.reserve(
@@ -250,7 +257,9 @@ void IMenu::BuildCells(const CellFactory& factory)
 			auto cell = factory(m_cellsSize, m_outlineThickness);
 
 			if (!CheckNotNull(cell.get(), "Invalid Pointer 'cell'"))
-				continue;
+			{
+				throw std::runtime_error("Failed to build menu cell: cell factory returned a null pointer");
+			}
 
 			cell->SetPosition(CalculateCellPosition(row, col));
 
