@@ -11,17 +11,18 @@ namespace Engine
         TEST_CLASS(IEffectTests)
         {
         public:
-            TEST_METHOD(IEffect_DefaultState_IsActive)
+            TEST_METHOD(IEffect_DefaultState_IsNotActive)
             {
                 FakeEffect effect;
 
-                Assert::IsTrue(effect.IsActive());
+                Assert::IsFalse(effect.IsActive());
             }
 
             TEST_METHOD(IEffect_SetActiveFalse_DeactivatesEffect)
             {
                 FakeEffect effect;
 
+                effect.SetActive(true);
                 effect.SetActive(false);
 
                 Assert::IsFalse(effect.IsActive());
@@ -31,10 +32,6 @@ namespace Engine
             {
                 FakeEffect effect;
 
-                effect.SetActive(false);
-
-                Assert::IsFalse(effect.IsActive());
-
                 effect.SetActive(true);
 
                 Assert::IsTrue(effect.IsActive());
@@ -43,8 +40,9 @@ namespace Engine
             TEST_METHOD(IEffect_SetActive_CallsDerivedOverride)
             {
                 FakeEffect effect;
+                IEffect& baseEffect = effect;
 
-                effect.SetActive(false);
+                baseEffect.SetActive(true);
 
                 Assert::IsTrue(effect.overrideCalled);
             }

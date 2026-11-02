@@ -17,6 +17,6 @@ public:
 
 protected:
 
-    bool m_active = true;
+    bool m_active = false;
 };
 

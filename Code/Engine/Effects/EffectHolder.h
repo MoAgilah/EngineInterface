@@ -13,13 +13,14 @@ public:
 
 	bool AddEffect(const std::string& id, std::unique_ptr<IEffect> effect);
 
-	IEffect* GetEffect(const std::string& id);
-	const IEffect* GetEffect(const std::string& id) const;
+	IEffect* GetActiveEffect();
+	const IEffect* GetActiveEffect() const;
 
 	/// Returns false if the effect was not found.
 	bool SetEffectActive(const std::string& id, bool state);
 
 private:
+	IEffect* GetEffect(const std::string& id);
 
 	std::unordered_map<std::string, std::unique_ptr<IEffect>> m_effects;
 };

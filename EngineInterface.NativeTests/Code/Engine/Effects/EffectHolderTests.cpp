@@ -12,6 +12,10 @@ namespace Engine
         TEST_CLASS(EffectHolderTests)
         {
         public:
+            // ======================================================
+            // AddEffect
+            // ======================================================
+
             TEST_METHOD(EffectHolder_AddEffect_ReturnsFalseIfEffectIsNull)
             {
                 EffectHolder holder;
@@ -35,42 +39,50 @@ namespace Engine
                 Assert::IsFalse(holder.AddEffect("Effect", std::make_unique<FakeEffect>()));
             }
 
-            TEST_METHOD(EffectHolder_GetEffect_ReturnsNullIfEmpty)
+            // ======================================================
+            // GetActiveEffect
+            // ======================================================
+
+            TEST_METHOD(EffectHolder_GetActiveEffect_ReturnsNullIfEmpty)
             {
                 EffectHolder holder;
 
-                Assert::IsNull(holder.GetEffect("Effect"));
+                Assert::IsNull(holder.GetActiveEffect());
             }
 
-            TEST_METHOD(EffectHolder_GetEffect_ReturnsNullIfNotFound)
+            TEST_METHOD(EffectHolder_GetActiveEffect_ReturnsNullIfNoneActive)
             {
                 EffectHolder holder;
 
                 holder.AddEffect("Effect", std::make_unique<FakeEffect>());
 
-                Assert::IsNull(holder.GetEffect("Null"));
+                Assert::IsNull(holder.GetActiveEffect());
             }
 
-            TEST_METHOD(EffectHolder_GetEffect_ReturnsEffect)
+            TEST_METHOD(EffectHolder_GetActiveEffect_Const_ReturnsActiveEffect)
             {
                 EffectHolder holder;
 
                 holder.AddEffect("Effect", std::make_unique<FakeEffect>());
+                Assert::IsTrue(holder.SetEffectActive("Effect", true));
 
-                auto effect = holder.GetEffect("Effect");
+                const EffectHolder& constHolder = holder;
+
+                const auto* effect = constHolder.GetActiveEffect();
 
                 Assert::IsNotNull(effect);
+                Assert::IsTrue(effect->IsActive());
             }
 
-            TEST_METHOD(EffectHolder_GetEffect_Const_ReturnsEffect)
+            // ======================================================
+            // SetEffectActive
+            // ======================================================
+
+            TEST_METHOD(EffectHolder_SetEffectActive_ReturnsFalseIfEmpty)
             {
                 EffectHolder holder;
 
-                holder.AddEffect("Effect", std::make_unique<FakeEffect>());
-
-                auto const effect = holder.GetEffect("Effect");
-
-                Assert::IsNotNull(effect);
+                Assert::IsFalse(holder.SetEffectActive("Effect", true));
             }
 
             TEST_METHOD(EffectHolder_SetEffectActive_ReturnsFalseIfNotFound)
@@ -79,7 +91,7 @@ namespace Engine
 
                 holder.AddEffect("Effect", std::make_unique<FakeEffect>());
 
-                Assert::IsFalse(holder.SetEffectActive("Null", true));
+                Assert::IsFalse(holder.SetEffectActive("Other", true));
             }
 
             TEST_METHOD(EffectHolder_SetEffectActive_ActivatesEffect)
@@ -90,10 +102,8 @@ namespace Engine
 
                 Assert::IsTrue(holder.SetEffectActive("Effect", true));
 
-                auto effect = holder.GetEffect("Effect");
-
+                const auto effect = holder.GetActiveEffect();
                 Assert::IsNotNull(effect);
-                Assert::IsTrue(effect->IsActive());
             }
 
             TEST_METHOD(EffectHolder_SetEffectActive_DeactivatesEffect)
@@ -102,12 +112,54 @@ namespace Engine
 
                 holder.AddEffect("Effect", std::make_unique<FakeEffect>());
 
+                Assert::IsTrue(holder.SetEffectActive("Effect", true));
+
+                auto effect = holder.GetActiveEffect();
+                Assert::IsNotNull(effect);
+
                 Assert::IsTrue(holder.SetEffectActive("Effect", false));
 
-                auto effect = holder.GetEffect("Effect");
-
-                Assert::IsNotNull(effect);
                 Assert::IsFalse(effect->IsActive());
+            }
+
+            TEST_METHOD(EffectHolder_SetEffectActive_DeactivatesOtherEffects)
+            {
+                EffectHolder holder;
+
+                holder.AddEffect("Effect", std::make_unique<FakeEffect>());
+                holder.AddEffect("Other", std::make_unique<FakeEffect>());
+
+                Assert::IsTrue(holder.SetEffectActive("Effect", true));
+
+                auto effect = holder.GetActiveEffect();
+                Assert::IsNotNull(effect);
+
+                Assert::IsTrue(holder.SetEffectActive("Other", true));
+
+                auto other = holder.GetActiveEffect();
+                Assert::IsNotNull(other);
+
+                Assert::IsTrue(effect != other);
+
+                Assert::IsFalse(effect->IsActive());
+                Assert::IsTrue(other->IsActive());
+            }
+
+            TEST_METHOD(EffectHolder_SetEffectActive_FalsePreservesOtherEffects)
+            {
+                EffectHolder holder;
+
+                holder.AddEffect("Effect", std::make_unique<FakeEffect>());
+                holder.AddEffect("Other", std::make_unique<FakeEffect>());
+
+                Assert::IsTrue(holder.SetEffectActive("Effect", true));
+
+                auto effect = holder.GetActiveEffect();
+                Assert::IsNotNull(effect);
+
+                Assert::IsTrue(holder.SetEffectActive("Other", false));
+
+                Assert::IsTrue(effect->IsActive());
             }
         };
     }
