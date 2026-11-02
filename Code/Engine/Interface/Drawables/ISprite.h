@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../Effects/EffectHolder.h"
 #include "../../../Utilities/Vector2.h"
 #include "../../../Utilities/Rect.h"
 #include "../../../Utilities/Guards.h"
@@ -8,7 +9,7 @@
 
 class IRenderer;
 
-class ISprite
+class ISprite : public EffectHolder
 {
 public:
 	virtual ~ISprite() = default;
