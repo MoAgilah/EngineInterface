@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../../Core/CountdownTimer.h"
-#include "../Effects/IShaderEffect.h"
+#include "../../Effects/EffectHolder.h"
 #include "../Renderer/IRenderer.h"
 #include "../../../Utilities/Colour.h"
 #include "../../../Utilities/Vector2.h"
@@ -30,7 +30,7 @@ struct TextConfig
 	TextAlignment m_alignment;
 };
 
-class IText
+class IText : public EffectHolder
 {
 public:
 	IText(){}
@@ -41,16 +41,6 @@ public:
 	virtual void Render(IRenderer* renderer) = 0;
 
 	virtual void SetText(const std::string& text) = 0;
-
-	void SetEffect(std::unique_ptr<IShaderEffect> shaderEffect)
-	{
-		m_shaderEffect = std::move(shaderEffect);
-	}
-
-	IShaderEffect* GetEffect() const
-	{
-		return m_shaderEffect.get();
-	}
 
 	virtual unsigned int GetCharSize() = 0;
 	virtual void SetCharSize(unsigned int charSize) = 0;
@@ -70,14 +60,7 @@ protected:
 
 	virtual bool Init() = 0;
 
-	void UpdateEffect(float deltaTime)
-	{
-		if (m_shaderEffect)
-			m_shaderEffect->Update(deltaTime);
-	}
-
 	TextConfig m_config;
-	std::unique_ptr<IShaderEffect> m_shaderEffect;
 };
 
 class ICountdownText

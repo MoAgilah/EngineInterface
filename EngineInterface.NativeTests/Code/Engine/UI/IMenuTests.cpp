@@ -935,7 +935,7 @@ namespace Engine
                     if (static_cast<int>(i) == currPos)
                         continue;
 
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = cell->GetTextElement();
@@ -997,7 +997,7 @@ namespace Engine
                     else
                         expectedColour = passiveColour;
 
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = cell->GetTextElement();
@@ -1057,7 +1057,7 @@ namespace Engine
                     else
                         expectedColour = passiveColour;
 
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = cell->GetTextElement();
@@ -1101,7 +1101,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = static_cast<FakeText*>(cell->GetTextElement());
@@ -1313,7 +1313,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = static_cast<FakeText*>(cell->GetTextElement());
@@ -1380,7 +1380,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = static_cast<FakeText*>(cell->GetTextElement());
@@ -1413,7 +1413,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cursor = menu.GetCursor(i);
+                    auto cursor = menu.GetCursor((int)i);
                     Assert::IsNotNull(cursor);
 
                     auto spr = static_cast<FakeSprite*>(cursor->GetSprite());
@@ -1459,7 +1459,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cell = menu.GetCellBySlotNumber(i);
+                    auto cell = menu.GetCellBySlotNumber((int)i);
                     Assert::IsNotNull(cell);
 
                     auto textEle = static_cast<FakeText*>(cell->GetTextElement());
@@ -1470,7 +1470,7 @@ namespace Engine
 
                 for (size_t i = 0; i < 3; i++)
                 {
-                    auto cursor = menu.GetCursor(i);
+                    auto cursor = menu.GetCursor((int)i);
                     Assert::IsNotNull(cursor);
 
                     auto spr = static_cast<FakeSprite*>(cursor->GetSprite());

@@ -29,6 +29,7 @@
     <ClInclude Include="Code\Engine\Core\GameStateMgr.h" />
     <ClInclude Include="Code\Engine\Core\CountdownTimer.h" />
     <ClInclude Include="Code\Engine\Core\Timer.h" />
+    <ClInclude Include="Code\Engine\Effects\EffectHolder.h" />
     <ClInclude Include="Code\Engine\Input\InputManager.h" />
     <ClInclude Include="Code\Engine\Input\KeyCode.h" />
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="Code\Engine\Interface\Drawables\IShape.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\ISprite.h" />
     <ClInclude Include="Code\Engine\Interface\Drawables\IText.h" />
+    <ClInclude Include="Code\Engine\Interface\Effects\IEffect.h" />
     <ClInclude Include="Code\Engine\Interface\Effects\IFlashingEffect.h" />
     <ClInclude Include="Code\Engine\Interface\Effects\IShaderEffect.h" />
     <ClInclude Include="Code\Engine\Interface\Input\IKeyConverter.h" />
@@ -96,6 +98,7 @@
     <ClCompile Include="Code\Engine\Core\GameStateMgr.cpp" />
     <ClCompile Include="Code\Engine\Core\CountdownTimer.cpp" />
     <ClCompile Include="Code\Engine\Core\Timer.cpp" />
+    <ClCompile Include="Code\Engine\Effects\EffectHolder.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManager.cpp" />
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp" />
     <ClCompile Include="Code\Engine\Interface\Collisions\ITile.cpp" />

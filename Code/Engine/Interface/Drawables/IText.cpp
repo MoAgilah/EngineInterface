@@ -1,5 +1,7 @@
 #include "IText.h"
 
+#include "../../../Utilities/Guards.h"
+
 TextConfig::TextConfig()
 	: m_fontName("Standard"), m_charSize(0), m_position(Vector2f()), m_colour(Colour::Black), m_alignment(TextAlignment::None)
 {}

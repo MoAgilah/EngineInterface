@@ -171,5 +171,11 @@
     <ClCompile Include="Code\Engine\UI\IMenuTests.cpp">
       <Filter>Source Files\Engine\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\Effects\IEffectTests.cpp">
+      <Filter>Source Files\Engine\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Effects\EffectHolderTests.cpp">
+      <Filter>Source Files\Engine\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

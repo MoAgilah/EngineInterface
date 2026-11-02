@@ -1,9 +1,11 @@
 #pragma once
 
+#include "../Scene/IUpdatable.h"
+#include "../Effects/IEffect.h"
 #include "../Resources/IShader.h"
 #include "../../../Utilities/Guards.h"
 
-class IShaderEffect
+class IShaderEffect : public IEffect, public IUpdatable
 {
 public:
     IShaderEffect(IShader* shader)
@@ -14,8 +16,6 @@ public:
     }
 
     virtual ~IShaderEffect() = default;
-
-    virtual void Update(float deltaTime) = 0;
 
     IShader* GetShader() const { return m_shader; }
 

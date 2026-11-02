@@ -127,6 +127,12 @@
     <Filter Include="Source Files\Engine\Interface\Effects">
       <UniqueIdentifier>{0ebeb4c9-ae70-4ce8-92e6-1cf2acd73a51}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Effects">
+      <UniqueIdentifier>{403b50ba-5a56-411f-8cdd-d2e8adffe5d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Effects">
+      <UniqueIdentifier>{559c4b5a-da30-4b2e-a2df-bc0d199d9a36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\Engine\Interface\Collisions\IBoundingVolume.h">
@@ -339,6 +345,12 @@
     <ClInclude Include="Code\Engine\UI\MenuItem.h">
       <Filter>Header Files\Engine\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\Interface\Effects\IEffect.h">
+      <Filter>Header Files\Engine\Interface\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\Effects\EffectHolder.h">
+      <Filter>Header Files\Engine\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">
@@ -427,6 +439,9 @@
     </ClCompile>
     <ClCompile Include="Code\Engine\UI\MenuItem.cpp">
       <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Code\Engine\Effects\EffectHolder.cpp">
+      <Filter>Source Files\Engine\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
