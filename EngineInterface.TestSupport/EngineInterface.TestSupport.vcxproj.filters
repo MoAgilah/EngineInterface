@@ -150,6 +150,9 @@
     <ClInclude Include="Code\Fakes\UI\TestableMenuCursor.h">
       <Filter>Header Files\Fakes\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Fakes\Effects\FakeEffect.h">
+      <Filter>Header Files\Fakes\Effects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Fakes\States\FakeGameState.cpp">

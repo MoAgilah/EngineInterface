@@ -181,6 +181,8 @@
     <ClCompile Include="Code\Engine\Core\TimerTests.cpp" />
     <ClCompile Include="Code\Engine\Drawables\IAnimatedSpriteTests.cpp" />
     <ClCompile Include="Code\Engine\Drawables\ICountdownTextTests.cpp" />
+    <ClCompile Include="Code\Engine\Effects\EffectHolderTests.cpp" />
+    <ClCompile Include="Code\Engine\Effects\IEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Effects\IFlashingEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Effects\IShaderEffectTests.cpp" />
     <ClCompile Include="Code\Engine\Input\InputManagerTests.cpp" />
