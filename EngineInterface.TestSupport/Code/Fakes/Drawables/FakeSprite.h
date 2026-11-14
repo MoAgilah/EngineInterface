@@ -38,6 +38,11 @@ public:
 		return true;
 	}
 
+    void SetColour(const Colour& col) override
+    {
+        colour = col;
+    }
+
 	void SetDirection(bool dir) override
     {
         direction = dir;
@@ -53,6 +58,7 @@ public:
 
     float lastDeltaTime = 0.0f;
 
+    Colour colour;
     bool direction = true;
 
     std::vector<std::string>* renderLog = nullptr;
