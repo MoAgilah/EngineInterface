@@ -351,6 +351,15 @@
     <ClInclude Include="Code\Engine\Effects\EffectHolder.h">
       <Filter>Header Files\Engine\Effects</Filter>
     </ClInclude>
+    <ClInclude Include="Code\Engine\UI\ElementStyle.h">
+      <Filter>Header Files\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\UI\NavigationStyles.h">
+      <Filter>Header Files\Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Code\Engine\UI\MenuElement.h">
+      <Filter>Header Files\Engine\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Code\Engine\Interface\Collisions\ICollisionManager.cpp">

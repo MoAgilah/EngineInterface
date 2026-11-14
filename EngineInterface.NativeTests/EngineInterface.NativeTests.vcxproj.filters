@@ -177,5 +177,8 @@
     <ClCompile Include="Code\Engine\Effects\EffectHolderTests.cpp">
       <Filter>Source Files\Engine\Effects</Filter>
     </ClCompile>
+    <ClCompile Include="Code\Engine\UI\MenuElementTests.cpp">
+      <Filter>Source Files\Engine\UI</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
