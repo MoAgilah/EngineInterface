@@ -22,6 +22,7 @@ public:
 
 	virtual bool SetTexture(const std::string& texId) = 0;
 
+	virtual const Colour& GetColour() = 0;
 	virtual void SetColour(const Colour& colour) = 0;
 
 	const Colour& GetDefaultColour() const { return m_defaultColour; }

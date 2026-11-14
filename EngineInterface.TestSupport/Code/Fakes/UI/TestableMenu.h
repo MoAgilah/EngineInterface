@@ -70,7 +70,7 @@ public:
 			std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f(), baseColour),id)
 		);
 
-		text->SetOutlineColour(overrideColour);
+		text->SetFillColour(overrideColour);
 	}
 
 	const std::vector<size_t>& GetActiveCellsForTesting() const

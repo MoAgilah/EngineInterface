@@ -14,6 +14,7 @@ public:
         SetOrigin(Vector2f(static_cast<float>(texSize.x), static_cast<float>(texSize.y)) * 0.5f);
 
         renderId = texId;
+        colour = GetDefaultColour();
 	}
 
     void Update(float deltaTime) override
@@ -37,6 +38,11 @@ public:
 		m_texID = texId;
 		return true;
 	}
+
+    const Colour& GetColour() override
+    {
+        return colour;
+    }
 
     void SetColour(const Colour& col) override
     {

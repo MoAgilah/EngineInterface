@@ -45,16 +45,17 @@ public:
 	virtual unsigned int GetCharSize() = 0;
 	virtual void SetCharSize(unsigned int charSize) = 0;
 
-	virtual Colour GetOutlineColour() = 0;
+	virtual const Colour& GetOutlineColour() = 0;
 	virtual void SetOutlineColour(const Colour& colour) = 0;
 
-	virtual Colour GetFillColour() = 0;
+	virtual const Colour& GetFillColour() = 0;
 	virtual void SetFillColour(const Colour& colour) = 0;
 
 	virtual float GetOutlineThickness() = 0;
 	virtual void SetOutlineThickness(float thickness) = 0;
 
 	const Colour& GetDefaultColour() const { return m_config.m_colour; }
+	void SetDefaultColour(const Colour& colour) { m_config.m_colour = colour; }
 
 protected:
 

@@ -12,6 +12,7 @@ public:
 		: IText(config)
 	{
 		renderId = id;
+		fillColour = config.m_colour;
 	}
 
 	void Update(float deltaTime) override
@@ -33,11 +34,11 @@ public:
 	unsigned int GetCharSize() override { return m_config.m_charSize; }
 	void SetCharSize(unsigned int charSize) override { m_config.m_charSize = charSize; }
 
-	Colour GetOutlineColour() override { return m_config.m_colour; }
-	void SetOutlineColour(const Colour& colour) override { m_config.m_colour = colour; }
+	const Colour& GetOutlineColour() override { return outlineColour; }
+	void SetOutlineColour(const Colour& colour) override { outlineColour = colour; }
 
-	Colour GetFillColour() override { return Colour(); }
-	void SetFillColour(const Colour& colour) override {}
+	const Colour& GetFillColour() override { return fillColour;  }
+	void SetFillColour(const Colour& colour) override { fillColour = colour; }
 
 	float GetOutlineThickness() override { return 3.f; }
 	void SetOutlineThickness(float thickness) override {}
@@ -54,6 +55,9 @@ public:
 	int updateCount = 0;
 
 	float lastDeltaTime = 0.0f;
+
+	Colour fillColour;
+	Colour outlineColour;
 
 	std::vector<std::string>* renderLog = nullptr;
 	std::string renderId = "text";
