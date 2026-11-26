@@ -17,6 +17,8 @@ public:
 
 	int GetCurrCursorPos() const { return m_currCursorPos; }
 	void SetCurrCursorPos(int currPos);
+
+	int GetPrevCursorPos() const { return m_prevCursorPos; }
 	void SetPrevCursorPos(int prevPos) { m_prevCursorPos = prevPos; }
 
 	bool HasMoved() const { return m_currCursorPos != m_prevCursorPos; }

@@ -9,6 +9,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <unordered_set>
 #include <vector>
 
 enum MenuPositionMode
@@ -40,11 +41,35 @@ struct MenuPositionData
 	}
 };
 
+struct MenuConfig
+{
+	float outlineThickness;
+	Vector2u dimensions;
+	MenuPositionData positionData;
+
+	NavigationStyles defaultTextStyles;
+	NavigationStyles defaultSpriteStyles;
+};
+
+struct MenuCellConfig
+{
+	int slotNumber = -1;
+
+	std::shared_ptr<IText> text;
+	std::shared_ptr<ISprite> sprite;
+
+	std::optional<NavigationStyles> textStyles;
+	std::optional<NavigationStyles> spriteStyles;
+};
+
 class IMenu
 {
 public:
-	IMenu(float outlineThickness, const Vector2u& dimensions, const MenuPositionData& menuPositionData);
+	IMenu(const MenuConfig& config);
 	virtual ~IMenu() = default;
+
+	void ConfigureCell(int row, int col,
+		const MenuCellConfig& config);
 
 	virtual void Update(float dt);
 	virtual void Render(IRenderer* renderer);
@@ -58,11 +83,9 @@ public:
 	virtual IMenuCursor* AddCursor(std::shared_ptr<ISprite> spr, const MenuNav& menuNav) = 0;
 	IMenuCursor* GetCursor(unsigned int cursorNumber);
 
-	void SetPassiveColour(const Colour& colour) { m_passiveColour = colour; }
-
 	MenuItem* GetCell(const std::pair<int, int>& rowCol);
 	MenuItem* GetCellByIndex(size_t index);
-	MenuItem* GetCellBySlotNumber(unsigned int slotNumber);
+	MenuItem* GetCellBySlotNumber(int slotNumber);
 
 protected:
 
@@ -75,7 +98,13 @@ protected:
 
 	void ProcessInput();
 
-	void SetActiveTextElement();
+	void CollectNavigationPositions(const MenuNav& menuNav,
+		std::unordered_set<int>& prevPositions,
+		std::unordered_set<int>& currPositions);
+
+	void UpdateCursorPosition(IMenuCursor* cursor);
+	void UpdateSelectedItems(const std::unordered_set<int>& prevPositions,
+		const std::unordered_set<int>& currPositions);
 
 	size_t CalculateCellIndex(size_t row, size_t col) const;
 	void CalculateCellSize(const Vector2f& menuSize);
@@ -83,13 +112,10 @@ protected:
 	Vector2f CalculateCellPosition(size_t row, size_t col) const;
 
 	Vector2f m_cellsSize;
-	Vector2u m_dimensions;
 	Vector2f m_menuSpaceTopLeft;
-	float m_outlineThickness;
+	MenuConfig m_config;
 	MenuNav m_menuNavigation;
 	std::shared_ptr<IDrawable> m_menuSpace;
-	MenuPositionData m_menuPositionData;
-	std::optional<Colour> m_passiveColour;
 	std::vector<std::shared_ptr<MenuItem>> m_cells;
 	std::vector<size_t> m_activeCells;
 	std::vector<std::shared_ptr<IMenuCursor>> m_cursors;
