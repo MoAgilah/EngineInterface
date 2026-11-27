@@ -43,6 +43,18 @@ namespace Engine
                 );
             }
 
+            TEST_METHOD(MenuItem_Constructor_InitialisesAsUnselected)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                Assert::IsFalse(mi.GetSelected());
+            }
+
             // ======================================================
             // Geometry
             // ======================================================
@@ -378,6 +390,206 @@ namespace Engine
                 Assert::AreEqual(0.6f, spr->lastDeltaTime);
                 Assert::AreEqual(1, text->updateCount);
                 Assert::AreEqual(0.6f, text->lastDeltaTime);
+            }
+
+            // ======================================================
+            // SetSelected
+            // ======================================================
+
+            TEST_METHOD(MenuItem_SetSelected_WithNoElements_DoesNotThrow)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                mi.SetSelected(true);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithTextElement_SelectsTextElement)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddTextElement(text, styles);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                mi.SetSelected(true);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithSpriteElement_SelectsSpriteElement)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                mi.SetSelected(true);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithBothElements_SelectsBothElements)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                mi.SetSelected(true);
+
+                auto expColour = *styles.selectedStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithSelectedElements_DeselectsBothElements)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                mi.SetSelected(true);
+
+                mi.SetSelected(false);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                expColour = *styles.defaultStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithUnchangedSelection_DoesNotReapplyStyles)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                Assert::AreEqual(1, spr->setColourCount);
+                Assert::AreEqual(1, text->setFillColourCount);
+
+                mi.SetSelected(true);
+                mi.SetSelected(true);
+
+                Assert::AreEqual(2, spr->setColourCount);
+                Assert::AreEqual(2, text->setFillColourCount);
             }
 
             // ======================================================

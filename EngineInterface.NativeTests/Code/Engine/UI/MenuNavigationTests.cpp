@@ -50,7 +50,7 @@ namespace Engine
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
-                Assert::AreEqual(-1, menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(-1, menuNav.GetPrevCursorPos());
             }
 
             TEST_METHOD(MenuNav_Constructor_DefaultHasMoved_ReturnsFalse)
@@ -106,6 +106,14 @@ namespace Engine
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
+                menuNav.SetCursorRange({ 0,1,2 });
+
+                menuNav.SetCurrCursorPos(1);
+
+                Assert::AreEqual(1, menuNav.GetCurrCursorPos());
+
+                menuNav.SetCursorRange({});
+
                 Assert::AreEqual(MenuNav::s_InvalidPos, menuNav.GetCurrCursorPos());
             }
 
@@ -113,12 +121,29 @@ namespace Engine
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
 
-                Assert::AreEqual(MenuNav::s_InvalidPos, menuNav.GetPrevCurrCursorPosForTesting());
+                menuNav.SetCursorRange({ 0,1,2 });
+
+                menuNav.SetPrevCursorPos(1);
+
+                Assert::AreEqual(1, menuNav.GetPrevCursorPos());
+
+                menuNav.SetCursorRange({});
+
+                Assert::AreEqual(MenuNav::s_InvalidPos, menuNav.GetPrevCursorPos());
             }
 
             TEST_METHOD(MenuNav_SetCursorRange_WithEmptyRange_HasMovedReturnsFalse)
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
+
+                menuNav.SetCursorRange({ 0,1,2 });
+
+                menuNav.SetCurrCursorPos(1);
+                menuNav.SetPrevCursorPos(0);
+
+                Assert::IsTrue(menuNav.HasMoved());
+
+                menuNav.SetCursorRange({});
 
                 Assert::IsFalse(menuNav.HasMoved());
             }
@@ -142,7 +167,7 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCursorPos());
             }
 
             TEST_METHOD(MenuNav_SetCursorRange_WithValidRange_HasMovedReturnsTrue)
@@ -185,7 +210,7 @@ namespace Engine
 
                 menuNav.SetPrevCursorPos(0);
 
-                Assert::AreEqual(rng[0], menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(rng[0], menuNav.GetPrevCursorPos());
 
                 rng[0] = 3;
                 rng[1] = 4;
@@ -193,7 +218,7 @@ namespace Engine
 
                 menuNav.SetCursorRange(rng);
 
-                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(menuNav.s_InvalidPos, menuNav.GetPrevCursorPos());
             }
 
             // ======================================================
@@ -203,6 +228,10 @@ namespace Engine
             TEST_METHOD(MenuNav_SetCurrCursorPos_WithEmptyRange_DoesNothing)
             {
                 TestableMenuNav menuNav(KeyCode::Left, KeyCode::Right);
+
+                menuNav.SetCursorRange({});
+
+                menuNav.SetCurrCursorPos(1);
 
                 Assert::AreEqual(MenuNav::s_InvalidPos, menuNav.GetCurrCursorPos());
             }
@@ -279,9 +308,9 @@ namespace Engine
 
                 Assert::AreEqual(rng[0], menuNav.GetCurrCursorPos());
 
-                menuNav.SetCurrCursorPos(1);
+                menuNav.SetCurrCursorPos(2);
 
-                Assert::AreEqual(rng[1], menuNav.GetCurrCursorPos());
+                Assert::AreEqual(rng[2], menuNav.GetCurrCursorPos());
             }
 
             // ======================================================
@@ -341,7 +370,7 @@ namespace Engine
                 Assert::AreEqual(rng[0], menuNav.GetCurrCursorPos());
             }
 
-            TEST_METHOD(MenuNav_HandleNavigation_WhenAscendingPressed_MovesFromFirstToNextPosition)
+            TEST_METHOD(MenuNav_HandleNavigation_WhenAscendingPressed_MovesToPreviousPosition)
             {
                 GameManager gm;
 
@@ -453,7 +482,7 @@ namespace Engine
 
                 menuNav.SetPrevCursorPos(1);
 
-                Assert::AreEqual(rng[1], menuNav.GetPrevCurrCursorPosForTesting());
+                Assert::AreEqual(rng[1], menuNav.GetPrevCursorPos());
             }
 
             TEST_METHOD(MenuNav_HasMoved_WhenCurrentEqualsPrevious_ReturnsFalse)

@@ -39,6 +39,13 @@ public:
 		return true;
 	}
 
+    void SetPosition(const Vector2f& pos) override
+    {
+        setPositionCount++;
+
+        FakeDrawable<FakeSprite>::SetPosition(pos);
+    }
+
     const Colour& GetColour() override
     {
         return colour;
@@ -46,6 +53,8 @@ public:
 
     void SetColour(const Colour& col) override
     {
+        setColourCount++;
+
         colour = col;
     }
 
@@ -61,6 +70,8 @@ public:
 
     int renderCount = 0;
     int updateCount = 0;
+    int setColourCount = 0;
+    int setPositionCount = 0;
 
     float lastDeltaTime = 0.0f;
 

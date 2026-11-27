@@ -14,6 +14,7 @@ public:
 
 	virtual ~MenuItem() = default;
 
+	bool GetSelected() const { return m_selected; }
 	void SetSelected(bool isSelected);
 
 	void Update(float deltaTime);

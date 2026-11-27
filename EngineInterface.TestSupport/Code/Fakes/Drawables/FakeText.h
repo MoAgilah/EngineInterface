@@ -38,7 +38,12 @@ public:
 	void SetOutlineColour(const Colour& colour) override { outlineColour = colour; }
 
 	const Colour& GetFillColour() override { return fillColour;  }
-	void SetFillColour(const Colour& colour) override { fillColour = colour; }
+	void SetFillColour(const Colour& colour) override
+	{
+		setFillColourCount++;
+
+		fillColour = colour;
+	}
 
 	float GetOutlineThickness() override { return 3.f; }
 	void SetOutlineThickness(float thickness) override {}
@@ -53,6 +58,7 @@ public:
 
 	int renderCount = 0;
 	int updateCount = 0;
+	int setFillColourCount = 0;
 
 	float lastDeltaTime = 0.0f;
 

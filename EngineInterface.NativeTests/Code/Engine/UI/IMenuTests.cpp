@@ -3,6 +3,7 @@
 #include <Engine/Core/GameManager.h>
 #include <Engine/UI/MenuItem.h>
 #include <Engine/Interface/UI/IMenu.h>
+#include <Engine/Interface/Scene/ITransforms.h>
 #include <Fakes/Drawables/FakeShape.h>
 #include <Fakes/Drawables/FakeSprite.h>
 #include <Fakes/Drawables/FakeText.h>
@@ -16,7 +17,7 @@ namespace Engine
 {
     namespace UI
     {
-        TEST_CLASS(MenuItemTests)
+        TEST_CLASS(IMenuTests)
         {
         public:
             TEST_METHOD_CLEANUP(TestCleanup)
@@ -426,6 +427,349 @@ namespace Engine
             }
 
             // ======================================================
+            // Configuring Cells
+            // ======================================================
+
+            TEST_METHOD(IMenu_ConfigureCell_WithNoCells_DoesNotThrow)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.ConfigureCell(0, 0, {});
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNull(cell);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithInvalidCoordinates_DoesNotThrow)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.ConfigureCell(4, 0, {});
+
+                auto cell = menu.GetCell({ 4, 0 });
+
+                Assert::IsNull(cell);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_AssignsSlotNumber)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.ConfigureCell(0, 0, {.slotNumber = 0});
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                Assert::AreEqual(0, cell->GetMenuSlotNumber());
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithNoElements_AssignsNeitherElement)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0 });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                Assert::IsNull(cell->GetSprite());
+
+                Assert::IsNull(cell->GetText());
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithTextOnly_AssignsTextElement)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .text = text });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                Assert::IsNull(cell->GetSprite());
+
+                auto retText = cell->GetText();
+                Assert::IsNotNull(retText);
+
+                Assert::IsTrue(text.get() == retText);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithSpriteOnly_AssignsSpriteElement)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .sprite = spr });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                Assert::IsNull(cell->GetText());
+
+                auto retSpr = cell->GetSprite();
+                Assert::IsNotNull(retSpr);
+
+                Assert::IsTrue(spr.get() == retSpr);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithTextAndSprite_AssignsBothElements)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .text = text, .sprite = spr, });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                auto retText = cell->GetText();
+                Assert::IsNotNull(retText);
+
+                Assert::IsTrue(text.get() == retText);
+
+                auto retSpr = cell->GetSprite();
+                Assert::IsNotNull(retSpr);
+
+                Assert::IsTrue(spr.get() == retSpr);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithoutTextStyles_UsesDefaultTextStyles)
+            {
+                NavigationStyles textStyles;
+                textStyles.defaultStyle.colour = Colour::Yellow;
+                textStyles.selectedStyle.colour = Colour::Green;
+
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ),
+                    .defaultTextStyles = textStyles,
+                    }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .text = text });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                auto retText = cell->GetText();
+                Assert::IsNotNull(retText);
+
+                Assert::IsTrue(text.get() == retText);
+
+                auto expColour = *textStyles.defaultStyle.colour;
+                auto actColour = retText->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithoutSpriteStyles_UsesDefaultSpriteStyles)
+            {
+                NavigationStyles spriteStyles;
+                spriteStyles.defaultStyle.colour = Colour::Green;
+                spriteStyles.selectedStyle.colour = Colour::Yellow;
+
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ),
+                    .defaultSpriteStyles = spriteStyles }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .sprite = spr, });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                auto retSpr = cell->GetSprite();
+                Assert::IsNotNull(retSpr);
+
+                Assert::IsTrue(spr.get() == retSpr);
+
+                auto expColour = *spriteStyles.defaultStyle.colour;
+                auto actColour = retSpr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithTextStyles_OverridesDefaultTextStyles)
+            {
+                NavigationStyles textStyles;
+                textStyles.defaultStyle.colour = Colour::Yellow;
+                textStyles.selectedStyle.colour = Colour::Green;
+
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ),
+                    .defaultTextStyles = textStyles,
+                    }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles customStyles;
+                customStyles.defaultStyle.colour = Colour::Magenta;
+                customStyles.selectedStyle.colour = Colour::Cyan;
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .text = text, .textStyles = customStyles });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                auto retTxt = cell->GetText();
+                Assert::IsNotNull(retTxt);
+
+                Assert::IsTrue(text.get() == retTxt);
+
+                auto expColour = *customStyles.defaultStyle.colour;
+                auto actColour = retTxt->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(IMenu_ConfigureCell_WithSpriteStyles_OverridesDefaultSpriteStyles)
+            {
+                NavigationStyles spriteStyles;
+                spriteStyles.defaultStyle.colour = Colour::Yellow;
+                spriteStyles.selectedStyle.colour = Colour::Green;
+
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ),
+                    .defaultSpriteStyles = spriteStyles,
+                    }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+
+                NavigationStyles customStyles;
+                customStyles.defaultStyle.colour = Colour::Magenta;
+                customStyles.selectedStyle.colour = Colour::Cyan;
+
+                menu.ConfigureCell(0, 0, { .slotNumber = 0, .sprite = spr, .spriteStyles = customStyles });
+
+                auto cell = menu.GetCell({ 0, 0 });
+
+                Assert::IsNotNull(cell);
+
+                auto retSpr = cell->GetSprite();
+                Assert::IsNotNull(retSpr);
+
+                Assert::IsTrue(spr.get() == retSpr);
+
+                auto expColour = *customStyles.defaultStyle.colour;
+                auto actColour = retSpr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            // ======================================================
             // Cell Indexing
             // ======================================================
 
@@ -775,6 +1119,93 @@ namespace Engine
             // Update
             // ======================================================
 
+            TEST_METHOD(IMenu_Update_WithNoCursor_UpdatesAllMenuCells)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.AddTestTextCell(0, 0, 2, Colour::White, "Txt2", {});
+                menu.AddTestTextCell(1, 2, 0, Colour::White, "Txt0", {});
+                menu.AddTestTextCell(2, 2, 1, Colour::White, "Txt1", {});
+                menu.AddTestTextCell(3, 0, -1, Colour::White, "Txt3", {});
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                menu.Update(0.6f);
+
+                std::vector<size_t> cellIndices = { 0, 5, 8, 9 };
+
+                for (size_t index : cellIndices)
+                {
+                    auto* cell = menu.GetCellByIndex(index);
+                    Assert::IsNotNull(cell);
+
+                    auto* text = static_cast<FakeText*>(cell->GetText());
+                    Assert::IsNotNull(text);
+
+                    Assert::AreEqual(1, text->updateCount);
+                    Assert::AreEqual(0.6f, text->lastDeltaTime);
+                }
+            }
+
+            TEST_METHOD(IMenu_Update_WithCursor_UpdatesAllMenuCells)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.AddTestTextCell(0, 0, 2, Colour::White, "Txt2", {});
+                menu.AddTestTextCell(1, 2, 0, Colour::White, "Txt0", {});
+                menu.AddTestTextCell(2, 2, 1, Colour::White, "Txt1", {});
+                menu.AddTestTextCell(3, 0, -1, Colour::White, "Txt3", {});
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                auto* cursor = menu.AddCursor(
+                    std::make_shared<FakeSprite>("spr"), *menuNav);
+
+                Assert::IsNotNull(cursor);
+
+                menu.Update(0.6f);
+
+                std::vector<size_t> cellIndices = { 0, 5, 8, 9 };
+
+                for (size_t index : cellIndices)
+                {
+                    auto* cell = menu.GetCellByIndex(index);
+                    Assert::IsNotNull(cell);
+
+                    auto* text = static_cast<FakeText*>(cell->GetText());
+                    Assert::IsNotNull(text);
+
+                    Assert::AreEqual(1, text->updateCount);
+                    Assert::AreEqual(0.6f, text->lastDeltaTime);
+                }
+            }
+
             TEST_METHOD(IMenu_Update_WithCursorPositionsCursorWhenNavigationChanges)
             {
                 TestableMenu menu({
@@ -799,6 +1230,19 @@ namespace Engine
                 menuNav->SetCursorRange({ 0,1,2 });
 
                 menu.AddCursor(std::make_shared<FakeSprite>("spr"), *menuNav);
+
+                menu.Update(0.6f);
+
+                auto cursor = menu.GetCursor(0);
+                Assert::IsNotNull(cursor);
+
+                auto* transform = dynamic_cast<ITransforms*>(cursor->GetSprite());
+                Assert::IsNotNull(transform);
+
+                auto cursorPos = transform->GetPosition();
+
+                Assert::AreEqual(700.f, cursorPos.x);
+                Assert::AreEqual(300.f, cursorPos.y);
             }
 
             TEST_METHOD(IMenu_Update_WithCursorDoesNotRepositionWhenNavigationUnchanged)
@@ -837,16 +1281,679 @@ namespace Engine
 
                 Assert::AreEqual(2, cursorSpr->updateCount);
                 Assert::AreEqual(0.6f, cursorSpr->lastDeltaTime);
+                Assert::AreEqual(1, cursorSpr->setPositionCount);
+            }
 
-                auto cursorSprPos = cursorSpr->GetPosition();
+            // ======================================================
+            // Navigation selection
+            // ======================================================
 
-                auto cell = menu.GetCellBySlotNumber(menuNav->GetCurrCursorPos());
-                Assert::IsNotNull(cell);
+            TEST_METHOD(IMenu_Update_WithNoCursor_SelectsInitialCell)
+            {
+                TestableMenu menu({
+                    .outlineThickness = 2.f,
+                    .dimensions = Vector2u(3u, 4u),
+                    .positionData = MenuPositionData(
+                        MenuPositionMode::Centered,
+                        Vector2f(500, 350)
+                    ) }, Vector2f(600.f, 400.f));
 
-                auto cellPos = cell->GetPosition();
+                menu.BuildTestCells();
 
-                Assert::AreEqual(cellPos.x, cursorSprPos.x);
-                Assert::AreEqual(cellPos.y, cursorSprPos.y);
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithNoCursorAndNavigationChanged_UpdatesSelectedCells)
+            {
+                TestableMenu menu({
+                    .outlineThickness = 2.f,
+                    .dimensions = Vector2u(3u, 4u),
+                    .positionData = MenuPositionData(
+                        MenuPositionMode::Centered,
+                        Vector2f(500, 350)
+                    ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                menuNav->SetPrevCursorPos(0);
+                menuNav->SetCurrCursorPos(1);
+
+                Assert::AreEqual(1, menuNav->GetCurrCursorPos());
+
+                menu.Update(0.6f);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsTrue(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithCursor_SelectsInitialCell)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), *menuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithCursorAndNavigationChanged_UpdatesSelectedCells)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), *menuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                menuNav->SetCurrCursorPos(1);
+                menuNav->SetPrevCursorPos(0);
+
+                auto cursor = menu.GetCursor(0);
+                Assert::IsNotNull(cursor);
+
+                cursor->GetMenuNav().SetCurrCursorPos(1);
+                cursor->GetMenuNav().SetPrevCursorPos(0);
+
+                Assert::AreEqual(1, cursor->GetMenuNav().GetCurrCursorPos());
+
+                menu.Update(0.6f);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsTrue(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithUnchangedNavigation_PreservesSelection)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                Assert::IsFalse(menuNav->HasMoved());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithInvalidInitialNavigationPosition_DoesNotSelectCell)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                Assert::AreEqual(MenuNav::s_InvalidPos, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                menu.Update(0.6f);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithRejectedNavigationChange_PreservesPreviousSelection)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                menuNav->SetCurrCursorPos(MenuNav::s_InvalidPos);
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            /*TEST_METHOD(IMenu_Update_WithInvalidNavigationChange_PreservesPreviousSelection)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                auto* menuNav = menu.GetMenuNav();
+                Assert::IsNotNull(menuNav);
+
+                menuNav->SetCursorRange({ 0, 1, 2, 3 });
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                menuNav->SetCurrCursorPos(3);
+
+                Assert::AreEqual(0, menuNav->GetCurrCursorPos());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }*/
+
+            // ======================================================
+            // Multiple cursor selection
+            // ======================================================
+
+            TEST_METHOD(IMenu_Update_WithMultipleCursors_SelectsAllOccupiedCells)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                MenuNav cursor1MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor1MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor1MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor1MenuNav);
+
+                MenuNav cursor2MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor2MenuNav.SetCursorRange({ 0,1,2 });
+
+                cursor2MenuNav.SetCurrCursorPos(2);
+
+                Assert::AreEqual(2, cursor2MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor2MenuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsTrue(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithMultipleCursorsOnSameCell_KeepsCellSelected)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                MenuNav cursor1MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor1MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor1MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor1MenuNav);
+
+                MenuNav cursor2MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor2MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor2MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor2MenuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithOneCursorLeavingSharedCell_KeepsCellSelected)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                MenuNav cursor1MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor1MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor1MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor1MenuNav);
+
+                MenuNav cursor2MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor2MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor2MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor2MenuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                auto cursor2 = menu.GetCursor(1);
+                Assert::IsNotNull(cursor2);
+
+                cursor2->GetMenuNav().SetCurrCursorPos(2);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsTrue(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithLastCursorLeavingSharedCell_DeselectsCell)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                MenuNav cursor1MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor1MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor1MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor1MenuNav);
+
+                MenuNav cursor2MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor2MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor2MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor2MenuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsFalse(cell2->GetSelected());
+
+                auto cursor1 = menu.GetCursor(0);
+                Assert::IsNotNull(cursor1);
+
+                cursor1->GetMenuNav().SetCurrCursorPos(1);
+
+                auto cursor2 = menu.GetCursor(1);
+                Assert::IsNotNull(cursor2);
+
+                cursor2->GetMenuNav().SetCurrCursorPos(2);
+
+                menu.Update(0.6f);
+
+                Assert::IsFalse(cell0->GetSelected());
+                Assert::IsTrue(cell1->GetSelected());
+                Assert::IsTrue(cell2->GetSelected());
+            }
+
+            TEST_METHOD(IMenu_Update_WithCursorsSwappingCells_PreservesSelection)
+            {
+                TestableMenu menu({
+                            .outlineThickness = 2.f,
+                            .dimensions = Vector2u(3u, 4u),
+                            .positionData = MenuPositionData(
+                                MenuPositionMode::Centered,
+                                Vector2f(500, 350)
+                            ) }, Vector2f(600.f, 400.f));
+
+                menu.BuildTestCells();
+
+                menu.GetCellByIndex(0)->SetMenuSlotNumber(2);
+                menu.GetCellByIndex(5)->SetMenuSlotNumber(0);
+                menu.GetCellByIndex(8)->SetMenuSlotNumber(1);
+
+                menu.SetActiveCells();
+
+                MenuNav cursor1MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor1MenuNav.SetCursorRange({ 0,1,2 });
+
+                Assert::AreEqual(0, cursor1MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor1MenuNav);
+
+                MenuNav cursor2MenuNav(KeyCode::Up, KeyCode::Down);
+                cursor2MenuNav.SetCursorRange({ 0,1,2 });
+
+                cursor2MenuNav.SetCurrCursorPos(2);
+
+                Assert::AreEqual(2, cursor2MenuNav.GetCurrCursorPos());
+
+                menu.AddCursor(std::make_shared<FakeSprite>("spr"), cursor2MenuNav);
+
+                auto* cell0 = menu.GetCellBySlotNumber(0);
+                auto* cell1 = menu.GetCellBySlotNumber(1);
+                auto* cell2 = menu.GetCellBySlotNumber(2);
+
+                Assert::IsNotNull(cell0);
+                Assert::IsNotNull(cell1);
+                Assert::IsNotNull(cell2);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsTrue(cell2->GetSelected());
+
+                auto cursor1 = menu.GetCursor(0);
+                Assert::IsNotNull(cursor1);
+
+                cursor1->GetMenuNav().SetCurrCursorPos(2);
+
+                auto cursor2 = menu.GetCursor(1);
+                Assert::IsNotNull(cursor2);
+
+                cursor2->GetMenuNav().SetCurrCursorPos(0);
+
+                menu.Update(0.6f);
+
+                Assert::IsTrue(cell0->GetSelected());
+                Assert::IsFalse(cell1->GetSelected());
+                Assert::IsTrue(cell2->GetSelected());
             }
 
             // ======================================================

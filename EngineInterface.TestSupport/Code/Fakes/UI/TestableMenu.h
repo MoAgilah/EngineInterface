@@ -13,6 +13,11 @@ public:
 		m_menuSpace = std::make_shared<FakeBox>(menuSize, Vector2f());
 	}
 
+	void Update(float deltaTime) override
+	{
+		IMenu::Update(deltaTime);
+	}
+
 	IDrawable* GetMenuSpace() { return m_menuSpace.get(); }
 
 	std::shared_ptr<MenuItem> GetSharedCellForTesting(size_t index) const

@@ -11,7 +11,7 @@ public:
     void Render(IRenderer* renderer) {}
     void Render(IRenderer* renderer, IShader* shader) {}
 
-    void SetPosition(const Vector2f& pos) { m_position = pos; }
+    void SetPosition(const Vector2f& pos) override { m_position = pos; }
 
     Vector2f GetPosition() override { return m_position; }
 
@@ -33,6 +33,8 @@ public:
     void SetLocalSize(const Vector2f& size) override { m_size = size; }
 
 protected:
+
+    int test;
 
     Vector2f m_position;
     Vector2f m_origin;

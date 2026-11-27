@@ -12,8 +12,6 @@ public:
 	KeyCode GetAscKeyForTesting() { return m_ascKey; }
 	KeyCode GetDesKeyForTesting() { return m_desKey; }
 
-	int GetPrevCurrCursorPosForTesting() const { return m_prevCursorPos; }
-
 	bool GetCanAscForTesting() { return m_canAsc; }
 	bool GetCanDesForTesting() { return m_canDes; }
 
