@@ -13,13 +13,27 @@ MenuItem::MenuItem(std::shared_ptr<IDrawable> cellSpace)
 		throw std::invalid_argument("MenuItem requires a valid drawable");
 }
 
-void MenuItem::Update(float deltaTime)
+void MenuItem::SetSelected(bool isSelected)
 {
+	if (m_selected == isSelected)
+		return;
+
+	m_selected = isSelected;
+
 	if (m_textElement)
-		m_textElement->Update(deltaTime);
+		m_textElement->SetSelected(m_selected);
 
 	if (m_spriteElement)
-		m_spriteElement->Update(deltaTime);
+		m_spriteElement->SetSelected(m_selected);
+}
+
+void MenuItem::Update(float deltaTime)
+{
+	if (auto* txt = GetText())
+		txt->Update(deltaTime);
+
+	if (auto* spr = GetSprite())
+		spr->Update(deltaTime);
 }
 
 void MenuItem::Render(IRenderer* renderer)
@@ -31,11 +45,11 @@ void MenuItem::Render(IRenderer* renderer)
 	m_cellSpace->Render(renderer);
 #endif
 
-	if (m_textElement)
-		m_textElement->Render(renderer);
+	if (auto* txt = GetText())
+		txt->Render(renderer);
 
-	if (m_spriteElement)
-		m_spriteElement->Render(renderer);
+	if (auto* spr = GetSprite())
+		spr->Render(renderer);
 }
 
 Vector2f MenuItem::GetPosition() const
@@ -70,30 +84,28 @@ Vector2f MenuItem::GetSize() const
 	return m_cellSpace->GetSize();
 }
 
-IText* MenuItem::AddTextElement(std::shared_ptr<IText> text)
+void MenuItem::AddTextElement(std::shared_ptr<IText> text, const NavigationStyles& styles)
 {
-	m_textElement = std::move(text);
-	return m_textElement.get();
+	m_textElement = std::make_shared<MenuElement<IText>>(std::move(text), styles);
 }
 
-IText* MenuItem::GetTextElement()
+IText* MenuItem::GetText()
 {
 	if (m_textElement)
-		return m_textElement.get();
+		return m_textElement->GetDrawable();
 
 	return nullptr;
 }
 
-ISprite* MenuItem::AddSpriteElement(std::shared_ptr<ISprite> spr)
+void MenuItem::AddSpriteElement(std::shared_ptr<ISprite> spr, const NavigationStyles& styles)
 {
-	m_spriteElement = std::move(spr);
-	return m_spriteElement.get();
+	m_spriteElement = std::make_shared<MenuElement<ISprite>>(std::move(spr), styles);
 }
 
-ISprite* MenuItem::GetSpriteElement()
+ISprite* MenuItem::GetSprite()
 {
 	if (m_spriteElement)
-		return m_spriteElement.get();
+		return m_spriteElement->GetDrawable();
 
 	return nullptr;
 }

@@ -7,10 +7,15 @@
 class TestableMenu : public IMenu
 {
 public:
-	TestableMenu(const Vector2f& menuSize, float outlineThickness, const Vector2u& dimensions, const MenuPositionData& menuPositionData)
-		: IMenu(outlineThickness, dimensions, menuPositionData)
+	TestableMenu(const MenuConfig& config, const Vector2f& menuSize)
+		: IMenu(config)
 	{
 		m_menuSpace = std::make_shared<FakeBox>(menuSize, Vector2f());
+	}
+
+	void Update(float deltaTime) override
+	{
+		IMenu::Update(deltaTime);
 	}
 
 	IDrawable* GetMenuSpace() { return m_menuSpace.get(); }
@@ -57,20 +62,15 @@ public:
 		BuildCells(factory);
 	}
 
-	void AddTestTextCell(size_t cellIndex, unsigned slotNumber, const std::string& id, const Colour& baseColour, const Colour& overrideColour)
+
+	void AddTestTextCell(unsigned int row, unsigned int col, int slotNumber, const Colour& defaultColour, const std::string& id, const NavigationStyles& styles)
 	{
-		auto cell = m_cells[cellIndex];
-
-		if (!cell)
-			throw std::runtime_error("Failed to receive menu cell");
-
-		cell->SetMenuSlotNumber(slotNumber);
-
-		auto text = cell->AddTextElement(
-			std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f(), baseColour),id)
-		);
-
-		text->SetOutlineColour(overrideColour);
+		ConfigureCell(row, col, {
+			.slotNumber = slotNumber,
+			.text = std::make_shared<FakeText>(
+			TextConfig("fontName", 12, Vector2f(), defaultColour),
+			id),
+			.textStyles = styles });
 	}
 
 	const std::vector<size_t>& GetActiveCellsForTesting() const
@@ -121,11 +121,6 @@ public:
 	Vector2f CalculateCellPositionForTesting(size_t row, size_t col) const
 	{
 		return IMenu::CalculateCellPosition(row, col);
-	}
-
-	void SetActiveTextElementForTesting()
-	{
-		IMenu::SetActiveTextElement();
 	}
 
 public:

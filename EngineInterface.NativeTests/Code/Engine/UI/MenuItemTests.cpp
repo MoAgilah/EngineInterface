@@ -43,6 +43,18 @@ namespace Engine
                 );
             }
 
+            TEST_METHOD(MenuItem_Constructor_InitialisesAsUnselected)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                Assert::IsFalse(mi.GetSelected());
+            }
+
             // ======================================================
             // Geometry
             // ======================================================
@@ -168,19 +180,16 @@ namespace Engine
                     )
                 );
 
-                mi.AddTextElement(text);
+                mi.AddTextElement(text, {});
 
-                auto retText = mi.GetTextElement();
+                auto retText = mi.GetText();
                 Assert::IsNotNull(retText);
 
                 Assert::IsTrue(text.get() == retText);
             }
 
-            TEST_METHOD(MenuItem_AddTextElement_ReturnsAddedTextElement)
+            TEST_METHOD(MenuItem_AddTextElement_ThrowsIfNullptr)
             {
-                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
-                    "Txt");
-
                 MenuItem mi(
                     std::make_shared<FakeBox>(
                         Vector2f(),
@@ -188,29 +197,10 @@ namespace Engine
                     )
                 );
 
-                auto retText = mi.AddTextElement(text);
-                Assert::IsNotNull(retText);
-
-                Assert::IsTrue(text.get() == retText);
-            }
-
-            TEST_METHOD(MenuItem_AddTextElement_AcceptsNullptr)
-            {
-                auto text1 = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
-                    "Txt1");
-
-                MenuItem mi(
-                    std::make_shared<FakeBox>(
-                        Vector2f(),
-                        Vector2f()
-                    )
-                );
-
-                mi.AddTextElement(text1);
-
-                auto retText = mi.AddTextElement(nullptr);
-                Assert::IsNull(retText);
-                Assert::IsNull(mi.GetTextElement());
+                Assert::ExpectException<std::invalid_argument>([&]
+                    {
+                        mi.AddTextElement(nullptr, {});
+                    });
             }
 
             TEST_METHOD(MenuItem_AddTextElement_ReplacesExistingTextElement)
@@ -225,20 +215,20 @@ namespace Engine
                     )
                 );
 
-                mi.AddTextElement(text1);
+                mi.AddTextElement(text1, {});
 
                 auto text2= std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
                     "Txt2");
 
-                mi.AddTextElement(text2);
+                mi.AddTextElement(text2, {});
 
-                auto retText = mi.GetTextElement();
+                auto retText = mi.GetText();
                 Assert::IsNotNull(retText);
 
                 Assert::IsTrue(text2.get() == retText);
             }
 
-            TEST_METHOD(MenuItem_GetTextElement_ReturnsNullIfUnset)
+            TEST_METHOD(MenuItem_GetText_ReturnsNullIfUnset)
             {
                 MenuItem mi(
                     std::make_shared<FakeBox>(
@@ -247,7 +237,7 @@ namespace Engine
                     )
                 );
 
-                Assert::IsNull(mi.GetTextElement());
+                Assert::IsNull(mi.GetText());
             }
 
             // ======================================================
@@ -265,18 +255,16 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
+                mi.AddSpriteElement(spr, {});
 
-                auto retSpr = mi.GetSpriteElement();
+                auto retSpr = mi.GetSprite();
                 Assert::IsNotNull(retSpr);
 
                 Assert::IsTrue(spr.get() == retSpr);
             }
 
-            TEST_METHOD(MenuItem_AddSpriteElement_ReturnsAddedSpriteElement)
+            TEST_METHOD(MenuItem_AddSpriteElement_ThrowsIfNullptr)
             {
-                auto spr = std::make_shared<FakeSprite>("Spr");
-
                 MenuItem mi(
                     std::make_shared<FakeBox>(
                         Vector2f(),
@@ -284,28 +272,10 @@ namespace Engine
                     )
                 );
 
-                auto retSpr = mi.AddSpriteElement(spr);
-                Assert::IsNotNull(retSpr);
-
-                Assert::IsTrue(spr.get() == retSpr);
-            }
-
-            TEST_METHOD(MenuItem_AddSpriteElement_AcceptsNullptr)
-            {
-                auto spr = std::make_shared<FakeSprite>("Spr");
-
-                MenuItem mi(
-                    std::make_shared<FakeBox>(
-                        Vector2f(),
-                        Vector2f()
-                    )
-                );
-
-                mi.AddSpriteElement(spr);
-
-                auto retSpr = mi.AddSpriteElement(nullptr);
-                Assert::IsNull(retSpr);
-                Assert::IsNull(mi.GetSpriteElement());
+                Assert::ExpectException<std::invalid_argument>([&]
+                    {
+                        mi.AddSpriteElement(nullptr, {});
+                    });
             }
 
             TEST_METHOD(MenuItem_AddSpriteElement_ReplacesExistingSpriteElement)
@@ -319,19 +289,19 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr1);
+                mi.AddSpriteElement(spr1, {});
 
                 auto spr2 = std::make_shared<FakeSprite>("Spr2");
 
-                mi.AddSpriteElement(spr2);
+                mi.AddSpriteElement(spr2, {});
 
-                auto retSpr = mi.GetSpriteElement();
+                auto retSpr = mi.GetSprite();
                 Assert::IsNotNull(retSpr);
 
                 Assert::IsTrue(spr2.get() == retSpr);
             }
 
-            TEST_METHOD(MenuItem_GetSpriteElement_ReturnsNullIfUnset)
+            TEST_METHOD(MenuItem_GetSprite_ReturnsNullIfUnset)
             {
                 MenuItem mi(
                     std::make_shared<FakeBox>(
@@ -340,7 +310,7 @@ namespace Engine
                     )
                 );
 
-                Assert::IsNull(mi.GetSpriteElement());
+                Assert::IsNull(mi.GetSprite());
             }
 
             // ======================================================
@@ -370,7 +340,7 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
+                mi.AddSpriteElement(spr, {});
 
                 mi.Update(0.6f);
 
@@ -390,7 +360,7 @@ namespace Engine
                     )
                 );
 
-                mi.AddTextElement(text);
+                mi.AddTextElement(text, {});
 
                 mi.Update(0.6f);
 
@@ -411,8 +381,8 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
-                mi.AddTextElement(text);
+                mi.AddSpriteElement(spr, {});
+                mi.AddTextElement(text, {});
 
                 mi.Update(0.6f);
 
@@ -420,6 +390,206 @@ namespace Engine
                 Assert::AreEqual(0.6f, spr->lastDeltaTime);
                 Assert::AreEqual(1, text->updateCount);
                 Assert::AreEqual(0.6f, text->lastDeltaTime);
+            }
+
+            // ======================================================
+            // SetSelected
+            // ======================================================
+
+            TEST_METHOD(MenuItem_SetSelected_WithNoElements_DoesNotThrow)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                mi.SetSelected(true);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithTextElement_SelectsTextElement)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddTextElement(text, styles);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                mi.SetSelected(true);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithSpriteElement_SelectsSpriteElement)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                mi.SetSelected(true);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithBothElements_SelectsBothElements)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                mi.SetSelected(true);
+
+                auto expColour = *styles.selectedStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                expColour = *styles.selectedStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithSelectedElements_DeselectsBothElements)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                mi.SetSelected(true);
+
+                mi.SetSelected(false);
+
+                auto expColour = *styles.defaultStyle.colour;
+                auto actColour = text->GetFillColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+
+                expColour = *styles.defaultStyle.colour;
+                actColour = spr->GetColour();
+
+                Assert::AreEqual(expColour.r, actColour.r);
+                Assert::AreEqual(expColour.g, actColour.g);
+                Assert::AreEqual(expColour.b, actColour.b);
+                Assert::AreEqual(expColour.a, actColour.a);
+            }
+
+            TEST_METHOD(MenuItem_SetSelected_WithUnchangedSelection_DoesNotReapplyStyles)
+            {
+                MenuItem mi(
+                    std::make_shared<FakeBox>(
+                        Vector2f(),
+                        Vector2f()
+                    )
+                );
+
+                auto spr = std::make_shared<FakeSprite>("Spr");
+                auto text = std::make_shared<FakeText>(TextConfig("fontName", 12, Vector2f()),
+                    "Txt");
+
+                NavigationStyles styles;
+                styles.defaultStyle.colour = Colour::Yellow;
+                styles.selectedStyle.colour = Colour::Green;
+
+                mi.AddSpriteElement(spr, styles);
+                mi.AddTextElement(text, styles);
+
+                Assert::AreEqual(1, spr->setColourCount);
+                Assert::AreEqual(1, text->setFillColourCount);
+
+                mi.SetSelected(true);
+                mi.SetSelected(true);
+
+                Assert::AreEqual(2, spr->setColourCount);
+                Assert::AreEqual(2, text->setFillColourCount);
             }
 
             // ======================================================
@@ -439,8 +609,8 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
-                mi.AddTextElement(text);
+                mi.AddSpriteElement(spr, {});
+                mi.AddTextElement(text, {});
 
                 mi.Render(nullptr);
 
@@ -474,7 +644,7 @@ namespace Engine
                     )
                 );
 
-                mi.AddTextElement(text);
+                mi.AddTextElement(text, {});
 
                 FakeRenderer fr;
 
@@ -494,7 +664,7 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
+                mi.AddSpriteElement(spr, {});
 
                 FakeRenderer fr;
 
@@ -516,8 +686,8 @@ namespace Engine
                     )
                 );
 
-                mi.AddSpriteElement(spr);
-                mi.AddTextElement(text);
+                mi.AddSpriteElement(spr, {});
+                mi.AddTextElement(text, {});
 
                 FakeRenderer fr;
 

@@ -14,6 +14,7 @@ public:
         SetOrigin(Vector2f(static_cast<float>(texSize.x), static_cast<float>(texSize.y)) * 0.5f);
 
         renderId = texId;
+        colour = GetDefaultColour();
 	}
 
     void Update(float deltaTime) override
@@ -38,6 +39,25 @@ public:
 		return true;
 	}
 
+    void SetPosition(const Vector2f& pos) override
+    {
+        setPositionCount++;
+
+        FakeDrawable<FakeSprite>::SetPosition(pos);
+    }
+
+    const Colour& GetColour() override
+    {
+        return colour;
+    }
+
+    void SetColour(const Colour& col) override
+    {
+        setColourCount++;
+
+        colour = col;
+    }
+
 	void SetDirection(bool dir) override
     {
         direction = dir;
@@ -50,9 +70,12 @@ public:
 
     int renderCount = 0;
     int updateCount = 0;
+    int setColourCount = 0;
+    int setPositionCount = 0;
 
     float lastDeltaTime = 0.0f;
 
+    Colour colour;
     bool direction = true;
 
     std::vector<std::string>* renderLog = nullptr;

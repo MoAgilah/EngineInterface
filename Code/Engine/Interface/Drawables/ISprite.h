@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Effects/EffectHolder.h"
+#include "../../../Utilities/Colour.h"
 #include "../../../Utilities/Vector2.h"
 #include "../../../Utilities/Rect.h"
 #include "../../../Utilities/Guards.h"
@@ -21,6 +22,12 @@ public:
 
 	virtual bool SetTexture(const std::string& texId) = 0;
 
+	virtual const Colour& GetColour() = 0;
+	virtual void SetColour(const Colour& colour) = 0;
+
+	const Colour& GetDefaultColour() const { return m_defaultColour; }
+	void SetDefaultColour(const Colour& colour) { m_defaultColour = colour; }
+
 	virtual void SetDirection(bool dir) = 0;
 
 	virtual Vector2u GetTextureSize() const = 0;
@@ -29,6 +36,7 @@ public:
 protected:
 
 	std::string m_texID;
+	Colour m_defaultColour = Colour::White;
 };
 
 struct Range

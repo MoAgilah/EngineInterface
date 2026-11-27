@@ -50,18 +50,20 @@ namespace Engine
 
             TEST_METHOD(IMenuCursor_Constructor_StoresMenuNavigation)
             {
-                TestableMenuNav nav(KeyCode::Up, KeyCode::Down);
+                MenuNav nav(KeyCode::Up, KeyCode::Down);
 
-                TestableMenuCursor cursor(std::make_shared<FakeSprite>("spr"), nav);
+                nav.SetCursorRange({ 0, 1, 2 });
+                nav.SetCurrCursorPos(2);
+                nav.SetPrevCursorPos(1);
 
-                auto retNav = static_cast<TestableMenuNav&>(cursor.GetMenuNav());
+                TestableMenuCursor cursor(
+                    std::make_shared<FakeSprite>("spr"), nav);
+
+                const auto& retNav = cursor.GetMenuNav();
 
                 Assert::AreEqual(nav.GetCurrCursorPos(), retNav.GetCurrCursorPos());
-                Assert::AreEqual(nav.GetPrevCurrCursorPosForTesting(), retNav.GetPrevCurrCursorPosForTesting());
-                Assert::AreEqual(static_cast<int>(nav.GetAscKeyForTesting()), static_cast<int>(retNav.GetAscKeyForTesting()));
-                Assert::AreEqual(static_cast<int>(nav.GetDesKeyForTesting()), static_cast<int>(retNav.GetDesKeyForTesting()));
-                Assert::AreEqual(nav.GetCanAscForTesting(), retNav.GetCanAscForTesting());
-                Assert::AreEqual(nav.GetCanDesForTesting(), retNav.GetCanDesForTesting());
+                Assert::AreEqual(nav.GetPrevCursorPos(), retNav.GetPrevCursorPos());
+                Assert::AreEqual(nav.HasMoved(), retNav.HasMoved());
             }
 
             // ======================================================
